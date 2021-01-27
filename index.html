@@ -30,12 +30,12 @@
       // Create empty leaflet-map (named "map") on canvas with parameters defined in options
       var map = L.map("map", options);
 
-      var micromap = L.tileLayer("tiles/{z}/{x}/{y}.jpg", {
+      var micromap = L.tileLayer("https://supaplex.uber.space/map/tiles/{z}/{x}/{y}.jpg", {
         maxZoom: 20,
         attribution: '© OpenStreetMap-Mitwirkende, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 15.01.2021'
       });
 
-      var parkingmap = L.tileLayer("tiles_parking/{z}/{x}/{y}.jpg", {
+      var parkingmap = L.tileLayer("https://supaplex.uber.space/map/tiles_parking/{z}/{x}/{y}.jpg", {
         maxZoom: 19,
         attribution: '© OpenStreetMap-Mitwirkende, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 15.01.2021'
       }).addTo(map);   // .addTo(map) loads this as the initial basemap
