@@ -1,0 +1,62 @@
+
+<!Doctype html>
+<html>
+	<head>
+		<meta charset=utf-8 />
+		<title>Parkraumkarte Neukölln</title>
+		<!-- Stylesheet defines map extent -->
+		<link rel="stylesheet" href="css/styles.css"/>
+		<!-- Stylesheet for Leafvar icons, fonts etc -->
+		<link rel="stylesheet" href="css/leaflet.css"/>
+	</head>
+
+	<body>
+		<div id="map"></div>
+		<!--jquery - enables loading a GeoJson from a file directly into Leafvar -->
+		<script src="javascript/jquery.min.js"></script>
+		<script src="javascript/leaflet.js"></script>
+		<script src="javascript/leaflet-hash.js"></script>
+
+		<script>
+			var options = {
+				center: [52.48150, 13.43571],
+				zoom: 18,
+				minZoom: 15,
+				maxZoom: 20,
+				zoomControl: true,
+				maxBounds: [[52.4557, 13.3985],[52.5005, 13.4863]]
+			}
+
+      // Create empty leaflet-map (named "map") on canvas with parameters defined in options
+      var map = L.map("map", options);
+
+      var micromap = L.tileLayer("tiles/{z}/{x}/{y}.jpg", {
+        maxZoom: 20,
+        attribution: '© OpenStreetMap-Mitwirkende, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 15.01.2021'
+      });
+
+      var parkingmap = L.tileLayer("tiles_parking/{z}/{x}/{y}.jpg", {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap-Mitwirkende, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 15.01.2021'
+      }).addTo(map);   // .addTo(map) loads this as the initial basemap
+
+      var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      });
+
+      // name set of tilelayers and adds them to the layer-selector
+      var baseMaps = {
+        "Straßenraumkarte": micromap,
+        "Parkraumkarte": parkingmap,
+        "OpenStreetMap": osm
+      };
+
+      // define and add control menu
+      L.control.layers(baseMaps,null,{collapsed:false}).addTo(map);
+
+      var hash = new L.Hash(map);
+
+		</script>
+	</body>
+</html>
