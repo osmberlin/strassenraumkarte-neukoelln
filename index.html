@@ -18,20 +18,20 @@
 				line-height: 150%;
 			}
 			.legend {
-				position: absolute;
-				bottom: 20px;
-				right: 10px;
-				line-height: 18px;
-				color: #555;
-				border-radius: 10px;
-				background: rgba(255,255,255,0.8);
-				box-shadow: 0 0 15px rgba(0,0,0,0.2);
-				border-radius: 5px;
-				padding: 10px;
-				width: 150px;
-				font: 14px/16px Arial, Helvetica, sans-serif;
-				color: #555;
-				z-index: 1000;
+	    	position:absolute;
+	    	bottom:20px;
+	    	right:10px;
+	    	line-height: 18px;
+	    	color: #555;
+	    	border-radius: 10px;
+	    	background: rgba(255,255,255,0.8);
+	    	box-shadow: 0 0 15px rgba(0,0,0,0.2);
+	    	border-radius: 5px;
+	    	padding:10px;
+	    	width:100px;
+	    	font: 14px/16px Arial, Helvetica, sans-serif;
+	    	line-height: 18px;
+	    	color: #555;
 			}
 			.legend i {
 				width: 18px;
@@ -47,14 +47,6 @@
 
 	<body>
 		<div id="map"></div>
-
-		<div class="legend">
-			<div><strong>In Connecticut</strong></div>
-			<i style="background:#ffa500;opacity:0.5"></i> Dunkin<br>
-			<hr>
-			<a href="https://github.com/SupaplexOSM/parkraumkarte-neukoelln">Code auf GitHub</a>
-		</div>
-
 		<!--jquery - enables loading a GeoJson from a file directly into Leafvar -->
 		<script src="javascript/jquery.min.js"></script>
 		<script src="javascript/leaflet.js"></script>
@@ -88,6 +80,28 @@
         attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       });
 
+			var legend = L.control({ position: "bottomleft" });
+			legend.onAdd = function (map) {
+				var div = L.DomUtil.create("div", "legend");
+				div.innerHTML += "<h4>Tegnforklaring</h4>";
+				div.innerHTML += '<i style="background: #477AC2"></i><span>Water</span><br>';
+				div.innerHTML += '<i style="background: #448D40"></i><span>Forest</span><br>';
+				div.innerHTML += '<i style="background: #E6E696"></i><span>Land</span><br>';
+				div.innerHTML += '<i style="background: #E8E6E0"></i><span>Residential</span><br>';
+				div.innerHTML += '<i style="background: #FFFFFF"></i><span>Ice</span><br>';
+				div.innerHTML += '<i class="icon" style="background-image: url(https://d30y9cdsu7xlg0.cloudfront.net/png/194515-200.png);background-repeat: no-repeat;"></i><span>Grænse</span><br>';
+
+				return div;
+			};
+			legend.addTo(map);
+
+			map.on('zoomend', function (e) {
+				console.log(map.getZoom());
+				// map.removeControl(legend);
+			});
+			map.on('baselayerchange', function (e) {
+				console.log(e.layer);
+			});
 
       // name set of tilelayers and adds them to the layer-selector
       var baseMaps = {
