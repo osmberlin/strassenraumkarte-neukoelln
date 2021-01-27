@@ -18,17 +18,15 @@
 				line-height: 150%;
 			}
 			.legend {
-	    	position:absolute;
-	    	bottom:20px;
-	    	right:10px;
+	    	position: absolute;
 	    	line-height: 18px;
 	    	color: #555;
 	    	border-radius: 10px;
 	    	background: rgba(255,255,255,0.8);
 	    	box-shadow: 0 0 15px rgba(0,0,0,0.2);
 	    	border-radius: 5px;
-	    	padding:10px;
-	    	width:100px;
+	    	padding: 10px;
+	    	width: 140px;
 	    	font: 14px/16px Arial, Helvetica, sans-serif;
 	    	line-height: 18px;
 	    	color: #555;
@@ -83,13 +81,15 @@
 			var legend = L.control({ position: "bottomleft" });
 			legend.onAdd = function (map) {
 				var div = L.DomUtil.create("div", "legend");
-				div.innerHTML += "<h4>Tegnforklaring</h4>";
-				div.innerHTML += '<i style="background: #477AC2"></i><span>Water</span><br>';
-				div.innerHTML += '<i style="background: #448D40"></i><span>Forest</span><br>';
-				div.innerHTML += '<i style="background: #E6E696"></i><span>Land</span><br>';
-				div.innerHTML += '<i style="background: #E8E6E0"></i><span>Residential</span><br>';
-				div.innerHTML += '<i style="background: #FFFFFF"></i><span>Ice</span><br>';
+				div.innerHTML += '<h4 style="margin:0 0 5px 0;">Legende</h4>';
+				div.innerHTML += '<i style="background: #477AC2"></i>Water<br>';
+				div.innerHTML += '<i style="background: #448D40"></i>Forest<br>';
+				div.innerHTML += '<i style="background: #E6E696"></i>Land<br>';
+				div.innerHTML += '<i style="background: #E8E6E0"></i>Residential<br>';
+				div.innerHTML += '<i style="background: #FFFFFF"></i>Ice<br>';
 				div.innerHTML += '<i class="icon" style="background-image: url(https://d30y9cdsu7xlg0.cloudfront.net/png/194515-200.png);background-repeat: no-repeat;"></i><span>Grænse</span><br>';
+				div.innerHTML += '<hr>';
+				div.innerHTML += '<a hre="https://github.com/SupaplexOSM/parkraumkarte-neukoelln">Code auf GitHub</a>';
 
 				return div;
 			};
