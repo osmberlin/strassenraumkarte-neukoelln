@@ -18,19 +18,18 @@
 				line-height: 150%;
 			}
 			.legend {
-				position:absolute;
-				bottom:20px;
-				right:10px;
+				position: absolute;
+				bottom: 20px;
+				right: 10px;
 				line-height: 18px;
 				color: #555;
 				border-radius: 10px;
 				background: rgba(255,255,255,0.8);
 				box-shadow: 0 0 15px rgba(0,0,0,0.2);
 				border-radius: 5px;
-				padding:10px;
-				width:100px;
+				padding: 10px;
+				width: 150px;
 				font: 14px/16px Arial, Helvetica, sans-serif;
-				line-height: 18px;
 				color: #555;
 				z-index: 1000;
 			}
@@ -48,12 +47,14 @@
 
 	<body>
 		<div id="map"></div>
-					<div class="legend">
-						<div><strong>In Connecticut</strong></div>
-						<i style="background:#ffa500;opacity:0.5"></i>
-						Dunkin '
-						<br>
-					</div>
+
+		<div class="legend">
+			<div><strong>In Connecticut</strong></div>
+			<i style="background:#ffa500;opacity:0.5"></i> Dunkin<br>
+			<hr>
+			<a href="https://github.com/SupaplexOSM/parkraumkarte-neukoelln">Code auf GitHub</a>
+		</div>
+
 		<!--jquery - enables loading a GeoJson from a file directly into Leafvar -->
 		<script src="javascript/jquery.min.js"></script>
 		<script src="javascript/leaflet.js"></script>
