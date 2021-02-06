@@ -64,16 +64,19 @@
       var map = L.map("map", options);
 
 			var parkingmap = L.tileLayer("https://supaplex.uber.space/map/tiles_parking/{z}/{x}/{y}.jpg", {
+				name: 'parkingmap',
 				maxZoom: 19,
 				attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 15.01.2021'
 			}).addTo(map);   // .addTo(map) loads this as the initial basemap
 
       var micromap = L.tileLayer("https://supaplex.uber.space/map/tiles/{z}/{x}/{y}.jpg", {
+				name: 'micromap',
         maxZoom: 20,
         attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 15.01.2021'
       });
 
       var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+				name: 'osm',
         maxZoom: 19,
         attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       });
@@ -95,12 +98,15 @@
 			};
 			legend.addTo(map);
 
-			map.on('zoomend', function (e) {
-				console.log(map.getZoom());
+			// map.on('zoomend', function (e) {
+			// 	console.log(map.getZoom());
+			// });
+			map.on('moveend', function (e) {
+				// console.log(map.getZoom());
 				// map.removeControl(legend);
 			});
 			map.on('baselayerchange', function (e) {
-				console.log(e.layer);
+				// console.log(e.layer.options.name, e.layer._url);
 			});
 
       // name set of tilelayers and adds them to the layer-selector

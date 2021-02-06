@@ -18,10 +18,11 @@
 			hash = hash.substr(1);
 		}
 		var args = hash.split("/");
-		if (args.length == 3) {
+		if (args.length == 4) {
 			var zoom = parseInt(args[0], 10),
 			lat = parseFloat(args[1]),
-			lon = parseFloat(args[2]);
+			lon = parseFloat(args[2]),
+			layer = args[3];
 			if (isNaN(zoom) || isNaN(lat) || isNaN(lon)) {
 				return false;
 			} else {
@@ -35,15 +36,8 @@
 		}
 	};
 
-	L.Hash.formatHash = function(map) {
-		var center = map.getCenter(),
-		    zoom = map.getZoom(),
-		    precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
-
-		return "#" + [zoom,
-			center.lat.toFixed(precision),
-			center.lng.toFixed(precision)
-		].join("/");
+	L.Hash.formatHash = function(zoom, lat, lng, layer_name) {
+		return "#" + [zoom, lat, lng, layer_name].join("/");
 	},
 
 	L.Hash.prototype = {
@@ -77,15 +71,32 @@
 			this.map = null;
 		},
 
-		onMapMove: function() {
+		onMapMoveOrLayerChange: function(event) {
 			// bail if we're moving the map (updating from a hash),
 			// or if the map is not yet loaded
 
-			if (this.movingMap || !this.map._loaded) {
+			if (this.movingMap || !this.map._loaded || event === undefined) {
 				return false;
 			}
 
-			var hash = this.formatHash(this.map);
+			var center = map.getCenter(),
+				zoom = map.getZoom(),
+				precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2)),
+				lat = center.lat.toFixed(precision),
+				lng = center.lng.toFixed(precision),
+				layer_name = '';
+
+			if (event.type === "baselayerchange") {
+				layer_name = event.layer.options.name
+			} else {
+				// event.type==moveend: when just moving, take the currently active layer
+				// layer_key: no idea why I cannot just map the _layers object, but it raises an error
+				// inspired by https://gis.stackexchange.com/a/363309
+				layer_key = Object.keys(this.map._layers).map(function (key) { return key })[0]
+				layer_name = this.map._layers[layer_key].options.name
+			}
+
+			var hash = this.formatHash(zoom, lat, lng, layer_name);
 			if (this.lastHash != hash) {
 				location.replace(hash);
 				this.lastHash = hash;
@@ -106,7 +117,7 @@
 
 				this.movingMap = false;
 			} else {
-				this.onMapMove(this.map);
+				this.onMapMoveOrLayerChange();
 			}
 		},
 
@@ -128,7 +139,7 @@
 		isListening: false,
 		hashChangeInterval: null,
 		startListening: function() {
-			this.map.on("moveend", this.onMapMove, this);
+			this.map.on("moveend baselayerchange", this.onMapMoveOrLayerChange, this);
 
 			if (HAS_HASHCHANGE) {
 				L.DomEvent.addListener(window, "hashchange", this.onHashChange);
@@ -140,7 +151,7 @@
 		},
 
 		stopListening: function() {
-			this.map.off("moveend", this.onMapMove, this);
+			this.map.off("moveend baselayerchange", this.onMapMoveOrLayerChange, this);
 
 			if (HAS_HASHCHANGE) {
 				L.DomEvent.removeListener(window, "hashchange", this.onHashChange);
