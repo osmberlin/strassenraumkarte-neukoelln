@@ -5,11 +5,11 @@
 			(doc_mode === undefined || doc_mode > 7);
 	})();
 
-	L.Hash = function(map) {
+	L.Hash = function(map, layers) {
 		this.onHashChange = L.Util.bind(this.onHashChange, this);
 
-		if (map) {
-			this.init(map);
+		if (map && layers) {
+			this.init(map, layers);
 		}
 	};
 
@@ -28,7 +28,8 @@
 			} else {
 				return {
 					center: new L.LatLng(lat, lon),
-					zoom: zoom
+					zoom: zoom,
+					layer: layer
 				};
 			}
 		} else {
@@ -42,13 +43,15 @@
 
 	L.Hash.prototype = {
 		map: null,
+		layers: null,
 		lastHash: null,
 
 		parseHash: L.Hash.parseHash,
 		formatHash: L.Hash.formatHash,
 
-		init: function(map) {
+		init: function(map, layers) {
 			this.map = map;
+			this.layers = layers;
 
 			// reset the hash
 			this.lastHash = null;
@@ -90,10 +93,11 @@
 				layer_name = event.layer.options.name
 			} else {
 				// event.type==moveend: when just moving, take the currently active layer
-				// layer_key: no idea why I cannot just map the _layers object, but it raises an error
-				// inspired by https://gis.stackexchange.com/a/363309
-				layer_key = Object.keys(this.map._layers).map(function (key) { return key })[0]
-				layer_name = this.map._layers[layer_key].options.name
+				// todo: in my case map._layers has only one entry. But this is probably false
+				//   in cases that use overlays. So this will likele need another check to select the baselayer
+				// TODO: this would be more elegant if we checked with map.hasLayer if a given layer from this.layers
+				//   exists; but we first need to find a way to select this layer by the name in the hash.
+				this.map.eachLayer(function (layer) { layer_name = layer.options.name })
 			}
 
 			var hash = this.formatHash(zoom, lat, lng, layer_name);
@@ -114,6 +118,13 @@
 				this.movingMap = true;
 
 				this.map.setView(parsed.center, parsed.zoom);
+
+				Object.keys(this.layers).map(layer_key => {
+					var layer = this.layers[layer_key]
+					if (layer.options.name === parsed.layer) {
+						this.map.addLayer(layer)
+					}
+				})
 
 				this.movingMap = false;
 			} else {
