@@ -121,6 +121,46 @@
 
       var hash = new L.Hash(map, baseMaps);
 
+			// ?map-Param: Helper: newUrl
+			const mapParamNewURL = function(layer_name) {
+				return window.location.protocol + "//" + window.location.host + window.location.pathname + '?map=' + layer_name + window.location.hash;
+			}
+
+			// ?map-Param: Helper: mapLayer from ?map-Param
+			// (this will only work for just one param)
+			const mapLayerNameFromURLParam = function() {
+				return window.location.search.substr(1).split('=')[1]
+			}
+
+			// ?map-Param: On load, if no ?map-Param present, add one
+			if (window.location.search.substr(1) === '') {
+				let newurl = mapParamNewURL('parkingmap')
+				history.replaceState({ path: newurl }, '', newurl);
+			}
+
+			// ?map-Param: On load, if ?map-Param present, set Layer to ?map-Param
+			const mapParamSetMapLayerBasedOnMapParam = function (map, baseMaps) {
+				let currentLayer = map._layers
+				let paramLayerName = mapLayerNameFromURLParam()
+				let paramLayer = {}
+
+				Object.keys(baseMaps).map(layer_key => {
+					var layer = baseMaps[layer_key]
+					if (layer.options.name === paramLayerName) {
+						paramLayer = layer
+					}
+				})
+
+				map.addLayer(paramLayer)
+			}
+			mapParamSetMapLayerBasedOnMapParam(map, baseMaps)
+
+			// ?map-Param: Whenever the layer is changed, update the URL (and keep the leaflet-hash)
+			const mapParamOnMapMoveOrLayerChange = function (event) {
+				let newurl = mapParamNewURL(event.layer.options.name)
+				history.pushState({ path: newurl }, '', newurl);
+			}
+			map.on('baselayerchange', mapParamOnMapMoveOrLayerChange);
 		</script>
 	</body>
 </html>

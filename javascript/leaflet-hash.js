@@ -1,35 +1,33 @@
-(function(window) {
-	var HAS_HASHCHANGE = (function() {
+(function (window) {
+	var HAS_HASHCHANGE = (function () {
 		var doc_mode = window.documentMode;
 		return ('onhashchange' in window) &&
 			(doc_mode === undefined || doc_mode > 7);
 	})();
 
-	L.Hash = function(map, layers) {
+	L.Hash = function (map) {
 		this.onHashChange = L.Util.bind(this.onHashChange, this);
 
-		if (map && layers) {
-			this.init(map, layers);
+		if (map) {
+			this.init(map);
 		}
 	};
 
-	L.Hash.parseHash = function(hash) {
-		if(hash.indexOf('#') === 0) {
+	L.Hash.parseHash = function (hash) {
+		if (hash.indexOf('#') === 0) {
 			hash = hash.substr(1);
 		}
 		var args = hash.split("/");
-		if (args.length == 4) {
+		if (args.length == 3) {
 			var zoom = parseInt(args[0], 10),
-			lat = parseFloat(args[1]),
-			lon = parseFloat(args[2]),
-			layer = args[3];
+				lat = parseFloat(args[1]),
+				lon = parseFloat(args[2]);
 			if (isNaN(zoom) || isNaN(lat) || isNaN(lon)) {
 				return false;
 			} else {
 				return {
 					center: new L.LatLng(lat, lon),
-					zoom: zoom,
-					layer: layer
+					zoom: zoom
 				};
 			}
 		} else {
@@ -37,21 +35,26 @@
 		}
 	};
 
-	L.Hash.formatHash = function(zoom, lat, lng, layer_name) {
-		return "#" + [zoom, lat, lng, layer_name].join("/");
+	L.Hash.formatHash = function (map) {
+		var center = map.getCenter(),
+			zoom = map.getZoom(),
+			precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
+
+		return "#" + [zoom,
+			center.lat.toFixed(precision),
+			center.lng.toFixed(precision)
+		].join("/");
 	},
 
 	L.Hash.prototype = {
 		map: null,
-		layers: null,
 		lastHash: null,
 
 		parseHash: L.Hash.parseHash,
 		formatHash: L.Hash.formatHash,
 
-		init: function(map, layers) {
+		init: function (map) {
 			this.map = map;
-			this.layers = layers;
 
 			// reset the hash
 			this.lastHash = null;
@@ -62,7 +65,7 @@
 			}
 		},
 
-		removeFrom: function(map) {
+		removeFrom: function (map) {
 			if (this.changeTimeout) {
 				clearTimeout(this.changeTimeout);
 			}
@@ -74,33 +77,15 @@
 			this.map = null;
 		},
 
-		onMapMoveOrLayerChange: function(event) {
+		onMapMove: function () {
 			// bail if we're moving the map (updating from a hash),
 			// or if the map is not yet loaded
 
-			if (this.movingMap || !this.map._loaded || event === undefined) {
+			if (this.movingMap || !this.map._loaded) {
 				return false;
 			}
 
-			var center = map.getCenter(),
-				zoom = map.getZoom(),
-				precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2)),
-				lat = center.lat.toFixed(precision),
-				lng = center.lng.toFixed(precision),
-				layer_name = '';
-
-			if (event.type === "baselayerchange") {
-				layer_name = event.layer.options.name
-			} else {
-				// event.type==moveend: when just moving, take the currently active layer
-				// todo: in my case map._layers has only one entry. But this is probably false
-				//   in cases that use overlays. So this will likele need another check to select the baselayer
-				// TODO: this would be more elegant if we checked with map.hasLayer if a given layer from this.layers
-				//   exists; but we first need to find a way to select this layer by the name in the hash.
-				this.map.eachLayer(function (layer) { layer_name = layer.options.name })
-			}
-
-			var hash = this.formatHash(zoom, lat, lng, layer_name);
+			var hash = this.formatHash(this.map);
 			if (this.lastHash != hash) {
 				location.replace(hash);
 				this.lastHash = hash;
@@ -108,7 +93,7 @@
 		},
 
 		movingMap: false,
-		update: function() {
+		update: function () {
 			var hash = location.hash;
 			if (hash === this.lastHash) {
 				return;
@@ -119,28 +104,21 @@
 
 				this.map.setView(parsed.center, parsed.zoom);
 
-				Object.keys(this.layers).map(layer_key => {
-					var layer = this.layers[layer_key]
-					if (layer.options.name === parsed.layer) {
-						this.map.addLayer(layer)
-					}
-				})
-
 				this.movingMap = false;
 			} else {
-				this.onMapMoveOrLayerChange();
+				this.onMapMove(this.map);
 			}
 		},
 
 		// defer hash change updates every 100ms
 		changeDefer: 100,
 		changeTimeout: null,
-		onHashChange: function() {
+		onHashChange: function () {
 			// throttle calls to update() so that they only happen every
 			// `changeDefer` ms
 			if (!this.changeTimeout) {
 				var that = this;
-				this.changeTimeout = setTimeout(function() {
+				this.changeTimeout = setTimeout(function () {
 					that.update();
 					that.changeTimeout = null;
 				}, this.changeDefer);
@@ -149,8 +127,8 @@
 
 		isListening: false,
 		hashChangeInterval: null,
-		startListening: function() {
-			this.map.on("moveend baselayerchange", this.onMapMoveOrLayerChange, this);
+		startListening: function () {
+			this.map.on("moveend", this.onMapMove, this);
 
 			if (HAS_HASHCHANGE) {
 				L.DomEvent.addListener(window, "hashchange", this.onHashChange);
@@ -161,8 +139,8 @@
 			this.isListening = true;
 		},
 
-		stopListening: function() {
-			this.map.off("moveend baselayerchange", this.onMapMoveOrLayerChange, this);
+		stopListening: function () {
+			this.map.off("moveend", this.onMapMove, this);
 
 			if (HAS_HASHCHANGE) {
 				L.DomEvent.removeListener(window, "hashchange", this.onHashChange);
@@ -172,13 +150,13 @@
 			this.isListening = false;
 		}
 	};
-	L.hash = function(map) {
+	L.hash = function (map) {
 		return new L.Hash(map);
 	};
-	L.Map.prototype.addHash = function() {
+	L.Map.prototype.addHash = function () {
 		this._hash = L.hash(this);
 	};
-	L.Map.prototype.removeHash = function() {
+	L.Map.prototype.removeHash = function () {
 		this._hash.removeFrom();
 	};
 })(window);
