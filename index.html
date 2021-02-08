@@ -143,14 +143,20 @@
 				let currentLayer = map._layers
 				let paramLayerName = mapLayerNameFromURLParam()
 				let paramLayer = {}
+				let layersToBeRemoved = []
 
-				Object.keys(baseMaps).map(layer_key => {
+				Object.keys(baseMaps).map((layer_key, index) => {
 					var layer = baseMaps[layer_key]
 					if (layer.options.name === paramLayerName) {
 						paramLayer = layer
+					} else {
+						layersToBeRemoved[index] = layer
 					}
 				})
 
+				layersToBeRemoved.forEach( function(layer) {
+					map.removeLayer(layer)
+				})
 				map.addLayer(paramLayer)
 			}
 			mapParamSetMapLayerBasedOnMapParam(map, baseMaps)
