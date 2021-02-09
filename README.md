@@ -1,4 +1,4 @@
-# OSM Parkraumkarte Neukölln
+# OSM Straßen- und Parkraumkarte Neukölln
 
 * [Straßenraumkarte](https://supaplexosm.github.io/parkraumkarte-neukoelln/?map=micromap#15/52.4772/13.4393)
 * [Parkraumkarte Zoomlevel 15: Stellplatzdichte – Parking Space Density](https://supaplexosm.github.io/parkraumkarte-neukoelln/?map=parkingmap#15/52.4772/13.4393)
