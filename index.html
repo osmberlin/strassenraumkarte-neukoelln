@@ -67,7 +67,6 @@
 				center: [52.48150, 13.43571],
 				zoom: 18,
 				minZoom: 15,
-				maxZoom: 20,
 				zoomControl: true,
 				maxBounds: [[52.4557, 13.3985],[52.5005, 13.4863]]
 			}
@@ -83,14 +82,14 @@
 
       var micromap = L.tileLayer("https://supaplex.uber.space/map/tiles/{z}/{x}/{y}.jpg", {
 				name: 'micromap',
-        maxZoom: 20,
         attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 09.02.2021'
+				maxZoom: 20,
       });
 
       var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 				name: 'osm',
-        maxZoom: 19,
         attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+				maxZoom: 19,
       });
 
 			var legend = L.control({ position: "bottomleft" });
