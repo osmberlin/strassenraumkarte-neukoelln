@@ -1,4 +1,3 @@
-
 <!Doctype html>
 <html>
 	<head>
@@ -30,18 +29,18 @@
 				line-height: 150%;
 			}
 			.legend {
-	    	position: absolute;
-	    	line-height: 18px;
-	    	color: #555;
-	    	border-radius: 10px;
-	    	background: rgba(255,255,255,0.8);
-	    	box-shadow: 0 0 15px rgba(0,0,0,0.2);
-	    	border-radius: 5px;
-	    	padding: 10px;
-	    	width: 140px;
-	    	font: 14px/16px Arial, Helvetica, sans-serif;
-	    	line-height: 18px;
-	    	color: #555;
+				position: absolute;
+				line-height: 18px;
+				color: #555;
+				border-radius: 10px;
+				background: rgba(255,255,255,0.8);
+				box-shadow: 0 0 15px rgba(0,0,0,0.2);
+				border-radius: 5px;
+				padding: 10px;
+				width: 140px;
+				font: 14px/16px Arial, Helvetica, sans-serif;
+				line-height: 18px;
+				color: #555;
 			}
 			.legend i {
 				width: 18px;
@@ -71,8 +70,8 @@
 				maxBounds: [[52.4557, 13.3985],[52.5005, 13.4863]]
 			}
 
-      // Create empty leaflet-map (named "map") on canvas with parameters defined in options
-      var map = L.map("map", options);
+			// Create empty leaflet-map (named "map") on canvas with parameters defined in options
+			var map = L.map("map", options);
 
 			var parkingmap = L.tileLayer("https://supaplex.uber.space/map/tiles_parking/{z}/{x}/{y}.jpg", {
 				name: 'parkingmap',
@@ -80,17 +79,17 @@
 				attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 09.02.2021'
 			}).addTo(map);   // .addTo(map) loads this as the initial basemap
 
-      var micromap = L.tileLayer("https://supaplex.uber.space/map/tiles/{z}/{x}/{y}.jpg", {
+			var micromap = L.tileLayer("https://supaplex.uber.space/map/tiles/{z}/{x}/{y}.jpg", {
 				name: 'micromap',
-        attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 09.02.2021'
 				maxZoom: 20,
-      });
+				attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 09.02.2021'
+			});
 
-      var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+			var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 				name: 'osm',
-        attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 				maxZoom: 19,
-      });
+				attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+			});
 
 			var legend = L.control({ position: "bottomleft" });
 			legend.onAdd = function (map) {
@@ -120,17 +119,17 @@
 				// console.log(e.layer.options.name, e.layer._url);
 			});
 
-      // name set of tilelayers and adds them to the layer-selector
-      var baseMaps = {
-        "Straßenraumkarte": micromap,
-        "Parkraumkarte": parkingmap,
-        "OpenStreetMap": osm
-      };
+			// name set of tilelayers and adds them to the layer-selector
+			var baseMaps = {
+				"Straßenraumkarte": micromap,
+				"Parkraumkarte": parkingmap,
+				"OpenStreetMap": osm
+			};
 
-      // define and add control menu
-      L.control.layers(baseMaps,null,{collapsed:false}).addTo(map);
+			// define and add control menu
+			L.control.layers(baseMaps,null,{collapsed:false}).addTo(map);
 
-      var hash = new L.Hash(map, baseMaps);
+			var hash = new L.Hash(map, baseMaps);
 
 			// ?map-Param: Helper: newUrl
 			const mapParamNewURL = function(layer_name) {
