@@ -62,37 +62,185 @@
 		<!-- Legend Modal -->
 		<style>
 			/* Reihenfolge der Classes: .zoom-<Nr> .layer-<Name> .block-<Nr> */
-			.block-2,
-			.block-3,
-			.block-4 { display: none; }
-			.layer-micromap .block-2 { display: block; }
-			.zoom-16 .block-3 { display: block; }
-			.zoom-16 .layer-micromap .block-4 { display: block; }
+			#add-css-class-layer > div,
+			.zoom-18 .hide-on-zoom-18,
+			.zoom-17 .hide-on-zoom-17 {
+				display: none;
+			}
+			.zoom-15 .layer-parkingmap .legende-stellplatzdichte,
+			.zoom-16 .layer-parkingmap .legende-stellplatzdichte,
+			.zoom-16 .layer-parkingmap .legende-flaechenverbrauch,
+			.zoom-16 .layer-parkingmap .legende-park-stellplatztypen,
+			.zoom-17 .layer-parkingmap .legende-park-stellplatztypen,
+			.zoom-17 .layer-parkingmap .legende-parkstreifen,
+			.zoom-18 .layer-parkingmap .legende-strassenparken,
+			.zoom-18 .layer-parkingmap .legende-park-stellplatztypen,
+			.zoom-19 .layer-parkingmap .legende-strassenparken,
+			.zoom-19 .layer-parkingmap .legende-park-stellplatztypen {
+				display: block !important;
+			}
 		</style>
 		<div class="modal fade" id="legendeModal" tabindex="-1" aria-labelledby="legendeModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Legende</h5>
+						<h1 class="modal-title" id="exampleModalLabel">Legende</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
 						<div id="add-css-class-zoom">
 							<div id="add-css-class-layer">
-								<div class="block-1">
-									TODO Legende Block 1: Immer sichtbar
+
+								<div class="legende-stellplatzdichte">
+									<div class="container">
+										<div class="row">
+											<div class="col">
+												<h2>Stellplatzdichte</h2>
+												<p>
+													Verhältnis zwischen potentiell verfügbaren Stellplätzen und
+													angemeldeten Kfz innerhalb einer Laufdistanz von 268 Metern um einen Ort.
+													Die Distanz von 268 Metern entspricht der
+													Entfernung, ab der sich im Mittel eine Stellplatzdichte > 1 einstellt,
+													also theoretisch ein „sicherer“ Stellplatz
+													gefunden werden kann (Medianwert der dargestellten Neuköllner Kieze).
+												</p>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">< 0,5</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">0,5 – 0,75</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">0,75 – 0,9</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">0,9 – 1,1</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">1,1 – 1,25</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">> 1,25</div>
+										</div>
+									</div>
 								</div>
-								<div class="block-2">
-									TODO Legende Block 2: Nur im micromap-Layer sichtbar
+
+								<div class="legende-flaechenverbrauch">
+									<div class="container">
+										<div class="row">
+											<div class="col">
+												<h2>Flächenverbrauch</h2>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">Flächenverbrauch von Verkehrsraum durch parkende Kfz</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">öffentlicher Verkehrsraum</div>
+										</div>
+									</div>
 								</div>
-								<div class="block-3">
-									TODO Legende Block 2: Nur auf Zoomstufe 16 sichtbar
+
+								<div class="legende-park-stellplatztypen">
+									<div class="container">
+										<div class="row">
+											<div class="col">
+													<h2>Park- und Stellplatztypen</h2>
+											</div>
+										</div>
+										<div class="row hide-on-zoom-17 hide-on-zoom-18">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">Straßenparken / Parkstreifen</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">Park- oder Stellplatz (ebenerdig)</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">Tiefgarage</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">Garage / Carport</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">Parkhaus</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">
+												Parkmöglichkeit mit eingeschränkter Nutzung
+												(insbesondere Kunden- und Mitarbeiterparkplätze, nicht für Berechnung der Stellplatzdichte berücksichtigt)
+											</div>
+										</div>
+									</div>
 								</div>
-								<div class="block-4">
-									TODO Legende Block 2: Nur auf Zoomstufe 16 sichtbar auf dem parkingmap-Layer sichtbar
+
+								<div class="legende-parkstreifen">
+									<div class="container">
+										<div class="row">
+											<div class="col">
+												<h2>Parkstreifen / Parken am Fahrbahnrand</h2>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">Straßenabschnitt mit Parkmöglichkeit am Fahrbahnrand mit mittlerer Anzahl der verfügbaren Stellplätze</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="legende-strassenparken">
+									<div class="container">
+										<div class="row">
+											<div class="col">
+												<h2>Straßenparken / Parkstreifen</h2>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">Längsaufstellung</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">Schrägaufstellung</div>
+										</div>
+										<div class="row">
+											<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+											<div class="col">Senkrechtaufstellung</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="legende-grenzen">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										<h2>Grenzen</h2>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-2"><img src="https://placekitten.com/g/60/60" height="60" width="60" alt="" /></div>
+									<div class="col">Ortsteilgrenzen Neukölln</div>
 								</div>
 							</div>
 						</div>
+
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
@@ -134,21 +282,6 @@
 				name: 'osm',
 				maxZoom: 19,
 				attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-			});
-
-			// Write a css class for Zoom and Layer to the body of our legend modal.
-			// We can use CSS to show/hide parts of the layer as needed.
-			var divToAddZoomAsClass = document.getElementById("add-css-class-zoom")
-			map.on('zoomend', function () {
-				divToAddZoomAsClass.classList = []
-				divToAddZoomAsClass.classList.add(`zoom-${map.getZoom()}`)
-				// console.log(divToAddZoomAsClass);
-			});
-			var divToAddLayerAsClass = document.getElementById("add-css-class-layer")
-			map.on('baselayerchange', function (layer) {
-				divToAddLayerAsClass.classList = []
-				divToAddLayerAsClass.classList.add(`layer-${layer.layer.options.name}`)
-				// console.log(divToAddLayerAsClass);
 			});
 
 			// name set of tilelayers and adds them to the layer-selector
@@ -209,6 +342,25 @@
 				history.pushState({ path: newurl }, '', newurl);
 			}
 			map.on('baselayerchange', mapParamOnMapMoveOrLayerChange);
+
+			// Write a css class for Zoom and Layer to the body of our legend modal.
+			// We can use CSS to show/hide parts of the layer as needed.
+			const addZoomClassToDiv = (event) => {
+				var divToAddZoomAsClass = document.getElementById("add-css-class-zoom")
+				divToAddZoomAsClass.classList = []
+				divToAddZoomAsClass.classList.add(`zoom-${map.getZoom()}`)
+			}
+			addZoomClassToDiv() // on page load
+			map.on('zoomend', addZoomClassToDiv)
+
+			const addLayerClassToDiv = (layer) => {
+				var layer_name = layer?.layer?.options?.name || mapLayerNameFromURLParam()
+				var divToAddLayerAsClass = document.getElementById("add-css-class-layer")
+				divToAddLayerAsClass.classList = []
+				divToAddLayerAsClass.classList.add(`layer-${layer_name}`)
+			}
+			addLayerClassToDiv() // on page load
+			map.on('baselayerchange', addLayerClassToDiv)
 		</script>
 
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
