@@ -1,0 +1,173 @@
+<!Doctype html>
+<html>
+	<head>
+		<meta charset=utf-8 />
+		<title>Straßenraumkarte Neukölln</title>
+		<link rel="shortcut icon" href="images/favicon.png">
+
+		<!-- Stylesheet defines map extent -->
+		<style>
+			body {
+				padding: 0;
+				margin: 0;
+			}
+			html,body, #map {
+				height: 100%;
+				font: Helvetica, Arial, sans-serif;
+				font-size: 1.5vh;
+				font-family: Helvetica, Arial, sans-serif;
+				line-height: 150%;
+			}
+			.legend {
+	    	position: absolute;
+	    	line-height: 18px;
+	    	color: #555;
+	    	border-radius: 10px;
+	    	background: rgba(255,255,255,0.8);
+	    	box-shadow: 0 0 15px rgba(0,0,0,0.2);
+	    	border-radius: 5px;
+	    	padding: 10px;
+	    	width: 140px;
+	    	font: 14px/16px Arial, Helvetica, sans-serif;
+	    	line-height: 18px;
+	    	color: #555;
+			}
+			.legend i {
+				width: 18px;
+				height: 18px;
+				float: left;
+				margin-right: 8px;
+				opacity: 0.7;
+			}
+		</style>
+		<!-- Stylesheet for Leafvar icons, fonts etc -->
+		<link rel="stylesheet" href="css/leaflet.css"/>
+		<link rel="stylesheet" href="css/leaflet-panel-layers.css" />
+	</head>
+
+	<body>
+		<div id="map"></div>
+		<!--jquery - enables loading a GeoJson from a file directly into Leafvar -->
+		<script src="javascript/jquery.min.js"></script>
+		<script src="javascript/leaflet.js"></script>
+		<script src="javascript/leaflet-hash.js"></script>
+		<script src="javascript/leaflet-panel-layers.js"></script>
+		<script>
+
+var conf = {
+    base: {
+	layers: [
+        	{
+                	name: "Straßenraumkarte",
+                	active: true,
+                	layer: L.tileLayer("https://supaplex.uber.space/micromap/tiles/{z}/{x}/{y}.jpg", {
+                		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Datenstand: 09.02.2021. Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS',
+                		maxZoom: 20
+                	})
+                },
+        	{
+                	name: "Parkraumkarte",
+                	layer: L.tileLayer("https://supaplex.uber.space/micromap/tiles/parkingmap/layer/basemap/{z}/{x}/{y}.jpg", {
+                		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Datenstand: 09.02.2021. Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS',
+                		maxZoom: 19
+                	})
+                },
+                {
+                    name: "OpenStreetMap",
+                    layer: {
+                        type: "tileLayer",
+                        args: [
+                            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                                attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                                maxZoom: 19
+                            }
+                        ]
+                    }
+                }
+            ]
+    },
+    parking: {
+        title: "Parkraumanalyse",
+        layers: [
+            {
+                active: true,
+                name: "Stellplatzdichte (alle Stellplätze)",
+                layer: {
+                    type: "tileLayer",
+                    args: [
+                        "https://supaplex.uber.space/micromap/tiles/parkingmap/layer/density/350m/all/{z}/{x}/{y}.png", {
+                                attribution: '',
+                                maxZoom: 19
+                        }
+                    ]
+                }
+            },
+            {
+                active: false,
+                name: "Stellplatzdichte (nur Straßenparken)",
+                layer: {
+                    type: "tileLayer",
+                    args: [
+                        "https://supaplex.uber.space/micromap/tiles/parkingmap/layer/density/350m/street/{z}/{x}/{y}.png", {
+                                attribution: '',
+                                maxZoom: 19
+                        }
+                    ]
+                }
+            },
+            {
+                active: true,
+                name: "Park- und Stellplätze",
+                layer: {
+                    type: "tileLayer",
+                    args: [
+                        "https://supaplex.uber.space/micromap/tiles/parkingmap/layer/parking/{z}/{x}/{y}.png", {
+                                attribution: 'Tiefgaragen: Geoportal Berlin / ALKIS und eigene Bearbeitung',
+                                maxZoom: 19
+                        }
+                    ]
+                }
+            },
+            {
+                active: true,
+                name: "Beschriftung",
+                layer: {
+                    type: "tileLayer",
+                    args: [
+                        "https://supaplex.uber.space/micromap/tiles/parkingmap/layer/labels/{z}/{x}/{y}.png", {
+                                attribution: '',
+                                maxZoom: 19
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+};
+
+
+var map = L.map('map', {
+        center: L.latLng([52.48150, 13.43571]),
+        zoom: 18,
+	minZoom: 15,
+	maxBounds: [[52.4557, 13.3985],[52.5005, 13.4863]]
+    });
+
+var base1 = L.control.panelLayers(conf.base.layers, null,  {
+    title: conf.base.title,
+	position: 'topright',
+	compact: true
+}).addTo(map);
+
+var over1 = L.control.panelLayers(null, conf.parking.layers, {
+    title: conf.parking.title,
+    position: 'topright',
+    compact: true
+}).addTo(map);
+
+
+var scale = L.control.scale().addTo(map);
+
+</script>
+</body>
+</html>
