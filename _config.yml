@@ -2,7 +2,7 @@ title: Straßenraumkarte Neukölln
 email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   Spezialkarten für Neukölln zum Straßenraum und zur Parkplatzdichte.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/strassenraumkarte-neukoelln" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: osmberlin
 github_username:  SupaplexOSM
