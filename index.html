@@ -1,370 +1,152 @@
-<!Doctype html>
-<html lang="de">
-	<head>
-		<meta charset=utf-8 />
-		<title>Straßenraumkarte Neukölln</title>
-		<link rel="shortcut icon" href="images/favicon.png">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+---
+title: Straßenraumkarte Neukölln – OpenStreetMap Community Berlin
+layout: map
+---
 
-		<meta property="og:title" content="Straßenraumkarte Neukölln – OpenStreetMap Community Berlin">
-		<meta property="og:description" content="Spezialkarten für Neukölln zum Straßenraum und zur Parkplatzdichte.">
-		<meta property="og:image" content="https://supaplexosm.github.io/strassenraumkarte-neukoelln/images/social-sharing.png">
-		<meta property="og:url" content="https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap">
-		<meta name="twitter:title" content="Straßenraumkarte Neukölln – OpenStreetMap Community Berlin ">
-		<meta name="twitter:description" content="Spezialkarten für Neukölln zum Straßenraum und zur Parkplatzdichte.">
-		<meta name="twitter:image" content="https://supaplexosm.github.io/strassenraumkarte-neukoelln/images/social-sharing.png">
-		<meta name="twitter:image:alt" content="Ausschnitt der Parkraumkarte Neukölln mit Visualisierung des Flächenverbrauchs.">
-		<meta name="twitter:card" content="summary_large_image">
-		<meta name="twitter:site" content="@osmberlin">
+<!-- <meta property="og:title" content="Straßenraumkarte Neukölln – OpenStreetMap Community Berlin">
+<meta property="og:description" content="Spezialkarten für Neukölln zum Straßenraum und zur Parkplatzdichte.">
+<meta property="og:image" content="https://supaplexosm.github.io/strassenraumkarte-neukoelln/images/social-sharing.png">
+<meta property="og:url" content="https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap">
+<meta name="twitter:title" content="Straßenraumkarte Neukölln – OpenStreetMap Community Berlin ">
+<meta name="twitter:description" content="Spezialkarten für Neukölln zum Straßenraum und zur Parkplatzdichte.">
+<meta name="twitter:image" content="https://supaplexosm.github.io/strassenraumkarte-neukoelln/images/social-sharing.png">
+<meta name="twitter:image:alt" content="Ausschnitt der Parkraumkarte Neukölln mit Visualisierung des Flächenverbrauchs.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@osmberlin"> -->
 
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-			integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
-		<style>
-			#map {
-				position: absolute;
-				top: 56px;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				z-index: -100;
-			}
-		</style>
-		<!-- Stylesheet for Leafvar icons, fonts etc -->
-		<link rel="stylesheet" href="css/leaflet.css"/>
-	</head>
-
-	<body>
-		<!-- Navigation -->
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<div class="container-fluid">
-				<span class="navbar-brand"></a>Straßenraumkarte Neukölln</span>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#legendeModal">Legende</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="daten.html">Daten</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln" target="_blank">Code auf GitHub</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-
-		<!-- Map -->
-		<div id="map"></div>
-
-		<!-- Legend Modal -->
-		<style>
-			/* Reihenfolge der Classes: .zoom-<Nr> .layer-<Name> .block-<Nr> */
-			#add-css-class-layer > div,
-			.zoom-18 .hide-on-zoom-18,
-			.zoom-17 .hide-on-zoom-17 {
-				display: none;
-			}
-			.zoom-15 .layer-parkingmap .legende-stellplatzdichte,
-			.zoom-16 .layer-parkingmap .legende-stellplatzdichte,
-			.zoom-16 .layer-parkingmap .legende-flaechenverbrauch,
-			.zoom-16 .layer-parkingmap .legende-park-stellplatztypen,
-			.zoom-17 .layer-parkingmap .legende-park-stellplatztypen,
-			.zoom-17 .layer-parkingmap .legende-parkstreifen,
-			.zoom-18 .layer-parkingmap .legende-strassenparken,
-			.zoom-18 .layer-parkingmap .legende-park-stellplatztypen,
-			.zoom-19 .layer-parkingmap .legende-strassenparken,
-			.zoom-19 .layer-parkingmap .legende-park-stellplatztypen {
-				display: block !important;
-			}
-		</style>
-		<div class="modal fade" id="legendeModal" tabindex="-1" aria-labelledby="legendeModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title" id="exampleModalLabel">Legende</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<div id="add-css-class-zoom">
-							<div id="add-css-class-layer">
-
-								<div class="legende-stellplatzdichte">
-									<div class="container mb-3">
-										<div class="row mb-1">
-											<div class="col">
-												<h2>Stellplatzdichte (Nahdistanz)</h2>
-												<p>
-													<i>Verhältnis zwischen potentiell verfügbaren Stellplätzen und angemeldeten Kfz innerhalb einer Laufdistanz von 350 Metern&nbsp;/ 3 Minuten um einen Ort.</i>
-												</p>
-											</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/density/01.png" height="30" width="50" alt="" /></div>
-											<div class="col">< 0,5</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/density/02.png" height="30" width="50" alt="" /></div>
-											<div class="col">0,5 – 0,75</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/density/03.png" height="30" width="50" alt="" /></div>
-											<div class="col">0,75 – 0,9</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/density/04.png" height="30" width="50" alt="" /></div>
-											<div class="col">0,9 – 1,1</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/density/05.png" height="30" width="50" alt="" /></div>
-											<div class="col">1,1 – 1,25</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/density/06.png" height="30" width="50" alt="" /></div>
-											<div class="col">> 1,25</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="legende-flaechenverbrauch">
-									<div class="container mb-3">
-										<div class="row mb-1">
-											<div class="col">
-												<h2>Flächenverbrauch</h2>
-											</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/land_consumption/traffic_area.png" height="30" width="50" alt="" /></div>
-											<div class="col">öffentlicher Straßenraum (inkl. Geh- und Radwege, also die Fläche zwischen den Gebäudefassaden bzw. Grundstücksgrenzen)</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/land_consumption/traffic_area_land_consumption.png" height="30" width="50" alt="" /></div>
-											<div class="col">Flächenverbrauch von öffentlichem Straßenraum durch geparkte Kfz</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="legende-parkstreifen">
-									<div class="container mb-3">
-										<div class="row mb-1">
-											<div class="col">
-												<h2>Parkstreifen / Parken am Fahrbahnrand</h2>
-											</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/street_parking/capacity.png" height="30" width="50" alt="" /></div>
-											<div class="col">Straßenabschnitt mit Parkmöglichkeit am Fahrbahnrand mit mittlerer Anzahl verfügbarer Stellplätze</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="legende-park-stellplatztypen">
-									<div class="container mb-3">
-										<div class="row mb-1">
-											<div class="col">
-													<h2>Park- und Stellplatztypen</h2>
-											</div>
-										</div>
-										<div class="row mb-1 hide-on-zoom-17 hide-on-zoom-18">
-											<div class="col-2"><img src="images/legend/parking_types/street.png" height="30" width="50" alt="" /></div>
-											<div class="col">Straßenparken / Parkstreifen</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/parking_types/surface.png" height="30" width="50" alt="" /></div>
-											<div class="col">Park- oder Stellplatz (ebenerdig)</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/parking_types/underground.png" height="30" width="50" alt="" /></div>
-											<div class="col">Tiefgarage</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/parking_types/garages.png" height="30" width="50" alt="" /></div>
-											<div class="col">Garage / Carport</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/parking_types/multi-storey.png" height="30" width="50" alt="" /></div>
-											<div class="col">Parkhaus</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/parking_types/limited.png" height="30" width="50" alt="" /></div>
-											<div class="col">
-												Parkmöglichkeit mit eingeschränkter Nutzung
-												(insbesondere Kunden- und Mitarbeiterparkplätze, nicht für Berechnung der Stellplatzdichte berücksichtigt)
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="legende-strassenparken">
-									<div class="container mb-3">
-										<div class="row mb-1">
-											<div class="col">
-												<h2>Straßenparken / Parkstreifen</h2>
-											</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/street_parking/parallel.png" height="30" width="50" alt="" /></div>
-											<div class="col">Längsaufstellung</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/street_parking/diagonal.png" height="30" width="50" alt="" /></div>
-											<div class="col">Schrägaufstellung</div>
-										</div>
-										<div class="row mb-1">
-											<div class="col-2"><img src="images/legend/street_parking/perpendicular.png" height="30" width="50" alt="" /></div>
-											<div class="col">Senkrechtaufstellung</div>
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
-
-						<div class="legende-grenzen">
-							<div class="container mb-3">
-								<div class="row mb-1">
-									<div class="col">
-										<h2>Grenzen</h2>
-									</div>
-								</div>
-								<div class="row mb-1">
-									<div class="col-2"><img src="images/legend/boundary/ortsteil.png" height="30" width="50" alt="" /></div>
-									<div class="col">Ortsteilgrenze Neukölln</div>
-								</div>
-								<div class="row mb-1">
-									<div class="col-2"><img src="images/legend/boundary/lor.png" height="30" width="50" alt="" /></div>
-									<div class="col">LOR-Grenzen / Kieze</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
-					</div>
-				</div>
-			</div>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container-fluid">
+		<span class="navbar-brand"></a>Straßenraumkarte Neukölln</span>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="/" data-bs-toggle="modal" data-bs-target="#legendeModal">Legende</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/data/">Daten</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln" target="_blank">Code auf GitHub</a>
+				</li>
+			</ul>
 		</div>
+	</div>
+</nav>
 
-		<!--jquery - enables loading a GeoJson from a file directly into Leafvar -->
-		<!-- <script src="javascript/jquery.min.js"></script> -->
-		<script src="javascript/leaflet.js"></script>
-		<script src="javascript/leaflet-hash.js"></script>
+<!-- Map -->
+<div id="map"></div>
 
-		<script>
-			var options = {
-				center: [52.48150, 13.43571],
-				zoom: 18,
-				minZoom: 15,
-				zoomControl: true,
-				maxBounds: [[52.4557, 13.3985],[52.5005, 13.4863]]
+{% include legend.html %}
+
+<script>
+	var options = {
+		center: [52.48150, 13.43571],
+		zoom: 18,
+		minZoom: 15,
+		zoomControl: true,
+		maxBounds: [[52.4557, 13.3985],[52.5005, 13.4863]]
+	}
+
+	// Create empty leaflet-map (named "map") on canvas with parameters defined in options
+	var map = L.map("map", options);
+
+	var parkingmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/parkingmap/{z}/{x}/{y}.jpg", {
+		name: 'parkingmap',
+		maxZoom: 19,
+		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 09.02.2021'
+	}).addTo(map);   // .addTo(map) loads this as the initial basemap
+
+	var micromap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/{z}/{x}/{y}.jpg", {
+		name: 'micromap',
+		maxZoom: 20,
+		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 09.02.2021'
+	});
+
+	var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+		name: 'osm',
+		maxZoom: 19,
+		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	});
+
+	// name set of tilelayers and adds them to the layer-selector
+	var baseMaps = {
+		"Straßenraumkarte": micromap,
+		"Parkraumkarte": parkingmap,
+		"OpenStreetMap": osm
+	};
+
+	// define and add control menu
+	L.control.layers(baseMaps,null,{collapsed:false}).addTo(map);
+
+	var hash = new L.Hash(map, baseMaps);
+
+	// ?map-Param: Helper: newUrl
+	const mapParamNewURL = function(layer_name) {
+		return window.location.protocol + "//" + window.location.host + window.location.pathname + '?map=' + layer_name + window.location.hash;
+	}
+
+	// ?map-Param: Helper: mapLayer from ?map-Param
+	// (this will only work for just one param)
+	const mapLayerNameFromURLParam = function() {
+		return window.location.search.substr(1).split('=')[1]
+	}
+
+	// ?map-Param: On load, if no ?map-Param present, add one
+	if (window.location.search.substr(1) === '') {
+		let newurl = mapParamNewURL('parkingmap')
+		history.replaceState({ path: newurl }, '', newurl);
+	}
+
+	// ?map-Param: On load, if ?map-Param present, set Layer to ?map-Param
+	const mapParamSetMapLayerBasedOnMapParam = function (map, baseMaps) {
+		let paramLayerName = mapLayerNameFromURLParam()
+		let paramLayer = {}
+		let layersToBeRemoved = []
+
+		Object.keys(baseMaps).map((layer_key, index) => {
+			var layer = baseMaps[layer_key]
+			if (layer.options.name === paramLayerName) {
+				paramLayer = layer
+			} else {
+				layersToBeRemoved[index] = layer
 			}
+		})
 
-			// Create empty leaflet-map (named "map") on canvas with parameters defined in options
-			var map = L.map("map", options);
+		layersToBeRemoved.forEach( function(layer) {
+			map.removeLayer(layer)
+		})
+		map.addLayer(paramLayer)
+	}
+	mapParamSetMapLayerBasedOnMapParam(map, baseMaps)
 
-			var parkingmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/parkingmap/{z}/{x}/{y}.jpg", {
-				name: 'parkingmap',
-				maxZoom: 19,
-				attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 09.02.2021'
-			}).addTo(map);   // .addTo(map) loads this as the initial basemap
+	// ?map-Param: Whenever the layer is changed, update the URL (and keep the leaflet-hash)
+	const mapParamOnMapMoveOrLayerChange = function (event) {
+		let newurl = mapParamNewURL(event.layer.options.name)
+		history.pushState({ path: newurl }, '', newurl);
+	}
+	map.on('baselayerchange', mapParamOnMapMoveOrLayerChange);
 
-			var micromap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/{z}/{x}/{y}.jpg", {
-				name: 'micromap',
-				maxZoom: 20,
-				attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 09.02.2021'
-			});
+	// Write a css class for Zoom and Layer to the body of our legend modal.
+	// We can use CSS to show/hide parts of the layer as needed.
+	const addZoomClassToDiv = (event) => {
+		var divToAddZoomAsClass = document.getElementById("add-css-class-zoom")
+		divToAddZoomAsClass.classList = []
+		divToAddZoomAsClass.classList.add(`zoom-${map.getZoom()}`)
+	}
+	addZoomClassToDiv() // on page load
+	map.on('zoomend', addZoomClassToDiv)
 
-			var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-				name: 'osm',
-				maxZoom: 19,
-				attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-			});
-
-			// name set of tilelayers and adds them to the layer-selector
-			var baseMaps = {
-				"Straßenraumkarte": micromap,
-				"Parkraumkarte": parkingmap,
-				"OpenStreetMap": osm
-			};
-
-			// define and add control menu
-			L.control.layers(baseMaps,null,{collapsed:false}).addTo(map);
-
-			var hash = new L.Hash(map, baseMaps);
-
-			// ?map-Param: Helper: newUrl
-			const mapParamNewURL = function(layer_name) {
-				return window.location.protocol + "//" + window.location.host + window.location.pathname + '?map=' + layer_name + window.location.hash;
-			}
-
-			// ?map-Param: Helper: mapLayer from ?map-Param
-			// (this will only work for just one param)
-			const mapLayerNameFromURLParam = function() {
-				return window.location.search.substr(1).split('=')[1]
-			}
-
-			// ?map-Param: On load, if no ?map-Param present, add one
-			if (window.location.search.substr(1) === '') {
-				let newurl = mapParamNewURL('parkingmap')
-				history.replaceState({ path: newurl }, '', newurl);
-			}
-
-			// ?map-Param: On load, if ?map-Param present, set Layer to ?map-Param
-			const mapParamSetMapLayerBasedOnMapParam = function (map, baseMaps) {
-				let paramLayerName = mapLayerNameFromURLParam()
-				let paramLayer = {}
-				let layersToBeRemoved = []
-
-				Object.keys(baseMaps).map((layer_key, index) => {
-					var layer = baseMaps[layer_key]
-					if (layer.options.name === paramLayerName) {
-						paramLayer = layer
-					} else {
-						layersToBeRemoved[index] = layer
-					}
-				})
-
-				layersToBeRemoved.forEach( function(layer) {
-					map.removeLayer(layer)
-				})
-				map.addLayer(paramLayer)
-			}
-			mapParamSetMapLayerBasedOnMapParam(map, baseMaps)
-
-			// ?map-Param: Whenever the layer is changed, update the URL (and keep the leaflet-hash)
-			const mapParamOnMapMoveOrLayerChange = function (event) {
-				let newurl = mapParamNewURL(event.layer.options.name)
-				history.pushState({ path: newurl }, '', newurl);
-			}
-			map.on('baselayerchange', mapParamOnMapMoveOrLayerChange);
-
-			// Write a css class for Zoom and Layer to the body of our legend modal.
-			// We can use CSS to show/hide parts of the layer as needed.
-			const addZoomClassToDiv = (event) => {
-				var divToAddZoomAsClass = document.getElementById("add-css-class-zoom")
-				divToAddZoomAsClass.classList = []
-				divToAddZoomAsClass.classList.add(`zoom-${map.getZoom()}`)
-			}
-			addZoomClassToDiv() // on page load
-			map.on('zoomend', addZoomClassToDiv)
-
-			const addLayerClassToDiv = (layer) => {
-				var layer_name = layer?.layer?.options?.name || mapLayerNameFromURLParam()
-				var divToAddLayerAsClass = document.getElementById("add-css-class-layer")
-				divToAddLayerAsClass.classList = []
-				divToAddLayerAsClass.classList.add(`layer-${layer_name}`)
-			}
-			addLayerClassToDiv() // on page load
-			map.on('baselayerchange', addLayerClassToDiv)
-		</script>
-
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-</body>
-</html>
+	const addLayerClassToDiv = (layer) => {
+		var layer_name = layer?.layer?.options?.name || mapLayerNameFromURLParam()
+		var divToAddLayerAsClass = document.getElementById("add-css-class-layer")
+		divToAddLayerAsClass.classList = []
+		divToAddLayerAsClass.classList.add(`layer-${layer_name}`)
+	}
+	addLayerClassToDiv() // on page load
+	map.on('baselayerchange', addLayerClassToDiv)
+</script>

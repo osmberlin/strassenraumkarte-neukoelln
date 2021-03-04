@@ -1,0 +1,22 @@
+---
+layout: default
+---
+<style>
+  #map {
+    position: absolute;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -100;
+  }
+</style>
+
+<!-- Stylesheet for Leafvar icons, fonts etc -->
+<link rel="stylesheet" href="css/leaflet.css" />
+
+<!--jquery - enables loading a GeoJson from a file directly into Leafvar -->
+<script src="javascript/leaflet.js"></script>
+<script src="javascript/leaflet-hash.js"></script>
+
+{{ content }}
