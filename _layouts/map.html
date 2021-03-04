@@ -13,10 +13,10 @@ layout: default
 </style>
 
 <!-- Stylesheet for Leafvar icons, fonts etc -->
-<link rel="stylesheet" href="css/leaflet.css" />
+<link rel="stylesheet" href="{{ '/css/leaflet.css' | relative_url }}" />
 
 <!--jquery - enables loading a GeoJson from a file directly into Leafvar -->
-<script src="javascript/leaflet.js"></script>
-<script src="javascript/leaflet-hash.js"></script>
+<script src="{{ '/javascript/leaflet.js' | relative_url }}"></script>
+<script src="{{ '/javascript/leaflet-hash.js' | relative_url }}"></script>
 
 {{ content }}

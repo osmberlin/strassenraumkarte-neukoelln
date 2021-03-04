@@ -41,17 +41,17 @@
 			}
 		</style>
 		<!-- Stylesheet for Leafvar icons, fonts etc -->
-		<link rel="stylesheet" href="css/leaflet.css"/>
-		<link rel="stylesheet" href="css/leaflet-panel-layers.css" />
+		<link rel="stylesheet" href="{{ '/css/leaflet.css' | relative_url }}"/>
+		<link rel="stylesheet" href="{{ '/css/leaflet-panel-layers.css' | relative_url }}"/>
 	</head>
 
 	<body>
 		<div id="map"></div>
 		<!--jquery - enables loading a GeoJson from a file directly into Leafvar -->
-		<script src="javascript/jquery.min.js"></script>
-		<script src="javascript/leaflet.js"></script>
-		<script src="javascript/leaflet-hash.js"></script>
-		<script src="javascript/leaflet-panel-layers.js"></script>
+		<script src="{{ '/javascript/jquery.min.js' | relative_url }}"></script>
+		<script src="{{ '/javascript/leaflet.js' | relative_url }}"></script>
+		<script src="{{ '/javascript/leaflet-hash.js' | relative_url }}"></script>
+		<script src="{{ '/javascript/leaflet-panel-layers.js' | relative_url }}"></script>
 		<script>
 
 var map = L.map('map', {
@@ -113,7 +113,7 @@ var densityLayers = [
 				active: true,
 				name: "alle Stellplätze",
 				layer: L.tileLayer("https://supaplex.uber.space/micromap/tiles/parkingmap/layer/density/350m/all/{z}/{x}/{y}.png")
-			}			
+			}
 		]
 	}
 ];

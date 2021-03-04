@@ -13,10 +13,10 @@ layout: page
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link" href="/">Karte</a>
+					<a class="nav-link" href="{{ '/' | relative_url }}">Karte</a>
 				</lem>
 				<li class="nav-item">
-					<a class="nav-link active" href="/data">Daten</a>
+					<a class="nav-link active" href="{{ '/data' | relative_url }}">Daten</a>
 				</lem>
 				<li class="nav-item">
 					<a class="nav-link" href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln" target="_blank">Code auf GitHub</a>
@@ -35,7 +35,7 @@ layout: page
 
 			<div class="row mb-3">
 				<div class="col-md-5">
-					<img class="img-thumbnail" src="/images/thumb_data/thumb_parking_way.jpg" alt="thumbnail parking lanes">
+					<img class="img-thumbnail" src="{{ '/images/thumb_data/thumb_parking_way.jpg' | relative_url }}" alt="thumbnail parking lanes">
 				</div>
 				<div class="col-md-7">
 					<h3 class="mt-0">
@@ -45,7 +45,7 @@ layout: page
 					<p class="mb-1"><em>Bezugsraum:</em> Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze</p>
 					<p class="mb-1 text-muted"><em>Quelle:</em> © OpenStreetMap und Mitwirkende, OpenData gemäß ODbL</p>
 					<ul class="px-3">
-						<li><a href="data/parking_way.geojson">parking_way.geojson</a></strong> (3,3 MB)</li>
+						<li><a href="{{ '/data/parking_way.geojson' | relative_url }}">parking_way.geojson</a></strong> (3,3 MB)</li>
 						<li><a class="text-muted" href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/blob/main/data/parking_way.md">Attributbeschreibung</a></li>
 					</ul>
 				</div>
@@ -53,7 +53,7 @@ layout: page
 
 			<div class="row mb-3">
 				<div class="col-md-5">
-					<img class="img-thumbnail" src="/images/thumb_data/thumb_parking_area.jpg" alt="thumbnail parking areas">
+					<img class="img-thumbnail" src="{{ '/images/thumb_data/thumb_parking_area.jpg' | relative_url }}" alt="thumbnail parking areas">
 				</div>
 				<div class="col-md-7">
 					<h3 class="mt-0">
@@ -63,7 +63,7 @@ layout: page
 					<p class="mb-1"><em>Bezugsraum:</em> Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze</p>
 					<p class="mb-1 text-muted"><em>Quelle:</em> © OpenStreetMap und Mitwirkende, OpenData gemäß ODbL, eigene Ergänzungen</p>
 					<ul class="px-3">
-						<li><a href="data/parking_area.geojson">parking_area.geojson</a></strong> (1,6 MB)</li>
+						<li><a href="{{ '/data/parking_area.geojson' | relative_url }}">parking_area.geojson</a></strong> (1,6 MB)</li>
 						<li><a class="text-muted" href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/blob/main/data/parking_area.md">Attributbeschreibung</a></li>
 					</ul>
 				</div>
@@ -71,7 +71,7 @@ layout: page
 
 			<div class="row mb-3">
 				<div class="col-md-5">
-					<img class="img-thumbnail" src="/images/thumb_data/thumb_kfz_points.jpg" alt="thumbnail kfz points">
+					<img class="img-thumbnail" src="{{ '/images/thumb_data/thumb_kfz_points.jpg' | relative_url }}" alt="thumbnail kfz points">
 				</div>
 				<div class="col-md-7">
 					<h3 class="mt-0">
@@ -81,7 +81,7 @@ layout: page
 					<p class="mb-1"><em>Bezugsraum:</em> Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze</p>
 					<p class="mb-1 text-muted"><em>Quelle:</em> Berechnet auf Grundlage von © Amt für Statistik Berlin-Brandenburg, Potsdam, 2020 (siehe unten)</p>
 					<ul class="px-3">
-						<li><a href="data/kfz_points.geojson">kfz_points.geojson</a></strong> (13,4 MB)</li>
+						<li><a href="{{ '/data/kfz_points.geojson' | relative_url }}">kfz_points.geojson</a></strong> (13,4 MB)</li>
 						<li><a class="text-muted" href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/blob/main/data/kfz_points.md">Attributbeschreibung</a></li>
 					</ul>
 				</div>
@@ -89,7 +89,7 @@ layout: page
 
 			<div class="row mb-3">
 				<div class="col-md-5">
-					<img class="img-thumbnail" src="/images/thumb_data/thumb_kfz_lor.jpg" alt="thumbnail kfz LOR">
+					<img class="img-thumbnail" src="{{ '/images/thumb_data/thumb_kfz_lor.jpg' | relative_url }}" alt="thumbnail kfz LOR">
 				</div>
 				<div class="col-md-7">
 					<h3 class="mt-0">
@@ -99,7 +99,7 @@ layout: page
 					<p class="mb-1"><em>Bezugsraum:</em> Berlin</p>
 					<p class="mb-1 text-muted"><em>Quelle:</em> nach © Amt für Statistik Berlin-Brandenburg, Potsdam, 2020: „Melderechtlich registrierte Einwohnerinnen und Einwohner am Ort der Hauptwohnung in Berlin am 30.06.2020 nach Planungsräumen und KfZ-Bestand“ – Vervielfältigung und Verbreitung, auch auszugsweise, mit Quellenangabe gestattet</p>
 					<ul class="px-3">
-						<li><a href="data/kfz_lor_planungsraum.geojson">kfz_lor_planungsraum.geojson</a></strong> (3,9 MB)</li>
+						<li><a href="{{ '/data/kfz_lor_planungsraum.geojson' | relative_url }}">kfz_lor_planungsraum.geojson</a></strong> (3,9 MB)</li>
 						<li><a class="text-muted" href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/blob/main/data/kfz_lor_planungsraum.md">Attributbeschreibung</a></li>
 					</ul>
 				</div>
