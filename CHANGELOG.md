@@ -11,7 +11,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - "daten.html" with some external data
 
-## 2021-02-xx
+## 2021-03-04
+### Added
+
+- "/data" with geographic datasets
+- added geographic datasets in "daten.html"
+
+## 2021-03-xx
 ### Added
 
 - Initial release
