@@ -34,13 +34,13 @@
 					<ul class="navbar-nav">
 						<li class="nav-item">
 							<a class="nav-link" href="index.html" data-bs-toggle="modal" data-bs-target="#legendeModal">Karte</a>
-						</li>
+						</lem>
 						<li class="nav-item">
 							<a class="nav-link active" href="daten.html" data-bs-toggle="modal" data-bs-target="#legendeModal">Daten</a>
-						</li>
+						</lem>
 						<li class="nav-item">
 							<a class="nav-link" href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln" target="_blank">Code auf GitHub</a>
-						</li>
+						</lem>
 					</ul>
 				</div>
 			</div>
@@ -49,66 +49,90 @@
 		<div class="container">
 			<div class="row">
 				<div class="col">
-					<h1 class="mt-5">
+					<h1 class="my-5">
 						Datensätze (GIS-Datenformat)
 					</h1>
-					<div>
-						<img src="images/thumb_data/thumb_parking_way.jpg" alt="thumbnail parking lanes" height=200px style="border:2px solid" align=left hspace=25>
-						<h3 class="mt-5">
-							Parkstreifen
-						</h3>
-						<p><i>Beschreibung:</i> Parkstreifen (Linien) im Straßenraum/am Straßenrand (<a href="data/description.txt">Attributbeschreibung</a>)</p>
-						<p><i>Bezugsraum:</i> Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze</p>
-						<p><i>Quelle:</i> © OpenStreetMap und Mitwirkende, OpenData gemäß ODbL</p>
-						<p><b><a href="data/parking_way.geojson">parking_way.geojson</a></b> (3,3 MB)</p>
-					</div>
-					<div>
-						<img src="images/thumb_data/thumb_parking_area.jpg" alt="thumbnail parking areas" height=200px style="border:2px solid" align=left hspace=25>
-						<h3 class="mt-5">
-							Park- und Stellplätze
-						</h3>
-						<p><i>Beschreibung:</i> Stellplatzflächen (Polygone) abseits des Straßenraums (<a href="data/description.txt">Attributbeschreibung</a>)</p>
-						<p><i>Bezugsraum:</i> Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze</p>
-						<p><i>Quelle:</i> © OpenStreetMap und Mitwirkende, OpenData gemäß ODbL, eigene Ergänzungen</p>
-						<p><b><a href="data/parking_area.geojson">parking_area.geojson</a></b> (1,6 MB)</p>
-					</div>
-					<div>
-						<img src="images/thumb_data/thumb_kfz_points.jpg" alt="thumbnail kfz points" height=200px style="border:2px solid" align=left hspace=25>
-						<h3 class="mt-5">
-							zugelassene Kfz (Punktwolke)
-						</h3>
-						<p><i>Beschreibung:</i> Punktwolke zugelassener Kraftfahrzeuge (interpoliert) (<a href="data/description.txt">Attributbeschreibung</a>)</p>
-						<p><i>Bezugsraum:</i> Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze</p>
-						<p><i>Quelle:</i> Berechnet auf Grundlage von © Amt für Statistik Berlin-Brandenburg, Potsdam, 2020 (siehe unten)</p>
-						<p><b><a href="data/kfz_points.geojson">kfz_points.geojson</a></b> (13,4 MB)</p>
-					</div>
-					<div>
-						<img src="images/thumb_data/thumb_kfz_lor.jpg" alt="thumbnail kfz LOR" height=200px style="border:2px solid" align=left hspace=25>
-						<h3 class="mt-5">
-							Kfz-Bestand auf LOR-Ebene
-						</h3>
-						<p><i>Beschreibung:</i> LOR-Planungsräume (Polygone) mit Quote zugelassener Kfz und Pkw (<a href="data/description.txt">Attributbeschreibung</a>)</p>
-						<p><i>Bezugsraum:</i> Berlin</p>
-						<p><i>Quelle:</i> nach © Amt für Statistik Berlin-Brandenburg, Potsdam, 2020: „Melderechtlich registrierte Einwohnerinnen und Einwohner am Ort der Hauptwohnung in Berlin am 30.06.2020 nach Planungsräumen und KfZ-Bestand“ – Vervielfältigung und Verbreitung, auch auszugsweise, mit Quellenangabe gestattet</p>
-						<p><b><a href="data/kfz_lor_planungsraum.geojson">kfz_lor_planungsraum.geojson</a></b> (3,9 MB)</p>
+
+					<div class="row mb-3">
+						<div class="col-md-5">
+							<img class="img-thumbnail" src="images/thumb_data/thumb_parking_way.jpg" alt="thumbnail parking lanes">
+						</div>
+						<div class="col-md-7">
+							<h3 class="mt-0">
+								Parkstreifen
+							</h3>
+							<p class="mb-1"><em>Beschreibung:</em> Parkstreifen (Linien) im Straßenraum/am Straßenrand</p>
+							<p class="mb-1"><em>Bezugsraum:</em> Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze</p>
+							<p class="mb-1 text-muted"><em>Quelle:</em> © OpenStreetMap und Mitwirkende, OpenData gemäß ODbL</p>
+							<ul class="px-3">
+								<li><a href="data/parking_way.geojson">parking_way.geojson</a></strong> (3,3 MB)</li>
+								<li><a class="text-muted" href="data/description.txt">Attributbeschreibung</a></li>
+							</ul>
+						</div>
 					</div>
 
-					<h1 class="mt-5">
-						Kfz-Meldedaten (Tabellen)
-					</h1>
-					<h3 class="mt-5">
-						Melderechtlich registrierte Einwohnerinnen und Einwohner am Ort der Hauptwohnung in Berlin am 30.06.2020 nach
-						Planungsräumen und KfZ-Bestand
-					</h3>
-					<p class="text-muted">Quelle: Amt für Statistik Berlin-Brandenburg</p>
-					<iframe style='border: 2px solid silver' width='100%' height='500' src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSs3GxeX8FhWavNXVJTIxMmHXYJq-JoAHz1rCIqVIbQ-_gBoFNj7mh5V-HoU0cpFwzCRX0IKCfp2mmf/pubhtml?gid=1292265265&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+					<div class="row mb-3">
+						<div class="col-md-5">
+							<img class="img-thumbnail" src="images/thumb_data/thumb_parking_area.jpg" alt="thumbnail parking areas">
+						</div>
+						<div class="col-md-7">
+							<h3 class="mt-0">
+								Park- und Stellplätze
+							</h3>
+							<p class="mb-1"><em>Beschreibung:</em> Stellplatzflächen (Polygone) abseits des Straßenraums</p>
+							<p class="mb-1"><em>Bezugsraum:</em> Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze</p>
+							<p class="mb-1 text-muted"><em>Quelle:</em> © OpenStreetMap und Mitwirkende, OpenData gemäß ODbL, eigene Ergänzungen</p>
+							<ul class="px-3">
+								<li><a href="data/parking_area.geojson">parking_area.geojson</a></strong> (1,6 MB)</li>
+								<li><a class="text-muted" href="data/description.txt">Attributbeschreibung</a></li>
+							</ul>
+						</div>
+					</div>
 
-					<h3 class="mt-5">
-						Auszug der obenstehenden Daten für den Ortsteil Neukölln
-					</h3>
-					<iframe style='border: 2px solid silver' width='100%' height='450' src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQTxt73qh8j0EsodzhdRlJ3mNrxDUGDaL94MEVJh4f_RW8ICCI-C3Up-yzfW1NEJ2N6xhwvq44MwlOB/pubhtml?gid=1520925885&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+					<div class="row mb-3">
+						<div class="col-md-5">
+							<img class="img-thumbnail" src="images/thumb_data/thumb_kfz_points.jpg" alt="thumbnail kfz points">
+						</div>
+						<div class="col-md-7">
+							<h3 class="mt-0">
+								zugelassene Kfz (Punktwolke)
+							</h3>
+							<p class="mb-1"><em>Beschreibung:</em> Punktwolke zugelassener Kraftfahrzeuge (interpoliert)</p>
+							<p class="mb-1"><em>Bezugsraum:</em> Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze</p>
+							<p class="mb-1 text-muted"><em>Quelle:</em> Berechnet auf Grundlage von © Amt für Statistik Berlin-Brandenburg, Potsdam, 2020 (siehe unten)</p>
+							<ul class="px-3">
+								<li><a href="data/kfz_points.geojson">kfz_points.geojson</a></strong> (13,4 MB)</li>
+								<li><a class="text-muted" href="data/description.txt">Attributbeschreibung</a></li>
+							</ul>
+						</div>
+					</div>
 
-					<hr class=my-5>
+					<div class="row mb-3">
+						<div class="col-md-5">
+							<img class="img-thumbnail" src="images/thumb_data/thumb_kfz_lor.jpg" alt="thumbnail kfz LOR">
+						</div>
+						<div class="col-md-7">
+							<h3 class="mt-0">
+								Kfz-Bestand auf LOR-Ebene
+							</h3>
+							<p class="mb-1"><em>Beschreibung:</em> LOR-Planungsräume (Polygone) mit Quote zugelassener Kfz und Pkw</p>
+							<p class="mb-1"><em>Bezugsraum:</em> Berlin</p>
+							<p class="mb-1 text-muted"><em>Quelle:</em> nach © Amt für Statistik Berlin-Brandenburg, Potsdam, 2020: „Melderechtlich registrierte Einwohnerinnen und Einwohner am Ort der Hauptwohnung in Berlin am 30.06.2020 nach Planungsräumen und KfZ-Bestand“ – Vervielfältigung und Verbreitung, auch auszugsweise, mit Quellenangabe gestattet</p>
+							<ul class="px-3">
+								<li><a href="data/kfz_lor_planungsraum.geojson">kfz_lor_planungsraum.geojson</a></strong> (3,9 MB)</li>
+								<li><a class="text-muted" href="data/description.txt">Attributbeschreibung</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<h3 class="mt-0">
+							Melderechtlich registrierte Einwohnerinnen und Einwohner am Ort der Hauptwohnung in Berlin am 30.06.2020 nach
+							Planungsräumen und KfZ-Bestand
+						</h3>
+						<p class="text-muted"><em>Quelle:</em> Amt für Statistik Berlin-Brandenburg</p>
+						<iframe style='border: 2px solid silver' width='100%' height='500' src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSs3GxeX8FhWavNXVJTIxMmHXYJq-JoAHz1rCIqVIbQ-_gBoFNj7mh5V-HoU0cpFwzCRX0IKCfp2mmf/pubhtml?gid=1292265265&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+					</div>
 				</div>
 			</div>
 		</div>
