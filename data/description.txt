@@ -1,0 +1,92 @@
+parking_way.geojson
+^^^^^^^^^^^^^^^^^^^
+Beschreibung: Parkstreifen (Linien) im Straßenraum/am Straßenrand
+Bezugsraum: Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze
+Quelle: © OpenStreetMap und Mitwirkende, OpenData gemäß ODbL
+-----------------------+---------------------------------------------------------------------------
+id			Eindeutige Referenznummer
+osm_id			OSM-Objektreferenz
+parking			Parkstreifentyp (entsprechend des OSM-“parking“-Keys: „lane“: Fahrbahn, „street_side“: Parkbucht)
+orientation		Parkeinschränkungen
+position		Position geparkter Fahrzeuge
+capacity		Stellplatzanzahl
+condition		Zugangsbeschränkungen
+condition:other		Temporär abweichende Zugangsbeschränkungen
+condition:other:time	Zeitraum temporär abweichender Zugangsbeschränkungen
+maxstay			Höchstparkdauer
+highway			Straßentyp
+highway:name		Straßenname
+oneway_direction	„true“, wenn Ausrichtung geparkter Fahrzeuge durch Einbahnstraße invertiert
+osm-location 		Ursprung der Parkstreifeninformation in der OSM-Datenbank:
+			- „left“ / „right“ für linke bzw. rechte Seite des Straßenlinienobjekts,
+			- „separate“ für separat erfasste Objekte (insbesondere Parkbuchten).
+source:capacity		Quelle der Stellplatzanzahl:
+			- „estimated“: Aus Geometrie interpoliert,
+			- „OSM“: Aus OSM übernommen.
+length			Länge des Parkstreifensegments in Metern
+-----------------------+-----------------------------------------------------------------------------------------
+
+parking_area.geojson
+^^^^^^^^^^^^^^^^^^^^
+Beschreibung: Stellplatzflächen (Polygone) abseits des Straßenraums
+Bezugsraum: Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze
+Quelle: © OpenStreetMap und Mitwirkende, OpenData gemäß ODbL, eigene Ergänzungen
+-----------------------+-----------------------------------------------------------------------------------------
+id			Eindeutige Referenznummer
+osm_id			OSM-Objektreferenz (fehlt bei Tiefgaragen, die aus anderer Datenquelle übernommen wurden)
+parking			Stellplatztyp (entsprechend des OSM-„parking“-Keys, außer dem Wert „level“ für Parkdecks in Gebäuden, für die es keine etablierte Entsprechung im OSM-Schema gibt)
+capacity		Stellplatzanzahl
+access			Zugangsbeschränkung (entsprechend des OSM-„access“-Keys)
+building		Spezifikation, wenn Stellplatzobjekt ein Gebäude oder Gebäudeteil ist
+status			„disused“ für ungenutzte/leerstehende Objekte
+fee			„yes“ für gebührenpflichtige Objekte
+maxstay			Höchstparkdauer
+parking:level		Anzahl Stockwerke bei mehrstöckigen Stellplatzobjekten
+area			Flächeninhalt (Grundfläche der Objektgeometrie) in Quadratmetern
+area:levels		Geschossflächenzahl (Grundfläche * Anzahl Stockwerke) in Quadratmetern
+source			Quelle der Geometrie:
+			- „OSM“: Aus OSM übernommen,
+			- „ALKIS“: Aus ALKIS übernommen,
+			- „document“: Aus einem Dokument (z.B. Planwerk) übernommen,
+			- „estimated“: Auf Grundlage baulicher Merkmale geschätzt,
+			- survey: Vor-Ort-Beobachtung.
+source:capacity		Quelle der Stellplatzanzahl
+			- „aerial imagery“: Gezählt auf Luftbild,
+			- „document“: Angabe aus Planwerk o.ä.,
+			- „estimated“: Aus Geometrie interpoliert,
+			- „OSM“: Aus OSM übernommen,
+			- „request“: Anfrage bei Eigentümer/(Ver-)Mieter,
+			- „survey“: Vor-Ort-Beobachtung,
+			- „syntax“: Aus Attribut abgeleitet („parking=garage“ entspricht einem Stellplatz).
+-----------------------+-----------------------------------------------------------------------------------------
+
+kfz_points.geojson
+^^^^^^^^^^^^^^^^^^
+Beschreibung: Punktwolke zugelassener Kraftfahrzeuge (interpoliert)	
+Bezugsraum: Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze	
+Quelle: Berechnet auf Grundlage von © Amt für Statistik Berlin-Brandenburg, Potsdam, 2020.	
+-----------------------+-----------------------------------------------------------------------------------------
+id			Eindeutige Referenznummer
+Bezirk			Bezirk, in dem sich der Punkt befindet
+Planungsraum		LOR-Planungsraum, in dem sich der Punkt befindet
+-----------------------+-----------------------------------------------------------------------------------------	
+
+kfz_lor_planungsraum.geojson	
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Beschreibung: LOR-Planungsräume (Polygone) mit Quote zugelassener Kfz und Pkw (Stand 30.06.2020)	
+Bezugsraum: Berlin	
+Quelle: nach © Amt für Statistik Berlin-Brandenburg, Potsdam, 2020. Vervielfältigung und Verbreitung, auch auszugsweise, mit Quellenangabe gestattet.	
+-----------------------+-----------------------------------------------------------------------------------------
+Schlüssel		Schlüsselnummer des LOR-Planungsraums
+Bezirk			Bezirk, dem der Planungsraum zugehört
+Planungsraum		Name des Planungsraums
+Bezirksregion		LOR-Bezirksregion, der der Planungsraum zugehört
+Prognoseraum		LOR-Prognoseraum, dem der Planungsraum zugehört
+Flächengröße in m²	Fläche des Planungsraums
+Einwohner insgesamt	Bevölkerungszahl im Planungsraum
+darunter 18 Jahre und älter	Anzahl volljähriger Einwohnerinnen und Einwohner
+Kraftfahrzeuge insgesamt	Anzahl zugelassener Kfz im Planungsraum
+darunter Pkw		Anzahl zugelassener Pkw im Planungsraum
+Kfz pro 1000 EW		Kfz-Quote im Planungsraum (abgerundet, so aus Originalquelle übernommen)
+Pkw pro 1000 EW		Pkw-Quote im Planungsraum (abgerundet, so aus Originalquelle übernommen)
+-----------------------+-----------------------------------------------------------------------------------------
