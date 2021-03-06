@@ -2,23 +2,28 @@
 <html lang="de">
 <head>
   <meta charset=utf-8 />
-  <title>{{page.title}}</title>
+  <title>{{ page.title }}</title>
   <link rel="shortcut icon" href="{{ '/images/favicon.png' | relative_url }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta property="og:title" content="Straßenraumkarte Neukölln – OpenStreetMap Community Berlin">
-  <meta property="og:description" content="Spezialkarten für Neukölln zum Straßenraum und zur Parkplatzdichte.">
+  <meta property="og:title"
+    content="{{ page.social_sharing.title | default: site.social_sharing.title }}">
+  <meta property="og:description"
+    content="{{ page.social_sharing.description | default: site.social_sharing.description }}">
   <meta property="og:image"
-    content="https://supaplexosm.github.io/strassenraumkarte-neukoelln/images/social-sharing.png">
-  <meta property="og:url" content="https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap">
-  <meta name="twitter:title" content="Straßenraumkarte Neukölln – OpenStreetMap Community Berlin ">
-  <meta name="twitter:description" content="Spezialkarten für Neukölln zum Straßenraum und zur Parkplatzdichte.">
+    content="{{ page.social_sharing.image | default: site.social_sharing.image | relative_url }}">
+  <meta property="og:url"
+    content="https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap">
+  <meta name="twitter:title"
+    content="{{ page.social_sharing.title | default: site.social_sharing.title }}">
+  <meta name="twitter:description"
+    content="{{ page.social_sharing.description | default: site.social_sharing.description }}">
   <meta name="twitter:image"
-    content="https://supaplexosm.github.io/strassenraumkarte-neukoelln/images/social-sharing.png">
+    content="{{ page.social_sharing.image | default: site.social_sharing.image | relative_url }}">
   <meta name="twitter:image:alt"
-    content="Ausschnitt der Parkraumkarte Neukölln mit Visualisierung des Flächenverbrauchs.">
+    content="{{ page.social_sharing.image_alt | default: site.social_sharing.image_alt }}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@osmberlin">
+  <meta name="twitter:site" content="{{ site.twitter_username }}">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
@@ -27,6 +32,91 @@
 </head>
 
 <body>
-  {{ content }}
+<!-- Navigation
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <span class="navbar-brand"></a>Straßenraumkarte Neukölln</span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#legendeModal" data-bs-toggle="modal" data-bs-target="#legendeModal">Legende</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ '/data' | relative_url }}">Daten</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="" target="_blank">Code auf
+            GitHub</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav> -->
+<div class="container">
+  <div class="row">
+    <div class="col-3 gx-5 d-print-none">
+
+      <h1 class="fs-4 mt-2 mb-0">Straßenraumkarte Neukölln</h1>
+      <p class="text-muted mb-4"><small>OpenStreetMap Berlin</small></p>
+      <h2 class="fs-5 my-2">Parkraumkarte</h2>
+      <div class="list-group mb-4">
+        <a data-link="parkingmap" href="{{ '/?map=parkingmap' | relative_url }}"
+          class="list-group-item list-group-item-action">
+          Karte
+        </a>
+        <a href="{{ '/parkraumkarte/legend' | relative_url }}"
+          class="list-group-item list-group-item-action {% if page.menu_highlight == 'legend' %}active{% endif %}"
+          {% if page.url == "/" %}data-bs-toggle="modal" data-bs-target="#legendeModal"{% endif %}>
+          Legende
+        </a>
+        <a href="{{ '/parkraumkarte/report' | relative_url }}"
+          class="list-group-item list-group-item-action {% if page.menu_highlight == 'report' %}active{% endif %}">
+          Report
+        </a>
+        <a href="{{ '/data' | relative_url }}"
+          class="list-group-item list-group-item-action {% if page.menu_highlight == 'data' %}active{% endif %}">
+          Daten
+        </a>
+        <a href="{{ '/posts/2021-03-01-parkraumkarte' | relative_url }}"
+          class="list-group-item list-group-item-action {% if page.menu_highlight == 'blogpost_parkraumkarte' %}active{% endif %}">
+          Blogpost <span class="badge bg-info">todo</span>
+        </a>
+      </div>
+      <h2 class="fs-5 my-2">Straßenraumkarte</h2>
+      <div class="list-group mb-4">
+        <a data-link="micromap" href="{{ '/?map=micromap' | relative_url }}"
+          class="list-group-item list-group-item-action">
+          Karte
+        </a>
+        <a href="{{ '/posts/2021-03-01-strassenraumkarte' | relative_url }}"
+          class="list-group-item list-group-item-action {% if page.menu_highlight == 'blogpost_strassenraumkarte' %}active{% endif %}">
+          Blogpost <span class="badge bg-info">todo</span>
+        </a>
+      </div>
+
+      <ul class="mb-4 list-unstyled lh-base">
+        <li><a class="{% if page.menu_highlight == 'about' %}text-reset text-decoration-none fw-bold{% endif %}" href="{{ 'about' | relative_url }}">Über das Projekt <span class="badge bg-info">todo</span></a></li>
+        <li><a href="{{ 'about#blogposts' | relative_url }}">Artikel <span class="badge bg-info">todo</span></a></li>
+        <li><a class="{% if page.menu_highlight == 'changelog' %}text-reset text-decoration-none fw-bold{% endif %}" href="{{ 'changelog' | relative_url }}">Changelog <span class="badge bg-info">todo</span></a></li>
+        <li><a href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln" target="_blank">
+          Code auf GitHub
+          <svg aria-hidden="true" focusable="false" style="width: 12px;height: 12px;object-fit: cover;vertical-align: baseline;" role="img" viewBox="0 0 512 512">
+          <path fill="currentColor" d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"></path>
+          </svg>
+        </a></li>
+        <li><a class="{% if page.menu_highlight == 'contact' %}text-reset text-decoration-none fw-bold{% endif %}" href="{{ 'contact' | relative_url }}">Kontakt & Impressum <span class="badge bg-info">todo</span></a></li>
+      </ul>
+
+    </div>
+    <div class="col-9 position-relative">
+      {{ content }}
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

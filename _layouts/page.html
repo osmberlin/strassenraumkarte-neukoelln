@@ -2,6 +2,27 @@
 layout: default
 ---
 
-{{ content }}
+<link rel="stylesheet" href="{{ '/css/linkify-headlines.css' | relative_url }}">
+<script async src="{{ '/javascript/linkify-headlines.js' | relative_url }}"></script>
 
-{% include footer.html %}
+{% if page.show_legend %}
+  <div class="row mt-2 mb-5 d-print-none">
+    <div class="col-auto me-auto"></div>
+    <div class="col-auto">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Inhaltsverzeichnis
+        </button>
+        <!-- https://github.com/allejo/jekyll-toc -->
+        {% include toc.html html=content h_min=2 class='dropdown-menu' anchor_class='dropdown-item' %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+<!-- Width: https://tailwindcss.com/docs/max-width#prose -->
+<div style="max-width: 65ch">
+  {% if page.show_legend == nil %}<div class="mt-2"><!-- Lasy spacer; should be refactored … --></div><div class="mb-5"></div>{% endif %}
+  {{ content }}
+</div>

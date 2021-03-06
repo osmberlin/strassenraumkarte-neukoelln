@@ -14,32 +14,8 @@ layout: map
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@osmberlin"> -->
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<div class="container-fluid">
-		<span class="navbar-brand"></a>Straßenraumkarte Neukölln</span>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a class="nav-link" href="#legendeModal" data-bs-toggle="modal" data-bs-target="#legendeModal">Legende</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ '/data' | relative_url }}">Daten</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln" target="_blank">Code auf GitHub</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-</nav>
-
 <!-- Map -->
-<div id="map"></div>
+<div id="map" class="w-100 vh-100"></div>
 
 {% include legend.html %}
 
@@ -75,8 +51,8 @@ layout: map
 
 	// name set of tilelayers and adds them to the layer-selector
 	var baseMaps = {
-		"Straßenraumkarte": micromap,
 		"Parkraumkarte": parkingmap,
+		"Straßenraumkarte": micromap,
 		"OpenStreetMap": osm
 	};
 
@@ -87,7 +63,18 @@ layout: map
 
 	// ?map-Param: Helper: newUrl
 	const mapParamNewURL = function(layer_name) {
+		mapParamHighlightPrimaryMenu(layer_name)
 		return window.location.protocol + "//" + window.location.host + window.location.pathname + '?map=' + layer_name + window.location.hash;
+	}
+
+	// ?map-Param: Helper: highlight Primary Menu
+	const mapParamHighlightPrimaryMenu = function(layer_name) {
+		document.querySelectorAll("a[data-link]").forEach( link => {
+			if(link.classList.contains('active')) {
+				link.classList.remove('active')
+			}
+		})
+		document.querySelectorAll(`a[data-link=${layer_name}]`)[0].classList.add('active')
 	}
 
 	// ?map-Param: Helper: mapLayer from ?map-Param
@@ -98,7 +85,9 @@ layout: map
 
 	// ?map-Param: On load, if no ?map-Param present, add one
 	if (window.location.search.substr(1) === '') {
-		let newurl = mapParamNewURL('parkingmap')
+		let layer_name = 'parkingmap'
+		mapParamHighlightPrimaryMenu(layer_name)
+		let newurl = mapParamNewURL(layer_name)
 		history.replaceState({ path: newurl }, '', newurl);
 	}
 
@@ -121,6 +110,7 @@ layout: map
 			map.removeLayer(layer)
 		})
 		map.addLayer(paramLayer)
+		mapParamHighlightPrimaryMenu(paramLayerName)
 	}
 	mapParamSetMapLayerBasedOnMapParam(map, baseMaps)
 

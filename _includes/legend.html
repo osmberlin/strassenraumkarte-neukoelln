@@ -5,6 +5,7 @@
     <a href="#" data-bs-toggle="modal" data-bs-target="#legendeModal">Legende</a>
 -->
 
+{% if include.nomodal == nil %}
 <style>
 /* Reihenfolge der Classes: .zoom-<Nr> .layer-<Name> .block-<Nr> */
 #add-css-class-layer>div,
@@ -26,6 +27,13 @@
   display: block !important;
 }
 </style>
+{% endif %}
+
+{% if include.nomodal == true %}
+<h1 class="mb-3">Legende für die Parkraumkarte – alle Zoomstufen</h1>
+{% endif %}
+
+{% if include.nomodal == nil %}
 <div class="modal fade" id="legendeModal" tabindex="-1" aria-labelledby="legendeModalLabel" aria-hidden="true">
 <div class="modal-dialog">
   <div class="modal-content">
@@ -34,11 +42,12 @@
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
+{% endif %}
       <div id="add-css-class-zoom">
         <div id="add-css-class-layer">
 
           <div class="legende-stellplatzdichte">
-            <div class="container mb-3">
+            <div class="mb-3">
               <div class="row mb-1">
                 <div class="col">
                   <h2>Stellplatzdichte (Nahdistanz)</h2>
@@ -49,48 +58,48 @@
                 </div>
               </div>
               <div class="row mb-1">
-                <div class="col-2"><img src="images/legend/density/01.png" height="30" width="50" alt="" /></div>
+                <div class="col-2"><img src="{{ 'images/legend/density/01.png' | relative_url }}" height="30" width="50" alt="" /></div>
                 <div class="col">
                   < 0,5</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/density/02.png" height="30" width="50" alt="" /></div>
+                  <div class="col-2"><img src="{{ 'images/legend/density/02.png' | relative_url }}" height="30" width="50" alt="" /></div>
                   <div class="col">0,5 – 0,75</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/density/03.png" height="30" width="50" alt="" /></div>
+                  <div class="col-2"><img src="{{ 'images/legend/density/03.png' | relative_url }}" height="30" width="50" alt="" /></div>
                   <div class="col">0,75 – 0,9</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/density/04.png" height="30" width="50" alt="" /></div>
+                  <div class="col-2"><img src="{{ 'images/legend/density/04.png' | relative_url }}" height="30" width="50" alt="" /></div>
                   <div class="col">0,9 – 1,1</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/density/05.png" height="30" width="50" alt="" /></div>
+                  <div class="col-2"><img src="{{ 'images/legend/density/05.png' | relative_url }}" height="30" width="50" alt="" /></div>
                   <div class="col">1,1 – 1,25</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/density/06.png" height="30" width="50" alt="" /></div>
+                  <div class="col-2"><img src="{{ 'images/legend/density/06.png' | relative_url }}" height="30" width="50" alt="" /></div>
                   <div class="col">> 1,25</div>
                 </div>
               </div>
             </div>
 
             <div class="legende-flaechenverbrauch">
-              <div class="container mb-3">
+              <div class="mb-3">
                 <div class="row mb-1">
                   <div class="col">
                     <h2>Flächenverbrauch</h2>
                   </div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/land_consumption/traffic_area.png" height="30" width="50"
+                  <div class="col-2"><img src="{{ 'images/legend/land_consumption/traffic_area.png' | relative_url }}" height="30" width="50"
                       alt="" /></div>
                   <div class="col">öffentlicher Straßenraum (inkl. Geh- und Radwege, also die Fläche zwischen den
                     Gebäudefassaden bzw. Grundstücksgrenzen)</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/land_consumption/traffic_area_land_consumption.png"
+                  <div class="col-2"><img src="{{ 'images/legend/land_consumption/traffic_area_land_consumption.png' | relative_url }}"
                       height="30" width="50" alt="" /></div>
                   <div class="col">Flächenverbrauch von öffentlichem Straßenraum durch geparkte Kfz</div>
                 </div>
@@ -98,14 +107,14 @@
             </div>
 
             <div class="legende-parkstreifen">
-              <div class="container mb-3">
+              <div class="mb-3">
                 <div class="row mb-1">
                   <div class="col">
                     <h2>Parkstreifen / Parken am Fahrbahnrand</h2>
                   </div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/street_parking/capacity.png" height="30" width="50"
+                  <div class="col-2"><img src="{{ 'images/legend/street_parking/capacity.png' | relative_url }}" height="30" width="50"
                       alt="" /></div>
                   <div class="col">Straßenabschnitt mit Parkmöglichkeit am Fahrbahnrand mit mittlerer Anzahl
                     verfügbarer Stellplätze</div>
@@ -114,39 +123,39 @@
             </div>
 
             <div class="legende-park-stellplatztypen">
-              <div class="container mb-3">
+              <div class="mb-3">
                 <div class="row mb-1">
                   <div class="col">
                     <h2>Park- und Stellplatztypen</h2>
                   </div>
                 </div>
                 <div class="row mb-1 hide-on-zoom-17 hide-on-zoom-18">
-                  <div class="col-2"><img src="images/legend/parking_types/street.png" height="30" width="50"
+                  <div class="col-2"><img src="{{ 'images/legend/parking_types/street.png' | relative_url }}" height="30" width="50"
                       alt="" /></div>
                   <div class="col">Straßenparken / Parkstreifen</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/parking_types/surface.png" height="30" width="50"
+                  <div class="col-2"><img src="{{ 'images/legend/parking_types/surface.png' | relative_url }}" height="30" width="50"
                       alt="" /></div>
                   <div class="col">Park- oder Stellplatz (ebenerdig)</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/parking_types/underground.png" height="30" width="50"
+                  <div class="col-2"><img src="{{ 'images/legend/parking_types/underground.png' | relative_url }}" height="30" width="50"
                       alt="" /></div>
                   <div class="col">Tiefgarage</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/parking_types/garages.png" height="30" width="50"
+                  <div class="col-2"><img src="{{ 'images/legend/parking_types/garages.png' | relative_url }}" height="30" width="50"
                       alt="" /></div>
                   <div class="col">Garage / Carport</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/parking_types/multi-storey.png" height="30" width="50"
+                  <div class="col-2"><img src="{{ 'images/legend/parking_types/multi-storey'}}.png" height="30" width="50"
                       alt="" /></div>
                   <div class="col">Parkhaus</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/parking_types/limited.png" height="30" width="50"
+                  <div class="col-2"><img src="{{ 'images/legend/parking_types/limited.png' | relative_url }}" height="30" width="50"
                       alt="" /></div>
                   <div class="col">
                     Parkmöglichkeit mit eingeschränkter Nutzung
@@ -158,24 +167,24 @@
             </div>
 
             <div class="legende-strassenparken">
-              <div class="container mb-3">
+              <div class="mb-3">
                 <div class="row mb-1">
                   <div class="col">
                     <h2>Straßenparken / Parkstreifen</h2>
                   </div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/street_parking/parallel.png" height="30" width="50"
+                  <div class="col-2"><img src="{{ 'images/legend/street_parking/parallel.png' | relative_url }}" height="30" width="50"
                       alt="" /></div>
                   <div class="col">Längsaufstellung</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/street_parking/diagonal.png" height="30" width="50"
+                  <div class="col-2"><img src="{{ 'images/legend/street_parking/diagonal.png' | relative_url }}" height="30" width="50"
                       alt="" /></div>
                   <div class="col">Schrägaufstellung</div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col-2"><img src="images/legend/street_parking/perpendicular.png" height="30" width="50"
+                  <div class="col-2"><img src="{{ 'images/legend/street_parking/perpendicular.png' | relative_url }}" height="30" width="50"
                       alt="" /></div>
                   <div class="col">Senkrechtaufstellung</div>
                 </div>
@@ -186,23 +195,24 @@
         </div>
 
         <div class="legende-grenzen">
-          <div class="container mb-3">
+          <div class="mb-3">
             <div class="row mb-1">
               <div class="col">
                 <h2>Grenzen</h2>
               </div>
             </div>
             <div class="row mb-1">
-              <div class="col-2"><img src="images/legend/boundary/ortsteil.png" height="30" width="50" alt="" /></div>
+              <div class="col-2"><img src="{{ 'images/legend/boundary/ortsteil.png' | relative_url }}" height="30" width="50" alt="" /></div>
               <div class="col">Ortsteilgrenze Neukölln</div>
             </div>
             <div class="row mb-1">
-              <div class="col-2"><img src="images/legend/boundary/lor.png" height="30" width="50" alt="" /></div>
+              <div class="col-2"><img src="{{ 'images/legend/boundary/lor.png' | relative_url }}" height="30" width="50" alt="" /></div>
               <div class="col">LOR-Grenzen / Kieze</div>
             </div>
           </div>
         </div>
 
+{% if include.nomodal == nil %}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
@@ -210,3 +220,4 @@
     </div>
   </div>
 </div>
+{% endif %}

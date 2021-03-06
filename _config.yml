@@ -4,10 +4,28 @@ description: >- # this means to ignore newlines until "baseurl:"
   Spezialkarten für Neukölln zum Straßenraum und zur Parkplatzdichte.
 baseurl: "/strassenraumkarte-neukoelln" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: osmberlin
 github_username:  SupaplexOSM
 
+# Social Sharing Defaults
+twitter_username: osmberlin
+social_sharing:
+  title: Straßenraumkarte Neukölln – OpenStreetMap Community Berlin
+  description: Spezialkarten für Neukölln zum Straßenraum und zur Parkplatzdichte.
+  image: /images/social-sharing.png
+  image_alt: Ausschnitt der Parkraumkarte Neukölln mit Visualisierung des Flächenverbrauchs.
+
 # Build settings
+
+permalink: /posts/:year-:month-:day-:title:output_ext
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  auto_ids: true
+  toc_levels: 1..3
+  parse_block_html: true
+
 theme: minima
+
 # plugins:
 #   - jekyll-feed

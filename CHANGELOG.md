@@ -1,6 +1,7 @@
 ---
 title: Changelog
 layout: page
+menu_highlight: changelog
 ---
 
 # Changelog

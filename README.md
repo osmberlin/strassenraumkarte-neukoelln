@@ -7,3 +7,18 @@ Die Straßenraumkarte bietet eine detaillierte Kartengrundlage für den Berliner
 * [Parkraumkarte Zoomlevel 16: Flächenverbrauch – Land Consumption](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap#16/52.4820/13.4333)
 * [Parkraumkarte Zoomlevel 17: Parkstreifen / Parken am Fahrbahnrand – Lane Parking](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap#17/52.48085/13.43278)
 * [Parkraumkarte Zoomlevel 18-19: Parkstreifen- und Stellplatzdetails – Parking Details](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap#18/52.48090/13.43234)
+
+
+# Development
+
+## Jekyll
+
+* https://jekyllrb.com/
+* `bundle exec jekyll serve --livereload --trace`
+* Liquid Template Language https://shopify.github.io/liquid/basics/introduction/
+
+## Links
+
+* Layout: Bootstrap 5 via CDN https://getbootstrap.com/docs/5.0/
+* HTML to Markdown copy-paste https://euangoddard.github.io/clipboard2markdown/
+* Google Doc/Word to HTML-Table copy-paste https://www.gdoctohtml.com/
