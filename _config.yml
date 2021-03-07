@@ -13,7 +13,7 @@ image:
   path: /images/social-sharing.png
   alt: Ausschnitt der Parkraumkarte Neukölln mit Visualisierung des Flächenverbrauchs.
 twitter:
-  username: @osmberlin
+  username: '@osmberlin'
   card: summary_large_image
 
 # Minima date format
