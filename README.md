@@ -14,7 +14,7 @@ Die Straßenraumkarte bietet eine detaillierte Kartengrundlage für den Berliner
 ## Jekyll
 
 * https://jekyllrb.com/
-* `bundle exec jekyll serve --livereload --trace`
+* `bundle exec jekyll serve --livereload`
 * Liquid Template Language https://shopify.github.io/liquid/basics/introduction/
 
 ## Links
