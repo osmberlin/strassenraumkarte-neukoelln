@@ -46,6 +46,42 @@ menu_highlight: data
 
 <div class="row mb-3">
 	<div class="col-md-5">
+		<img class="img-thumbnail" src="{{ '/images/thumb_data/thumb_lane_area.jpg' | relative_url }}" alt="thumbnail lane areas">
+	</div>
+	<div class="col-md-7">
+		<h3 class="mt-0" id="fahrbahnflaechen">
+			Fahrbahnflächen
+		</h3>
+		<p class="mb-1"><em>Beschreibung:</em> Fahrbahnflächen (Polygon), also der Raum zwischen den Bordsteinkanten (wie sie die Straßenraumkarte strukturieren)</p>
+		<p class="mb-1"><em>Bezugsraum:</em> Weitläufiges Rechteck um den Berliner Ortsteil Neukölln</p>
+		<p class="mb-1 text-muted"><em>Quelle:</em> bearbeitet nach Geoportal Berlin / ALKIS (Bauwerke) und OpenStreetMap-Daten</p>
+		<ul class="px-3">
+			<li><a href="{{ '/data/lane_area.geojson' | relative_url }}">lane_area.geojson</a></strong> (3,7 MB)</li>
+			<li><p class="mb-1 text-muted">Einzelpolygon ohne Attribute</p></li>
+		</ul>
+	</div>
+</div>
+
+<div class="row mb-3">
+	<div class="col-md-5">
+		<img class="img-thumbnail" src="{{ '/images/thumb_data/thumb_traffic_area.jpg' | relative_url }}" alt="thumbnail traffic areas">
+	</div>
+	<div class="col-md-7">
+		<h3 class="mt-0" id="verkehrsflaechen">
+			Verkehrsflächen
+		</h3>
+		<p class="mb-1"><em>Beschreibung:</em> Verkehrsflächen (Polygon), also der (öffentliche) Raum zwischen den Gebäudefassaden bzw. Grundstücksgrenzen</p>
+		<p class="mb-1"><em>Bezugsraum:</em> Wohnquartiere (LOR-Planungsräume) des Berliner Ortsteils Neukölln</p>
+		<p class="mb-1 text-muted"><em>Quelle:</em> bearbeitet nach Geoportal Berlin / Blockkarte und OpenStreetMap-Daten</p>
+		<ul class="px-3">
+			<li><a href="{{ '/data/traffic_area.geojson' | relative_url }}">traffic_area.geojson</a></strong> (0,1 MB)</li>
+			<li><p class="mb-1 text-muted">Einzelpolygon ohne Attribute</p></li>
+		</ul>
+	</div>
+</div>
+
+<div class="row mb-3">
+	<div class="col-md-5">
 		<img class="img-thumbnail" src="{{ '/images/thumb_data/thumb_kfz_points.jpg' | relative_url }}" alt="thumbnail kfz points">
 	</div>
 	<div class="col-md-7">
