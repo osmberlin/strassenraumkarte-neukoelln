@@ -27,3 +27,8 @@ Sie wird gepflegt im Rahmen der ehrenamtlichen Aktivitäten [OpenStreetMap Berli
 * Bootstrap https://github.com/twbs/bootstrap/blob/main/LICENSE
 * Bootstrap Icons https://github.com/twbs/icons/blob/main/LICENSE.md
 * FontAwesome https://fontawesome.com/license
+
+# Datenschutzerklärung
+{: class='mb-3 mt-5' }
+
+```TODO```
