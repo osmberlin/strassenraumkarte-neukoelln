@@ -1,18 +1,28 @@
-title: Straßenraumkarte Neukölln
-email: your-email@example.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Spezialkarten für Neukölln zum Straßenraum und zur Parkplatzdichte.
-baseurl: "/strassenraumkarte-neukoelln" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  SupaplexOSM
+# URL
+baseurl: "/strassenraumkarte-neukoelln"
+url: "https://supaplexosm.github.io"
 
-# Social Sharing Defaults
-twitter_username: osmberlin
-social_sharing:
-  title: Straßenraumkarte Neukölln – OpenStreetMap Community Berlin
-  description: Spezialkarten für Neukölln zum Straßenraum und zur Parkplatzdichte.
-  image: /images/social-sharing.png
-  image_alt: Ausschnitt der Parkraumkarte Neukölln mit Visualisierung des Flächenverbrauchs.
+# Content
+# Also used for Social Sharing https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
+locale: de_DE
+title: Straßenraumkarte Neukölln
+description: Spezialkarten für Neukölln zum Straßenraum und zur Parkplatzdichte.
+author: Alex Seidel
+logo: /images/openstreetmap-osm-logo.png
+image:
+  path: /images/social-sharing.png
+  alt: Ausschnitt der Parkraumkarte Neukölln mit Visualisierung des Flächenverbrauchs.
+twitter:
+  username: @osmberlin
+  card: summary_large_image
+
+# Minima date format
+# refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
+minima:
+  date_format: "%Y-%m-%d"
+
+# email: your-email@example.com
+# github_username:  SupaplexOSM
 
 # Build settings
 
@@ -27,5 +37,6 @@ kramdown:
 
 theme: minima
 
-# plugins:
-#   - jekyll-feed
+plugins:
+ - jekyll-feed
+ - jekyll-seo-tag

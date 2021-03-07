@@ -1,11 +1,10 @@
 ---
-title: Methodenbericht
+title: Methodenbericht der Parkraumanalyse für den Berliner Ortsteil Neukölln
 layout: page
-social_sharing:
-  title:
-  description:
-  image: images/report/social-sharing.jpg
-  image_alt:
+description: Methoden- und Ergebnisbericht der Parkraumanalyse der Berliner OpenStreetMap Community für den Berliner Ortsteil Neukölln
+image:
+  path: images/report/social-sharing.jpg
+  alt:
 show_legend: true
 menu_highlight: report
 ---
