@@ -60,7 +60,9 @@ layout: map
 				link.classList.remove('active')
 			}
 		})
-		document.querySelectorAll(`a[data-link=${layer_name}]`)[0].classList.add('active')
+		document.querySelectorAll(`a[data-link=${layer_name}]`).forEach( link => {
+			link.classList.add('active')
+		})
 	}
 
 	// ?map-Param: Helper: mapLayer from ?map-Param
