@@ -649,3 +649,6 @@ Einfahrten bzw. abgesenkte Bordsteine, für die in den OSM-Daten keine Breiten v
 {: class="mt-5 mb-4" }
 
 <iframe style="width: 100%; height: 1450px" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTz-b9t4qHgk3yN-n7g1y8f9KszT-77AjJsDgGPi0d3E04hKCcB-GG1rd39LUcHHMErju3lQJSPEt4S/pubhtml?gid=670505529&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+## Fußnoten
+{: class="mt-5 mb-4" }
