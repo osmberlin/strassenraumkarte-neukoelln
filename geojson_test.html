@@ -23,7 +23,7 @@ layout: map
 	});
 	micromap.addTo(map);
 
-	var geojsonLayer = new L.GeoJSON.AJAX("{{ 'data/kfz_lor_planungsraum.geojson' || absolute_url }}");
+	var geojsonLayer = new L.GeoJSON.AJAX("{{ 'data/kfz_lor_planungsraum.geojson' | absolute_url }}");
 	geojsonLayer.addTo(map);
 
 	var baseMaps = {
