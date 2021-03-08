@@ -7,6 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% feed_meta %}
 
+  {% if page.canonical_url %}
+    <link rel="canonical" href="{{ page.canonical_url }}" />
+  {% endif %}
+
   {% include social_sharing.html %}
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
