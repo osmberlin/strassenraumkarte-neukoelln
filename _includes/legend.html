@@ -1,3 +1,23 @@
+{% if include.nomodal == nil %}
+<!--
+  Legend Button on Map
+-->
+
+<div class="legend-button layer-parkingmap position-absolute"
+  style="top:130px; right: 20px; z-index: 1000;">
+  <div class="leaflet-touch">
+    <div class=" leaflet-control-layers py-0 px-1 d-flex">
+      <a href="{{ '/parkraumkarte/legend' | relative_url }}" data-bs-toggle="modal" data-bs-target="#legendeModal"
+        style="font-size: 12px">
+        Legende
+      </a>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+
 <!--
   Legend Modal
 
@@ -10,10 +30,12 @@
 /* Reihenfolge der Classes: .zoom-<Nr> .layer-<Name> .block-<Nr> */
 #add-css-class-layer>div,
 .zoom-18 .hide-on-zoom-18,
-.zoom-17 .hide-on-zoom-17 {
+.zoom-17 .hide-on-zoom-17,
+.legend-button {
   display: none;
 }
 
+.layer-parkingmap,
 .zoom-15 .layer-parkingmap .legende-stellplatzdichte,
 .zoom-16 .layer-parkingmap .legende-stellplatzdichte,
 .zoom-16 .layer-parkingmap .legende-flaechenverbrauch,
