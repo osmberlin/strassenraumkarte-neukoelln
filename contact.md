@@ -2,6 +2,7 @@
 title: Kontakt und Impressum
 layout: page
 menu_highlight: contact
+noindex: true
 ---
 
 # Kontakt und Impressum

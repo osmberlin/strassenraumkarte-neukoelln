@@ -2,6 +2,7 @@
 title: Über das Projekt Straßenraumkarte Neukölln
 layout: page
 menu_highlight: about
+noindex: true
 ---
 
 # Über das Projekt

@@ -7,6 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% feed_meta %}
 
+  {% if page.noindex %}
+    <meta name="robots" content="noindex">
+  {% endif %}
+
   {% if page.canonical_url %}
     <link rel="canonical" href="{{ page.canonical_url }}" />
   {% endif %}
