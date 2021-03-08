@@ -14,6 +14,7 @@ menu_highlight: report
 Stand: März 2021
 
 ## Autoren und Hintergrund
+{: class="mt-5 mb-4" }
 
 Alexander Seidel, M.A.
 und OpenStreetMap-Beitragende
@@ -24,6 +25,7 @@ und OpenStreetMap-Beitragende
 
 
 ## 1. Einführung
+{: class="mt-5 mb-4" }
 
 Daten über die Anzahl und Verteilung von Kfz-Parkplätzen im Stadtraum stellen eine wertvolle Ressource dar. So wird der Verkehrsraum im Zuge der Verkehrswende zunehmend neu verteilt oder zumindest politisch darüber gestritten und die Reduzierung des ruhenden Verkehrs in diesem Zusammenhang als wichtiger Ansatzpunkt für mehr Flächengerechtigkeit identifiziert. Gleichzeitig finden Verkehr und Mobilität unter Einbeziehung geographischer Daten immer zielgerichteter statt, sodass beispielsweise unnötige Wege oder innenstädtischer Verkehr verhindert werden können – auch hier können Parkplatz- und Stellplatzdaten einen Beitrag leisten.
 
@@ -42,6 +44,7 @@ Der vorliegende Bericht stellt die Herangehensweise und Methodik der Parkraumana
 
 
 ## 2. Methodik
+{: class="mt-5 mb-4" }
 
 ### 2.1. Allgemeine Herangehensweise
 
@@ -194,7 +197,7 @@ Beim Parallelparken sind einzelne Stellplätze meist nicht markiert; die Anzahl 
 
 Die Stellplatzkapazität ergibt sich aus dem Quotienten der Länge eines Parkstreifensegments und dem entsprechenden Abstand, abgerundet auf eine ganze Zahl.
 
-<div class="bg-info">
+<div class="bg-info p-3 pb-1 mt-1 mb-5">
 
 **Ergebnis:**
 
@@ -286,7 +289,7 @@ Aus den Objekten mit bekannten Stellplatzangaben wurde der Median der mittleren 
 \* Die *Anzahl* bezieht sich auf die Gesamtzahl der Objekte eines Stellflächentyps im Untersuchungsraum, also im Berliner Ortsteil Neukölln sowie einer Pufferzone von 500 Metern um dessen Ortsteilgrenzen.
 \*\* Die Kategorie *„Parkplätze“* umfasst überwiegend klassische ebenerdige Park- und Stellplätze (N = 994), aber auch vereinzelt vorkommendes Dachparken (N = 6) und Parkdecks/Parkflächen im Erdgeschoss unter Gebäuden (N = 9).
 
-<div class="bg-info">
+<div class="bg-info p-3 pb-1 mt-1 mb-5">
 
 **Ergebnis:**
 
@@ -314,7 +317,7 @@ Die resultierenden Kfz-Halterdaten lassen sich auf diese Weise -- ebenso wie die
 [^17]: Isochronen sind räumliche Linien gleicher Zeit, umgrenzen in diesem Fall also einen Raum, der innerhalb der angegebenen Zeit zu Fuß erreicht werden kann und sich dabei bis zu 350 Meter entfernt vom Ausgangspunkt erstreckt. Das Routing erfolgte über das OSM-Straßen- und Wegenetz.
 
 
-<div class="bg-info">
+<div class="bg-info p-3 pb-1 mt-1 mb-5">
 
 **Ergebnis:**
 
@@ -336,7 +339,7 @@ Aus der Lage und Länge der Parkstreifen im Straßenraum kann -- abhängig von d
 
 Diese Fläche kann in Relation zur Fläche des öffentlichen Straßen- bzw. Verkehrsraumes gesetzt werden, also der Fläche zwischen den Gebäudefassaden oder Grundstücksgrenzen inklusive aller Straßenbestandteile wie Fahrbahnen, Mittelstreifen oder Geh- und Radwegen. Berechnungsgrundlage dafür ist die Einteilung der Blockflächen, wie sie im Berliner Geoportal beispielsweise für die Wiedergabe der Bevölkerungsdichte verwendet wird (vgl. Kapitel 2.3). In unbewohnten Räumen hat diese Blockflächeneinteilung Lücken, die auf Basis von OSM-Daten gefüllt wurden.
 
-<div class="bg-info">
+<div class="bg-info p-3 pb-1 mt-1 mb-5">
 
 **Ergebnis:**
 
@@ -345,6 +348,7 @@ Allein für die Neuköllner Wohnquartiere ergibt sich daraus, dass Parkstreifen 
 </div>
 
 ## 3. Bewertung von Unsicherheitsfaktoren
+{: class="mt-5 mb-4" }
 
 Die vorgestellte Parkraumanalyse basiert auf einem interpolativen Datenmodell, also aus geografischen Daten und empirischen Annahmen abgeleiteten Aussagen und Vereinfachungen, um die (komplexe) Realität modellhaft abzubilden und „berechenbar“ zu machen. Viele der zu Grunde liegenden Annahmen und Ergebnisse können in der tatsächlichen Realität überprüft, gezählt oder gemessen werden, andere unterliegen bestimmten Unsicherheiten, die sich kaum oder nur mit erheblichem empirischen Aufwand quantifizieren lassen. Wie viele Garagen werden beispielsweise tatsächlich zum Abstellen von Kfz genutzt, wie viele Falschparker gibt es oder wie viele Dienst- und Mietwagen bleiben in der Kfz-Statistik für das Untersuchungsgebiet unberücksichtigt? Und vor allem: Wie präzise ist die Wiedergabe der Stellplatzzahlen am Straßenrand? Unsicherheitsfaktoren wie diese sollen in diesem Abschnitt einer groben Schätzung unterzogen werden.
 
@@ -400,6 +404,7 @@ Einfahrten bzw. abgesenkte Bordsteine, für die in den OSM-Daten keine Breiten v
 [^24]:  In der Rechtsprechung wird teils eine Breite von 3 Metern als ausreichend angesehen, was im Datenmodell insgesamt eine um 0,7 Prozent höhere Stellplatzzahl ergeben würde. Das einzelne Einfahrten breiter sind, aber nicht mit ihrer tatsächlichen Breite in das Modell einfließen, ist dabei jedoch noch nicht berücksichtigt.
 
 ## Anhang A: Verfügbare Stellplatzkapazitäten in verschiedenen Teilräumen
+{: class="mt-5 mb-4" }
 
 <div class="table-responsive">
 <table class="table table-hover table-bordered table-sm caption-top">
@@ -411,9 +416,6 @@ Einfahrten bzw. abgesenkte Bordsteine, für die in den OSM-Daten keine Breiten v
       <th colspan=6>Verfügbare Stellplätze (zum Anwohner-/Nachtparken geeignet)</th>
     </tr>
     <tr>
-      <th></th>
-      <th></th>
-      <th></th>
       <th>Gesamt</th>
       <th><span class="text-muted">davon</span><br>Straßenparken</th>
       <th><span class="text-muted">davon</span><br>Park-/Stellplätze</th>
@@ -637,9 +639,11 @@ Einfahrten bzw. abgesenkte Bordsteine, für die in den OSM-Daten keine Breiten v
 </div>
 
 \* Das *gesamte Untersuchungsgebiet* umfasst den Ortsteil Neukölln sowie zusätzlich eine angrenzende Pufferzone von 500 Metern um dessen Ortsteilgrenzen, vgl. Kapitel X.
+
 \*\* Die Einteilung der *Wohnquartiere* entspricht den LOR-Planungsräumen, mit der Ausnahme, dass der Warthekiez aus dem Planungsraum „Silbersteinstraße“ in einen eigenständigen Teilraum herausgelöst wurde.
 
 ## Anhang B: Vergleich interpolierter und gezählter Stellplätze (Straßenparken)
+{: class="mt-5 mb-4" }
 
 <div class="table-responsive">
 <table class="table table-hover table-bordered table-sm caption-top">
