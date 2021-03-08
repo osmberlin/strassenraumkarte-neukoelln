@@ -9,12 +9,12 @@ layout: default
 <div class="row mt-2 mb-5 d-print-none">
   <div class="col-auto me-auto"></div>
   <div class="col-auto">
-      {% if page.download.path %}
+    {% if page.download.path %}
       <a class="btn btn-secondary" href="{{ page.download.path | relative_path }}">
         {{ page.download.link_text | default: 'Download' }}
       </a>
-      {% endif %}
-      {% if page.show_legend %}
+    {% endif %}
+    {% if page.show_legend %}
       <div class="dropdown d-inline-block ">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
           aria-expanded="false">
@@ -23,12 +23,12 @@ layout: default
         <!-- https://github.com/allejo/jekyll-toc -->
         {% include toc.html html=content h_min=2 class='dropdown-menu' anchor_class='dropdown-item' %}
       </div>
-      {% endif %}
-    </div>
+    {% endif %}
   </div>
+</div>
 {% endif %}
 
 <!-- Width: https://tailwindcss.com/docs/max-width#prose -->
-<div style="max-width: 65ch" class="mt-3">
+<article style="max-width: 65ch" class="mt-3 mb-5">
   {{ content }}
-</div>
+</article>

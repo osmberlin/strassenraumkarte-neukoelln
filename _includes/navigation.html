@@ -34,14 +34,23 @@
   </a>
 </div>
 
-<ul class="mb-4 list-unstyled lh-base">
-  <li><a class="{% if page.menu_highlight == 'about' %}text-reset text-decoration-none fw-bold{% endif %}" href="{{ 'about' | relative_url }}">Über das Projekt <span class="badge bg-info">todo</span></a></li>
-  <li><a href="{{ 'about#blogposts' | relative_url }}">Artikel <span class="badge bg-info">todo</span></a></li>
-  <li><a href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln" target="_blank">
-    Code auf GitHub
-    <svg aria-hidden="true" focusable="false" style="width: 12px;height: 12px;object-fit: cover;vertical-align: baseline;" role="img" viewBox="0 0 512 512">
-    <path fill="currentColor" d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"></path>
-    </svg>
-  </a></li>
-  <li><a class="{% if page.menu_highlight == 'contact' %}text-reset text-decoration-none fw-bold{% endif %}" href="{{ 'contact' | relative_url }}">Kontakt & Impressum <span class="badge bg-info">todo</span></a></li>
+<ul class="mb-4 lh-base" style="padding-left: 20px">
+  <li>
+    <a class="{% if page.menu_highlight == 'about' %}text-reset text-decoration-none fw-bold{% endif %}" href="{{ 'about' | relative_url }}">
+      Über das Projekt & <br>Blogpost-Liste
+    </a>
+  </li>
+  <li>
+    <a class="{% if page.menu_highlight == 'contact' %}text-reset text-decoration-none fw-bold{% endif %}" href="{{ 'contact' | relative_url }}">
+      Kontakt & <br>Datenschutz & <br>Impressum
+    </a>
+  </li>
+  <li>
+    <a href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln" target="_blank">
+      Code auf GitHub
+      <svg aria-hidden="true" focusable="false" style="width: 12px;height: 12px;object-fit: cover;vertical-align: baseline;" role="img" viewBox="0 0 512 512">
+      <path fill="currentColor" d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"></path>
+      </svg>
+    </a>
+  </li>
 </ul>
