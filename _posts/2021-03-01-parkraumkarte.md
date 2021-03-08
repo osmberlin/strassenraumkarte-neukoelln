@@ -1,6 +1,7 @@
 ---
 title: Parkplatzzählung und Parkraumanalysen auf OSM-Basis
 date: 2021-03-01 19:08:23 +0100
+author: Alex Seidel @Supaplex030
 layout: post
 menu_highlight: blogpost_parkraumkarte
 ---
@@ -10,7 +11,7 @@ OSM-Daten bieten das Potential, präzise Parkplatzzählungen und Parkraumanalyse
 
 Am Beispiel des Berliner Stadtteils Neukölln haben wir demonstriert, wie urbane Parkplätze systematisch auf OSM-Basis kartiert und mit Geoinformationssystemen (hier: QGIS) und unter Einbezug weiterer offener Daten hochaufgelöst ausgewertet werden können. Dieser Blogpost soll euch einen Überblick über die Methodik geben und ein paar wichtige Ergebnisse und Erfahrungen für die OSM-Praxis mit euch teilen.
 
-Einen ausführlichen Blick auf die Ergebnisse und Daten könnt ihr in der [Neuköllner Parkraumkarte](/?map=parkingmap) werfen, in der die Parkplatzinformationen visualisiert werden, die zugrunde liegenden Daten zum Download bereit stehen und bei Bedarf ausführlichere Infos zur Herangehensweise und Methodik zu finden sind.
+Einen ausführlichen Blick auf die Ergebnisse und Daten könnt ihr in der [Neuköllner Parkraumkarte](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap) werfen, in der die Parkplatzinformationen visualisiert werden, die zugrunde liegenden Daten zum Download bereit stehen und bei Bedarf ausführlichere Infos zur Herangehensweise und Methodik zu finden sind.
 
 ![](../images/posts/parkraumkarte-zoomstufen.png){: class='img-fluid img-thumbnail' }
 
@@ -19,12 +20,13 @@ _Ausschnitt der Parkraumkarte, die auf verschiedenen Zoomstufen verschiedene Erg
 Hinweis: Die hier vorgestellte Parkraumanalyse geht auf erste Experimente im vergangenen Jahr zurück, [über die hier damals bereits berichtet wurde](https://www.openstreetmap.org/user/Supaplex030/diary/393423). Das Verfahren ist inzwischen weiter automatisiert worden, sodass es leichter auf andere Orte übertragen werden kann. Da OSM-Daten zum Parken am Fahrbahnrand aber bisher an vielen Orten noch nicht zu den „Standardinformationen" gehören und oft nur rudimentär oder gar nicht erfasst sind, ist es dafür wohl meistens notwendig, diese Daten selbst zu kartieren bzw. zu vervollständigen.
 
 ## 2. Methodik
+{: class='mt-5 mb-3' }
 
 Für die hier vorgestellte Parkraumanalyse sind im letzten Jahr zunächst systematisch alle **straßenbegleitenden Parkplätze** (Parkstreifen am Straßenrand) im Untersuchungsgebiet in OSM kartiert worden -- ebenso wie andere relevante Objekte wie Grundstückseinfahrten und Informationen zu Gehwegübergängen (da dort nicht geparkt werden darf). Das zur Erfassung straßenbegleitenden Parkens etablierte OSM-Schema ist das [parking:lane-Schema](https://wiki.openstreetmap.org/wiki/Key:parking:lane): Auch wenn dieses Schema seine Macken hat, ihm eine Weiterentwicklung an manchen Stellen gut tun würde und es nicht Alternativlos ist (siehe letzter Abschnitt), eignet es sich grundsätzlich dennoch sehr gut für Auswertungen wie diese und liefert relativ präzise Ergebnisse. Der Ansatz dieses Schemas ist es, einem Straßensegment jeweils Informationen zum Parken am linken und rechten Fahrbahnrand zuzuordnen. Dazu gehören vor allem die *Art des Parkens* (entweder Park- oder Halteverbote oder die Anordnung/Ausrichtung der geparkten Fahrzeuge, insbesondere Längs-, Schräg- und Querparken), die *Position des Parkens* (die Fahrzeuge können auf der Fahrbahn, in einer Parkbucht, auf dem Gehweg, halb auf dem Gehweg oder auf dem Seitenstreifen stehen) sowie *Bedingungen und Einschränkungen* (Stellplätze können insbesondere für bestimmte Nutzergruppen reserviert, zeitlich begrenzt nutzbar oder gebührenpflichtig sein).
 
 Die Straßensegmente liegen geometrisch als Linienobjekte vor, die geteilt werden können, wenn sich Attribute im Straßenverlauf ändern. Besteht entlang eines Teilabschnitts einer Straße beispielsweise ein Parkverbot, kann dieses direkt über ein eigenes Straßensegment differenziert werden. Kurze und kleinteilige Änderungen (wie Halteverbote vor Einfahrten oder an Gehwegübergängen) müssen -- und sollen -- nicht gesondert segmentiert werden, da ansonsten eine unübersichtliche Anzahl von Linienstücken entstehen würde und diese Informationen im späteren Verlauf der Auswertung ohnehin aus den entsprechenden OSM-Datenobjekten abgeleitet werden können.
 
-Die Verarbeitung der OSM-Daten erfolgte unterstützt durch Python-Scripte in QGIS (ein Script zur Erzeugung von Parkstreifen aus OSM-Daten ist hier [Link] zu finden) und orientierte sich etwa an dieser Abfolge:
+Die Verarbeitung der OSM-Daten erfolgte unterstützt durch Python-Scripte in QGIS ([ein Script zur Erzeugung von Parkstreifen aus OSM-Daten ist auf GitHub zu finden](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/tree/main/scripts)) und orientierte sich etwa an dieser Abfolge:
 
 - Entsprechend der Fahrbahnbreite, die entweder direkt am Straßenobjekt hinterlegt ist oder aus seinen Attributen abgeschätzt werden kann, können die räumlichen Verläufe der jeweils linken und rechten Parkstreifen (durch versetzen) mit ihren jeweils spezifischen Eigenschaften abgeleitet werden.
 
@@ -49,8 +51,9 @@ Die Stellplatzdaten sind damit nicht nur geometrisch erfasst, sondern können au
 Bei einer Größe des Untersuchungsgebiets von über 20 km², einer Länge des dortigen Straßennetzes von etwa 170 km, insgesamt 2.200 in OSM gemappten Grundstückseinfahrten und über 2.000 Parkplatzflächen klingt dies zunächst nach erheblichem Arbeitsaufwand -- tatsächlich war es aber innerhalb weniger Monate ohne weiteres möglich, diese Informationen auch als Einzelperson zu erfassen bzw. zu prüfen und zu vervollständigen.
 
 ## Zentrale Zahlen und Ergebnisse
+{: class='mt-5 mb-3' }
 
-Viele Ergebnisse und Zahlen des Projekts sind in der [Neuköllner Parkraumkarte](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap) dargestellt und können kaum übersichtlich in Worte gefasst werden. Der Fokus dieses Projekts lag auch eher in der Entwicklung einer Methode und der Bereitstellung der Daten als in der Interpretation von Ergebnissen, daher soll hier nur kurz darauf eingegangen werden. Mehr Daten und Zahlen sind außerdem im Methodenbericht [Link] und auf der [Datenseite](https://supaplexosm.github.io/strassenraumkarte-neukoelln/data) zum Projekt zu finden.
+Viele Ergebnisse und Zahlen des Projekts sind in der [Neuköllner Parkraumkarte](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap) dargestellt und können kaum übersichtlich in Worte gefasst werden. Der Fokus dieses Projekts lag auch eher in der Entwicklung einer Methode und der Bereitstellung der Daten als in der Interpretation von Ergebnissen, daher soll hier nur kurz darauf eingegangen werden. Mehr Daten und Zahlen sind außerdem [im Methodenbericht](https://supaplexosm.github.io/strassenraumkarte-neukoelln/parkraumkarte/report) und [auf der Datenseite](https://supaplexosm.github.io/strassenraumkarte-neukoelln/parkraumkarte/data) zum Projekt zu finden.
 
 Für den Ortsteil Neukölln, einem großstädtischen Wohnquartier mit etwa 165.000 Einwohnenden, ergaben sich insgesamt über 27.300 Kfz-Stellplätze im öffentlichen Straßenraum. Dazu kommen noch einmal etwa 12.200 Stellplätze abseits des Straßenraums, die sich dauerhaft bzw. über Nacht zum Parken für Anwohnende eignen (sowie 8.100 nicht zum dauerhaften Parken geeignete Stellplätze wie Mitarbeiter- und Kundenparkplätze und knapp 430 ungenutzte Stellplätze, beispielsweise in leerstehenden Tiefgaragen).
 
@@ -63,6 +66,7 @@ Abbildung Dichteverteilung mit Legende
 Im Zuge der Verkehrswende und den Debatten über lebenswertere Städte stehen die am Straßenrand geparkten Fahrzeuge zunehmend im Fokus, da sie sich vor allem durch einen dauerhaften, vergleichsweise hohen Flächenverbrauch auszeichnen. Allein für die Neuköllner Wohnquartiere kann dieser Flächenverbrauch durch geparkte Fahrzeuge im öffentlichen Straßenraum auf eine Fläche von insgesamt 327.000 Quadratmetern beziffert werden, was 19 Prozent des öffentlichen Verkehrsraumes und 4,4 Prozent der Gesamtfläche des Gebiets entspricht. Parkplätze und Stellflächen abseits des Straßenraumes beanspruchen darüber hinaus noch einmal zusätzlich 171.000 Quadratmeter (2,3 Prozent der Gesamtfläche des Gebiets). In die obligatorischen Fußballfelder umgerechnet bedeutet dies, dass 70 Fußballfelder allein in den Wohnquartieren Neuköllns für stehende Fahrzeuge in Anspruch genommen werden, 46 davon im öffentlichen Straßenraum.
 
 ## Bewertung von Unsicherheitsfaktoren des Datenmodells
+{: class='mt-5 mb-3' }
 
 Die vorgestellte Parkraumanalyse basiert auf einem interpolativen Datenmodell, also aus geografischen Daten und empirischen Annahmen abgeleiteten Aussagen und Vereinfachungen, um die (komplexe) Realität modellhaft abzubilden und „berechenbar" zu machen. Viele der zu Grunde liegenden Annahmen und Ergebnisse können in der tatsächlichen Realität überprüft, gezählt oder gemessen werden, andere unterliegen bestimmten Unsicherheiten, die sich kaum oder nur mit erheblichem empirischen Aufwand quantifizieren lassen.
 
@@ -73,6 +77,7 @@ Darüber hinaus gibt es eine Reihe anderer Faktoren, die zu einer Über- oder Un
 Insbesondere die Stellplatzangaben außerhalb des öffentlichen Straßenraums müssen außerdem als potentielle Aussagen verstanden werden, da ihre tatsächliche Auslastung meist unbekannt bleibt. Vor allem Garagen werden beispielsweise häufig anders genutzt als zum Abstellen eines Kfz (unter der Annahme, dass jede zweite Garage nicht zum Abstellen eines Kfz genutzt wird, reduziert sich das Gesamt-Stellplatzangebot im Datenmodell beispielsweise um 3 Prozent). Auch die Parkhäuser im Untersuchungsgebiet stehen zwar Anwohnerinnen und Anwohnern zur Verfügung und tragen insgesamt fast 4 Prozent der Gesamtstellplatzkapazitäten im Datenmodell bei, faktisch wird dieses Potential jedoch offenbar nicht ausgeschöpft, da oft ein größerer Leerstand beobachtet werden kann.
 
 ## Erkenntnisse für die OSM-Mapping-Praxis
+{: class='mt-5 mb-3' }
 
 Die sehr geringen Abweichungen zwischen den interpolierten bzw. aus den OSM-Daten berechneten Stellplatzzahlen und der realen, gezählten Situation sind im vorliegenden Fall vermutlich auf den vergleichsweise hohen Detailgrad der OSM-Daten im Untersuchungsgebiet zurückzuführen. So wurden beispielsweise die Gebäude- und Grundstückseinfahrten systematisch vervollständigt und teils mit Breitenangaben versehen, auch einige Straßen verfügen über exakte Breitenangaben (OSM-Key: [width:carriageway](https://wiki.openstreetmap.org/wiki/Key:width:carriageway) -- obwohl sich die Breite einer Straße im Allgemeinen ausreichend genau aus ihren Attributen wie Straßentyp, Einbahnstraße oder Anzahl der Fahrspuren ableiten lässt). Vor allem aber wurden die Parkstreifeninformationen relativ genau erfasst: Ausgeschilderte Park- und Halteverbote wurden dabei ebenso berücksichtigt wie andere Bedingungen zum Parken von „signifikanter" Länge, auch wenn diese z.B. nur ein 15 Meter langes Straßensegment betreffen. Einige Mapper erschaudern vermutlich angesichts so viel Micro-Mappings -- solch präzise Daten können aber nicht nur für ein Projekt wie dieses äußerst wertvoll sein.
 

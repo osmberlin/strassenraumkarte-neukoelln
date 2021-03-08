@@ -4,12 +4,12 @@ layout: default
 
 <!-- Themen: https://github.com/jekyll/minima/blob/master/_layouts/post.html -->
 <!-- Width: https://tailwindcss.com/docs/max-width#prose -->
-<article style="max-width: 65ch" class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+<article style="max-width: 65ch" class="post h-entry mb-5" itemscope itemtype="http://schema.org/BlogPosting">
   {% if page.show_legend == nil %}<div class="mt-2"><!-- Lasy spacer; should be refactored … --></div><div class="mb-5"></div>{% endif %}
 
-  <header class="post-header">
+  <header class="post-header mb-4">
     <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-    <p class="post-meta">
+    <p class="post-meta text-muted">
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         {{ page.date | date: date_format }}
