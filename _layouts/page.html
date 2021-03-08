@@ -22,7 +22,6 @@ layout: default
 {% endif %}
 
 <!-- Width: https://tailwindcss.com/docs/max-width#prose -->
-<div style="max-width: 65ch">
-  {% if page.show_legend == nil %}<div class="mt-2"><!-- Lasy spacer; should be refactored … --></div><div class="mb-5"></div>{% endif %}
+<div style="max-width: 65ch" class="mt-3">
   {{ content }}
 </div>
