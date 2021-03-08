@@ -1,6 +1,8 @@
 ---
 title: Straßenraumkarte Neukölln – OpenStreetMap Community Berlin
 layout: map
+micromap_tiles_updated_at: 22.02.2021
+parkingmap_tiles_updated_at: 22.02.2021
 ---
 
 {% include legend.html %}
@@ -20,13 +22,14 @@ layout: map
 	var parkingmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/parkingmap/{z}/{x}/{y}.jpg", {
 		name: 'parkingmap',
 		maxZoom: 19,
-		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 22.02.2021'
-	}).addTo(map);   // .addTo(map) loads this as the initial basemap
+		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
+	})
+	parkingmap.addTo(map);   // This is the initial basemap
 
 	var micromap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/{z}/{x}/{y}.jpg", {
 		name: 'micromap',
 		maxZoom: 20,
-		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS. Datenstand: 22.02.2021'
+		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
 	});
 
 	var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -37,8 +40,8 @@ layout: map
 
 	// name set of tilelayers and adds them to the layer-selector
 	var baseMaps = {
-		"Parkraumkarte": parkingmap,
-		"Straßenraumkarte": micromap,
+		"Parkraumkarte<br><span style='margin-left: 16px;' class='text-muted'>Datenstand: {{ page.parkingmap_tiles_updated_at }}</span>": parkingmap,
+		"Straßenraumkarte<br><span style='margin-left: 16px;' class='text-muted'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>": micromap,
 		"OpenStreetMap": osm
 	};
 
