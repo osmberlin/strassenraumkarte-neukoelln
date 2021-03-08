@@ -9,6 +9,10 @@
     {% if page.url == "/" %}data-bs-toggle="modal" data-bs-target="#legendeModal"{% endif %}>
     Legende
   </a>
+  <a href="{{ '/posts/2021-03-01-parkraumkarte' | relative_url }}"
+    class="list-group-item list-group-item-action {% if page.menu_highlight == 'blogpost_parkraumkarte' %}active{% endif %}">
+    Blogpost
+  </a>
   <a href="{{ '/parkraumkarte/report' | relative_url }}"
     class="list-group-item list-group-item-action {% if page.menu_highlight == 'report' %}active{% endif %}">
     Methodenbericht
@@ -16,10 +20,6 @@
   <a href="{{ '/parkraumkarte/data' | relative_url }}"
     class="list-group-item list-group-item-action {% if page.menu_highlight == 'data' %}active{% endif %}">
     Daten
-  </a>
-  <a href="{{ '/posts/2021-03-01-parkraumkarte' | relative_url }}"
-    class="list-group-item list-group-item-action {% if page.menu_highlight == 'blogpost_parkraumkarte' %}active{% endif %}">
-    Blogpost <span class="badge bg-info">todo</span>
   </a>
 </div>
 <h2 class="fs-5 my-2">Straßenraumkarte</h2>
