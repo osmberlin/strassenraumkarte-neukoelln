@@ -7,6 +7,9 @@ image:
   alt:
 show_legend: true
 menu_highlight: report
+download:
+  path: methodenbericht-2021-03.pdf
+  link_text: Methodenbericht downloaden (PDF 1,1 MB)
 ---
 
 # Parkraumanalyse für den Berliner Ortsteil Neukölln – Methoden- und Ergebnisbericht
