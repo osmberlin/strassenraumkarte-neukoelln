@@ -71,7 +71,7 @@ Die Stellplatzdaten enthalten zusätzliche Attribute wie zu Beschränkungen der 
 
 Die vorliegende Parkraumanalyse bezieht sich auf den Berliner Ortsteil Neukölln. Das gesamte Untersuchungsgebiet, für das Parkplatzdaten erhoben wurden, umfasst das Gebiet innerhalb der Ortsteilgrenzen Neuköllns sowie einen Pufferbereich von 500 Metern außerhalb der Ortsteilgrenze, um insbesondere bei Aussagen zur Stellplatzdichte Verzerrungen an den Randbereichen zu vermeiden. Der Ortsteil Neukölln umfasst eine Fläche von 11,7 km² (gesamtes Untersuchungsgebiet: 20,6 km²).
 
-Der Ortsteil Neukölln ist ein überwiegend von Wohnquartieren geprägter, dicht besiedelter und eng bebauter urbaner Raum mit 165.000 Einwohnerinnen und Einwohnern. Er ist durch eine vergleichsweise geringe Motorisierungsquote geprägt: Pro 1.000 Personen sind hier 219 Kraftfahrzeuge zugelassen.[^2] Das Gebiet des Ortsteils umfasst zwei Gewerbegebiete, die bei einigen Auswertungen nicht berücksichtigt wurden. Die in diesem Fall berücksichtigten Wohnquartiere erstrecken sich über eine Fläche von 7,4 km² (Kfz-Quote: 206 pro 1.000 Personen) und können für genauere Datenauswertungen in 16 Teilgebiete untergliedert werden, die den lokalen „Kiezen“ bzw. lebensweltlich orientierten Räumen entsprechen (vgl. Anhang A).
+Der Ortsteil Neukölln ist ein überwiegend von Wohnquartieren geprägter, dicht besiedelter und eng bebauter urbaner Raum mit 165.000 Einwohnerinnen und Einwohnern. Er ist durch eine vergleichsweise geringe Motorisierungsquote geprägt: Pro 1.000 Personen sind hier 219 Kraftfahrzeuge zugelassen.[^2] Das Gebiet des Ortsteils umfasst zwei Gewerbegebiete, die bei einigen Auswertungen nicht berücksichtigt wurden. Die in diesem Fall berücksichtigten Wohnquartiere erstrecken sich über eine Fläche von 7,4 km² (Kfz-Quote: 206 pro 1.000 Personen) und können für genauere Datenauswertungen in 16 Teilgebiete untergliedert werden, die den lokalen „Kiezen“ bzw. lebensweltlich orientierten Räumen entsprechen ([vgl. Anhang A](#anhang-a-verfügbare-stellplatzkapazitäten-in-verschiedenen-teilräumen)).
 
 [^2]: Berechnet nach Amt für Statistik Berlin-Brandenburg: „Melderechtlich registrierte Einwohnerinnen und Einwohner am Ort der Hauptwohnung in Berlin am 30.06.2020 nach Planungsräumen und KfZ-Bestand", verfügbar auf der [Datenseite zu dieser Parkraumanalyse](https://supaplexosm.github.io/strassenraumkarte-neukoelln/parkraumkarte/data).
 
@@ -204,7 +204,7 @@ Die Stellplatzkapazität ergibt sich aus dem Quotienten der Länge eines Parkstr
 
 **Ergebnis:**
 
-Für den Ortsteil Neukölln ergeben sich insgesamt 27.335 Kfz-Stellplätze im öffentlichen Straßenraum. In den Wohnquartieren des Ortsteils, also abzüglich der Gewerbegebiete Ederstraße und Köllnische Heide, sind es 24.403 (vgl. ausführlicher Anhang A).
+Für den Ortsteil Neukölln ergeben sich insgesamt 27.335 Kfz-Stellplätze im öffentlichen Straßenraum. In den Wohnquartieren des Ortsteils, also abzüglich der Gewerbegebiete Ederstraße und Köllnische Heide, sind es 24.403 ([vgl. ausführlicher Anhang A](#anhang-a-verfügbare-stellplatzkapazitäten-in-verschiedenen-teilräumen)).
 
 Die Parkraumkarte stellt die Stellplätze in verschiedenen Zoomstufen in unterschiedlichen Formen dar -- von einer straßenzugsorientierten Zählung bis zum einzelnen Stellplatz.
 
