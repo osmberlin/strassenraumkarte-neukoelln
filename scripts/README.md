@@ -16,7 +16,7 @@ Make sure that the following folder structure is existing (you can [download eve
      ├ data/
      ┊ └ input.geojson
      └ styles/
-       └ \[various style files for provisional rendering\]
+       └ [various style files for provisional rendering]
 
 This script is based on very basic programming and QGIS knowledge. Many steps can certainly be solved much more effectively or elegantly, plus there are still some (marked) TODO's that would make it even better. I am happy about improvements and extensions!
 
