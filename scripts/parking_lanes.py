@@ -19,8 +19,6 @@ import os, processing, math, time
 #   Store the directory path to this structure in the variable "dir" (see below).
 #     └ your-directory
 #       ├ data/
-#       ┊ ├ buffer_points/
-#       ┊ ├ parking_lanes/
 #       ┊ └ input.geojson
 #       └ styles/
 #         └ [various style files for provisional rendering]
