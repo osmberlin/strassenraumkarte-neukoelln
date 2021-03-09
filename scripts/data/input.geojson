@@ -1,0 +1,4515 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-ide",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2021-03-09T21:33:00Z",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/183858769",
+        "area": "yes",
+        "highway": "pedestrian",
+        "lit": "yes",
+        "noname": "yes",
+        "note": "Dieser kleine Platz hat keinen Namen, siehe auch https://www.openstreetmap.org/note/1290532.",
+        "surface": "compacted"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.4456254,
+              52.4751871
+            ],
+            [
+              13.4455855,
+              52.4751887
+            ],
+            [
+              13.4455448,
+              52.4751904
+            ],
+            [
+              13.4455362,
+              52.4751913
+            ],
+            [
+              13.4455301,
+              52.4751926
+            ],
+            [
+              13.445524,
+              52.4751953
+            ],
+            [
+              13.4454008,
+              52.4752699
+            ],
+            [
+              13.4453937,
+              52.475274
+            ],
+            [
+              13.4453881,
+              52.4752754
+            ],
+            [
+              13.4453808,
+              52.475276
+            ],
+            [
+              13.4453743,
+              52.4752758
+            ],
+            [
+              13.4453677,
+              52.4752748
+            ],
+            [
+              13.4453603,
+              52.4752724
+            ],
+            [
+              13.4451345,
+              52.4751654
+            ],
+            [
+              13.4451174,
+              52.4751572
+            ],
+            [
+              13.4451498,
+              52.4751313
+            ],
+            [
+              13.4452639,
+              52.4750401
+            ],
+            [
+              13.4452937,
+              52.4750164
+            ],
+            [
+              13.4453095,
+              52.4750037
+            ],
+            [
+              13.4454189,
+              52.4750554
+            ],
+            [
+              13.4455253,
+              52.4751056
+            ],
+            [
+              13.4455922,
+              52.4751356
+            ],
+            [
+              13.4456135,
+              52.4751447
+            ],
+            [
+              13.4456373,
+              52.475155
+            ],
+            [
+              13.4456314,
+              52.4751711
+            ],
+            [
+              13.4456254,
+              52.4751871
+            ]
+          ]
+        ]
+      },
+      "id": "way/183858769"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/4827299",
+        "highway": "residential",
+        "lanes": "1",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Mareschstraße",
+        "name:etymology:wikidata": "Q99519748",
+        "oneway": "no",
+        "parking:condition:left": "free",
+        "parking:condition:right": "free",
+        "parking:lane:left": "diagonal",
+        "parking:lane:left:diagonal": "on_street",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4521103,
+            52.4746034
+          ],
+          [
+            13.4520329,
+            52.4745557
+          ],
+          [
+            13.4519779,
+            52.4745148
+          ],
+          [
+            13.4519316,
+            52.4744804
+          ],
+          [
+            13.4515166,
+            52.4741719
+          ],
+          [
+            13.4514026,
+            52.4740871
+          ],
+          [
+            13.451105,
+            52.4738659
+          ],
+          [
+            13.450955,
+            52.4737525
+          ],
+          [
+            13.4509443,
+            52.4737444
+          ],
+          [
+            13.4508706,
+            52.473687
+          ]
+        ]
+      },
+      "id": "way/4827299"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/4849535",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Böhmische Straße",
+        "name:etymology:wikidata": "Q39193",
+        "name:etymology:wikipedia": "de:Böhmen",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4461103,
+            52.4763662
+          ],
+          [
+            13.4462325,
+            52.4763414
+          ],
+          [
+            13.4463392,
+            52.4763229
+          ],
+          [
+            13.4467192,
+            52.4762569
+          ],
+          [
+            13.4469883,
+            52.4762103
+          ],
+          [
+            13.4473965,
+            52.4761395
+          ],
+          [
+            13.4475503,
+            52.4761128
+          ],
+          [
+            13.4477253,
+            52.4760842
+          ],
+          [
+            13.4479003,
+            52.4760555
+          ],
+          [
+            13.4479998,
+            52.4760273
+          ],
+          [
+            13.4481171,
+            52.4759751
+          ],
+          [
+            13.4481749,
+            52.4759481
+          ],
+          [
+            13.448458,
+            52.4758158
+          ],
+          [
+            13.4487182,
+            52.4756949
+          ],
+          [
+            13.4488427,
+            52.4755903
+          ],
+          [
+            13.448885,
+            52.4755466
+          ],
+          [
+            13.4489055,
+            52.4755254
+          ],
+          [
+            13.4490753,
+            52.4753499
+          ],
+          [
+            13.4491107,
+            52.4753139
+          ],
+          [
+            13.4492933,
+            52.475128
+          ],
+          [
+            13.4493489,
+            52.4750447
+          ],
+          [
+            13.4493634,
+            52.4750096
+          ],
+          [
+            13.4493712,
+            52.4749742
+          ],
+          [
+            13.4493771,
+            52.4749476
+          ],
+          [
+            13.4494164,
+            52.47477
+          ],
+          [
+            13.4494197,
+            52.4747552
+          ],
+          [
+            13.4494417,
+            52.4746559
+          ],
+          [
+            13.4494676,
+            52.4745145
+          ],
+          [
+            13.4494653,
+            52.4744667
+          ],
+          [
+            13.449384,
+            52.4741996
+          ],
+          [
+            13.4493214,
+            52.474069
+          ]
+        ]
+      },
+      "id": "way/4849535"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/8038948",
+        "highway": "pedestrian",
+        "lit": "yes",
+        "motor_vehicle": "no",
+        "name": "Böhmische Straße",
+        "name:etymology:wikidata": "Q39193",
+        "name:etymology:wikipedia": "de:Böhmen",
+        "parking:lane:both": "no",
+        "postal_code": "12055",
+        "smoothness": "good",
+        "surface": "sett",
+        "traffic_sign": "DE:242"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4494154,
+            52.4735342
+          ],
+          [
+            13.4494271,
+            52.4735668
+          ],
+          [
+            13.4494293,
+            52.4735728
+          ],
+          [
+            13.4494418,
+            52.4736077
+          ],
+          [
+            13.4495564,
+            52.4739262
+          ],
+          [
+            13.4495716,
+            52.4739683
+          ],
+          [
+            13.4495733,
+            52.4739735
+          ],
+          [
+            13.4495852,
+            52.4740065
+          ]
+        ]
+      },
+      "id": "way/8038948"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/24669695",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Richardstraße",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "sidewalk:both:surface": "bad",
+        "surface": "asphalt",
+        "wikidata": "Q89270556",
+        "wikipedia": "de:Richardstraße (Berlin)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4463153,
+            52.4709512
+          ],
+          [
+            13.4461424,
+            52.4714732
+          ],
+          [
+            13.4461376,
+            52.4714877
+          ],
+          [
+            13.4459787,
+            52.4719673
+          ],
+          [
+            13.4459595,
+            52.4720251
+          ],
+          [
+            13.4459401,
+            52.4720831
+          ],
+          [
+            13.4458535,
+            52.4723424
+          ]
+        ]
+      },
+      "id": "way/24669695"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/24804309",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Richardstraße",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "parking:condition:left": "free",
+        "parking:lane:left": "parallel",
+        "parking:lane:left:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt",
+        "wikidata": "Q89270556",
+        "wikipedia": "de:Richardstraße (Berlin)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4458535,
+            52.4723424
+          ],
+          [
+            13.4458295,
+            52.472439
+          ]
+        ]
+      },
+      "id": "way/24804309"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/24804311",
+        "cycleway:both": "no",
+        "highway": "residential",
+        "lane_markings": "no",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Richardstraße",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12043",
+        "sidewalk": "both",
+        "surface": "asphalt",
+        "wikidata": "Q89270556",
+        "wikipedia": "de:Richardstraße (Berlin)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4451518,
+            52.4741306
+          ],
+          [
+            13.4450761,
+            52.4742294
+          ],
+          [
+            13.4445885,
+            52.4748665
+          ]
+        ]
+      },
+      "id": "way/24804311"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/24804412",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Richardplatz",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:condition:right": "free",
+        "parking:lane:left": "no_stopping",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "sett",
+        "wikidata": "Q1688914",
+        "wikipedia": "de:Richardplatz"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4452952,
+            52.4739612
+          ],
+          [
+            13.4454524,
+            52.4739754
+          ],
+          [
+            13.4455106,
+            52.4739805
+          ],
+          [
+            13.4461721,
+            52.4740457
+          ],
+          [
+            13.4465102,
+            52.4740797
+          ],
+          [
+            13.4465514,
+            52.4740838
+          ],
+          [
+            13.4468616,
+            52.4741147
+          ],
+          [
+            13.447028,
+            52.4741325
+          ],
+          [
+            13.4471147,
+            52.4741443
+          ],
+          [
+            13.4471718,
+            52.4741643
+          ],
+          [
+            13.4472141,
+            52.4741905
+          ],
+          [
+            13.447236,
+            52.4742228
+          ],
+          [
+            13.4472428,
+            52.4742436
+          ],
+          [
+            13.4472451,
+            52.4742707
+          ],
+          [
+            13.4472322,
+            52.4743699
+          ],
+          [
+            13.4472228,
+            52.4744411
+          ],
+          [
+            13.4472116,
+            52.4744903
+          ],
+          [
+            13.4471965,
+            52.474524
+          ],
+          [
+            13.4471619,
+            52.4745559
+          ],
+          [
+            13.4471207,
+            52.4745825
+          ],
+          [
+            13.4470669,
+            52.4746009
+          ]
+        ]
+      },
+      "id": "way/24804412"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/24804415",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Hertzbergstraße",
+        "name:etymology:wikidata": "Q62565",
+        "name:etymology:wikipedia": "de:Ewald Friedrich von Hertzberg",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:condition:left": "free",
+        "parking:condition:right": "free",
+        "parking:lane:left": "parallel",
+        "parking:lane:left:parallel": "on_street",
+        "parking:lane:right": "diagonal",
+        "parking:lane:right:diagonal": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "sett"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4471104,
+            52.4747526
+          ],
+          [
+            13.4471462,
+            52.4748688
+          ],
+          [
+            13.4471651,
+            52.474928
+          ],
+          [
+            13.4472096,
+            52.4750741
+          ]
+        ]
+      },
+      "id": "way/24804415"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/24913362",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Drorystraße",
+        "name:etymology:wikidata": "Q19502186",
+        "name:etymology:wikipedia": "de:Edward Drory",
+        "parking:condition:both": "free",
+        "parking:lane:left": "parallel",
+        "parking:lane:left:parallel": "on_street",
+        "parking:lane:right": "diagonal",
+        "parking:lane:right:diagonal": "on_street",
+        "postal_code": "12055",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4482249,
+            52.4727916
+          ],
+          [
+            13.4485328,
+            52.4725144
+          ]
+        ]
+      },
+      "id": "way/24913362"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/32501937",
+        "cycleway:both": "no",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Niemetzstraße",
+        "name:etymology:wikidata": "Q99519643",
+        "parking:condition:both": "free",
+        "parking:lane:left": "diagonal",
+        "parking:lane:left:diagonal": "on_street",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4497168,
+            52.4733543
+          ],
+          [
+            13.450001,
+            52.4731004
+          ],
+          [
+            13.4501017,
+            52.4730104
+          ],
+          [
+            13.4502261,
+            52.4728995
+          ],
+          [
+            13.4509119,
+            52.4722883
+          ]
+        ]
+      },
+      "id": "way/32501937"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/48802137",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Bartastraße",
+        "name:etymology:wikidata": "Q99519757",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12055",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4506949,
+            52.4747193
+          ],
+          [
+            13.4507116,
+            52.4746845
+          ],
+          [
+            13.451105,
+            52.4738659
+          ]
+        ]
+      },
+      "id": "way/48802137"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/133766090",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4464997,
+            52.4724195
+          ],
+          [
+            13.4465316,
+            52.4723404
+          ]
+        ]
+      },
+      "id": "way/133766090"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/133766091",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4465316,
+            52.4723404
+          ],
+          [
+            13.4465375,
+            52.4723267
+          ],
+          [
+            13.4465812,
+            52.4722259
+          ],
+          [
+            13.4467968,
+            52.4720917
+          ],
+          [
+            13.4468207,
+            52.472011
+          ],
+          [
+            13.4467871,
+            52.4719866
+          ]
+        ]
+      },
+      "id": "way/133766091"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/137720668",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Richardstraße",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt",
+        "wikidata": "Q89270556",
+        "wikipedia": "de:Richardstraße (Berlin)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4458295,
+            52.472439
+          ],
+          [
+            13.4457495,
+            52.4726779
+          ],
+          [
+            13.4456839,
+            52.4728736
+          ],
+          [
+            13.4456778,
+            52.4728918
+          ],
+          [
+            13.4455927,
+            52.4731465
+          ],
+          [
+            13.4455711,
+            52.4732111
+          ],
+          [
+            13.4455392,
+            52.4733156
+          ],
+          [
+            13.4455249,
+            52.4733566
+          ],
+          [
+            13.4454486,
+            52.4735751
+          ],
+          [
+            13.4454048,
+            52.4737085
+          ],
+          [
+            13.4453535,
+            52.4738649
+          ],
+          [
+            13.4453447,
+            52.4738853
+          ],
+          [
+            13.4453358,
+            52.4739056
+          ],
+          [
+            13.4452952,
+            52.4739612
+          ]
+        ]
+      },
+      "id": "way/137720668"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/137720672",
+        "cycleway:both": "no",
+        "highway": "residential",
+        "lane_markings": "no",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Richardstraße",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "parking:lane:both": "no",
+        "postal_code": "12043",
+        "sidewalk": "both",
+        "surface": "sett",
+        "wikidata": "Q89270556",
+        "wikipedia": "de:Richardstraße (Berlin)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4445885,
+            52.4748665
+          ],
+          [
+            13.4445381,
+            52.4749368
+          ],
+          [
+            13.4444806,
+            52.4750071
+          ],
+          [
+            13.4444533,
+            52.4750412
+          ]
+        ]
+      },
+      "id": "way/137720672"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/137720676",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Schudomastraße",
+        "name:etymology:wikidata": "Q99519717",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "oneway": "no",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4491706,
+            52.4740914
+          ],
+          [
+            13.4486973,
+            52.4741623
+          ],
+          [
+            13.4479962,
+            52.4742674
+          ],
+          [
+            13.4477505,
+            52.4743042
+          ],
+          [
+            13.4475839,
+            52.4743305
+          ]
+        ]
+      },
+      "id": "way/137720676"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/137720679",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Schudomastraße",
+        "name:etymology:wikidata": "Q99519717",
+        "oneway": "no",
+        "parking:lane:both": "no",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4493214,
+            52.474069
+          ],
+          [
+            13.4491706,
+            52.4740914
+          ]
+        ]
+      },
+      "id": "way/137720679"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/137720685",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Zwiestädter Straße",
+        "name:etymology:wikidata": "Q1659834",
+        "name:etymology:wikipedia": "de:Köllnische Heide",
+        "parking:lane:both": "no",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4483975,
+            52.4731166
+          ],
+          [
+            13.4485234,
+            52.4730417
+          ]
+        ]
+      },
+      "id": "way/137720685"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/142158166",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Richardplatz",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "sett",
+        "wikidata": "Q1688914",
+        "wikipedia": "de:Richardplatz"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4470669,
+            52.4746009
+          ],
+          [
+            13.4470242,
+            52.4746066
+          ],
+          [
+            13.4469987,
+            52.4746063
+          ],
+          [
+            13.4469819,
+            52.4746061
+          ],
+          [
+            13.4469295,
+            52.474599
+          ]
+        ]
+      },
+      "id": "way/142158166"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/155595024",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Zwiestädter Straße",
+        "name:etymology:wikidata": "Q1659834",
+        "name:etymology:wikipedia": "de:Köllnische Heide",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:condition:left": "free",
+        "parking:condition:right": "free",
+        "parking:lane:left": "diagonal",
+        "parking:lane:left:diagonal": "on_street",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4471294,
+            52.4739277
+          ],
+          [
+            13.4478112,
+            52.4734913
+          ],
+          [
+            13.4479595,
+            52.4733965
+          ],
+          [
+            13.4481283,
+            52.4732918
+          ],
+          [
+            13.4483975,
+            52.4731166
+          ]
+        ]
+      },
+      "id": "way/155595024"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/240272612",
+        "highway": "service"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4522081,
+            52.4756309
+          ],
+          [
+            13.4519465,
+            52.4754425
+          ],
+          [
+            13.4518849,
+            52.4755137
+          ],
+          [
+            13.4516806,
+            52.4754495
+          ],
+          [
+            13.4514633,
+            52.475384
+          ],
+          [
+            13.4516662,
+            52.4751179
+          ],
+          [
+            13.4507835,
+            52.4748844
+          ],
+          [
+            13.4506023,
+            52.4751296
+          ]
+        ]
+      },
+      "id": "way/240272612"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/266920621",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Hertzbergstraße",
+        "name:etymology:wikidata": "Q62565",
+        "name:etymology:wikipedia": "de:Ewald Friedrich von Hertzberg",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:condition:left": "free",
+        "parking:condition:right": "free",
+        "parking:lane:left": "parallel",
+        "parking:lane:left:parallel": "on_street",
+        "parking:lane:right": "diagonal",
+        "parking:lane:right:diagonal": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4472096,
+            52.4750741
+          ],
+          [
+            13.4472226,
+            52.4751153
+          ],
+          [
+            13.4472361,
+            52.4751584
+          ],
+          [
+            13.4472568,
+            52.4752243
+          ],
+          [
+            13.4472611,
+            52.475238
+          ],
+          [
+            13.4472928,
+            52.475339
+          ],
+          [
+            13.4473192,
+            52.4754227
+          ],
+          [
+            13.4473485,
+            52.4755161
+          ],
+          [
+            13.4473735,
+            52.4755957
+          ],
+          [
+            13.4473803,
+            52.4756159
+          ],
+          [
+            13.4473832,
+            52.4756245
+          ],
+          [
+            13.4474081,
+            52.4757059
+          ],
+          [
+            13.4474393,
+            52.4758051
+          ],
+          [
+            13.4475044,
+            52.4759844
+          ],
+          [
+            13.4475223,
+            52.4760345
+          ],
+          [
+            13.4475503,
+            52.4761128
+          ]
+        ]
+      },
+      "id": "way/266920621"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/268266090",
+        "access": "permissive",
+        "highway": "service",
+        "lit": "no",
+        "service": "driveway",
+        "surface": "cobblestone"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4481837,
+            52.474859
+          ],
+          [
+            13.448138,
+            52.4748494
+          ],
+          [
+            13.4479787,
+            52.4748757
+          ],
+          [
+            13.4476472,
+            52.4748375
+          ],
+          [
+            13.4472849,
+            52.4747214
+          ],
+          [
+            13.447085,
+            52.4746631
+          ]
+        ]
+      },
+      "id": "way/268266090"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062976",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4461721,
+            52.4740457
+          ],
+          [
+            13.446199,
+            52.4739449
+          ],
+          [
+            13.4461834,
+            52.4738125
+          ],
+          [
+            13.4461659,
+            52.4737405
+          ],
+          [
+            13.4462693,
+            52.4735471
+          ],
+          [
+            13.4463988,
+            52.4735357
+          ],
+          [
+            13.446451,
+            52.4734114
+          ],
+          [
+            13.4464559,
+            52.4733371
+          ],
+          [
+            13.4464598,
+            52.4732771
+          ],
+          [
+            13.4465603,
+            52.4730851
+          ]
+        ]
+      },
+      "id": "way/334062976"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062977",
+        "access": "private",
+        "covered": "yes",
+        "highway": "service",
+        "layer": "-1",
+        "service": "driveway",
+        "tunnel": "building_passage"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4457922,
+            52.4729067
+          ],
+          [
+            13.4459991,
+            52.4729336
+          ]
+        ]
+      },
+      "id": "way/334062977"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062978",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4454486,
+            52.4735751
+          ],
+          [
+            13.4455649,
+            52.4735888
+          ]
+        ]
+      },
+      "id": "way/334062978"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062979",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4457479,
+            52.4736123
+          ],
+          [
+            13.4457752,
+            52.4735334
+          ]
+        ]
+      },
+      "id": "way/334062979"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062980",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4463468,
+            52.4725849
+          ],
+          [
+            13.446185,
+            52.472563
+          ],
+          [
+            13.4462112,
+            52.4724776
+          ]
+        ]
+      },
+      "id": "way/334062980"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062983",
+        "access": "private",
+        "covered": "yes",
+        "highway": "service",
+        "service": "driveway",
+        "tunnel": "building_passage"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4455649,
+            52.4735888
+          ],
+          [
+            13.4456547,
+            52.4736004
+          ]
+        ]
+      },
+      "id": "way/334062983"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062984",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4459991,
+            52.4729336
+          ],
+          [
+            13.4463526,
+            52.4729784
+          ]
+        ]
+      },
+      "id": "way/334062984"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062985",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4462195,
+            52.4732999
+          ],
+          [
+            13.4464559,
+            52.4733371
+          ]
+        ]
+      },
+      "id": "way/334062985"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062986",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4462112,
+            52.4724776
+          ],
+          [
+            13.4462386,
+            52.4723883
+          ]
+        ]
+      },
+      "id": "way/334062986"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062987",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4456778,
+            52.4728918
+          ],
+          [
+            13.4457415,
+            52.4729001
+          ],
+          [
+            13.4457922,
+            52.4729067
+          ]
+        ]
+      },
+      "id": "way/334062987"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062990",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4456547,
+            52.4736004
+          ],
+          [
+            13.4457479,
+            52.4736123
+          ],
+          [
+            13.4457237,
+            52.4736824
+          ]
+        ]
+      },
+      "id": "way/334062990"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062991",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4463207,
+            52.473034
+          ],
+          [
+            13.4463526,
+            52.4729784
+          ],
+          [
+            13.4465876,
+            52.4725691
+          ],
+          [
+            13.4468907,
+            52.4726337
+          ],
+          [
+            13.4466238,
+            52.4730986
+          ],
+          [
+            13.4465603,
+            52.4730851
+          ],
+          [
+            13.4463207,
+            52.473034
+          ]
+        ]
+      },
+      "id": "way/334062991"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/334062992",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4472116,
+            52.4744903
+          ],
+          [
+            13.4474008,
+            52.4745169
+          ],
+          [
+            13.4475965,
+            52.4745427
+          ]
+        ]
+      },
+      "id": "way/334062992"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/377881913",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway",
+        "tunnel": "yes"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4475965,
+            52.4745427
+          ],
+          [
+            13.4477744,
+            52.4745687
+          ]
+        ]
+      },
+      "id": "way/377881913"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/377881914",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4477744,
+            52.4745687
+          ],
+          [
+            13.4478927,
+            52.4746161
+          ],
+          [
+            13.4481603,
+            52.4746957
+          ],
+          [
+            13.4483206,
+            52.4747229
+          ],
+          [
+            13.448492,
+            52.4747443
+          ],
+          [
+            13.4487604,
+            52.474693
+          ],
+          [
+            13.4492799,
+            52.4747451
+          ],
+          [
+            13.4494197,
+            52.4747552
+          ]
+        ]
+      },
+      "id": "way/377881914"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/488351331",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Richardstraße",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12043",
+        "sidewalk": "both",
+        "surface": "sett",
+        "wikidata": "Q89270556",
+        "wikipedia": "de:Richardstraße (Berlin)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4444533,
+            52.4750412
+          ],
+          [
+            13.4443824,
+            52.4751368
+          ],
+          [
+            13.4443679,
+            52.4751669
+          ],
+          [
+            13.4443365,
+            52.4752098
+          ],
+          [
+            13.4442673,
+            52.4752571
+          ],
+          [
+            13.4442456,
+            52.4752719
+          ],
+          [
+            13.4441072,
+            52.4753555
+          ],
+          [
+            13.4440034,
+            52.4754182
+          ],
+          [
+            13.4437371,
+            52.475579
+          ],
+          [
+            13.4437099,
+            52.4755954
+          ],
+          [
+            13.4434923,
+            52.4757268
+          ],
+          [
+            13.4433853,
+            52.4757914
+          ]
+        ]
+      },
+      "id": "way/488351331"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/560518046",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4464741,
+            52.4745951
+          ],
+          [
+            13.4465466,
+            52.4744957
+          ]
+        ]
+      },
+      "id": "way/560518046"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/560518048",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway",
+        "tunnel": "building_passage"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4463978,
+            52.4747001
+          ],
+          [
+            13.4464741,
+            52.4745951
+          ]
+        ]
+      },
+      "id": "way/560518048"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/560518050",
+        "access": "private",
+        "highway": "service",
+        "maxweight": "2.5",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4463361,
+            52.4752587
+          ],
+          [
+            13.44632,
+            52.4748103
+          ],
+          [
+            13.4463277,
+            52.4747874
+          ],
+          [
+            13.4463514,
+            52.4747564
+          ]
+        ]
+      },
+      "id": "way/560518050"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/560518052",
+        "access": "private",
+        "highway": "service",
+        "service": "parking_aisle"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4463731,
+            52.4749067
+          ],
+          [
+            13.4463691,
+            52.474811
+          ],
+          [
+            13.4463514,
+            52.4747564
+          ]
+        ]
+      },
+      "id": "way/560518052"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/568587810",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4445689,
+            52.4740883
+          ],
+          [
+            13.4445475,
+            52.4742122
+          ],
+          [
+            13.4445211,
+            52.4743258
+          ],
+          [
+            13.4445083,
+            52.4743585
+          ],
+          [
+            13.4444778,
+            52.4744134
+          ]
+        ]
+      },
+      "id": "way/568587810"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/627826013",
+        "highway": "residential",
+        "lanes": "2",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Böhmische Straße",
+        "name:etymology:wikidata": "Q39193",
+        "name:etymology:wikipedia": "de:Böhmen",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4465193,
+            52.4724219
+          ],
+          [
+            13.4464997,
+            52.4724195
+          ],
+          [
+            13.4462386,
+            52.4723883
+          ],
+          [
+            13.4458535,
+            52.4723424
+          ]
+        ]
+      },
+      "id": "way/627826013"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/627826014",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Böhmische Straße",
+        "name:etymology:wikidata": "Q39193",
+        "name:etymology:wikipedia": "de:Böhmen",
+        "parking:condition:both": "free",
+        "parking:lane:left": "diagonal",
+        "parking:lane:left:diagonal": "on_street",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4472981,
+            52.4725456
+          ],
+          [
+            13.4468511,
+            52.4724625
+          ],
+          [
+            13.4465193,
+            52.4724219
+          ]
+        ]
+      },
+      "id": "way/627826014"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/627826015",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Böhmische Straße",
+        "name:etymology:wikidata": "Q39193",
+        "name:etymology:wikipedia": "de:Böhmen",
+        "parking:condition:left": "free",
+        "parking:lane:left": "parallel",
+        "parking:lane:left:parallel": "on_street",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4475586,
+            52.4726096
+          ],
+          [
+            13.4474122,
+            52.4725721
+          ],
+          [
+            13.447381,
+            52.4725648
+          ],
+          [
+            13.4472981,
+            52.4725456
+          ]
+        ]
+      },
+      "id": "way/627826015"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/627826017",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Böhmische Straße",
+        "name:etymology:wikidata": "Q39193",
+        "name:etymology:wikipedia": "de:Böhmen",
+        "parking:condition:both": "free",
+        "parking:lane:left": "diagonal",
+        "parking:lane:left:diagonal": "on_street",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4482734,
+            52.4728322
+          ],
+          [
+            13.4482249,
+            52.4727916
+          ],
+          [
+            13.4480281,
+            52.4727378
+          ],
+          [
+            13.4475586,
+            52.4726096
+          ]
+        ]
+      },
+      "id": "way/627826017"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/627841672",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Schudomastraße",
+        "name:etymology:wikidata": "Q99519717",
+        "oneway": "no",
+        "parking:condition:left": "free",
+        "parking:condition:right": "free",
+        "parking:lane:left": "parallel",
+        "parking:lane:left:parallel": "on_street",
+        "parking:lane:right": "diagonal",
+        "parking:lane:right:diagonal": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4524817,
+            52.4728499
+          ],
+          [
+            13.4523943,
+            52.4729045
+          ],
+          [
+            13.452332,
+            52.4729434
+          ],
+          [
+            13.4516962,
+            52.4732665
+          ],
+          [
+            13.4509964,
+            52.4736222
+          ],
+          [
+            13.4509744,
+            52.4736335
+          ],
+          [
+            13.4508706,
+            52.473687
+          ]
+        ]
+      },
+      "id": "way/627841672"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/627841673",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Schudomastraße",
+        "name:etymology:wikidata": "Q99519717",
+        "oneway": "no",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4508706,
+            52.473687
+          ],
+          [
+            13.4507574,
+            52.4737151
+          ],
+          [
+            13.4495852,
+            52.4740065
+          ],
+          [
+            13.4493214,
+            52.474069
+          ]
+        ]
+      },
+      "id": "way/627841673"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/627841676",
+        "cycleway:both": "no",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Richardstraße",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "oneway": "no",
+        "parking:lane:both": "no",
+        "postal_code": "12055",
+        "sidewalk": "right",
+        "surface": "sett",
+        "wikidata": "Q89270556",
+        "wikipedia": "de:Richardstraße (Berlin)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4451518,
+            52.4741306
+          ],
+          [
+            13.4452303,
+            52.4740422
+          ],
+          [
+            13.4452952,
+            52.4739612
+          ]
+        ]
+      },
+      "id": "way/627841676"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/636225662",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4493712,
+            52.4749742
+          ],
+          [
+            13.449513,
+            52.4749972
+          ],
+          [
+            13.4496701,
+            52.4750252
+          ],
+          [
+            13.4497385,
+            52.4750325
+          ],
+          [
+            13.4497751,
+            52.4750239
+          ],
+          [
+            13.4497913,
+            52.4750017
+          ],
+          [
+            13.4498402,
+            52.4748134
+          ],
+          [
+            13.4495479,
+            52.4747834
+          ],
+          [
+            13.4494164,
+            52.47477
+          ]
+        ]
+      },
+      "id": "way/636225662"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/636556813",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4473306,
+            52.4726393
+          ],
+          [
+            13.447381,
+            52.4725648
+          ]
+        ]
+      },
+      "id": "way/636556813"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/686796477",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Böhmische Straße",
+        "name:etymology:wikidata": "Q39193",
+        "name:etymology:wikipedia": "de:Böhmen",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4491404,
+            52.4735625
+          ],
+          [
+            13.449082,
+            52.4735151
+          ],
+          [
+            13.448649,
+            52.4731475
+          ],
+          [
+            13.4486041,
+            52.4731097
+          ],
+          [
+            13.4485234,
+            52.4730417
+          ],
+          [
+            13.4482963,
+            52.4728514
+          ],
+          [
+            13.4482734,
+            52.4728322
+          ]
+        ]
+      },
+      "id": "way/686796477"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/686796478",
+        "bicycle": "yes",
+        "highway": "pedestrian",
+        "lit": "yes",
+        "motor_vehicle": "no",
+        "name": "Böhmische Straße",
+        "name:etymology:wikidata": "Q39193",
+        "name:etymology:wikipedia": "de:Böhmen",
+        "parking:lane:both": "no",
+        "postal_code": "12055",
+        "sidewalk": "right",
+        "smoothness": "good",
+        "surface": "asphalt",
+        "traffic_sign": "DE:242,1022-10"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4493214,
+            52.474069
+          ],
+          [
+            13.4493078,
+            52.4740323
+          ],
+          [
+            13.4493062,
+            52.4740269
+          ],
+          [
+            13.4492884,
+            52.4739795
+          ],
+          [
+            13.4491667,
+            52.4736403
+          ],
+          [
+            13.4491535,
+            52.4736015
+          ],
+          [
+            13.4491514,
+            52.4735951
+          ],
+          [
+            13.4491404,
+            52.4735625
+          ]
+        ]
+      },
+      "id": "way/686796478"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/725698446",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4506949,
+            52.4747193
+          ],
+          [
+            13.450622,
+            52.4747992
+          ],
+          [
+            13.4505712,
+            52.4748884
+          ],
+          [
+            13.4504381,
+            52.4749705
+          ],
+          [
+            13.4503796,
+            52.4750704
+          ],
+          [
+            13.4503542,
+            52.4750899
+          ],
+          [
+            13.4503174,
+            52.4751035
+          ],
+          [
+            13.4502535,
+            52.4751077
+          ],
+          [
+            13.4500102,
+            52.4750743
+          ]
+        ]
+      },
+      "id": "way/725698446"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/773861972",
+        "highway": "service",
+        "service": "driveway",
+        "surface": "sett",
+        "width": "3.5"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4444806,
+            52.4750071
+          ],
+          [
+            13.4444401,
+            52.4749964
+          ],
+          [
+            13.4443464,
+            52.47497
+          ]
+        ]
+      },
+      "id": "way/773861972"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/775078324",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4471009,
+            52.4751272
+          ],
+          [
+            13.4472226,
+            52.4751153
+          ]
+        ]
+      },
+      "id": "way/775078324"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/775078325",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.447398,
+            52.4748928
+          ],
+          [
+            13.447321,
+            52.4748721
+          ],
+          [
+            13.4472551,
+            52.4748591
+          ],
+          [
+            13.4471462,
+            52.4748688
+          ]
+        ]
+      },
+      "id": "way/775078325"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/775078330",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4470438,
+            52.4749415
+          ],
+          [
+            13.4471651,
+            52.474928
+          ]
+        ]
+      },
+      "id": "way/775078330"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/783357897",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Richardplatz",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "sett",
+        "wikidata": "Q1688914",
+        "wikipedia": "de:Richardplatz"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4439133,
+            52.4738131
+          ],
+          [
+            13.4441187,
+            52.4738349
+          ],
+          [
+            13.4445135,
+            52.4738728
+          ],
+          [
+            13.444628,
+            52.4738871
+          ],
+          [
+            13.4448106,
+            52.4739077
+          ],
+          [
+            13.4450678,
+            52.4739362
+          ],
+          [
+            13.4452952,
+            52.4739612
+          ]
+        ]
+      },
+      "id": "way/783357897"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/783665216",
+        "cycleway:both": "no",
+        "description": "bis 1909 \"Mala ulicka\" genannt",
+        "highway": "residential",
+        "lane_markings": "no",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Kirchgasse",
+        "name:etymology:wikidata": "Q16970",
+        "name:etymology:wikipedia": "de:Kirche (Bauwerk)",
+        "old_name": "Mala ulicka",
+        "parking:condition:right": "free",
+        "parking:lane:left": "no_parking",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12043",
+        "sidewalk": "both",
+        "smoothness": "bad",
+        "surface": "sett",
+        "wikipedia": "de:Kirchgasse (Berlin-Neukölln)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4445381,
+            52.4749368
+          ],
+          [
+            13.4446293,
+            52.4749707
+          ],
+          [
+            13.4448799,
+            52.4750887
+          ],
+          [
+            13.4449336,
+            52.475114
+          ],
+          [
+            13.4450662,
+            52.4751764
+          ],
+          [
+            13.4450997,
+            52.4751928
+          ],
+          [
+            13.4453571,
+            52.4753185
+          ]
+        ]
+      },
+      "id": "way/783665216"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/785350765",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4511875,
+            52.4747713
+          ],
+          [
+            13.4508683,
+            52.4747131
+          ],
+          [
+            13.4507116,
+            52.4746845
+          ]
+        ]
+      },
+      "id": "way/785350765"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/785350781",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4502232,
+            52.4730595
+          ],
+          [
+            13.4501017,
+            52.4730104
+          ]
+        ]
+      },
+      "id": "way/785350781"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/785350782",
+        "highway": "service",
+        "service": "driveway",
+        "tunnel": "building_passage"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.450385,
+            52.4731248
+          ],
+          [
+            13.4502232,
+            52.4730595
+          ]
+        ]
+      },
+      "id": "way/785350782"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/785350783",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4504281,
+            52.4731422
+          ],
+          [
+            13.450385,
+            52.4731248
+          ]
+        ]
+      },
+      "id": "way/785350783"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/785350784",
+        "cycleway:both": "no",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Niemetzstraße",
+        "name:etymology:wikidata": "Q99519643",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4495616,
+            52.4734929
+          ],
+          [
+            13.4497168,
+            52.4733543
+          ]
+        ]
+      },
+      "id": "way/785350784"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/785350785",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Zwiestädter Straße",
+        "name:etymology:wikidata": "Q1659834",
+        "name:etymology:wikipedia": "de:Köllnische Heide",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:lane:both": "no_stopping",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "sett"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4468616,
+            52.4741147
+          ],
+          [
+            13.4469731,
+            52.4740277
+          ],
+          [
+            13.4470221,
+            52.4739964
+          ]
+        ]
+      },
+      "id": "way/785350785"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/785350819",
+        "cycleway:both": "no",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Niemetzstraße",
+        "name:etymology:wikidata": "Q99519643",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4509119,
+            52.4722883
+          ],
+          [
+            13.4512126,
+            52.4720182
+          ],
+          [
+            13.451283,
+            52.4719553
+          ]
+        ]
+      },
+      "id": "way/785350819"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/785350820",
+        "cycleway:both": "no",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "30",
+        "name": "Niemetzstraße",
+        "name:etymology:wikidata": "Q99519643",
+        "parking:condition:right": "no_parking",
+        "parking:condition:right:default": "free",
+        "parking:condition:right:time_interval": "Mo-Fr 07:00-17:00",
+        "parking:lane:left": "no_stopping",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4491404,
+            52.4735625
+          ],
+          [
+            13.4494154,
+            52.4735342
+          ],
+          [
+            13.4494922,
+            52.4735244
+          ],
+          [
+            13.4495234,
+            52.4735149
+          ],
+          [
+            13.4495616,
+            52.4734929
+          ]
+        ]
+      },
+      "id": "way/785350820"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/791353174",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4479318,
+            52.4735597
+          ],
+          [
+            13.4478112,
+            52.4734913
+          ]
+        ]
+      },
+      "id": "way/791353174"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/791353175",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4478764,
+            52.4733488
+          ],
+          [
+            13.4479595,
+            52.4733965
+          ]
+        ]
+      },
+      "id": "way/791353175"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/807752976",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4449438,
+            52.475035
+          ],
+          [
+            13.4448799,
+            52.4750887
+          ]
+        ]
+      },
+      "id": "way/807752976"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/807759760",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4455199,
+            52.4737218
+          ],
+          [
+            13.4454048,
+            52.4737085
+          ]
+        ]
+      },
+      "id": "way/807759760"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/807759761",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4454115,
+            52.4733431
+          ],
+          [
+            13.4455249,
+            52.4733566
+          ]
+        ]
+      },
+      "id": "way/807759761"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/808840460",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4456839,
+            52.4728736
+          ],
+          [
+            13.4457476,
+            52.4728816
+          ],
+          [
+            13.4457981,
+            52.4728892
+          ]
+        ]
+      },
+      "id": "way/808840460"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/838663173",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4491375,
+            52.4749172
+          ],
+          [
+            13.4492309,
+            52.4749291
+          ],
+          [
+            13.4492951,
+            52.4749372
+          ],
+          [
+            13.4493771,
+            52.4749476
+          ]
+        ]
+      },
+      "id": "way/838663173"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/840456625",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Richardplatz",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:condition:right": "free",
+        "parking:lane:left": "no_stopping",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "sett",
+        "wikidata": "Q1688914",
+        "wikipedia": "de:Richardplatz"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4451518,
+            52.4741306
+          ],
+          [
+            13.4450599,
+            52.4741146
+          ],
+          [
+            13.4450058,
+            52.4741063
+          ],
+          [
+            13.4449815,
+            52.4741025
+          ],
+          [
+            13.4449139,
+            52.4740972
+          ],
+          [
+            13.444778,
+            52.4740937
+          ],
+          [
+            13.4445689,
+            52.4740883
+          ],
+          [
+            13.4444661,
+            52.4740857
+          ]
+        ]
+      },
+      "id": "way/840456625"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/841272044",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4498914,
+            52.4730538
+          ],
+          [
+            13.4499393,
+            52.4730742
+          ],
+          [
+            13.450001,
+            52.4731004
+          ]
+        ]
+      },
+      "id": "way/841272044"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/841272045",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4501162,
+            52.4728516
+          ],
+          [
+            13.4501633,
+            52.4728721
+          ],
+          [
+            13.4502261,
+            52.4728995
+          ]
+        ]
+      },
+      "id": "way/841272045"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/851929402",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Zwiestädter Straße",
+        "name:etymology:wikidata": "Q1659834",
+        "name:etymology:wikipedia": "de:Köllnische Heide",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:condition:left": "free",
+        "parking:condition:right": "free",
+        "parking:lane:left": "diagonal",
+        "parking:lane:left:diagonal": "on_street",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "sett"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4470221,
+            52.4739964
+          ],
+          [
+            13.4471294,
+            52.4739277
+          ]
+        ]
+      },
+      "id": "way/851929402"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858571392",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4451908,
+            52.4723099
+          ],
+          [
+            13.4452525,
+            52.472118
+          ]
+        ]
+      },
+      "id": "way/858571392"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858571398",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4443189,
+            52.4722425
+          ],
+          [
+            13.4443572,
+            52.4721219
+          ],
+          [
+            13.4443565,
+            52.4720301
+          ],
+          [
+            13.4443936,
+            52.471915
+          ],
+          [
+            13.4444149,
+            52.4718423
+          ]
+        ]
+      },
+      "id": "way/858571398"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858659608",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4443662,
+            52.4741972
+          ],
+          [
+            13.4443864,
+            52.4740837
+          ]
+        ]
+      },
+      "id": "way/858659608"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858659609",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway",
+        "tunnel": "building_passage"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4443409,
+            52.47432
+          ],
+          [
+            13.4443662,
+            52.4741972
+          ]
+        ]
+      },
+      "id": "way/858659609"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858659610",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4442421,
+            52.4745241
+          ],
+          [
+            13.4443409,
+            52.47432
+          ]
+        ]
+      },
+      "id": "way/858659610"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858659612",
+        "highway": "service",
+        "service": "emergency_access"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4454788,
+            52.4731316
+          ],
+          [
+            13.4455927,
+            52.4731465
+          ]
+        ]
+      },
+      "id": "way/858659612"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858659613",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4458639,
+            52.4726917
+          ],
+          [
+            13.4457495,
+            52.4726779
+          ]
+        ]
+      },
+      "id": "way/858659613"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858659625",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Hertzbergstraße",
+        "name:etymology:wikidata": "Q62565",
+        "name:etymology:wikipedia": "de:Ewald Friedrich von Hertzberg",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:lane:both": "no_stopping",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "sett"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4470669,
+            52.4746009
+          ],
+          [
+            13.447085,
+            52.4746631
+          ],
+          [
+            13.4470935,
+            52.4746975
+          ],
+          [
+            13.4471104,
+            52.4747526
+          ]
+        ]
+      },
+      "id": "way/858659625"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858659626",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Schudomastraße",
+        "name:etymology:wikidata": "Q99519717",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "oneway": "no",
+        "parking:lane:both": "no_stopping",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "asphalt"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4475839,
+            52.4743305
+          ],
+          [
+            13.4473848,
+            52.4743619
+          ],
+          [
+            13.4472983,
+            52.4743694
+          ],
+          [
+            13.4472322,
+            52.4743699
+          ]
+        ]
+      },
+      "id": "way/858659626"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858659629",
+        "cycleway:both": "no",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Richardplatz",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:condition:right": "free",
+        "parking:lane:left": "no_stopping",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "sett",
+        "wikidata": "Q1688914",
+        "wikipedia": "de:Richardplatz"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4453841,
+            52.4741867
+          ],
+          [
+            13.445321,
+            52.4741702
+          ],
+          [
+            13.4452917,
+            52.4741625
+          ],
+          [
+            13.4451518,
+            52.4741306
+          ]
+        ]
+      },
+      "id": "way/858659629"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858659630",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Richardplatz",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:condition:both": "free",
+        "parking:lane:both": "parallel",
+        "parking:lane:both:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "surface": "sett",
+        "wikidata": "Q1688914",
+        "wikipedia": "de:Richardplatz"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4444661,
+            52.4740857
+          ],
+          [
+            13.4443864,
+            52.4740837
+          ],
+          [
+            13.4438892,
+            52.4740709
+          ],
+          [
+            13.4437876,
+            52.4740683
+          ]
+        ]
+      },
+      "id": "way/858659630"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858659632",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway",
+        "tunnel": "building_passage"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4447709,
+            52.4736572
+          ],
+          [
+            13.4447059,
+            52.4737524
+          ]
+        ]
+      },
+      "id": "way/858659632"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858659633",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4448484,
+            52.4735438
+          ],
+          [
+            13.4447709,
+            52.4736572
+          ]
+        ]
+      },
+      "id": "way/858659633"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/858659634",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4447059,
+            52.4737524
+          ],
+          [
+            13.4446566,
+            52.4738222
+          ],
+          [
+            13.4446437,
+            52.4738515
+          ],
+          [
+            13.444628,
+            52.4738871
+          ]
+        ]
+      },
+      "id": "way/858659634"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/859338985",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4487137,
+            52.4730598
+          ],
+          [
+            13.4486041,
+            52.4731097
+          ]
+        ]
+      },
+      "id": "way/859338985"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/862835940",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4467471,
+            52.4750694
+          ],
+          [
+            13.4467679,
+            52.4751664
+          ],
+          [
+            13.4469415,
+            52.4751459
+          ]
+        ]
+      },
+      "id": "way/862835940"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/862835941",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4463514,
+            52.4747564
+          ],
+          [
+            13.4463978,
+            52.4747001
+          ]
+        ]
+      },
+      "id": "way/862835941"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/862835942",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.445953,
+            52.4746256
+          ],
+          [
+            13.4459591,
+            52.4745849
+          ],
+          [
+            13.4460455,
+            52.4744444
+          ],
+          [
+            13.4460924,
+            52.4743721
+          ]
+        ]
+      },
+      "id": "way/862835942"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/862835943",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4458107,
+            52.4744373
+          ],
+          [
+            13.4458943,
+            52.4743203
+          ]
+        ]
+      },
+      "id": "way/862835943"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/867868153",
+        "highway": "residential",
+        "lit": "yes",
+        "maxspeed": "20",
+        "name": "Richardplatz",
+        "name:etymology:wikidata": "Q1249148",
+        "name:etymology:wikipedia": "de:Richard",
+        "note": "Tempo 20-Zone, keine \"Spielstraße\"",
+        "parking:condition:right": "free",
+        "parking:lane:left": "separate",
+        "parking:lane:right": "parallel",
+        "parking:lane:right:parallel": "on_street",
+        "postal_code": "12055",
+        "sidewalk": "both",
+        "smoothness": "intermediate",
+        "surface": "sett",
+        "wikidata": "Q1688914",
+        "wikipedia": "de:Richardplatz"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4469295,
+            52.474599
+          ],
+          [
+            13.4465466,
+            52.4744957
+          ],
+          [
+            13.4464428,
+            52.474467
+          ],
+          [
+            13.4463513,
+            52.4744418
+          ],
+          [
+            13.4462382,
+            52.4744113
+          ],
+          [
+            13.4461171,
+            52.4743786
+          ],
+          [
+            13.4460924,
+            52.4743721
+          ],
+          [
+            13.4460754,
+            52.4743677
+          ],
+          [
+            13.4458943,
+            52.4743203
+          ],
+          [
+            13.4453841,
+            52.4741867
+          ]
+        ]
+      },
+      "id": "way/867868153"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/895074249",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4443464,
+            52.47497
+          ],
+          [
+            13.4442438,
+            52.4749483
+          ],
+          [
+            13.4441675,
+            52.4749446
+          ],
+          [
+            13.4439539,
+            52.4749727
+          ],
+          [
+            13.4437936,
+            52.4749518
+          ]
+        ]
+      },
+      "id": "way/895074249"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/895976636",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway",
+        "tunnel": "building_passage"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4475676,
+            52.47494
+          ],
+          [
+            13.447398,
+            52.4748928
+          ]
+        ]
+      },
+      "id": "way/895976636"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/895976637",
+        "access": "private",
+        "highway": "service",
+        "service": "driveway"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            13.4480381,
+            52.4750985
+          ],
+          [
+            13.4476765,
+            52.4749722
+          ],
+          [
+            13.4475676,
+            52.47494
+          ]
+        ]
+      },
+      "id": "way/895976637"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/599873459",
+        "crossing": "unmarked",
+        "crossing:kerb_extension": "both",
+        "highway": "crossing",
+        "mapillary": "6F9i46EkYYShKc0ZOjchWA",
+        "survey:date": "2017-12-31",
+        "tactile_paving": "yes",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4470935,
+          52.4746975
+        ]
+      },
+      "id": "node/599873459"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/599873462",
+        "crossing": "unmarked",
+        "crossing:kerb_extension": "both",
+        "highway": "crossing",
+        "tactile_paving": "yes",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4463513,
+          52.4744418
+        ]
+      },
+      "id": "node/599873462"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/599873587",
+        "crossing": "unmarked",
+        "crossing:kerb_extension": "both",
+        "highway": "crossing",
+        "tactile_paving": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4455711,
+          52.4732111
+        ]
+      },
+      "id": "node/599873587"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1510268172",
+        "crossing": "unmarked",
+        "crossing:kerb_extension": "left",
+        "highway": "crossing",
+        "maxwidth": "4"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4483975,
+          52.4731166
+        ]
+      },
+      "id": "node/1510268172"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1510268186",
+        "crossing": "uncontrolled",
+        "crossing:island": "no",
+        "highway": "crossing",
+        "kerb": "lowered",
+        "maxwidth": "2",
+        "tactile_paving": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4445885,
+          52.4748665
+        ]
+      },
+      "id": "node/1510268186"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1942768137",
+        "crossing": "unmarked",
+        "highway": "crossing"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4465514,
+          52.4740838
+        ]
+      },
+      "id": "node/1942768137"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2280087748",
+        "crossing": "unmarked",
+        "crossing:kerb_extension": "both",
+        "highway": "crossing"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.449082,
+          52.4735151
+        ]
+      },
+      "id": "node/2280087748"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4841567213",
+        "crossing": "uncontrolled",
+        "crossing:island": "no",
+        "highway": "crossing",
+        "tactile_paving": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4446293,
+          52.4749707
+        ]
+      },
+      "id": "node/4841567213"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5168830155",
+        "crossing": "unmarked",
+        "highway": "crossing"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4472228,
+          52.4744411
+        ]
+      },
+      "id": "node/5168830155"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5407135425",
+        "crossing": "unmarked",
+        "crossing:kerb_extension": "both",
+        "highway": "crossing"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.448649,
+          52.4731475
+        ]
+      },
+      "id": "node/5407135425"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5407135584",
+        "crossing": "unmarked",
+        "crossing:kerb_extension": "right",
+        "highway": "crossing"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4495234,
+          52.4735149
+        ]
+      },
+      "id": "node/5407135584"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5407136755",
+        "crossing": "uncontrolled",
+        "highway": "crossing",
+        "kerb": "flush",
+        "mapillary": "-O7pBQJxOoIt5Daokz-9vQ",
+        "survey:date": "2017-12-30",
+        "tactile_paving": "yes",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4469731,
+          52.4740277
+        ]
+      },
+      "id": "node/5407136755"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5407136800",
+        "crossing": "unmarked",
+        "highway": "crossing",
+        "kerb": "lowered",
+        "mapillary": "tkco0paM3CB2JG0GnSY40Q",
+        "survey:date": "2017-12-30",
+        "tactile_paving": "yes",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4473848,
+          52.4743619
+        ]
+      },
+      "id": "node/5407136800"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5470067136",
+        "crossing": "unmarked",
+        "crossing:island": "no",
+        "highway": "crossing",
+        "tactile_paving": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.444778,
+          52.4740937
+        ]
+      },
+      "id": "node/5470067136"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5767276893",
+        "crossing": "unmarked",
+        "crossing:island": "no",
+        "highway": "crossing",
+        "mapillary": "Ds4BlUC_Q5AR1aiP4-eFpQ",
+        "survey:date": "2018-07-07",
+        "tactile_paving": "no",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4450678,
+          52.4739362
+        ]
+      },
+      "id": "node/5767276893"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5767276894",
+        "crossing": "unmarked",
+        "crossing:island": "no",
+        "highway": "crossing",
+        "tactile_paving": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4444661,
+          52.4740857
+        ]
+      },
+      "id": "node/5767276894"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5767276895",
+        "crossing": "unmarked",
+        "crossing:kerb_extension": "both",
+        "highway": "crossing",
+        "tactile_paving": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4445135,
+          52.4738728
+        ]
+      },
+      "id": "node/5767276895"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7126072723",
+        "crossing": "unmarked",
+        "highway": "crossing"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4509744,
+          52.4736335
+        ]
+      },
+      "id": "node/7126072723"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7126072724",
+        "crossing": "unmarked",
+        "highway": "crossing"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4507574,
+          52.4737151
+        ]
+      },
+      "id": "node/7126072724"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7126072725",
+        "crossing": "unmarked",
+        "highway": "crossing"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.450955,
+          52.4737525
+        ]
+      },
+      "id": "node/7126072725"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7126084487",
+        "crossing": "unmarked",
+        "crossing:island": "no",
+        "highway": "crossing",
+        "mapillary": "v3scsID83ikCDsk4jCO7gQ",
+        "survey:date": "2017-12-30",
+        "tactile_paving": "no",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4450058,
+          52.4741063
+        ]
+      },
+      "id": "node/7126084487"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7126084488",
+        "crossing": "unmarked",
+        "crossing:island": "no",
+        "crossing:kerb_extension": "both",
+        "highway": "crossing",
+        "mapillary": "52FoSA3PYfBjowT4ZISlhg",
+        "survey:date": "2020-06-15",
+        "tactile_paving": "no",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4450761,
+          52.4742294
+        ]
+      },
+      "id": "node/7126084488"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7126084489",
+        "crossing": "unmarked",
+        "crossing:island": "no",
+        "crossing:kerb_extension": "left",
+        "highway": "crossing",
+        "image": "https://storage13.openstreetcam.org/files/photo/2020/7/28/lth/2826938_6f371_5f202d56a1d35.jpg",
+        "survey:date": "2020-07-28",
+        "tactile_paving": "no",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.445321,
+          52.4741702
+        ]
+      },
+      "id": "node/7126084489"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7126084490",
+        "crossing": "unmarked",
+        "highway": "crossing",
+        "image": "https://storage13.openstreetcam.org/files/photo/2020/7/29/lth/2832414_e3404_5f21b098d5714.jpg",
+        "survey:date": "2020-07-29",
+        "tactile_paving": "no",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4454524,
+          52.4739754
+        ]
+      },
+      "id": "node/7126084490"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7126084491",
+        "crossing": "unmarked",
+        "crossing:kerb_extension": "both",
+        "highway": "crossing",
+        "image": "https://storage13.openstreetcam.org/files/photo/2020/7/29/lth/2832414_844a9_5f21b09fd3d49.jpg",
+        "survey:date": "2020-07-29",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4453447,
+          52.4738853
+        ]
+      },
+      "id": "node/7126084491"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7126084492",
+        "crossing": "unmarked",
+        "highway": "crossing"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4469987,
+          52.4746063
+        ]
+      },
+      "id": "node/7126084492"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7961070801",
+        "crossing": "unmarked",
+        "crossing:buffer_marking": "both",
+        "crossing:island": "no",
+        "highway": "crossing",
+        "kerb": "lowered",
+        "mapillary": "HsYEwmhRbZgp8iQSXcvs5n",
+        "tactile_paving": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13.4482963,
+          52.4728514
+        ]
+      },
+      "id": "node/7961070801"
+    }
+  ]
+}
