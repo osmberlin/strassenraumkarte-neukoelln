@@ -40,7 +40,7 @@ import os, processing, math, time
 #-------------------------------------------------#
 
 #working directory
-dir = '/mnt/Daten/Dokumente/OSM/Parkplätze/Parkplatzanalyse Neukölln/scripts/parking_lanes/'
+dir = '/your/directory/'
 
 #default width of streets (if not specified more precisely)
 width_minor_street = 11
