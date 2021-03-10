@@ -13,11 +13,11 @@
 *Note:*
 * Directory: Make sure that the following directory structure is existing (you can [download everything here](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/tree/main/scripts)). Store the directory path to this structure in the variable "dir".
 
-    └ your-directory
-     ├ data/
-     ┊ └ input.geojson
-     └ styles/
-       └ [various style files for provisional rendering]
+      └ your-directory
+       ├ data/
+       ┊ └ input.geojson
+       └ styles/
+         └ [various style files for provisional rendering]
 
 * Coordinate Reference System: Results are saved in EPSG:25833 (ETRS89 / UTM zone 33N). A different CRS may be necessary at other locations (see below).
 
