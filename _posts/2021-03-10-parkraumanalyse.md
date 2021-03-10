@@ -1,11 +1,10 @@
 ---
 title: Parkplatzzählung und Parkraumanalysen auf OSM-Basis
-date: 2021-03-01 19:08:23 +0100
+date: 2021-03-10 12:00:00 +0100
 author: Alex Seidel @Supaplex030
 layout: post
 menu_highlight: blogpost_parkraumkarte
 ---
-
 
 OSM-Daten bieten das Potential, präzise Parkplatzzählungen und Parkraumanalysen durchzuführen und damit wertvolles Wissen für Diskussionen rund um die Verkehrswende, Stadtentwicklung und Mobilität bereitzustellen. Vielerorts gibt es nämlich noch gar kein systematisches Wissen, wo es wie viele Parkplätze am Straßenrand (oder auch darüber hinaus) gibt. In aufwendigen Studien müssen diese Daten bei Bedarf erfasst werden -- und meist sind diese Daten anschließend nicht für die Öffentlichkeit zugänglich. Im Gegensatz dazu stellt OSM eine optimale Umgebung dar, in der solche Daten frei zugänglich erfasst und analysierbar gemacht werden können.
 
@@ -59,9 +58,9 @@ Für den Ortsteil Neukölln, einem großstädtischen Wohnquartier mit etwa 165.0
 
 Werden die beiden Gewerbegebiete am Rande des untersuchten Stadtteils außen vor gelassen -- also nur die Wohnquartiere berücksichtigt -- stehen zusammen 35.447 Stellplätze zum dauerhaften Parken zur Verfügung, denen 33.513 angemeldete Kraftfahrzeuge im gleichen Gebiet gegenüber stehen. Theoretisch stehen für jedes Kraftfahrzeug also 1,08 Stellplätze zur Verfügung.
 
-Die Parkraumanalyse umfasste auch eine kleinräumige Berechnung von Stellplatzdichten, wofür ein eigenes Bevölkerungs- und Kfz-Datenmodell auf Grundlage von externen geografischen und demografischen Daten sowie Kfz-Meldedaten entwickelt wurde (Details dazu können im [Methodenbericht](https://supaplexosm.github.io/strassenraumkarte-neukoelln/parkraumkarte/report) nachgelesen werden). Damit lassen sich die verfügbaren Stellplätze in einem kleineren Gebiet oder im Umkreis um einen Wohnort mit den tatsächlich dort zugelassenen Kfz ins Verhältnis setzen. Für die Parkraumanalyse wurden diese Stellplatzdichten für eine Distanz von 350 Metern um einen Wohnort -- bezogen auf ein engmaschiges Gitternetz -- berechnet (350 Meter entsprechen dabei der Nahdistanz um einen Wohnort, also einer Entfernung, die innerhalb von 3 bis 4 Minuten -- bei 7 bzw. 5 km/h -- fußläufig erreichbar ist). Im Durchschnitt (Median) ergibt sich dabei für die Neuköllner Wohnquartiere eine Anzahl von 835 Stellplätzen (604 davon im öffentlichen Straßenraum) und eine Zahl von 759 zugelassenen Kraftfahrzeugen.
+Die Parkraumanalyse umfasste auch eine kleinräumige Berechnung von Stellplatzdichten, wofür ein eigenes Bevölkerungs- und Kfz-Datenmodell auf Grundlage von externen geografischen und demografischen Daten sowie Kfz-Meldedaten entwickelt wurde (Details dazu können [im Methodenbericht](https://supaplexosm.github.io/strassenraumkarte-neukoelln/parkraumkarte/report) nachgelesen werden). Damit lassen sich die verfügbaren Stellplätze in einem kleineren Gebiet oder im Umkreis um einen Wohnort mit den tatsächlich dort zugelassenen Kfz ins Verhältnis setzen. Für die Parkraumanalyse wurden diese Stellplatzdichten für eine Distanz von 350 Metern um einen Wohnort -- bezogen auf ein engmaschiges Gitternetz -- berechnet (350 Meter entsprechen dabei der Nahdistanz um einen Wohnort, also einer Entfernung, die innerhalb von 3 bis 4 Minuten -- bei 7 bzw. 5 km/h -- fußläufig erreichbar ist). Im Durchschnitt (Median) ergibt sich dabei für die Neuköllner Wohnquartiere eine Anzahl von 835 Stellplätzen (604 davon im öffentlichen Straßenraum) und eine Zahl von 759 zugelassenen Kraftfahrzeugen.
 
-![](../images/posts/parking_density.png){: class='img-fluid img-thumbnail' }
+![](../images/posts/parking-density.jpg){: class='img-fluid img-thumbnail' }
 
 _Abbildung 3: Parkraumdichte in den Wohnquartieren des Untersuchungsgebiets: Verhältnis zwischen verfügbaren Stellplätzen und angemeldeten Kraftfahrzeugen im Umkreis von 350 Metern (3-4 Minuten Fußweg) um einen Ort._
 
