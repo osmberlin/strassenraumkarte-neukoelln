@@ -10,12 +10,12 @@ noindex: true
 # Kontakt
 {: class='mb-3' }
 
-Die Straßenraumkarten Neukölln sind ein Projekt von Alex Seidel AKA [Supaplex030](https://www.openstreetmap.org/user/Supaplex030/) und der OpenStreetMap Community Berlin.
+Die Straßenraumkarten Neukölln sowie die Parkraumanalyse sind ein Projekt von Alex Seidel (OSM: [Supaplex030](https://www.openstreetmap.org/user/Supaplex030/)) und der OpenStreetMap Community Berlin.
 
 * Kontakt zu Alex via [OpenStreetMap-Nachricht](https://www.openstreetmap.org/message/new/Supaplex030) oder [E-Mail](mailto:supaplex@riseup.net)
 * Feature-Request und Bug-Reports gerne als [GitHub Issues erstellen](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/)
 
-Sie wird gepflegt im Rahmen der ehrenamtlichen Aktivitäten der [OpenStreetMap Berlin Verkehrswende Gruppe](https://wiki.openstreetmap.org/wiki/Berlin/Verkehrswende).
+Das Projekt wird gepflegt im Rahmen der ehrenamtlichen Aktivitäten der [Berliner OSM-Verkehrswendegruppe](https://wiki.openstreetmap.org/wiki/Berlin/Verkehrswende).
 
 * Besucht unsere [monatlichen Meetups](https://www.meetup.com/de-DE/OSM-Berlin-Brandenburg/)
 * Kontakt über die [Telegramgruppe OSM Berlin Verkehrswende Community]((https://t.me/osmberlinverkehr))
