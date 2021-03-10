@@ -24,6 +24,7 @@ Sie wird gepflegt im Rahmen der ehrenamtlichen Aktivitäten der [Berliner OSM-Ve
 
 Eine Liste aller Artikel und Blogposts über das Projekt.
 
-* 2020-03-```TODO``` – OpenData Bevölkerungsdichtemodell – Tobias – ```TODO```
-* 2020-03-```TODO``` – Straßenraumkarte, Interview – Tobias – ```TODO```
-* 2020-03-```TODO``` – Parkarumkarte – Alex – ```TODO```
+* 2020-03-11 – [Methoden- und Ergebnisbericht Parkraumanalyse für den Berliner Ortsteil Neukölln](parkraumkarte/report) – Alex
+* 2020-03-11 – Parkkraumanalyse ([Kopie auf dieser Website](posts/2021-03-10-parkraumanalyse)) – Alex
+* 2020-03-```TODO``` – OpenData Bevölkerungsdichtemodell – Alex, Tobias
+* 2020-03-```TODO``` – Straßenraumkarte, Interview – Alex, Tobias
