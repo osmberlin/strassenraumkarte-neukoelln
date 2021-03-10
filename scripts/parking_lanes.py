@@ -1,10 +1,8 @@
-import os, processing, math, time
-
-#-----------------------------------------
+#--------------------------------------------------
 #   Parking lane analysis with OSM data   
-#-----------------------------------------
+#--------------------------------------------------
 #   see parking analysis project on GitHub for more info: https://github.com/SupaplexOSM/strassenraumkarte-neukoelln
-#-----------------------------------------
+#--------------------------------------------------
 #   1. Run Overpass-Query for street and parking lane data: http://overpass-turbo.eu/s/127h
 #   2. Export result to 'data/input.geojson'
 #   3. Run this python script in QGIS
@@ -13,36 +11,57 @@ import os, processing, math, time
 #           (TODO: could be automated by snapping bus stops or waiting areas to nearby parking lane segments/searching for the nearest side of the road to cut them on that side only).
 #       - Locate objects that affect parking in parking lanes (e.g. street trees or lanterns in the parking lane area, street furniture in kerbside parking) and cut them off from the parking lane segments.
 #       - Check the resulting parking lane data for bugs, depending on how accurate you need it to be.
-#-----------------------------------------
+#--------------------------------------------------
+#   Note:
+#--------------------------------------------------
+#   > Directory:
 #   Make sure that the following folder structure is existing.
 #   (You can download everything here: https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/tree/main/scripts)
-#   Store the directory path to this structure in the variable "dir" (see below).
+#   Store the path to this directory in the variable "dir" (see below).
 #     └ your-directory
 #       ├ data/
 #       ┊ └ input.geojson
 #       └ styles/
 #         └ [various style files for provisional rendering]
-#-----------------------------------------
-#   This script is based on very basic programming and QGIS knowledge. Many
-#   steps can certainly be solved much more effectively or elegantly, plus
-#   there are still some (marked) TODO's that would make it even better.
-#   I am happy about improvements and extensions!
-#-----------------------------------------
-#   Note: There is no consensus yet on which line the highway objekt in OSM
+#--------------------------------------------------
+#   > Coordinate Reference System:
+#   Results are saved in EPSG:25833 (ETRS89 / UTM zone 33N).
+#   A different CRS may be necessary at other locations (see below).
+#--------------------------------------------------
+#   > Highway Line Representation:
+#   There is no consensus yet on which line the highway objekt in OSM
 #   represents exactly: The centreline of the carriageway or the driving line.
 #   So far, this script calculates the location of parking lanes according to
 #   variant B in this figure (driving line):
 #   https://wiki.openstreetmap.org/wiki/File:Highway_representation.png
-#-----------------------------------------
+#--------------------------------------------------
+#   > Background:
+#   This script is based on rather basic programming and QGIS skills. Many
+#   steps can certainly be solved much more effectively or elegantly, plus
+#   there are still some (marked) TODO's that would make it even better.
+#   I am happy about improvements and extensions!
+#--------------------------------------------------
 
 #-------------------------------------------------#
 #   V a r i a b l e s   a n d   S e t t i n g s   #
 #-------------------------------------------------#
 
+import os, processing, math, time
+
 #working directory
 dir = '/your/directory/'
 
-#default width of streets (if not specified more precisely)
+#coordinate reference system – storage options
+#Attention: EPSG:25833 (ETRS89 / UTM zone 33N) is used here – other CRS may be necessary at other locations.
+#A metric CRS is necessary to calculate with metre units and distances.
+transform_context = QgsCoordinateTransformContext()
+transform_context.addCoordinateOperation(QgsCoordinateReferenceSystem("EPSG:4326"), QgsCoordinateReferenceSystem("EPSG:25833"), "")
+coordinateTransformContext=QgsProject.instance().transformContext()
+save_options = QgsVectorFileWriter.SaveVectorOptions()
+save_options.driverName = 'GeoJSON'
+save_options.ct = QgsCoordinateTransform(QgsCoordinateReferenceSystem("EPSG:4326"), QgsCoordinateReferenceSystem("EPSG:25833"), coordinateTransformContext)
+
+#default width of streets (if not specified more precisely on the data object)
 width_minor_street = 11
 width_primary_street = 17
 width_secondary_street = 15
@@ -50,13 +69,13 @@ width_tertiary_street = 13
 width_service = 4
 width_driveway = 2.5
 
-#default width of parking lanes (if not specified more precisely)
+#default width of parking lanes (if not specified more precisely on the data object)
 width_para = 2   #parallel parking -----
 width_diag = 4.5 #diagonal parking /////
 width_perp = 5   #perpendicular p. |||||
 
 #parking space length / distance per vehicle depending on parking direction
-#TODO: Attention: In some steps that work with field calculator formulas, these values are currently still hardcoded – if needed, the formulas would have to be generated as a string using these variables
+#TODO: Attention: In some calculation steps that use field calculator formulas, these values are currently still hardcoded – if needed, the formulas would have to be generated as a string using these variables
 vehicle_dist_para = 5.2     #parallel parking
 vehicle_dist_diag = 3.1     #diagonal parking (angle: 60 gon = 54°)
 vehicle_dist_perp = 2.5     #perpendicular parking
@@ -99,15 +118,6 @@ parking_key_list = [
 'error_output'
 ]
 
-#storage options for coordinate reference system
-#Attention: EPSG:25833 (ETRS89 / UTM zone 33N) is used here - other CRS may be necessary at other locations.
-#Only metric CRS should be used.
-transform_context = QgsCoordinateTransformContext()
-transform_context.addCoordinateOperation(QgsCoordinateReferenceSystem("EPSG:4326"), QgsCoordinateReferenceSystem("EPSG:25833"), "")
-coordinateTransformContext=QgsProject.instance().transformContext()
-save_options = QgsVectorFileWriter.SaveVectorOptions()
-save_options.driverName = 'GeoJSON'
-save_options.ct = QgsCoordinateTransform(QgsCoordinateReferenceSystem("EPSG:4326"), QgsCoordinateReferenceSystem("EPSG:25833"), coordinateTransformContext)
 
 #-------------------------------
 #   V a r i a b l e s   E n d   
