@@ -11,6 +11,7 @@
 #           (TODO: could be automated by snapping bus stops or waiting areas to nearby parking lane segments/searching for the nearest side of the road to cut them on that side only).
 #       - Locate objects that affect parking in parking lanes (e.g. street trees or lanterns in the parking lane area, street furniture in kerbside parking) and cut them off from the parking lane segments.
 #       - Check the resulting parking lane data for bugs, depending on how accurate you need it to be.
+#       - Include separately mapped parking areas if needed (parking=surface, street_side etc.)
 #--------------------------------------------------
 #   Note:
 #--------------------------------------------------
@@ -476,12 +477,8 @@ def prepareParkingLane(layer, side, clean):
 #          satz kann es hilfreich sein, die Attribute zum Vergleich zu behalten.
 #------------------------------------------------------------------------------------
 
-    global time
-
     id_left = layer.fields().indexOf('parking:lane:left')
     id_right = layer.fields().indexOf('parking:lane:right')
-
-    print(time.strftime('%H:%M:%S', time.localtime()), 'Processing parking lane data (' + side + '): Generalise attributes...')
 
     layer.startEditing()
 
@@ -702,7 +699,6 @@ def prepareParkingLane(layer, side, clean):
         layer.updateFields()
 
     layer.commitChanges()
-    print(time.strftime('%H:%M:%S', time.localtime()), 'Parking lane data (' + side + ') successfully processed.')
 
     return(True)
 
@@ -1039,6 +1035,7 @@ if layers:
     layer_service.loadNamedStyle(dir + 'styles/street_simple.qml')
 
     #separate and bundle parking lane attributes to a left and a right layer
+    print(time.strftime('%H:%M:%S', time.localtime()), 'Processing parking lane data...')
     prepareParkingLane(layer_parking_left, 'left', True)
     prepareParkingLane(layer_parking_right, 'right', True)
 
@@ -1067,7 +1064,7 @@ if layers:
     layer_parking = processing.run('native:mergevectorlayers', {'LAYERS' : [layer_parking_left,layer_parking_right], 'OUTPUT': 'memory:'})['OUTPUT']
     QgsProject.instance().addMapLayer(layer_parking, False)
 
-    print(time.strftime('%H:%M:%S', time.localtime()), 'Remove intersection and driveway zones...')
+    print(time.strftime('%H:%M:%S', time.localtime()), 'Processing intersection/driveway zones...')
 
     #separately cut off parking lanes on service roads near the intersection area
     #Select service roads with parking lane information, determine intersections with roads and buffer these by the width of the road + 5 metre distance
@@ -1090,16 +1087,22 @@ if layers:
     layer_parking.commitChanges()
     layer_parking = processing.run('native:mergevectorlayers', {'LAYERS' : [layer_parking,layer_parking_service], 'OUTPUT': 'memory:'})['OUTPUT']
 
+    #cut off parking lanes in the carriageway areas
+    #Method A - simple but not reliable at intersections between narrow and wider roads:
     #detect intersections between street and parking lane lines, buffer them and cut from parking lane to avoid false parking lanes in large intersection areas
-    #TODO: A better method might be to buffer the road network according to the width of its segments and crop all parking lanes in this buffer
-    #This method would also avoid current problems at T-junctions when a narrow road meets a very wide road (leaving small segments in the crossing area)
-    layer_parking = bufferIntersection(layer_parking, layer_street, '(min("highway:width_proc", "width_proc") / 2) - 2', 'road junctions', NULL)
+    #layer_parking = bufferIntersection(layer_parking, layer_street, '(min("highway:width_proc", "width_proc") / 2) - 2', 'road junctions', NULL)
+
+    #Method B - maybe slower but safer:
+    #buffer the highway line according to its width and cut off parking lanes within this buffer
+    centerline = processing.run('native:offsetline', { 'DISTANCE' : QgsProperty.fromExpression('"parking:lane:left:offset" - (("parking:lane:left:offset" + abs("parking:lane:right:offset")) / 2)'), 'INPUT' : layer_street, 'OUTPUT': 'memory:'})['OUTPUT']
+    carriageway_buffer = processing.run('native:buffer', { 'DISTANCE' : QgsProperty.fromExpression('("width_proc" / 2) - 0.5'), 'END_CAP_STYLE' : 1, 'INPUT' : centerline, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_parking = processing.run('native:difference', { 'INPUT' : layer_parking, 'OVERLAY' : carriageway_buffer, 'OUTPUT': 'memory:'})['OUTPUT']
 
     #keep parking lanes free in driveway zones
     layer_parking = bufferIntersection(layer_parking, layer_service, 'max("width_proc" / 2, 2)', 'driveways', NULL)
 
     #calculate kerb intersection points
-    print(time.strftime('%H:%M:%S', time.localtime()), 'Calculate kerb intersection points...')
+    print(time.strftime('%H:%M:%S', time.localtime()), 'Processing kerb intersection points...')
     intersects = getKerbIntersections(layer_street)
 
     #locate 5-metre buffers around kerb intersections and cut from parking lanes
@@ -1113,20 +1116,24 @@ if layers:
     #...and add capacity information to line segments or correct cutting errors
     layer_parking = getCapacity(layer_parking)
 
+    #add parking lanes to map
+    layer_parking.setName('parking lanes')
     QgsProject.instance().addMapLayer(layer_parking, False)
     group_parking.insertChildNode(0, QgsLayerTreeLayer(layer_parking))
-    layer_parking.setName('parking lanes')
 
     layer_parking.loadNamedStyle(dir + 'styles/parking_lanes.qml')
-    #point chains:
-    #convert parking lanes into points for each individual vehicle
-    #a) simple variant – simple calculation for nodes on kerb line
+
+    #convert parking lanes into chains of points for each individual vehicle
+    #Method A: simple calculation for nodes on kerb line
     #layer_parking_chain = processing.run('native:pointsalonglines', {'INPUT' : layer_parking, 'DISTANCE' : QgsProperty.fromExpression('if("orientation" = \'parallel\' OR "orientation" = \'diagonal\' OR "orientation" = \'perpendicular\' OR "orientation" = \'marked\', $length / "capacity", 0)'), 'START_OFFSET' : QgsProperty.fromExpression('if(\"parking\" = \'parallel\', 2.6 - 0.4, if(\"parking\" = \'diagonal\', 1.27, if(\"parking\" = \'perpendicular\', 1.25 - 0.4, 0)))'), 'END_OFFSET' : QgsProperty.fromExpression('if(\"parking\" = \'parallel\', 2.6 - 0.4, if(\"parking\" = \'diagonal\', 3.11, if(\"parking\" = \'perpendicular\', 1.25 - 0.4, 0)))'), 'OUTPUT': 'memory:'})['OUTPUT']
-    #b) complex variant – complex calculation and offset of the point to the centre of the vehicle
+
+    #Method B: complex calculation and offset of the point to the centre of the vehicle
     layer_parking_chain = processing.run('native:pointsalonglines', {'INPUT' : layer_parking, 'DISTANCE' : QgsProperty.fromExpression('if("source:capacity" = \'estimated\', if("orientation" = \'diagonal\', 3.1, if("orientation" = \'perpendicular\', 2.5, 5.2)), if("capacity" = 1, $length, if($length < if("orientation" = \'diagonal\', 3.1 * "capacity", if("orientation" = \'perpendicular\', 2.5 * "capacity", (5.2 * "capacity") - 0.8)), ($length + (if("orientation" = \'parallel\', 0.8, if("orientation" = \'perpendicular\', 0.5, 0))) - (2 * if("orientation" = \'diagonal\', 1.55, if("orientation" = \'perpendicular\', 1.25, 2.6)))) / ("capacity" - 1), ($length - (2 * if("orientation" = \'diagonal\', 1.55, if("orientation" = \'perpendicular\', 1.25, 2.6)))) / ("capacity" - 1))))'), 'START_OFFSET' : QgsProperty.fromExpression('if("source:capacity" = \'estimated\', if("orientation" = \'diagonal\', ($length - (3.1*("capacity" - 1))) / 2, if("orientation" = \'perpendicular\', ($length - (2.5*("capacity" - 1))) / 2, ($length - (5.2*("capacity" - 1))) / 2)), if("capacity" < 2, $length / 2, if("orientation" = \'diagonal\', 1.55, if("orientation" = \'perpendicular\', if($length < if("orientation" = \'diagonal\', 3.1 * "capacity", if("orientation" = \'perpendicular\', 2.5 * "capacity", (5.2 * "capacity") - 0.8)), 0.9, 1.25), if($length < if("orientation" = \'diagonal\', 3.1 * "capacity", if("orientation" = \'perpendicular\', 2.5 * "capacity", (5.2 * "capacity") - 0.8)), 2.2, 2.6)))))'), 'OUTPUT': 'memory:'})['OUTPUT']
-    layer_parking_chain = processing.run('native:translategeometry', {'INPUT' : layer_parking_chain, 'DELTA_X' : QgsProperty.fromExpression('if("position" = \'on_street\' or "position" = \'street_side\' or "position" IS NULL, cos((("angle") - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), if("position" = \'on_kerb\' or "position" = \'shoulder\', -cos((("angle") - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), 0))'), 'DELTA_Y' : QgsProperty.fromExpression('if("position" = \'on_street\' or "position" = \'street_side\' or "position" IS NULL, sin(("angle" - 180 - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), if("position" = \'on_kerb\' or "position" = \'shoulder\', -sin(("angle" - 180 - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), 0))'), 'OUTPUT': 'memory:'})['OUTPUT']
-    #add to map
+    layer_parking_chain = processing.run('native:translategeometry', {'INPUT' : layer_parking_chain, 'DELTA_X' : QgsProperty.fromExpression('if("position" = \'on_street\' or "position" IS NULL, cos((("angle") - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), if("position" = \'street_side\' or "position" = \'on_kerb\' or "position" = \'shoulder\', -cos((("angle") - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), 0))'), 'DELTA_Y' : QgsProperty.fromExpression('if("position" = \'on_street\' or "position" IS NULL, sin(("angle" - 180 - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), if("position" = \'street_side\' or "position" = \'on_kerb\' or "position" = \'shoulder\', -sin(("angle" - 180 - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), 0))'), 'OUTPUT': 'memory:'})['OUTPUT']
+
+    #add point chain to map
     layer_parking_chain.setName('parking lanes (points)')
+    QgsProject.instance().addMapLayer(layer_parking_chain, False)
     group_parking.insertChildNode(0, QgsLayerTreeLayer(layer_parking_chain))
 
     print(time.strftime('%H:%M:%S', time.localtime()), 'Completed. Generated parking lane data can now be saved.')
