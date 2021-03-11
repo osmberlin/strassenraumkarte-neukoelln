@@ -9,6 +9,7 @@
 * Include bus stops and cut the parking lanes on the side of the road where they are located.
 * Locate objects that affect parking in parking lanes (e.g. street trees or lanterns in the parking lane area, street furniture in kerbside parking) and cut them off from the parking lane segments.
 * Check the resulting parking lane data for bugs, depending on how accurate you need it to be.
+* Include separately mapped parking areas if needed (parking=surface, street_side etc.)
 
 *Note:*
 * Directory: Make sure that the following directory structure is existing (you can [download everything here](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/tree/main/scripts)). Store the directory path to this structure in the variable "dir".
