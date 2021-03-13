@@ -1,11 +1,3 @@
-# Changelog
-
-* 2021-03-11  + Added new method to correctly exclude parking lanes in the intersection area
-* 2021-03-11  + Added note on inclusion of separately mapped parking spaces
-* 2021-03-11  ! Fixed that parking point chain was only displayed, but could not be moved, used or saved
-* 2021-03-11  ! Fixed parking point chain offset from street_side parking lanes
-* 2021-03-11  ! Fixed "time.strftime"-error under certain rare circumstances in def prepareParkingLane (rearranged processing print outputs)
-
 # parking_lanes.py
 **Python script for QGIS to generate parking lanes from OSM data**
 
@@ -35,3 +27,12 @@
 * Highway Line Representation: There is no consensus yet on which line the highway objekt in OSM represents exactly: The centreline of the carriageway or the driving line. So far, this script calculates the location of parking lanes according to variant B in [this figure](https://wiki.openstreetmap.org/wiki/File:Highway_representation.png) (driving line).
 
 * Background: This script is based on very basic programming and QGIS knowledge. Many steps can certainly be solved much more effectively or elegantly, plus there are still some (marked) TODO's that would make it even better. I am happy about improvements and extensions!
+
+
+# Changelog
+
+* 2021-03-11  + Added new method to correctly exclude parking lanes in the intersection area
+* 2021-03-11  + Added note on inclusion of separately mapped parking spaces
+* 2021-03-11  ! Fixed that parking point chain was only displayed, but could not be moved, used or saved
+* 2021-03-11  ! Fixed parking point chain offset from street_side parking lanes
+* 2021-03-11  ! Fixed "time.strftime"-error under certain rare circumstances in def prepareParkingLane (rearranged processing print outputs)
