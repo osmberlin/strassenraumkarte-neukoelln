@@ -28,7 +28,17 @@ layout: default
 </div>
 {% endif %}
 
+<style>
+  article.max-w-prose h1,
+  article.max-w-prose p,
+  article.max-w-prose ul,
+  article.max-w-prose ol,
+  div.max-w-prose {
+    max-width: 65ch
+  }
+</style>
+
 <!-- Width: https://tailwindcss.com/docs/max-width#prose -->
-<article style="max-width: 65ch" class="mt-3 mb-5">
+<article class="max-w-prose mt-3 mb-5">
   {{ content }}
 </article>
