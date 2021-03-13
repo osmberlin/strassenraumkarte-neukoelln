@@ -4,7 +4,14 @@ date: 2021-03-10 12:00:00 +0100
 author: Alex Seidel @Supaplex030
 layout: post
 menu_highlight: blogpost_parkraumkarte
+canonical_url: https://www.openstreetmap.org/user/Supaplex030/diary/396105
 ---
+
+<div class="bg-warning px-3 pt-3 pb-1 mb-3">
+
+Dieser Blogpost ist zuerst [in @Supaplex030' OpenStreetMap Blog veröffentlicht worden](https://www.openstreetmap.org/user/Supaplex030/diary/396105). Dort kann man ihn auch [mit OSM-Account kommentieren](https://www.openstreetmap.org/user/Supaplex030/diary/396105#newcomment).
+
+</div>
 
 OSM-Daten bieten das Potential, präzise Parkplatzzählungen und Parkraumanalysen durchzuführen und damit wertvolles Wissen für Diskussionen rund um die Verkehrswende, Stadtentwicklung und Mobilität bereitzustellen. Vielerorts gibt es nämlich noch gar kein systematisches Wissen, wo es wie viele Parkplätze am Straßenrand (oder auch darüber hinaus) gibt. In aufwendigen Studien müssen diese Daten bei Bedarf erfasst werden -- und meist sind diese Daten anschließend nicht für die Öffentlichkeit zugänglich. Im Gegensatz dazu stellt OSM eine optimale Umgebung dar, in der solche Daten frei zugänglich erfasst und analysierbar gemacht werden können.
 
