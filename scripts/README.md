@@ -1,7 +1,16 @@
+# Changelog
+
+* 2021-03-11  + Added new method to correctly exclude parking lanes in the intersection area
+* 2021-03-11  + Added note on inclusion of separately mapped parking spaces
+* 2021-03-11  ! Fixed that parking point chain was only displayed, but could not be moved, used or saved
+* 2021-03-11  ! Fixed parking point chain offset from street_side parking lanes
+* 2021-03-11  ! Fixed "time.strftime"-error under certain rare circumstances in def prepareParkingLane (rearranged processing print outputs)
+
 # parking_lanes.py
 **Python script for QGIS to generate parking lanes from OSM data**
 
 *How to use:*
+
 1. Run Overpass-Query for street and parking lane data: http://overpass-turbo.eu/s/127h
 2. Export result to 'data/input.geojson'
 3. Run this python script in QGIS
@@ -12,6 +21,7 @@
 * Include separately mapped parking areas if needed (parking=surface, street_side etc.)
 
 *Note:*
+
 * Directory: Make sure that the following directory structure is existing (you can [download everything here](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/tree/main/scripts)). Store the directory path to this structure in the variable "dir".
 
       └ your-directory
