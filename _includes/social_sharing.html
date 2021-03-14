@@ -8,8 +8,9 @@
   content="{{ page.image.path | default: site.image.path | absolute_url }}">
 <meta name="og:image:alt"
   content="{{ page.image.alt | default: site.image.alt }}">
-<meta property="og:url"
-  content="https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap">
+<!-- page.url does not include URL params, so its better to let facebook autodetec the URL -->
+<!-- <meta property="og:url"
+  content="{{ page.url  | absolute_url }}"> -->
 <meta property="og:type"
   content="{% if page.layout == 'post' or page.layout == 'page' %}article{% else %}website{% endif %}">
 <meta name="twitter:title"
