@@ -22,6 +22,11 @@ Das Projekt wird gepflegt im Rahmen der ehrenamtlichen Aktivitäten der [Berline
 
 </div>
 
+# Lizenz
+{: class='mb-3' }
+
+Die unterschiedlichen Daten dieses Projekten verwenden unterschiedliche Lizenzen. [Mehr zu den Lizenzen für die Karten, OSM-Daten, Texte und Skripte/Code](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/blob/main/LICENSE.md).
+
 # Datenschutzerklärung
 {: class='mb-3 mt-5' }
 
