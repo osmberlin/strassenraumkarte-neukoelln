@@ -6,8 +6,9 @@
   und Einwohner am Ort der Hauptwohnung in Berlin am 30.06.2020 nach Planungsräumen und KfZ-Bestand“ –
   Vervielfältigung und Verbreitung, auch auszugsweise, mit Quellenangabe gestattet
 
-|Schlüssel | Schlüsselnummer des LOR-Planungsraums |
+|Attribut | Erläuterung |
 |---|---|
+|Schlüssel | Schlüsselnummer des LOR-Planungsraums |
 |Bezirk | Bezirk, dem der Planungsraum zugehört
 |Planungsraum | Name des Planungsraums|
 |Bezirksregion | LOR-Bezirksregion, der der Planungsraum zugehört|
@@ -26,8 +27,9 @@
 * Bezugsraum: Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze
 * Quelle: Berechnet auf Grundlage von © Amt für Statistik Berlin-Brandenburg, Potsdam, 2020 (siehe unten)
 
-|id | Eindeutige Referenznummer|
+|Attribut | Erläuterung |
 |--|--|
+|id | Eindeutige Referenznummer|
 |Bezirk | Bezirk, in dem sich der Punkt befindet|
 |Planungsraum | LOR-Planungsraum, in dem sich der Punkt befindet|
 
@@ -37,8 +39,9 @@
 * Bezugsraum: Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze
 * Quelle: © OpenStreetMap und Mitwirkende, OpenData gemäß ODbL, eigene Ergänzungen
 
-|id | Eindeutige Referenznummer|
+|Attribut | Erläuterung |
 |---|---|
+|id | Eindeutige Referenznummer|
 |osm_id | OSM-Objektreferenz (fehlt bei Tiefgaragen, die aus anderer Datenquelle übernommen wurden)|
 |parking | Stellplatztyp (entsprechend des OSM-„parking“-Keys, außer dem Wert „level“ für Parkdecks in Gebäuden, für die es keine etablierte Entsprechung im OSM-Schema gibt)|
 |capacity | Stellplatzanzahl|
@@ -59,18 +62,19 @@
 * Bezugsraum: Berliner Ortsteil Neukölln und Puffer von 500m außerhalb der Ortsteilgrenze
 * Quelle: © OpenStreetMap und Mitwirkende, OpenData gemäß ODbL
 
-|id | Eindeutige Referenznummer|
+|Attribut | Erläuterung |
 |---|---|
+|id | Eindeutige Referenznummer|
 |osm_id | OSM-Objektreferenz|
 |parking | Parkstreifentyp (entsprechend des OSM-“parking“-Keys:<br>„lane“: Fahrbahn,<br>„street_side“: Parkbucht.|
-|orientation | Parkeinschränkungen|
-|position | Position geparkter Fahrzeuge|
+|orientation | Parkausrichtung („parallel“, „diagonal“, „perpendicular“)|
+|position | Position geparkter Fahrzeuge („on_street“, „on_kerb“, „half_on_kerb“, „shoulder“ (= Seitenstreifen), „street_side“ (= Parkbucht))|
 |capacity | Stellplatzanzahl|
 |condition | Zugangsbeschränkungen|
 |condition:other | Temporär abweichende Zugangsbeschränkungen|
 |condition:other:time | Zeitraum temporär abweichender Zugangsbeschränkungen|
 |maxstay | Höchstparkdauer|
-|highway | Straßentyp|
+|highway | Straßenkategorie|
 |highway:name | Straßenname|
 |oneway_direction | „true“, wenn Ausrichtung geparkter Fahrzeuge durch Einbahnstraße invertiert|
 |osm-location | Ursprung der Parkstreifeninformation in der OSM-Datenbank:<br>„left“ / „right“ für linke bzw. rechte Seite des Straßenlinienobjekts,<br>„separate“ für separat erfasste Objekte (insbesondere Parkbuchten).|
