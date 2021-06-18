@@ -483,7 +483,7 @@ def prepareParkingLane(layer, side, clean):
     layer.startEditing()
 
     #Neue Attribute für Parkstreifeninformationen erstellen und deren ID's zur späteren Bearbeitung ermitteln
-    for attr in ['parking', 'orientation', 'position', 'condition', 'condition:other', 'condition:other:time', 'maxstay', 'capacity', 'source:capacity', 'width', 'offset']:
+    for attr in ['parking', 'orientation', 'position', 'condition', 'condition:other', 'condition:other:time', 'vehicles', 'maxstay', 'capacity', 'source:capacity', 'width', 'offset']:
         layer.dataProvider().addAttributes([QgsField(attr, QVariant.String)])
     layer.updateFields()
 
@@ -494,6 +494,7 @@ def prepareParkingLane(layer, side, clean):
     id_parking_condition = layer.fields().indexOf('condition')
     id_parking_condition_other = layer.fields().indexOf('condition:other')
     id_parking_condition_other_time = layer.fields().indexOf('condition:other:time')
+    id_parking_vehicles = layer.fields().indexOf('vehicles')
     id_parking_maxstay = layer.fields().indexOf('maxstay')
     id_parking_capacity = layer.fields().indexOf('capacity')
     id_parking_source_capacity = layer.fields().indexOf('source:capacity')
@@ -507,6 +508,8 @@ def prepareParkingLane(layer, side, clean):
     cond_default_both = 'parking:condition:both:default' in layer.attributeAliases()
     cond_time_side = 'parking:condition:'+side+':time_interval' in layer.attributeAliases()
     cond_time_both = 'parking:condition:both:time_interval' in layer.attributeAliases()
+    vehicles_side = 'parking:condition:'+side+':vehicles' in layer.attributeAliases()
+    vehicles_both = 'parking:condition:both:vehicles' in layer.attributeAliases()
     maxstay_side = 'parking:condition:'+side+':maxstay' in layer.attributeAliases()
     maxstay_both = 'parking:condition:both:maxstay' in layer.attributeAliases()
     capacity_side = 'parking:lane:'+side+':capacity' in layer.attributeAliases()
@@ -519,6 +522,7 @@ def prepareParkingLane(layer, side, clean):
         parking_condition = NULL
         parking_condition_other = NULL
         parking_condition_other_time = NULL
+        parking_vehicles = NULL
         parking_maxstay = NULL
         parking_capacity = NULL
         parking_source_capacity = NULL
@@ -548,7 +552,7 @@ def prepareParkingLane(layer, side, clean):
                         error_new += f_string[:f_stop]
         error = error_new
 
-        readable_attributes = ['parking:lane:both', 'parking:lane:'+side, 'parking:lane:'+side+':capacity', 'parking:lane:both:capacity', 'parking:lane:'+side+':width', 'parking:lane:both:width', 'parking:lane:'+side+':width:carriageway', 'parking:lane:'+side+':position', 'parking:lane:'+side+':offset', 'parking:condition:'+side, 'parking:condition:both', 'parking:condition:'+side+':default', 'parking:condition:both:default', 'parking:condition:'+side+':time_interval', 'parking:condition:both:time_interval', 'parking:condition:'+side+':maxstay', 'parking:condition:both:maxstay']
+        readable_attributes = ['parking:lane:both', 'parking:lane:'+side, 'parking:lane:'+side+':capacity', 'parking:lane:both:capacity', 'parking:lane:'+side+':width', 'parking:lane:both:width', 'parking:lane:'+side+':width:carriageway', 'parking:lane:'+side+':position', 'parking:lane:'+side+':offset', 'parking:condition:'+side, 'parking:condition:both', 'parking:condition:'+side+':default', 'parking:condition:both:default', 'parking:condition:'+side+':time_interval', 'parking:condition:both:time_interval', 'parking:condition:'+side+':vehicles', 'parking:condition:both:vehicles', 'parking:condition:'+side+':maxstay', 'parking:condition:both:maxstay']
 
         #Parkstreifeninfos auslesen (entweder aus left/right-Tagging oder aus both-Tagging)
         if side == 'left' and id_left != -1:
@@ -657,6 +661,14 @@ def prepareParkingLane(layer, side, clean):
         if parking_capacity != NULL:
             parking_source_capacity = 'OSM'
             
+        if vehicles_side:
+            parking_vehicles = feature.attribute('parking:condition:' + side + ':vehicles')
+        if vehicles_both:
+            if parking_vehicles and feature.attribute('parking:condition:both:vehicles'):
+                error += '[pc07' + side[:1] + '] Attribute "parking:condition:' + side + ':vehicles" und "parking:condition:both:vehicles" gleichzeitig vorhanden. '
+            if not parking_vehicles:
+                parking_vehicles = feature.attribute('parking:condition:both:vehicles')
+
         #Nicht berücksichtigte, spezielle parking:lane-Attribute erkennen und ausgeben
         for attr in layer_parking_left.attributeAliases():
             if 'parking:lane' in attr or 'parking:condition' in attr:
@@ -679,6 +691,7 @@ def prepareParkingLane(layer, side, clean):
         layer.changeAttributeValue(feature.id(), id_parking_condition, parking_condition)
         layer.changeAttributeValue(feature.id(), id_parking_condition_other, parking_condition_other)
         layer.changeAttributeValue(feature.id(), id_parking_condition_other_time, parking_condition_other_time)
+        layer.changeAttributeValue(feature.id(), id_parking_vehicles, parking_vehicles)
         layer.changeAttributeValue(feature.id(), id_parking_maxstay, parking_maxstay)
         layer.changeAttributeValue(feature.id(), id_parking_capacity, parking_capacity)
         layer.changeAttributeValue(feature.id(), id_parking_source_capacity, parking_source_capacity)
@@ -1041,8 +1054,8 @@ if layers:
 
     #connect adjoining parking lane segments with same properties
     #TODO Warning: Can possibly lead to faults if two segments with opposite directions but the same properties meet.
-    layer_parking_left = processing.run('native:dissolve', {'INPUT': layer_parking_left, 'FIELD' : ['highway:name','parking','orientation','position','condition','condition:other','condition:other:time','maxstay','capacity','width','offset'], 'OUTPUT': 'memory:'})['OUTPUT']
-    layer_parking_right = processing.run('native:dissolve', {'INPUT': layer_parking_right, 'FIELD' : ['highway:name','parking','orientation','position','condition','condition:other','condition:other:time','maxstay','capacity','width','offset'], 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_parking_left = processing.run('native:dissolve', {'INPUT': layer_parking_left, 'FIELD' : ['highway:name','parking','orientation','position','condition','condition:other','condition:other:time','vehicles','maxstay','capacity','width','offset'], 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_parking_right = processing.run('native:dissolve', {'INPUT': layer_parking_right, 'FIELD' : ['highway:name','parking','orientation','position','condition','condition:other','condition:other:time','vehicles','maxstay','capacity','width','offset'], 'OUTPUT': 'memory:'})['OUTPUT']
 
     #calculate angles at pedestrian crossings (for rendering and spatial calculations)
     layer_vertices = processing.run('native:extractvertices', {'INPUT': layer_street, 'OUTPUT': 'memory:'})['OUTPUT']
