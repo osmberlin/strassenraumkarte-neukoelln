@@ -36,3 +36,4 @@
 * 2021-03-11  ! Fixed that parking point chain was only displayed, but could not be moved, used or saved
 * 2021-03-11  ! Fixed parking point chain offset from street_side parking lanes
 * 2021-03-11  ! Fixed "time.strftime"-error under certain rare circumstances in def prepareParkingLane (rearranged processing print outputs)
+* 2021-06-18  + Added support/attribute for "parking:condition:...:vehicles"
