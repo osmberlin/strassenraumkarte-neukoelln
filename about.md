@@ -24,7 +24,8 @@ Sie wird gepflegt im Rahmen der ehrenamtlichen Aktivitäten der [Berliner OSM-Ve
 
 Eine Liste aller Artikel und Blogposts über das Projekt.
 
-* 2020-03-11 – [Methoden- und Ergebnisbericht Parkraumanalyse für den Berliner Ortsteil Neukölln](parkraumkarte/report) – Alex
-* 2020-03-12 – [Parkplatzzählung und Parkraumanalysen auf OSM-Basis](posts/2021-03-12-parkraumanalyse) – Alex
-* 2020-03-13 – [Wie viele Autos sind in einem Gebäude angemeldet? Kleinräumige statistische Auswertungen mit OpenData und OSM – ein Interview.](posts/2021-03-13-opendata) – Alex, Tobias
-* 2020-03-```soon``` – Straßenraumkarte, Interview – Alex, Tobias
+- 2021-06-08 – [Vortrag auf der FOSSGIS Konferenz zur Parkraumanalyse (26 Minuten)](posts/2021-06-08-vortrag-fossgis) – Alex
+- 2021-03-13 – [Wie viele Autos sind in einem Gebäude angemeldet? Kleinräumige statistische Auswertungen mit OpenData und OSM – ein Interview.](posts/2021-03-13-opendata) – Alex, Tobias
+- 2021-03-12 – [Parkplatzzählung und Parkraumanalysen auf OSM-Basis](posts/2021-03-12-parkraumanalyse) – Alex
+- 2021-03-11 – [Methoden- und Ergebnisbericht Parkraumanalyse für den Berliner Ortsteil Neukölln](parkraumkarte/report) – Alex
+- 2021-03-`soon` – Straßenraumkarte, Interview – Alex, Tobias

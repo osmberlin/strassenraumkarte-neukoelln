@@ -60,6 +60,12 @@ Die Website bindet das Layout "Bootstrap" über die Server von [cdn.jsdelivr.net
 
 Die Website bettet Tabellenüber ein, die über Google Doc als Website zum einbettet bereitgestellt werden. [Mehr über das Feature](https://support.google.com/a/users/answer/9308870?hl=de). Bitte beachtet die [google.com Datenschutzerklärungen](https://policies.google.com/privacy?hl=de-DE).
 
+## Eingebettete Videos (media.ccc.de)
+
+{: class='my-3 fs-4 fw-normal' }
+
+Die Website bettet Videos als iframe ein, die vom Chaos Computer Club e.V. bereitgestellt werden. Bitte beachtet die [media.ccc.de Datenschutzerklärungen](https://media.ccc.de/about.html#privacy).
+
 # Impressum
 {: class='mb-3 mt-5' }
 
