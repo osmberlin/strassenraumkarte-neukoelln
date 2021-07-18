@@ -7,12 +7,12 @@ menu_highlight: blogpost_strassenraumkarte
 image:
   path: /images/posts/strassenraumkarte/social-sharing.jpg
   alt: Ausschnitt der Straßenraumkarte Neukölln mit Details wie parkenden Autos, Fuß- und Radwegen.
-# canonical_url: #todo
+canonical_url: https://www.openstreetmap.org/user/tordans/diary/397212
 ---
 
 <div class="bg-light px-3 pt-3 pb-1 mb-3">
 
-`TODO` Dieser Blogpost ist zuerst [in @tordans' OpenStreetMap Blog veröffentlicht worden](https://www.openstreetmap.org/user/tordans/diary/396118). Dort kann man ihn auch [mit OSM-Account kommentieren](https://www.openstreetmap.org/user/tordans/diary/396118#newcomment).
+Dieser Blogpost ist zuerst [in @tordans' OpenStreetMap Blog veröffentlicht worden](https://www.openstreetmap.org/user/tordans/diary/397212). Dort kann man ihn auch [mit OSM-Account kommentieren](https://www.openstreetmap.org/user/tordans/diary/397212#newcomment).
 
 </div>
 
