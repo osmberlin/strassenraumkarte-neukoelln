@@ -7,7 +7,7 @@ menu_highlight: blogpost_parkraumkarte
 canonical_url: https://www.openstreetmap.org/user/Supaplex030/diary/396105
 ---
 
-<div class="bg-warning px-3 pt-3 pb-1 mb-3">
+<div class="bg-light px-3 pt-3 pb-1 mb-3">
 
 Dieser Blogpost ist zuerst [in @Supaplex030' OpenStreetMap Blog veröffentlicht worden](https://www.openstreetmap.org/user/Supaplex030/diary/396105). Dort kann man ihn auch [mit OSM-Account kommentieren](https://www.openstreetmap.org/user/Supaplex030/diary/396105#newcomment).
 
