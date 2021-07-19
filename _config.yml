@@ -41,3 +41,6 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-redirect-from
+
+# We do not want the TailwindCSS Source File to be looked at by Jekyll
+exclude: ['css-src']

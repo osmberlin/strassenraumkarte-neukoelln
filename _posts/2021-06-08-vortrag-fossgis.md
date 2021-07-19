@@ -14,7 +14,9 @@ Auf der FOSSGIS Konferenz 2021 (online) hat Alex Seidel einen Vortrag gehalten �
 - [Video auf media.cc.de](https://media.ccc.de/v/fossgis2021-9026-parkplatzzhlung-und-parkraumanalysen-auf-osm-basis)
 - [Video auf YouTube](https://www.youtube.com/watch?v=Y6RKFe8EPFA)
 
-<iframe style="width: 655px;height: 370px;" src="https://media.ccc.de/v/fossgis2021-9026-parkplatzzhlung-und-parkraumanalysen-auf-osm-basis/oembed" frameborder="0" allowfullscreen></iframe>
+<div class="aspect-w-16 aspect-h-9">
+<iframe class="" src="https://media.ccc.de/v/fossgis2021-9026-parkplatzzhlung-und-parkraumanalysen-auf-osm-basis/oembed" frameborder="0" allowfullscreen></iframe>
+</div>
 
 ## Kurzbeschreibung des Vortrages
 {: .mt-5 }
@@ -26,4 +28,4 @@ Aus der [Vortragsankündigung der FOSSGIS](https://pretalx.com/fossgis2021/talk/
 > Im Zuge der Verkehrswende wird Verkehrsraum in vielen Städten neu verteilt oder zumindest politisch darüber gestritten. Gleichzeitig werden Verkehr und Mobilität unter Einbezug geographischer Daten immer zielgerichteter, sodass beispielsweise unnötige Verkehrswege verhindert werden können. Nicht nur in solchen Zusammenhängen werden Daten über die Anzahl und Verteilung von Auto-Parkplätzen eine immer wertvollere Ressource für Stadtentwicklung, Zivilgesellschaft oder Mobilitätsprojekte. Vielerorts gibt es noch gar kein systematisches Wissen, wo es wie viele Parkplätze gibt.
 >
 > OSM ist ein optimales Werkzeug, um solche Daten zu erfassen und auswertbar zu machen. Im Berliner Stadtteil Neukölln haben wir demonstriert, wie urbaner Parkraum systematisch auf OSM-Basis kartiert und mit GIS und unter Einbezug externer offener Daten hochaufgelöst analysiert werden kann. Im Vortrag sollen die Herangehensweise und Ergebnisse des Projekts vorgestellt werden; wir haben aber auch viele Erfahrungen für die Mapping- und Auswertungspraxis gesammelt, die wir gern teilen möchten, damit Andere an anderen Orten bei Bedarf darauf aufbauen können.
-{: .bg-light.p-4.pb-2 }
+{: .bg-gray-200.p-4.pb-2 }

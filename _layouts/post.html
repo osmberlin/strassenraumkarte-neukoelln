@@ -2,38 +2,38 @@
 layout: default
 ---
 
+<script async src="{{ '/javascript/linkify-headlines.js' | relative_url }}"></script>
+
 <!-- Themen: https://github.com/jekyll/minima/blob/master/_layouts/post.html -->
 <!-- Width: https://tailwindcss.com/docs/max-width#prose -->
-<article style="max-width: 65ch" class="post h-entry mb-5" itemscope itemtype="http://schema.org/BlogPosting">
-  {% if page.show_legend == nil %}<div class="mt-2"><!-- Lasy spacer; should be refactored … --></div><div class="mb-5"></div>{% endif %}
-
-  <header class="post-header mb-4">
-    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-    <p class="post-meta text-muted">
+<article class="prose prose-blue max-w-prose py-6  px-4 sm:px-0" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="mb-4">
+    <h1 itemprop="name headline">{{ page.title | escape }}</h1>
+    <p class="text-gray-400">
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+      <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         {{ page.date | date: date_format }}
       </time>
       {%- if page.modified_date -%}
       ~
       {%- assign mdate = page.modified_date | date_to_xmlschema -%}
-      <time class="dt-modified" datetime="{{ mdate }}" itemprop="dateModified">
+      <time datetime="{{ mdate }}" itemprop="dateModified">
         {{ mdate | date: date_format }}
       </time>
       {%- endif -%}
       {%- if page.author -%}
       • {% for author in page.author %}
       <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span class="p-author h-card" itemprop="name">{{ author }}</span></span>
+        <span itemprop="name">{{ author }}</span></span>
       {%- if forloop.last == false %}, {% endif -%}
       {% endfor %}
       {%- endif -%}
     </p>
   </header>
 
-  <div class="post-content e-content" itemprop="articleBody">
+  <div itemprop="articleBody">
     {{ content }}
   </div>
 
-  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+  <a href="{{ page.url | relative_url }}" hidden></a>
 </article>

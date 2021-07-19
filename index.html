@@ -7,8 +7,6 @@ debugmap_tiles_updated_at: 11.09.2021
 noindex: true
 ---
 
-{% include legend.html %}
-
 <script>
 	var options = {
 		center: [52.48150, 13.43571],
@@ -24,7 +22,7 @@ noindex: true
 	var parkingmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/parkingmap/{z}/{x}/{y}.jpg", {
 		name: 'parkingmap',
 		maxZoom: 20,
-		layerControlName: "Parkraumkarte<br><span style='margin-left: 16px;' class='text-muted'>Datenstand: {{ page.parkingmap_tiles_updated_at }}</span>",
+		layerControlName: "Parkraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.parkingmap_tiles_updated_at }}</span>",
 		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
 	})
 	parkingmap.addTo(map);   // This is the initial basemap
@@ -32,14 +30,14 @@ noindex: true
 	var micromap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/{z}/{x}/{y}.jpg", {
 		name: 'micromap',
 		maxZoom: 20,
-		layerControlName: "Straßenraumkarte<br><span style='margin-left: 16px;' class='text-muted'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>",
+		layerControlName: "Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>",
 		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
 	});
 
 	var debugmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/debug/{z}/{x}/{y}.jpg", {
 		name: 'debugmap',
 		maxZoom: 20,
-		layerControlName: "Debug-Modus Straßenraumkarte<br><span style='margin-left: 16px;' class='text-muted'>Datenstand: {{ page.debugmap_tiles_updated_at }}</span>",
+		layerControlName: "Debug-Modus Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.debugmap_tiles_updated_at }}</span>",
 		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
 	});
 
@@ -128,6 +126,20 @@ noindex: true
 		history.pushState({ path: newurl }, '', newurl);
 	}
 	map.on('baselayerchange', mapParamOnMapMoveOrLayerChange);
+
+	// Update the editOsm Link with current lat/lng
+	const updateEditOsm = (event) => {
+		const editOsmLink = document.querySelector('[data-update-edit-osm]');
+		const center = map.getCenter();
+		const zoom = map.getZoom();
+		const precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
+
+		const lat = center.lat.toFixed(precision);
+		const lng = center.lng.toFixed(precision);
+		editOsmLink.href = `https://www.openstreetmap.org/edit#map=${zoom}/${lat}/${lng}`
+	}
+	updateEditOsm() // on page load
+	map.on('moveend', updateEditOsm)
 
 	// Write a css class for Zoom and Layer to the body of our legend modal.
 	// We can use CSS to show/hide parts of the layer as needed.

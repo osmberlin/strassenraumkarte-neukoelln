@@ -10,13 +10,13 @@ image:
 canonical_url: https://www.openstreetmap.org/user/tordans/diary/397212
 ---
 
-<div class="bg-light px-3 pt-3 pb-1 mb-3">
+<div class="notice">
 
 Dieser Blogpost ist zuerst [in @tordans' OpenStreetMap Blog veröffentlicht worden](https://www.openstreetmap.org/user/tordans/diary/397212). Dort kann man ihn auch [mit OSM-Account kommentieren](https://www.openstreetmap.org/user/tordans/diary/397212#newcomment).
 
 </div>
 
-![Ausschnitt der Straßenraumkarte Neukölln mit Details wie parkenden Autos, Fuß- und Radwegen.](../images/posts/strassenraumkarte/social-sharing.jpg){: class='img-fluid img-thumbnail' }
+![Ausschnitt der Straßenraumkarte Neukölln mit Details wie parkenden Autos, Fuß- und Radwegen.](../images/posts/strassenraumkarte/social-sharing.jpg){: class='img-thumbnail' }
 
 _Tobias:_ Hallo Alex, das ist unser Teil 2 auf dem Weg zur Beschreibung [deiner größeren Parkraum-Analyse](https://supaplexosm.github.io/strassenraumkarte-neukoelln/posts/2021-03-12-parkraumanalyse). In Teil 1 haben wir uns angeschaut, wie du [mit Hilfe verschiedener OpenData-Quellen ein Bevölkerungsmodell und Autobesitzer-Modell auf Häuser-Ebene erstellt](https://supaplexosm.github.io/strassenraumkarte-neukoelln/posts/2021-03-13-opendata) hast.
 
@@ -62,7 +62,7 @@ _Alex:_ Das meiste ergibt sich aus den OSM-Daten, in die alle Aktiven in Neuköl
 
 Was mir persönlich sehr gut gefällt in der Karte, sind die Visualisierungen auf Spielplätzen. Ich habe beispielsweise die Spielgeräte angedeutet. Ich träume schon seit längerem von so einer Art Spielplatzkarte, auf der man den Spielplatz mit seinen Schaukeln und Mülleimern in eine Art Übersichtsplan sehen kann.
 
-![](../images/posts/strassenraumkarte/spielplatz.jpg){: class='img-fluid img-thumbnail' }
+![](../images/posts/strassenraumkarte/spielplatz.jpg){: class='img-thumbnail' }
 
 _Screenshot: Spielplatz zwischen Karl-Marx-Platz und Richardplatz mit ausgerichteten Bänken, Wegen, Sandkasten und angedeuteten Spielgeräten. [Zum Kartenausschnitt](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#18/52.47441/13.44345)_
 
@@ -72,7 +72,7 @@ _Screenshot: Spielplatz zwischen Karl-Marx-Platz und Richardplatz mit ausgericht
 
 Ein weiteres Detail sind die Fahrbahnmarkierungen. Es gibt zum Beispiel Zebrastreifen und Haltelinien vor Ampeln oder Stoppschildern. Gut gefallen mir auch die Gehweg- und Radwegfurten. Ist alles noch etwas provisorisch und es fehlen viele Markierungen, ist aber schonmal ein nettes Detail. Ich plane mittelfristig dann auch Fahrspuren, Turn Lanes und soetwas einzubauen. Gleichzeitig merkt man bei den Haltelinien auch, dass man bei der Darstellung an Grenzen stößt, gerade was die Ausrichtung angeht. Ich habe mir ein Tagging-Schema ausgedacht, um einer Haltelinie neben ihrer bereits erfassten Position auch einen Winkel zuzuordnen, wenn sie nicht rechtwinklig zum Straßenverlauf ist. So dass man sagen kann, die Haltelinie in dieser Straße ist z.B. im Winkel von 168 Grad ausgerichtet. Das ist dann in so einer Visualisierung sehr wertvoll. Gerade bei spitzwinklig aufeinandertreffenden Straßen.
 
-![](../images/posts/strassenraumkarte/haltelinien.jpg){: class='img-fluid img-thumbnail' }
+![](../images/posts/strassenraumkarte/haltelinien.jpg){: class='img-thumbnail' }
 
 _Screenshot: Haltelinien und Fußgängerübergänge; [zum Kartenausschnitt](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.47376/13.44062)_
 
@@ -106,7 +106,7 @@ _Tobias:_ Welches anderes Detail der Karte möchtest du noch erwähnen?
 
 _Alex:_ Wenn du schon so fragst … – Es gibt Gullideckel. [Beispielsweise in der Nähe von “Am Sudhaus”](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.47935/13.43015). Die fallen zwar gar nicht auf, und es gibt auch relativ wenige Gullideckel in OSM, aber sie werden tatsächlich auch gerendert. Die Textur ist genau dieselbe wie im Computerspiel Cyperpunk 2077 (dort gibt es sogar [eine Petition dazu](https://www.change.org/p/the-cyberpunk-developers-fix-the-manhole-covers-in-cyberpunk-2077)) – nur dass man das in dieser Größe in der Straßenraumkarte nicht erkennen kann ;-).
 
-![](../images/posts/strassenraumkarte/gullideckel.jpg){: class='img-fluid img-thumbnail' }
+![](../images/posts/strassenraumkarte/gullideckel.jpg){: class='img-thumbnail' }
 
 _Screenshot: Vier Gullideckel als graue Flächen auf der Straße. [Zum Kartenausschnitt](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.47509/13.44464), [Beispiel OSM Node](https://www.openstreetmap.org/node/8319956323), [Overpass Turbo für Gullideckel](https://overpass-turbo.eu/s/18Ab)_
 
@@ -116,7 +116,7 @@ _Screenshot: Vier Gullideckel als graue Flächen auf der Straße. [Zum Kartenaus
 
 _Tobias:_ Lass uns nochmal detaillierter über die Bordsteinkante sprechen. Sie umschießt in deiner Darstellung – je nach Sichtweise – entweder den Häuserblock oder die Fläche der Straße. Für mich ist das eines der wichtigsten Elemente der Karte.
 
-![](../images/posts/strassenraumkarte/landuse-overpass.jpg){: class='img-fluid img-thumbnail' }
+![](../images/posts/strassenraumkarte/landuse-overpass.jpg){: class='img-thumbnail' }
 
 _Screenshot: Overpass Turbo für alle Flächen mit landuse-Wert, [https://overpass-turbo.eu/s/14lo](https://overpass-turbo.eu/s/14lo)_
 

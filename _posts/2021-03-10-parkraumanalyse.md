@@ -7,9 +7,15 @@ menu_highlight: blogpost_parkraumkarte
 canonical_url: https://www.openstreetmap.org/user/Supaplex030/diary/396105
 ---
 
-<div class="bg-light px-3 pt-3 pb-1 mb-3">
+<div class="notice bg-purple-200">
 
-Dieser Blogpost ist zuerst [in @Supaplex030' OpenStreetMap Blog veröffentlicht worden](https://www.openstreetmap.org/user/Supaplex030/diary/396105). Dort kann man ihn auch [mit OSM-Account kommentieren](https://www.openstreetmap.org/user/Supaplex030/diary/396105#newcomment).
+**There is [an English version of this post in @Supaplex030's OSM Blog](https://www.openstreetmap.org/user/Supaplex030/diary/396104).**
+
+</div>
+
+<div class="notice">
+
+Dieser Blogpost ist zuerst [in @Supaplex030s OpenStreetMap Blog veröffentlicht worden](https://www.openstreetmap.org/user/Supaplex030/diary/396105). Dort kann man ihn auch [mit OSM-Account kommentieren](https://www.openstreetmap.org/user/Supaplex030/diary/396105#newcomment).
 
 </div>
 
@@ -19,7 +25,7 @@ Am Beispiel des Berliner Stadtteils Neukölln haben wir demonstriert, wie urbane
 
 Einen ausführlichen Blick auf die Ergebnisse und Daten könnt ihr in der [Neuköllner Parkraumkarte](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap) werfen, in der die Parkplatzinformationen visualisiert werden, die zugrunde liegenden Daten zum Download bereit stehen und bei Bedarf ausführlichere Infos zur Herangehensweise und Methodik zu finden sind.
 
-![Parkraumkarte](../images/posts/parkraumkarte-zoomstufen.png){: class='img-fluid img-thumbnail' }
+![Parkraumkarte](../images/posts/parkraumkarte-zoomstufen.png){: class='img-thumbnail' }
 
 _Abbildung 1: Ausschnitt der Parkraumkarte, die auf verschiedenen Zoomstufen verschiedene Ergebnisse visualisiert: Von einzelnen Stellplätzen über straßenzugsweise Stellplatzzahlen bis hin zur Stellplatzdichte und dem Flächenverbrauch durch geparkte Fahrzeuge._
 
@@ -44,7 +50,7 @@ Die Verarbeitung der OSM-Daten erfolgte unterstützt durch Python-Skripte in QGI
 
 - Abschließend wurden Stellplatzkapazitäten für zusammenhängende Parkstreifensegmente berechnet (Quotient aus der Länge eines Segments und dem Abstand der dort geparkten Fahrzeuge, je nach Ausrichtung des Parkens).
 
-![Parkstreifenabschnitte generieren](../images/posts/parkstreifen-generieren.png){: class='img-fluid img-thumbnail' }
+![Parkstreifenabschnitte generieren](../images/posts/parkstreifen-generieren.png){: class='img-thumbnail' }
 
 _Abbildung 2: Generierung von Parkstreifensegmenten (blau) und baulichen Park-/Halteverbotszonen (Kreise). Weitere Objektgeometrien, die das Parken verhindern, können an die Parkstreifen gesnappt und von diesen abgezogen werden (hier Fahrradständer im Fahrbahnbereich, gestreifte Flächen). Kleiner Ausschnitt des Untersuchungsgebiets und provisorische Visualisierung während des Berechnungsprozesses._
 
@@ -67,7 +73,7 @@ Werden die beiden Gewerbegebiete am Rande des untersuchten Stadtteils außen vor
 
 Die Parkraumanalyse umfasste auch eine kleinräumige Berechnung von Stellplatzdichten, wofür ein eigenes Bevölkerungs- und Kfz-Datenmodell auf Grundlage von externen geografischen und demografischen Daten sowie Kfz-Meldedaten entwickelt wurde (Details dazu können [im Methodenbericht](https://supaplexosm.github.io/strassenraumkarte-neukoelln/parkraumkarte/report) nachgelesen werden). Damit lassen sich die verfügbaren Stellplätze in einem kleineren Gebiet oder im Umkreis um einen Wohnort mit den tatsächlich dort zugelassenen Kfz ins Verhältnis setzen. Für die Parkraumanalyse wurden diese Stellplatzdichten für eine Distanz von 350 Metern um einen Wohnort -- bezogen auf ein engmaschiges Gitternetz -- berechnet (350 Meter entsprechen dabei der Nahdistanz um einen Wohnort, also einer Entfernung, die innerhalb von 3 bis 4 Minuten -- bei 7 bzw. 5 km/h -- fußläufig erreichbar ist). Im Durchschnitt (Median) ergibt sich dabei für die Neuköllner Wohnquartiere eine Anzahl von 835 Stellplätzen (604 davon im öffentlichen Straßenraum) und eine Zahl von 759 zugelassenen Kraftfahrzeugen.
 
-![Stellplatzdichte](../images/posts/parking-density.jpg){: class='img-fluid img-thumbnail' }
+![Stellplatzdichte](../images/posts/parking-density.jpg){: class='img-thumbnail' }
 
 _Abbildung 3: Parkraumdichte in den Wohnquartieren des Untersuchungsgebiets: Verhältnis zwischen verfügbaren Stellplätzen und angemeldeten Kraftfahrzeugen im Umkreis von 350 Metern (3-4 Minuten Fußweg) um einen Ort._
 
