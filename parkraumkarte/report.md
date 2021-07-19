@@ -126,10 +126,10 @@ Die eigentliche Datenverarbeitung fand weitestgehend automatisiert über Python-
 
 (2.) Bereiche, in denen sich aus der Straßenverkehrsordnung (StVO) ein Park- bzw. Halteverbot ergibt oder die sich entsprechend ihrer baulichen Anlage nicht zum Parken eignen, und die nicht bereits durch beschilderte Park- und Halteverbote abgebildet sind, können anschließend aus den Daten ausgeschlossen werden, in dem dort Abschnitte mit einer vorbestimmten Länge abgetrennt werden. Die Länge ergibt sich aus der StVO, Richtwerten oder der typischen baulichen Anlage im Untersuchungsgebiet:
 
-<div class="table-responsive">
-<table class="table table-hover table-bordered table-sm caption-top">
-  <caption>Tabelle 1: Abstandsdefinitionen zum Parken an verschiedenen baulichen Anlagen.</caption>
-  <thead class="table-secondary">
+<div class="w-full overflow-x-auto">
+<table>
+  <caption class="font-semibold mb-6 !text-lg text-left">Tabelle 1: Abstandsdefinitionen zum Parken an verschiedenen baulichen Anlagen.</caption>
+  <thead class="bg-gray-200">
     <tr>
         <th class="w-50">Objekt / bauliche Anlage</th>
         <th class="w-50">Länge / Abstand</th>
@@ -140,7 +140,7 @@ Die eigentliche Datenverarbeitung fand weitestgehend automatisiert über Python-
         <td>Kreuzung</td>
         <td>
         je 5 Meter vor Schnittpunkt der Bordsteinkanten
-        <div class="text-muted"><small>Seit der StVO-Novelle aus dem Jahr 2020 erhöht sich dieser Abstand auf 8 Meter, wenn sich neben der Fahrbahn ein baulich angelegter Radweg befindet, was im Datenmodell jedoch noch nicht berücksichtigt wird – im Untersuchungsgebiet aber auch nur an vergleichsweise wenigen Kreuzungen der Fall ist.</small></div>
+        <div class="text-gray-400 leading-tight"><small>Seit der StVO-Novelle aus dem Jahr 2020 erhöht sich dieser Abstand auf 8 Meter, wenn sich neben der Fahrbahn ein baulich angelegter Radweg befindet, was im Datenmodell jedoch noch nicht berücksichtigt wird – im Untersuchungsgebiet aber auch nur an vergleichsweise wenigen Kreuzungen der Fall ist.</small></div>
         </td>
     </tr>
     <tr>
@@ -150,7 +150,7 @@ Die eigentliche Datenverarbeitung fand weitestgehend automatisiert über Python-
     <tr>
         <td>
           &Uuml;bergänge f&uuml;r andere Verkehrsteilnehmer:
-          <ul>
+          <ul class="!mb-0">
             <li>Fu&szlig;gänger&uuml;berwege (Zebrastreifen)</li>
             <li>randseitige Markierungen oder Gehwegvorstreckungen</li>
             <li>Fu&szlig;gängerfurten und sonstige Markierungen</li>
@@ -203,7 +203,7 @@ Beim Parallelparken sind einzelne Stellplätze meist nicht markiert; die Anzahl 
 
 Die Stellplatzkapazität ergibt sich aus dem Quotienten der Länge eines Parkstreifensegments und dem entsprechenden Abstand, abgerundet auf eine ganze Zahl.
 
-<div class="max-w-prose bg-info p-3 pb-1 mt-1 mb-5">
+<div class="notice  mt-1 mb-5">
 
 **Ergebnis:**
 
@@ -224,14 +224,14 @@ Aus den Objekten mit bekannten Stellplatzangaben wurde der Median der mittleren 
 
 [^12]: Kleinere Parkplätze umfassen dabei weniger als acht Stellplätze, größere mindestens acht. Diese Grenze wurde aus den vorhandenen Objekten mit genauen Angaben zur Stellplatzkapazität abgeleitet, da in diesem Bereich ein signifikanter Sprung im Quotienten aus Fläche und Stellplatzanzahl zu beobachten war.
 
-<div class="table-responsive">
-<table class="table table-hover table-bordered table-sm caption-top">
-  <caption>Tabelle 2: Berechnungsgrundlage für die Interpolation von Stellplatzkapazitäten geometrisch flächenhafter Parkraumobjekte.</caption>
-  <thead class="table-secondary">
-    <tr>
+<div class="w-full overflow-x-auto">
+<table>
+  <caption class="font-semibold mb-6 !text-lg text-left">Tabelle 2: Berechnungsgrundlage für die Interpolation von Stellplatzkapazitäten geometrisch flächenhafter Parkraumobjekte.</caption>
+  <thead class="bg-gray-200">
+    <tr class="leading-tight">
       <th rowspan=2>Stellfl&auml;chentyp</th>
       <th rowspan=2>Fl&auml;che pro Stellplatz [m&sup2;]</th>
-      <th colspan=2>Anzahl Objekte im Datensatz *</th>
+      <th colspan=2 class="border-b">Anzahl Objekte im Datensatz *</th>
       <th rowspan=2>Anteil gesch&auml;tzter Stellpl&auml;tze</th>
     </tr>
     <tr>
@@ -282,7 +282,7 @@ Aus den Objekten mit bekannten Stellplatzangaben wurde der Median der mittleren 
       <td>36</td>
       <td>81 %</td>
     </tr>
-    <tr class="table-light">
+    <tr class="bg-purple-100">
       <td><strong>Summe</strong></td>
       <td><strong>-</strong></td>
       <td><strong>2074</strong></td>
@@ -297,7 +297,7 @@ Aus den Objekten mit bekannten Stellplatzangaben wurde der Median der mittleren 
 
 \*\* Die Kategorie *„Parkplätze“* umfasst überwiegend klassische ebenerdige Park- und Stellplätze (N = 994), aber auch vereinzelt vorkommendes Dachparken (N = 6) und Parkdecks/Parkflächen im Erdgeschoss unter Gebäuden (N = 9).
 
-<div class="max-w-prose bg-info p-3 pb-1 mt-1 mb-5">
+<div class="notice  mt-1 mb-5">
 
 **Ergebnis:**
 
@@ -326,7 +326,7 @@ Die resultierenden Kfz-Halterdaten lassen sich auf diese Weise -- ebenso wie die
 [^17]: Isochronen sind räumliche Linien gleicher Zeit, umgrenzen in diesem Fall also einen Raum, der innerhalb der angegebenen Zeit zu Fuß erreicht werden kann und sich dabei bis zu 350 Meter entfernt vom Ausgangspunkt erstreckt. Das Routing erfolgte über das OSM-Straßen- und Wegenetz.
 
 
-<div class="max-w-prose bg-info p-3 pb-1 mt-1 mb-5">
+<div class="notice  mt-1 mb-5">
 
 **Ergebnis:**
 
@@ -349,7 +349,7 @@ Aus der Lage und Länge der Parkstreifen im Straßenraum kann -- abhängig von d
 
 Diese Fläche kann in Relation zur Fläche des öffentlichen Straßen- bzw. Verkehrsraumes gesetzt werden, also der Fläche zwischen den Gebäudefassaden oder Grundstücksgrenzen inklusive aller Straßenbestandteile wie Fahrbahnen, Mittelstreifen oder Geh- und Radwegen. Berechnungsgrundlage dafür ist die Einteilung der Blockflächen, wie sie im Berliner Geoportal beispielsweise für die Wiedergabe der Bevölkerungsdichte verwendet wird (vgl. Kapitel 2.3). In unbewohnten Räumen hat diese Blockflächeneinteilung Lücken, die auf Basis von OSM-Daten gefüllt wurden.
 
-<div class="max-w-prose bg-info p-3 pb-1 mt-1 mb-5">
+<div class="notice  mt-1 mb-5">
 
 **Ergebnis:**
 

@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .img-thumbnail {
+    @apply p-0.5;
+    @apply border border-gray-200;
+    @apply rounded-sm;
+  }
+
+  .notice {
+    @apply p-4 mb-3;
+    @apply bg-gray-200;
+    @apply rounded;
+    @apply leading-normal;
+  }
+
+  /* Overwrite defaults, which we cannot to inline since markdow makes that hard. */
+  .prose .notice p {
+    @apply m-0;
+  }
+}

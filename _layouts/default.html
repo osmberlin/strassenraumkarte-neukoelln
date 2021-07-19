@@ -1,5 +1,6 @@
 <!Doctype html>
 <html lang="de">
+
 <head>
   <meta charset=utf-8 />
   <title>{{ page.title }}</title>
@@ -8,57 +9,67 @@
   {% feed_meta %}
 
   {% if page.noindex %}
-    <meta name="robots" content="noindex">
+  <meta name="robots" content="noindex">
   {% endif %}
 
   {% if page.canonical_url %}
-    <link rel="canonical" href="{{ page.canonical_url }}" />
+  <link rel="canonical" href="{{ page.canonical_url }}" />
   {% endif %}
 
   {% include social_sharing.html %}
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-  <link href="{{ '/css/tailwind.css' | relative_url }}" rel="stylesheet">
+  <script>
+    /*
+      Toggle 'hidden' to Show/Hide content
+      Trigger Element: `data-show-hide-trigger='navi'`
+      Target Element: `data-show-hide-target='navi'`
+    */
+    document.addEventListener('DOMContentLoaded', function () {
+      const triggers = document.querySelectorAll('[data-show-hide-trigger]');
+      triggers.forEach(trigger => {
+        const triggerTarget = trigger.dataset.showHideTrigger
+        const target = document.querySelector(`[data-show-hide-target=${triggerTarget}]`);
+        trigger.addEventListener('click', () => {
+          target.classList.toggle('hidden');
+          // In case we need this later:
+          // If we change the map-container size, we also need to tell Leaflet to recalculate the avaliable space for tiles
+          // map.invalidateSize()
+          // e.preventDefault()
+        })
+      });
+    });
+  </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  <link href="{{ '/css/tailwind.css' | relative_url }}" rel="stylesheet">
 </head>
 
 <body>
+  <div class="flex flex-col sm:flex-row sm:gap-5 h-screen">
 
-<!-- Navigation Mobile: behind Burger -->
-<nav class="navbar navbar-light bg-light d-sm-none">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Straßenraumkarte Neukölln</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
-      aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      {% include navigation.html %}
-    </div>
-  </div>
-</nav>
+    <nav class="w-full sm:w-60 px-3 py-3 sm:py-6 relative">
+      <h1 class="text-xl sm:text-2xl font-semibold leading-tight">Straßenraumkarte Neukölln</h1>
+      <p class="text-gray-400 sm:mb-5 text-sm">OpenStreetMap Berlin</p>
 
-<div class="container-fluid">
-  <div class="row">
+      <a data-show-hide-trigger='navi'
+        class="block sm:hidden print:hidden absolute top-5 right-5 border border-blue-500 rounded-sm bg-blue-200 text-blue-500">
+        <!-- https://fontawesome.com/v5.15/icons/bars?style=solid -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-8 h-8" viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+        </svg>
+      </a>
 
-    <!-- Navigation Desktop: Left -->
-    <div class="col-sm-3 col-lg-2 gx-5 d-print-none d-none d-sm-block {% if page.layout == 'map' %}overflow-auto vh-100{% endif %}">
-      <h1 class="fs-4 mt-3 mb-0">Straßenraumkarte Neukölln</h1>
-      <p class="text-muted mb-4"><small>OpenStreetMap Berlin</small></p>
-      <div class="">
-      {% include navigation.html %}
+      <div data-show-hide-target='navi' class="hidden sm:block transition-all duration-150">
+        {% include navigation.html %}
       </div>
-    </div>
+    </nav>
 
-    <div class="col-sm-9 col-lg-10 position-relative {% if page.layout == 'map' %}px-0 px-sm-2{% endif %}">
+    <section class="flex-1">
       {{ content }}
-    </div>
+    </section>
 
   </div>
-</div>
 
 </body>
+
 </html>

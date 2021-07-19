@@ -122,7 +122,7 @@ Das ist unser Regelfall. Einzelfälle müsst ihr vor Ort prüfen. Aber wenn bspw
 Ein großes Hilfsmittel bei einem Projekt wie diesem sind gute Straßenfotos. Google Maps-Daten und Google Streetview-Daten dürfen in OSM unter keinem Umständen verwendet werden – das ist ein Lizenz-Thema. Aber wir können können unser eigenes, aktuelle Streetview machen – das heißt ["Mapillary"](https://www.mapillary.com/).
 
 Das sieht dann zum Beipsiel so aus:
-![](https://tordans.github.io/flyingsparks-blog/images-for--openstreetmap-org-user-tordans-diary/2020-12-fahrradstativ/experiment-vor-dem-gesicht-result-1640px.jpeg){: class='img-fluid img-thumbnail' }
+![](https://tordans.github.io/flyingsparks-blog/images-for--openstreetmap-org-user-tordans-diary/2020-12-fahrradstativ/experiment-vor-dem-gesicht-result-1640px.jpeg){: class='img-thumbnail' }
 
 Solche Fotos haben viele Vorteile – zum beispiel:
 - Man kann zu Hause Details mappen, präzisieren oder kontrollieren

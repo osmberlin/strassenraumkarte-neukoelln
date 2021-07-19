@@ -1,5 +1,6 @@
 ---
 layout: default
+redirect_from: parkraumkarte/legend.html
 ---
 
 <!-- Stylesheet for Leafvar icons, fonts etc -->
@@ -9,7 +10,36 @@ layout: default
 <script src="{{ '/javascript/leaflet.js' | relative_url }}"></script>
 <script src="{{ '/javascript/leaflet-hash.js' | relative_url }}"></script>
 
-<!-- Map -->
-<div id="map" class="w-100 vh-100"></div>
+<div class="flex gap-5 h-full">
+  <div id="map" class="w-100 h-full flex-1">
+    <!-- Edit button on Map -->
+    <div class="legend-button absolute top-32 right-2 z-1000">
+      <div class="leaflet-touch">
+        <div class="leaflet-control-layers py-0 px-1 flex">
+          <a data-update-edit-osm href="https://www.openstreetmap.org/edit#map=14/52.4795/13.4445" class="text-xs"
+            target="_blank" rel="noopener noreferrer">
+            Bearbeiten
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Legend button on Map -->
+    <div class="legend-button absolute top-[12.75em] right-2 z-1000">
+      <div class="leaflet-touch">
+        <div class="leaflet-control-layers py-0 px-1 flex">
+          <a data-show-hide-trigger='legend' class="sm:hidden text-sm">
+            Legende
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="absolute sm:static bottom-0 inset-x-0 h-72 sm:h-auto z-1000 bg-white overflow-scroll sm:overscroll-auto px-5 sm:px-0 shadow-2xl sm:shadow-none sm:w-60 vh-100 prose-sm prose-blue hidden sm:block "
+    data-show-hide-target='legend'>
+    {% include legend.html %}
+  </div>
+</div>
 
 {{ content }}
