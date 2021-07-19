@@ -11,14 +11,31 @@ Die Straßenraumkarte bietet eine detaillierte Kartengrundlage für den Berliner
 
 # Development
 
-## Jekyll
+* We use Jekyll to generate the pages – https://jekyllrb.com/
+* We use TailwindCSS in JIT mode to generate the css file – https://tailwindcss.com/docs/just-in-time-mode
 
-* https://jekyllrb.com/
-* `bundle exec jekyll serve --livereload`
-* Liquid Template Language https://shopify.github.io/liquid/basics/introduction/
+## Installation
 
-## Links
+`npm install`
 
-* Layout: Bootstrap 5 via CDN https://getbootstrap.com/docs/5.0/
+Will install Jekyll, TailwindCSS and other required plugins.
+
+## Development
+
+`npm run dev`
+
+Will run TailwindCSS JIT in parallel with Jekyll. Both use live reloading.
+
+## Deploy
+
+_Did CSS change?_
+
+* _Yes, CSS did change?_ – Run `npm run build`, then commit changes to the `css/tailwind.css`.
+* _No, CSS did not change?_ – Commit changes, Github pages will build and update the page.
+
+
+## Useful links
+
+* Jekyll template language reference – https://shopify.github.io/liquid/basics/introduction/ Liquid Template Language
 * HTML to Markdown copy-paste https://euangoddard.github.io/clipboard2markdown/
 * Google Doc/Word to HTML-Table copy-paste https://www.gdoctohtml.com/
