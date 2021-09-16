@@ -15,7 +15,7 @@ noindex: true
 		zoom: 18,
 		minZoom: 15,
 		zoomControl: true,
-		maxBounds: [[52.4557, 13.3985],[52.5005, 13.4863]]
+		maxBounds: [[52.4557, 13.3985], [52.5005, 13.4863]]
 	}
 
 	// Create empty leaflet-map (named "map") on canvas with parameters defined in options
@@ -74,19 +74,19 @@ noindex: true
 	var hash = new L.Hash(map, baseMaps);
 
 	// ?map-Param: Helper: newUrl
-	const mapParamNewURL = function(layer_name) {
+	const mapParamNewURL = function (layer_name) {
 		mapParamHighlightPrimaryMenu(layer_name)
 		return window.location.protocol + "//" + window.location.host + window.location.pathname + '?map=' + layer_name + window.location.hash;
 	}
 
 	// ?map-Param: Helper: highlight Primary Menu
-	const mapParamHighlightPrimaryMenu = function(layer_name) {
-		document.querySelectorAll("a[data-link]").forEach( link => {
-			if(link.classList.contains('active')) {
+	const mapParamHighlightPrimaryMenu = function (layer_name) {
+		document.querySelectorAll("a[data-link]").forEach(link => {
+			if (link.classList.contains('active')) {
 				link.classList.remove('active')
 			}
 		})
-		document.querySelectorAll(`a[data-link=${layer_name}]`).forEach( link => {
+		document.querySelectorAll(`a[data-link=${layer_name}]`).forEach(link => {
 			link.classList.add('active')
 		})
 	}
@@ -114,7 +114,7 @@ noindex: true
 			}
 		})
 
-		layersToBeRemoved.forEach( function(layer) {
+		layersToBeRemoved.forEach(function (layer) {
 			map.removeLayer(layer)
 		})
 		map.addLayer(paramLayer)
