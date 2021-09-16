@@ -3,6 +3,7 @@ title: Straßenraumkarte Neukölln – OpenStreetMap Community Berlin
 layout: map
 micromap_tiles_updated_at: 11.09.2021
 parkingmap_tiles_updated_at: 11.09.2021
+debugmap_tiles_updated_at: 11.09.2021
 noindex: true
 ---
 
@@ -23,6 +24,7 @@ noindex: true
 	var parkingmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/parkingmap/{z}/{x}/{y}.jpg", {
 		name: 'parkingmap',
 		maxZoom: 20,
+		layerControlName: "Parkraumkarte<br><span style='margin-left: 16px;' class='text-muted'>Datenstand: {{ page.parkingmap_tiles_updated_at }}</span>",
 		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
 	})
 	parkingmap.addTo(map);   // This is the initial basemap
@@ -30,24 +32,44 @@ noindex: true
 	var micromap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/{z}/{x}/{y}.jpg", {
 		name: 'micromap',
 		maxZoom: 20,
+		layerControlName: "Straßenraumkarte<br><span style='margin-left: 16px;' class='text-muted'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>",
+		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
+	});
+
+	var debugmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/debug/{z}/{x}/{y}.jpg", {
+		name: 'debugmap',
+		maxZoom: 20,
+		layerControlName: "Debug-Modus Straßenraumkarte<br><span style='margin-left: 16px;' class='text-muted'>Datenstand: {{ page.debugmap_tiles_updated_at }}</span>",
 		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
 	});
 
 	var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 		name: 'osm',
 		maxZoom: 19,
+		layerControlName: "OpenStreetMap",
 		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 	});
 
 	// name set of tilelayers and adds them to the layer-selector
 	var baseMaps = {
-		"Parkraumkarte<br><span style='margin-left: 16px;' class='text-muted'>Datenstand: {{ page.parkingmap_tiles_updated_at }}</span>": parkingmap,
-		"Straßenraumkarte<br><span style='margin-left: 16px;' class='text-muted'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>": micromap,
-		"OpenStreetMap": osm
+		[parkingmap.options.layerControlName]: parkingmap,
+		[micromap.options.layerControlName]: micromap,
+		[debugmap.options.layerControlName]: debugmap,
+		[osm.options.layerControlName]: osm,
 	};
 
-	// define and add control menu
-	L.control.layers(baseMaps,null,{collapsed:false}).addTo(map);
+	// ?map-Param: Helper: mapLayer from ?map-Param
+	// (this will only work for just one param)
+	const mapLayerNameFromURLParam = function () {
+		return window.location.search.substr(1).split('=')[1]
+	}
+
+	// define and add control menu. Show the debugmap layer only if active, so its a "secret" layer.
+	const baseMapsForControls = baseMaps
+	if (mapLayerNameFromURLParam() !== 'debugmap') {
+		delete baseMapsForControls[debugmap.options.layerControlName]
+	}
+	L.control.layers(baseMapsForControls, null, { collapsed: false }).addTo(map);
 
 	var hash = new L.Hash(map, baseMaps);
 
@@ -67,12 +89,6 @@ noindex: true
 		document.querySelectorAll(`a[data-link=${layer_name}]`).forEach( link => {
 			link.classList.add('active')
 		})
-	}
-
-	// ?map-Param: Helper: mapLayer from ?map-Param
-	// (this will only work for just one param)
-	const mapLayerNameFromURLParam = function() {
-		return window.location.search.substr(1).split('=')[1]
 	}
 
 	// ?map-Param: On load, if no ?map-Param present, add one
