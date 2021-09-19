@@ -20,4 +20,10 @@
   .prose .notice p {
     @apply m-0;
   }
+
+  /* Single class so we can toggle it easily in JS. */
+  .menu-active {
+    @apply bg-blue-600 hover:!bg-blue-600 text-blue-50;
+    @apply cursor-text;
+  }
 }
