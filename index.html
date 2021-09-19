@@ -73,26 +73,40 @@ noindex: true
 
 	// ?map-Param: Helper: newUrl
 	const mapParamNewURL = function (layer_name) {
-		mapParamHighlightPrimaryMenu(layer_name)
 		return window.location.protocol + "//" + window.location.host + window.location.pathname + '?map=' + layer_name + window.location.hash;
 	}
 
-	// ?map-Param: Helper: highlight Primary Menu
-	const mapParamHighlightPrimaryMenu = function (layer_name) {
+	// Helper: highlight Primary Menu
+	const highlightPrimaryMenuForMap = function (layer_name) {
 		document.querySelectorAll("a[data-link]").forEach(link => {
-			if (link.classList.contains('active')) {
-				link.classList.remove('active')
+			if (link.classList.contains('menu-active')) {
+				link.classList.remove('menu-active')
 			}
 		})
 		document.querySelectorAll(`a[data-link=${layer_name}]`).forEach(link => {
-			link.classList.add('active')
+			link.classList.add('menu-active')
 		})
+	}
+
+	// Helper: hide Legend panel and buttno but only for 'micromap'
+	const hideLegendForMicroMap = function (layer_name) {
+		if (layer_name !== 'micromap') return
+
+		// Hide Legend panel
+		document.querySelector("[data-show-hide-target='legend']")
+			.style.display = 'none';
+		// Hide Button that would show/hide legend
+		document.querySelector("[data-show-hide-trigger='legend']")
+			.style.display = 'none';
+		// Make sure the map realises we gave it more space
+		map.invalidateSize()
 	}
 
 	// ?map-Param: On load, if no ?map-Param present, add one
 	if (window.location.search.substr(1) === '') {
 		let layer_name = 'parkingmap'
-		mapParamHighlightPrimaryMenu(layer_name)
+		highlightPrimaryMenuForMap(layer_name)
+		hideLegendForMicroMap(layer_name)
 		let newurl = mapParamNewURL(layer_name)
 		history.replaceState({ path: newurl }, '', newurl);
 	}
@@ -116,7 +130,8 @@ noindex: true
 			map.removeLayer(layer)
 		})
 		map.addLayer(paramLayer)
-		mapParamHighlightPrimaryMenu(paramLayerName)
+		highlightPrimaryMenuForMap(paramLayerName)
+		hideLegendForMicroMap(paramLayerName)
 	}
 	mapParamSetMapLayerBasedOnMapParam(map, baseMaps)
 

@@ -6,22 +6,22 @@
   </a>
 
   <a href="{{ '/posts/2021-03-12-parkraumanalyse' | relative_url }}"
-    class="py-2 px-4 border border-gray-200 border-t-0 {% if page.menu_highlight == 'blogpost_parkraumkarte' %}bg-blue-600 text-blue-50{% else %}hover:bg-blue-50{% endif %}">
+    class="py-2 px-4 border border-gray-200 border-t-0 {% if page.menu_highlight == 'blogpost_parkraumkarte' %}menu-active{% else %}hover:bg-blue-50{% endif %}">
     Blogpost
   </a>
 
   <a href="{{ '/posts/2021-06-08-vortrag-fossgis' | relative_url }}"
-    class="py-2 px-4 border border-gray-200 border-t-0 {% if page.menu_highlight == 'vortrag_parkraumanalyse' %}bg-blue-600 text-blue-50{% else %}hover:bg-blue-50{% endif %}">
+    class="py-2 px-4 border border-gray-200 border-t-0 {% if page.menu_highlight == 'vortrag_parkraumanalyse' %}menu-active{% else %}hover:bg-blue-50{% endif %}">
     Vortrag
   </a>
 
   <a href="{{ '/parkraumkarte/report' | relative_url }}"
-    class="py-2 px-4 border border-gray-200 border-t-0 {% if page.menu_highlight == 'report' %}bg-blue-600 text-blue-50{% else %}hover:bg-blue-50{% endif %}">
+    class="py-2 px-4 border border-gray-200 border-t-0 {% if page.menu_highlight == 'report' %}menu-active{% else %}hover:bg-blue-50{% endif %}">
     Methodenbericht
   </a>
 
   <a href="{{ '/parkraumkarte/data' | relative_url }}"
-    class="py-2 px-4 border border-gray-200 border-t-0 rounded-b {% if page.menu_highlight == 'data' %}bg-blue-600 text-blue-50{% else %}hover:bg-blue-50{% endif %}">
+    class="py-2 px-4 border border-gray-200 border-t-0 rounded-b {% if page.menu_highlight == 'data' %}menu-active{% else %}hover:bg-blue-50{% endif %}">
     Daten
   </a>
 </div>
@@ -34,12 +34,12 @@
   </a>
 
   <a href="{{ '/posts/2021-07-18-strassenraumkarte' | relative_url }}"
-    class="py-2 px-4 border border-gray-200 border-t-0 rounded-b {% if page.menu_highlight == 'blogpost_strassenraumkarte' %}bg-blue-600 text-blue-50{% else %}hover:bg-blue-50{% endif %}">
+    class="py-2 px-4 border border-gray-200 border-t-0 rounded-b {% if page.menu_highlight == 'blogpost_strassenraumkarte' %}menu-active{% else %}hover:bg-blue-50{% endif %}">
     Blogpost
   </a>
 </div>
 
-<ul class="md:mb-4 md:ml-4 leading-snug prose prose-sm md:space-y-3 grid grid-cols-3 md:block gap-3 md:gap-0">
+<ul class="lg:mb-4 lg:ml-4 leading-snug prose prose-sm lg:space-y-3 grid grid-cols-3 lg:block gap-3 lg:gap-0">
   <li>
     <a class="hover:text-gray-500 underline {% if page.menu_highlight == 'about' %}text-black no-underline text-bold{% endif %}"
       href="{{ 'about' | relative_url }}">
