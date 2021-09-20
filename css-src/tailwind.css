@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 @layer components {
+  /* https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+     https://lukechannings.com/blog/2021-06-09-does-safari-15-fix-the-vh-bug/ */
+  .computed-h-screen {
+    height: 100vh;
+    height: calc((var(--vh, 1vh) * 100) - env(safe-area-inset-bottom));
+  }
+
   .img-thumbnail {
     @apply p-0.5;
     @apply border border-gray-200;

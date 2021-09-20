@@ -38,13 +38,28 @@
         })
       });
     });
+
+    /*
+      Fix .h-screen, see .computed-h-screen
+      https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+    */
+    // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+    let vh = window.innerHeight * 0.01;
+    // Then we set the value in the --vh custom property to the root of the document
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+    // We listen to the resize event
+    window.addEventListener('resize', () => {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    });
   </script>
 
   <link href="{{ '/css/tailwind.css' | relative_url }}" rel="stylesheet">
 </head>
 
 <body>
-  <div class="flex flex-col lg:flex-row lg:gap-5 h-screen">
+  <div class="flex flex-col lg:flex-row lg:gap-5 computed-h-screen">
 
     <nav class="w-full lg:w-60 px-3 py-3 lg:py-6 relative shadow-xl lg:shadow-none z-[1001] lg:z-auto">
       <h1 class="text-xl lg:text-2xl font-semibold leading-tight">Straßenraumkarte Neukölln</h1>

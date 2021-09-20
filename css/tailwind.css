@@ -1318,6 +1318,14 @@ video {
   --tw-aspect-h: 9;
 }
 
+/* https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+     https://lukechannings.com/blog/2021-06-09-does-safari-15-fix-the-vh-bug/ */
+
+.computed-h-screen {
+  height: 100vh;
+  height: calc((var(--vh, 1vh) * 100) - env(safe-area-inset-bottom));
+}
+
 .img-thumbnail {
   padding: 0.125rem;
   border-width: 1px;
@@ -1549,10 +1557,6 @@ video {
 
 .h-3 {
   height: 0.75rem;
-}
-
-.h-screen {
-  height: 100vh;
 }
 
 .h-8 {
