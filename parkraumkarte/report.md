@@ -131,59 +131,59 @@ Die eigentliche Datenverarbeitung fand weitestgehend automatisiert über Python-
   <caption class="font-semibold mb-6 !text-lg text-left">Tabelle 1: Abstandsdefinitionen zum Parken an verschiedenen baulichen Anlagen.</caption>
   <thead class="bg-gray-200">
     <tr>
-        <th class="w-50">Objekt / bauliche Anlage</th>
-        <th class="w-50">Länge / Abstand</th>
+      <th class="w-50">Objekt / bauliche Anlage</th>
+      <th class="w-50">Länge / Abstand</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-        <td>Kreuzung</td>
-        <td>
+      <td>Kreuzung</td>
+      <td>
         je 5 Meter vor Schnittpunkt der Bordsteinkanten
         <div class="text-gray-400 leading-tight"><small>Seit der StVO-Novelle aus dem Jahr 2020 erhöht sich dieser Abstand auf 8 Meter, wenn sich neben der Fahrbahn ein baulich angelegter Radweg befindet, was im Datenmodell jedoch noch nicht berücksichtigt wird – im Untersuchungsgebiet aber auch nur an vergleichsweise wenigen Kreuzungen der Fall ist.</small></div>
-        </td>
+      </td>
     </tr>
     <tr>
-        <td>Grundst&uuml;cks- und Gebäudeeinfahrten,abgesenkte Bordsteine</td>
-        <td>Breite der Einfahrt, wenn bekannt, aber mindestens 4 Meter</td>
+      <td>Grundst&uuml;cks- und Gebäudeeinfahrten,abgesenkte Bordsteine</td>
+      <td>Breite der Einfahrt, wenn bekannt, aber mindestens 4 Meter</td>
+    </tr>
+    <tr class="border-dashed !border-gray-200">
+      <td>
+        &Uuml;bergänge f&uuml;r andere Verkehrsteilnehmer:
+      </td>
+      <td></td>
+    </tr>
+    <tr class="border-dashed !border-gray-200">
+      <td>
+        <ul class="!m-0">
+          <li class="!m-0">Fu&szlig;gänger&uuml;berwege (Zebrastreifen)</li>
+        </ul>
+      </td>
+      <td>4 Meter und je 5 Meter davor</td>
     </tr>
     <tr class="border-dashed !border-gray-200">
         <td>
-          &Uuml;bergänge f&uuml;r andere Verkehrsteilnehmer:
-        </td>
-        <td></td>
-    </tr>
-    <tr class="border-dashed !border-gray-200">
-        <td>
-          <ul class="!m-0">
-            <li class="!m-0">Fu&szlig;gänger&uuml;berwege (Zebrastreifen)</li>
-          </ul>
-        </td>
-        <td>4 Meter und je 5 Meter davor</td>
-    </tr>
-    <tr class="border-dashed !border-gray-200">
-        <td>
-          <ul class="!m-0">
-            <li class="!m-0">randseitige Markierungen oder Gehwegvorstreckungen</li>
-          </ul>
-        </td>
-        <td>6 Meter</td>
+        <ul class="!m-0">
+          <li class="!m-0">randseitige Markierungen oder Gehwegvorstreckungen</li>
+        </ul>
+      </td>
+      <td>6 Meter</td>
     </tr>
     <tr>
-        <td>
-          <ul class="!m-0">
-            <li class="!m-0">Fu&szlig;gängerfurten und sonstige Markierungen</li>
-          </ul>
-        </td>
-        <td>4 Meter und evtl. Ampeln</td>
+      <td>
+        <ul class="!m-0">
+          <li class="!m-0">Fu&szlig;gängerfurten und sonstige Markierungen</li>
+        </ul>
+      </td>
+      <td>4 Meter und evtl. Ampeln</td>
     </tr>
     <tr>
-        <td>Ampeln (nicht klar geregelt, faktisch kaum eingehalten)</td>
-        <td>10 Meter davor</td>
+      <td>Ampeln (nicht klar geregelt, faktisch kaum eingehalten)</td>
+      <td>10 Meter davor</td>
     </tr>
     <tr>
-        <td>Bushaltestellen</td>
-        <td>15 Meter davor und dahinter</td>
+      <td>Bushaltestellen</td>
+      <td>15 Meter davor und dahinter</td>
     </tr>
   </tbody>
 </table>
