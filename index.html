@@ -69,7 +69,7 @@ noindex: true
 	}
 	L.control.layers(baseMapsForControls, null, { collapsed: false }).addTo(map);
 
-	var hash = new L.Hash(map, baseMaps);
+	var hash = new L.Hash(map);
 
 	// ?map-Param: Helper: newUrl
 	const mapParamNewURL = function (layer_name) {
