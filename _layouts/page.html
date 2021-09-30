@@ -5,10 +5,9 @@ layout: default
 <script async src="{{ '/javascript/linkify-headlines.js' | relative_url }}"></script>
 
 {% if page.show_legend %}
-<nav
-  class="flex w-full prose prose-blue leading-tight print:hidden lg:fixed lg:top-0 lg:bg-white pt-5 lg:pt-0 px-4 lg:px-1">
-  <details class="inline-block">
-    <summary>Inhaltsverzeichnis</summary>
+<nav class="flex w-full prose prose-blue leading-tight print:hidden lg:fixed lg:top-0 pt-5 lg:pt-0 px-4 lg:px-1 z-50">
+  <details class="inline-block bg-blue-50 px-2 rounded-b-sm drop-shadow-lg ring-1 ring-white">
+    <summary class="text-blue-600">Inhaltsverzeichnis</summary>
     <!-- https://github.com/allejo/jekyll-toc -->
     {% include toc.html html=content h_min=2 class='dropdown-menu' anchor_class='dropdown-item' %}
   </details>

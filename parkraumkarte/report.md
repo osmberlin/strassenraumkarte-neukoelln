@@ -147,16 +147,35 @@ Die eigentliche Datenverarbeitung fand weitestgehend automatisiert über Python-
         <td>Grundst&uuml;cks- und Gebäudeeinfahrten,abgesenkte Bordsteine</td>
         <td>Breite der Einfahrt, wenn bekannt, aber mindestens 4 Meter</td>
     </tr>
-    <tr>
+    <tr class="border-dashed !border-gray-200">
         <td>
           &Uuml;bergänge f&uuml;r andere Verkehrsteilnehmer:
-          <ul class="!mb-0">
-            <li>Fu&szlig;gänger&uuml;berwege (Zebrastreifen)</li>
-            <li>randseitige Markierungen oder Gehwegvorstreckungen</li>
-            <li>Fu&szlig;gängerfurten und sonstige Markierungen</li>
+        </td>
+        <td></td>
+    </tr>
+    <tr class="border-dashed !border-gray-200">
+        <td>
+          <ul class="!m-0">
+            <li class="!m-0">Fu&szlig;gänger&uuml;berwege (Zebrastreifen)</li>
           </ul>
         </td>
-        <td>4 Meter und je 5 Meter davor6 Meter4 Meter und evtl. Ampeln</td>
+        <td>4 Meter und je 5 Meter davor</td>
+    </tr>
+    <tr class="border-dashed !border-gray-200">
+        <td>
+          <ul class="!m-0">
+            <li class="!m-0">randseitige Markierungen oder Gehwegvorstreckungen</li>
+          </ul>
+        </td>
+        <td>6 Meter</td>
+    </tr>
+    <tr>
+        <td>
+          <ul class="!m-0">
+            <li class="!m-0">Fu&szlig;gängerfurten und sonstige Markierungen</li>
+          </ul>
+        </td>
+        <td>4 Meter und evtl. Ampeln</td>
     </tr>
     <tr>
         <td>Ampeln (nicht klar geregelt, faktisch kaum eingehalten)</td>
