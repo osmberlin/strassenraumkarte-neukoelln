@@ -1,0 +1,70 @@
+---
+title: MapProxy Demo Map
+layout: false
+---
+
+<!Doctype html>
+<html lang="de">
+
+<head>
+	<meta charset=utf-8 />
+	<title>{{ page.title }}</title>
+	<link rel="shortcut icon" href="{{ '/images/favicon.png' | relative_url }}">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta name="robots" content="noindex">
+
+	<!-- Stylesheet for Leafvar icons, fonts etc -->
+	<link rel="stylesheet" href="{{ '/css/leaflet.css' | relative_url }}" />
+
+	<!--jquery - enables loading a GeoJson from a file directly into Leafvar -->
+	<script src="{{ '/javascript/leaflet.js' | relative_url }}"></script>
+	<script src="{{ '/javascript/leaflet-hash.js' | relative_url }}"></script>
+</head>
+
+<body>
+	<div id="map" style="position: absolute; inset: 0px; background-color: silver; "></div>
+
+	<script>
+		// See https://github.com/codeforberlin/mapproxy-config
+
+		// ?map-Param: Helper: mapLayer from ?map-Param
+		// (this will only work for just one param)
+		const mapLayerNameFromURLParam = function () {
+			return window.location.search.substr(1).split('=')[1]
+		}
+
+		if (!mapLayerNameFromURLParam()) {
+			alert('Missing param url=<TML_URL>')
+		}
+
+		var options = {
+			center: [52.48150, 13.43571],
+			zoom: 18,
+			minZoom: 15,
+			zoomControl: true,
+			maxBounds: [[52.4557, 13.3985], [52.5005, 13.4863]]
+		}
+
+		var map = L.map("map", options);
+
+		var layerByUrl = L.tileLayer(mapLayerNameFromURLParam(), {
+			name: `MapProxy Demo for ${mapLayerNameFromURLParam()}`,
+			maxZoom: 19,
+			attribution: 'Please remeber to look up the attribution on <a href="https://github.com/codeforberlin/mapproxy-config">Github</a>!'
+		});
+
+		map.addLayer(layerByUrl);
+
+		var hash = new L.Hash(map);
+	</script>
+
+	<div class="leaflet-container"
+		style="position: absolute; top: 10px; right: 10px; z-index: 1000; background-color: white; padding: 5px;">
+		<a href="https://github.com/codeforberlin/mapproxy-config">Github</a>
+		<a href="{{ '/imprint' | relative_url }}">Impressum</a>
+	</div>
+
+</body>
+
+</html>
