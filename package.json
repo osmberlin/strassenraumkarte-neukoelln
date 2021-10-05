@@ -4,7 +4,7 @@
     "dev:css": "tailwindcss -i css-src/tailwind.css -o css/tailwind.css --watch",
     "dev:jekyll": "bundle exec jekyll serve --livereload",
     "build": "npm-run-all build:css build:jekyll",
-    "build:css": "tailwindcss -i css-src/tailwind.css -o css/tailwind.css",
+    "build:css": "tailwindcss -i css-src/tailwind.css -o css/tailwind.css --minify",
     "build:jekyll": "bundle exec jekyll build"
   },
   "dependencies": {
