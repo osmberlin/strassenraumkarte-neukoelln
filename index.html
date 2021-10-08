@@ -8,18 +8,22 @@ noindex: true
 ---
 
 <script>
+	const optionsFromHash = L.Hash.parseHash(window.location.hash)
+
 	var options = {
-		center: [52.48150, 13.43571],
-		zoom: 18,
+		center: optionsFromHash.center || [52.48150, 13.43571],
+		zoom: optionsFromHash.zoom || 18,
 		minZoom: 15,
 		zoomControl: true,
 		maxBounds: [[52.4557, 13.3985], [52.5005, 13.4863]]
 	}
 
 	// Create empty leaflet-map (named "map") on canvas with parameters defined in options
-	var map = L.map("map", options);
+	const map = L.map("map", options);
 
-	var parkingmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/parkingmap/{z}/{x}/{y}.jpg", {
+	const hash = new L.Hash(map);
+
+	const parkingmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/parkingmap/{z}/{x}/{y}.jpg", {
 		name: 'parkingmap',
 		maxZoom: 20,
 		layerControlName: "Parkraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.parkingmap_tiles_updated_at }}</span>",
@@ -27,21 +31,21 @@ noindex: true
 	})
 	parkingmap.addTo(map);   // This is the initial basemap
 
-	var micromap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/{z}/{x}/{y}.jpg", {
+	const micromap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/{z}/{x}/{y}.jpg", {
 		name: 'micromap',
 		maxZoom: 20,
 		layerControlName: "Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>",
 		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
 	});
 
-	var debugmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/debug/{z}/{x}/{y}.jpg", {
+	const debugmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/debug/{z}/{x}/{y}.jpg", {
 		name: 'debugmap',
 		maxZoom: 20,
 		layerControlName: "Debug-Modus Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.debugmap_tiles_updated_at }}</span>",
 		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
 	});
 
-	var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+	const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 		name: 'osm',
 		maxZoom: 19,
 		layerControlName: "OpenStreetMap",
@@ -49,7 +53,7 @@ noindex: true
 	});
 
 	// name set of tilelayers and adds them to the layer-selector
-	var baseMaps = {
+	const baseMaps = {
 		[parkingmap.options.layerControlName]: parkingmap,
 		[micromap.options.layerControlName]: micromap,
 		[debugmap.options.layerControlName]: debugmap,
@@ -69,12 +73,20 @@ noindex: true
 	}
 	L.control.layers(baseMapsForControls, null, { collapsed: false }).addTo(map);
 
-	var hash = new L.Hash(map);
-
 	// ?map-Param: Helper: newUrl
 	const mapParamNewURL = function (layer_name) {
 		return window.location.protocol + "//" + window.location.host + window.location.pathname + '?map=' + layer_name + window.location.hash;
 	}
+
+	// Helper: primary navigation switches layer (no reload)
+	document.querySelectorAll("a[data-link]").forEach(link => {
+		console.log(link);
+		link.addEventListener("click", (event) => {
+			const layerName = event.target.dataset.link
+			setMapLayer(map, baseMaps, layerName)
+			event.preventDefault();
+		}, false);
+	})
 
 	// Helper: highlight Primary Menu
 	const highlightPrimaryMenuForMap = function (layer_name) {
@@ -89,16 +101,15 @@ noindex: true
 	}
 
 	// Helper: hide Legend panel and buttno but only for 'micromap'
-	const hideLegendForMicroMap = function (layer_name) {
-		if (layer_name !== 'micromap') return
+	const hideLegendUnlessParkingMap = function (layer_name) {
+		display = (layer_name === 'parkingmap') ? 'block' : 'none'
 
 		// Hide Legend panel
 		document.querySelector("[data-show-hide-target='legend']")
-			.style.display = 'none';
+			.style.display = display;
 		// Hide Button that would show/hide legend
 		document.querySelector("[data-show-hide-trigger='legend']")
-			.style.display = 'none';
-		// Make sure the map realises we gave it more space
+			.style.display = display;
 		map.invalidateSize()
 	}
 
@@ -106,20 +117,19 @@ noindex: true
 	if (window.location.search.substr(1) === '') {
 		let layer_name = 'parkingmap'
 		highlightPrimaryMenuForMap(layer_name)
-		hideLegendForMicroMap(layer_name)
+		hideLegendUnlessParkingMap(layer_name)
 		let newurl = mapParamNewURL(layer_name)
 		history.replaceState({ path: newurl }, '', newurl);
 	}
 
 	// ?map-Param: On load, if ?map-Param present, set Layer to ?map-Param
-	const mapParamSetMapLayerBasedOnMapParam = function (map, baseMaps) {
-		let paramLayerName = mapLayerNameFromURLParam()
+	const setMapLayer = function (map, baseMaps, layerName) {
 		let paramLayer = {}
 		let layersToBeRemoved = []
 
 		Object.keys(baseMaps).map((layer_key, index) => {
 			var layer = baseMaps[layer_key]
-			if (layer.options.name === paramLayerName) {
+			if (layer.options.name === layerName) {
 				paramLayer = layer
 			} else {
 				layersToBeRemoved[index] = layer
@@ -130,10 +140,10 @@ noindex: true
 			map.removeLayer(layer)
 		})
 		map.addLayer(paramLayer)
-		highlightPrimaryMenuForMap(paramLayerName)
-		hideLegendForMicroMap(paramLayerName)
+		highlightPrimaryMenuForMap(layerName)
+		hideLegendUnlessParkingMap(layerName)
 	}
-	mapParamSetMapLayerBasedOnMapParam(map, baseMaps)
+	setMapLayer(map, baseMaps, mapLayerNameFromURLParam())
 
 	// ?map-Param: Whenever the layer is changed, update the URL (and keep the leaflet-hash)
 	const mapParamOnMapMoveOrLayerChange = function (event) {
@@ -153,6 +163,7 @@ noindex: true
 		const lng = center.lng.toFixed(precision);
 		// Will pick the default editor based on user preferences. Add ?editor=id to force iD.
 		editOsmLink.href = `https://www.openstreetmap.org/edit#map=${zoom}/${lat}/${lng}`
+
 	}
 	updateEditOsm() // on page load
 	map.on('moveend', updateEditOsm)
