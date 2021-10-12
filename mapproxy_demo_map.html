@@ -25,16 +25,16 @@ layout: false
 <body>
 	<div id="map" style="position: absolute; inset: 0px; background-color: silver; "></div>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/query-string/7.0.1/index.js"></script>
 	<script>
 		// See https://github.com/codeforberlin/mapproxy-config
 
-		// ?map-Param: Helper: mapLayer from ?map-Param
-		// (this will only work for just one param)
-		const mapLayerNameFromURLParam = function () {
-			return window.location.search.substr(1).split('=')[1]
-		}
+		const queryParams = new URLSearchParams(window.location.search)
+		const mapLayerUrl = queryParams.get('url')
+		const maxNativeZoom = queryParams.get('maxNativeZoom') || 19
+		const name = queryParams.get('name')
 
-		if (!mapLayerNameFromURLParam()) {
+		if (!mapLayerUrl) {
 			alert('Missing param url=<TML_URL>')
 		}
 
@@ -43,15 +43,20 @@ layout: false
 			zoom: 18,
 			minZoom: 15,
 			zoomControl: true,
-			maxBounds: [[52.4557, 13.3985], [52.5005, 13.4863]]
+			//maxBounds: [[52.4557, 13.3985], [52.5005, 13.4863]]
 		}
 
 		var map = L.map("map", options);
 
-		var layerByUrl = L.tileLayer(mapLayerNameFromURLParam(), {
-			name: `MapProxy Demo for ${mapLayerNameFromURLParam()}`,
-			maxZoom: 19,
-			attribution: 'Please remeber to look up the attribution on <a href="https://github.com/codeforberlin/mapproxy-config">Github</a>!'
+		var layerByUrl = L.tileLayer(mapLayerUrl, {
+			name: `MapProxy Demo for ${name}`,
+			maxNativeZoom: maxNativeZoom,
+			maxZoom: 22,
+			attribution: `
+				Please remeber to look up the attribution <a href="https://github.com/codeforberlin/mapproxy-config">on Github</a>!
+				${name ? `<br>${name}` : ''}
+				<br><code>${mapLayerUrl}</code>
+			`
 		});
 
 		map.addLayer(layerByUrl);
