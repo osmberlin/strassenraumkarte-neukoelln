@@ -26,7 +26,7 @@ layout: false
 
 	<div id="app" style="position: absolute; top:0; bottom:0; left:0; right:50%; background-color: lightyellow; "></div>
 	<script type="module">
-		import { OSMViewer } from "./osm_viewer/osm_viewer.bundle.js";
+		import { OSMViewer } from "http://abstreet.s3-website.us-east-2.amazonaws.com/0.2.62/osm_viewer/osm_viewer.bundle.js";
 		let app = new OSMViewer("app");
 
 		document.addEventListener("DOMContentLoaded", function (event) {
