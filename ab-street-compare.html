@@ -1,0 +1,118 @@
+---
+title: AB Street Compare Page – ATM this does not work
+layout: false
+---
+
+<!Doctype html>
+<html lang="de">
+
+<head>
+	<meta charset=utf-8 />
+	<title>{{ page.title }}</title>
+	<link rel="shortcut icon" href="{{ '/images/favicon.png' | relative_url }}">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta name="robots" content="noindex">
+
+	<!-- Stylesheet for Leafvar icons, fonts etc -->
+	<link rel="stylesheet" href="{{ '/css/leaflet.css' | relative_url }}" />
+
+	<!--jquery - enables loading a GeoJson from a file directly into Leafvar -->
+	<script src="{{ '/javascript/leaflet.js' | relative_url }}"></script>
+	<script src="{{ '/javascript/leaflet-hash.js' | relative_url }}"></script>
+</head>
+
+<body>
+
+	<div id="app" style="position: absolute; top:0; bottom:0; left:0; right:50%; background-color: lightyellow; "></div>
+	<script type="module">
+		import { ABStreet } from "http://play.abstreet.org/0.2.62/abstreet/abstreet.bundle.js";
+		let app = new ABStreet("app");
+
+		document.addEventListener("DOMContentLoaded", function (event) {
+			app.loadAndStart();
+		});
+	</script>
+	<div class="leaflet-container"
+		style="position: absolute; bottom: 10px; left: 10px; z-index: 1000; background-color: white; padding: 5px;">
+		<a href="https://github.com/a-b-street/abstreet/issues/777#issuecomment-941784699">AB Street Github Issue</a>
+	</div>
+
+
+
+
+
+
+	<div id="map" style="position: absolute; top:0; bottom:0; left:50%; right:0; background-color: silver; "></div>
+	<script>
+		const optionsFromHash = L.Hash.parseHash(window.location.hash)
+
+		var options = {
+			center: optionsFromHash.center || [52.48150, 13.43571],
+			zoom: optionsFromHash.zoom || 18,
+			minZoom: 15,
+			zoomControl: true,
+			maxBounds: [[52.4557, 13.3985], [52.5005, 13.4863]]
+		}
+
+		const map = L.map("map", options);
+		const hash = new L.Hash(map);
+
+		const parkingmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/parkingmap/{z}/{x}/{y}.jpg", {
+			name: 'parkingmap',
+			maxZoom: 21,
+			maxNativeZoom: 20,
+			layerControlName: "Parkraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.parkingmap_tiles_updated_at }}</span>",
+			attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
+		})
+		parkingmap.addTo(map);   // This is the initial basemap
+
+		const micromap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/{z}/{x}/{y}.jpg", {
+			name: 'micromap',
+			maxZoom: 21,
+			maxNativeZoom: 20,
+			layerControlName: "Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>",
+			attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
+		});
+
+		const debugmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/debug/{z}/{x}/{y}.jpg", {
+			name: 'debugmap',
+			maxZoom: 21,
+			maxNativeZoom: 20,
+			layerControlName: "Debug-Modus Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.debugmap_tiles_updated_at }}</span>",
+			attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
+		});
+
+		const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+			name: 'osm',
+			maxZoom: 21,
+			maxNativeZoom: 19,
+			layerControlName: "OpenStreetMap",
+			attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		});
+
+		// name set of tilelayers and adds them to the layer-selector
+		const baseMaps = {
+			[parkingmap.options.layerControlName]: parkingmap,
+			[micromap.options.layerControlName]: micromap,
+			[debugmap.options.layerControlName]: debugmap,
+			[osm.options.layerControlName]: osm,
+		};
+
+		// ?map-Param: Helper: mapLayer from ?map-Param
+		// (this will only work for just one param)
+		const mapLayerNameFromURLParam = function () {
+			return window.location.search.substr(1).split('=')[1]
+		}
+
+		L.control.layers(baseMaps, null, { collapsed: false }).addTo(map);
+	</script>
+
+	<div class="leaflet-container"
+		style="position: absolute; bottom: 10px; left: calc( 50% + 10px ); z-index: 1000; background-color: white; padding: 5px;">
+		<a href="{{ '/imprint' | relative_url }}">Impressum</a>
+	</div>
+
+</body>
+
+</html>
