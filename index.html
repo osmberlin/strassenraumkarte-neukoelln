@@ -84,7 +84,6 @@ noindex: true
 
 	// Helper: primary navigation switches layer (no reload)
 	document.querySelectorAll("a[data-link]").forEach(link => {
-		console.log(link);
 		link.addEventListener("click", (event) => {
 			const layerName = event.target.dataset.link
 			setMapLayer(map, baseMaps, layerName)
@@ -104,7 +103,7 @@ noindex: true
 		})
 	}
 
-	// Helper: hide Legend panel and buttno but only for 'micromap'
+	// Helper: hide Legend panel and button but only for 'micromap'
 	const hideLegendUnlessParkingMap = function (layer_name) {
 		display = (layer_name === 'parkingmap') ? 'block' : 'none'
 
@@ -116,6 +115,18 @@ noindex: true
 			.style.display = display;
 		map.invalidateSize()
 	}
+
+	// Helper: show/hide Legend panel on click
+	const toggleLegend = function () {
+		const legendPanel = document.querySelector("[data-show-hide-target='legend']")
+		const currentDisplay = legendPanel.style.display
+		const newDisplay = (currentDisplay === 'block') ? 'none' : 'block'
+
+		legendPanel.style.display = newDisplay
+		map.invalidateSize()
+		console.log(legendPanel, currentDisplay, newDisplay)
+	}
+	document.querySelector("[data-show-hide-trigger='legend']").addEventListener('click', toggleLegend)
 
 	// ?map-Param: On load, if no ?map-Param present, add one
 	if (window.location.search.substr(1) === '') {
