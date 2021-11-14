@@ -172,6 +172,20 @@ noindex: true
 	updateEditOsm() // on page load
 	map.on('moveend', updateEditOsm)
 
+	// Update the Mapillary Link with current lat/lng
+	const updateShowOnMapillaryLink = (event) => {
+		const mapillaryLink = document.querySelector('[data-update-mapillary-link]')
+		const center = map.getCenter()
+		const zoom = map.getZoom()
+		const precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2))
+
+		const lat = center.lat.toFixed(precision)
+		const lng = center.lng.toFixed(precision)
+		mapillaryLink.href = `https://www.mapillary.com/app/?z=${zoom}&lat=${lat}&lng=${lng}&focus=map&dateFrom=2020-01-01`
+	}
+	updateShowOnMapillaryLink() // on page load
+	map.on('moveend', updateShowOnMapillaryLink)
+
 	// Write a css class for Zoom and Layer to the body of our legend modal.
 	// We can use CSS to show/hide parts of the layer as needed.
 	const addZoomClassToDiv = (event) => {
