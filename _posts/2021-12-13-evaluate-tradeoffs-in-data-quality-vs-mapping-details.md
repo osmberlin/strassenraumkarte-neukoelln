@@ -8,7 +8,7 @@ layout: post
 language: "en"
 ---
 
-![_Screenshot of the parking map with debugging circles to show different cutoff areas.](../images/posts/strassenraumkarte/parkstreifen-generieren.jpg){: class='img-thumbnail' }
+![Screenshot of the parking map with debugging circles to show different cutoff areas.](../images/posts/parkstreifen-generieren.png){: class='img-thumbnail' }
 
 The volunteer project "[Parkraumkarte](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap#17/52.47379/13.44164)" shows that OSM data can be used to calculate the available roadside parking space with very high accuracy.
 
@@ -59,7 +59,7 @@ Those values are taken from [this table in the report](https://supaplexosm.githu
 
 The values depend on local traffic law; those are values that work well for Berlin.
 
-![_Screenshot of the parking map with debugging circles to show different cutoff areas.](../images/posts/strassenraumkarte/parkstreifen-generieren.jpg){: class='img-thumbnail' }
+![Screenshot of the parking map with debugging circles to show different cutoff areas.](../images/posts/parkstreifen-generieren.png){: class='img-thumbnail' }
 
 _Screenshot of the parking map with debugging circles to show different cutoff areas._
 
@@ -73,8 +73,8 @@ This chapter is meant to provide insight into the questions we would like to hav
 | Step 1a:, Add \`parking:lane\` data >50m         | 1.000 cars            | x% difference to baseline  | \-                               |
 | Step 1b: Add \`parking:lane\`data <50m           | 950 cars              | x2% difference to baseline | Step adds x3% precision          |
 | Step 2: Add driveways and remove cuttof          | 900 cars              | x4% difference to baseline | Step adds x5% precision          |
-| …                                                |                       |                            |                                  |
-{: class='border-b' }
+| Step 3: …                                        | …                     | …                          | …                                |
+{: class='border-t border-b' }
 
 **About Step 1a and 1b:** It would be ideal to split the mapping of Step 1 during analysis to get an even better idea about the error rate of roughly mapped areas.
 
