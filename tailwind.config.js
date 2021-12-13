@@ -1,25 +1,21 @@
 module.exports = {
-  mode: 'jit',
+  mode: "jit",
   purge: [
-    './_includes/**/*.*',
-    './_layouts/**/*.*',
-    './_posts/**/*.*',
-    './javascript/**/*.js',
-    './parkraumkarte/**/*.js',
-    './posts/**/*.js',
-    './parkraumkarte/report.md',
-    './parkraumkarte/data.html',
-    './*.md',
-    './*.html',
+    "./_includes/**/*.*",
+    "./_layouts/**/*.*",
+    "./_posts/**/*.*",
+    "./javascript/**/*.js",
+    "./parkraumkarte/**/*.js",
+    "./posts/**/*.js",
+    "./parkraumkarte/report.md",
+    "./parkraumkarte/data.html",
+    "./*.md",
+    "./*.html",
   ],
-  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
-      screens: {
-        'print': { 'raw': 'print' },
-      },
       zIndex: {
-        '1000': '1000'
+        1000: "1000",
       },
       // colors: {
       //   map: {
@@ -41,7 +37,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/aspect-ratio'),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/aspect-ratio"),
   ],
-}
+};
