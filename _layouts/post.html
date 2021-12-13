@@ -6,7 +6,7 @@ layout: default
 
 <!-- Themen: https://github.com/jekyll/minima/blob/master/_layouts/post.html -->
 <!-- Width: https://tailwindcss.com/docs/max-width#prose -->
-<article class="prose prose-blue max-w-prose py-6 px-4 lg:px-0" itemscope itemtype="http://schema.org/BlogPosting">
+<article class="prose prose-blue max-w-prose py-6 px-4 lg:px-0" itemscope itemtype="http://schema.org/BlogPosting" lang="{{ page.language | default:'de' }}">
   <header class="mb-4">
     <h1 itemprop="name headline">{{ page.title | escape }}</h1>
     <p class="text-gray-400">
