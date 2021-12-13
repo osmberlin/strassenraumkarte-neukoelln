@@ -8,7 +8,7 @@ layout: post
 language: "en"
 ---
 
-![Ausschnitt der Straßenraumkarte Neukölln mit Details wie parkenden Autos, Fuß- und Radwegen.](../images/posts/strassenraumkarte/social-sharing.jpg){: class='img-thumbnail' }
+![_Screenshot of the parking map with debugging circles to show different cutoff areas.](../images/posts/strassenraumkarte/parkstreifen-generieren.jpg){: class='img-thumbnail' }
 
 The volunteer project "[Parkraumkarte](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap#17/52.47379/13.44164)" shows that OSM data can be used to calculate the available roadside parking space with very high accuracy.
 
@@ -28,38 +28,38 @@ This will likely be different for different parking styles. For example, parking
 
 (Again, please check out the video and report for details about how the data is generated and processed.)
 
-- Step 0: The highway lanes are already present in OSM and with it street junction (which represent non-parking space in this analysis)
-- Step 1: We add parking:lane tags to the lanes. Note, that we only cut the lanes when absolutely necessary. We rely on subtracting space by tagging it, rather than cutting lanes in small pieces.
+- **Step 0:** The highway lanes are already present in OSM and with it street junction (which represent non-parking space in this analysis)
+- **Step 1:** We add parking:lane tags to the lanes. Note, that we only cut the lanes when absolutely necessary. We rely on subtracting space by tagging it, rather than cutting lanes in small pieces.
 
 Now we add data, that we use to accurately subtract non-parking space:
 
-- Step 2: We add all driveway, especially private ones, that have a lowered curb or disallow parking by signage or other means.
-- Step 3.1: We map pedestrian crossings as node on the way
-- Step 3.2: We enright the pedestrian crossings nodes with information about the type of markings or protection (eg. curb extensions)
-- Step 4: We map parking bays – street side parking spaces that have a curb – separately, which allows us to more accurately model the curb extensions with trees or just grass in between the parking bays.
-- Step 5: We add trees, traffic signs, street lights, street cabinets where those objects will prevent a car from using the parking space.
-- Step 6: Validate that traffic signals on junctions are mapped on their stop position, rather than on the intersection of the streets ([learn more](https://wiki.openstreetmap.org/wiki/DE:Tag:highway%3Dtraffic_signals)); improve the data if missing.
-- Step 7: Validate that all bus stops (`public_transport=stop_position`) have a node representing the stop area (`highway=bus_stop`) on each side; add them if missing.
-- Step 8: We add parking spaces for bikes or motorcycles that are located on the roadway/lane.
-- Step 9: We add width-attributes to those driveway if they have a special width in order to accurately represent their impact on parking (we assume a default impact on parking of 4m).
-- Step 10: In a separate processing step, we move the parking lane per side from the center of the road to the curb, which slightly changes the geometry and length.
+- **Step 2:** We add all driveway, especially private ones, that have a lowered curb or disallow parking by signage or other means.
+- **Step 3.1:** We map pedestrian crossings as node on the way
+- **Step 3.2:** We enright the pedestrian crossings nodes with information about the type of markings or protection (eg. curb extensions)
+- **Step 4:** We map parking bays – street side parking spaces that have a curb – separately, which allows us to more accurately model the curb extensions with trees or just grass in between the parking bays.
+- **Step 5:** We add trees, traffic signs, street lights, street cabinets where those objects will prevent a car from using the parking space.
+- **Step 6:** Validate that traffic signals on junctions are mapped on their stop position, rather than on the intersection of the streets ([learn more](https://wiki.openstreetmap.org/wiki/DE:Tag:highway%3Dtraffic_signals)); improve the data if missing.
+- **Step 7:** Validate that all bus stops (`public_transport=stop_position`) have a node representing the stop area (`highway=bus_stop`) on each side; add them if missing.
+- **Step 8:** We add parking spaces for bikes or motorcycles that are located on the roadway/lane.
+- **Step 9:** We add width-attributes to those driveway if they have a special width in order to accurately represent their impact on parking (we assume a default impact on parking of 4m).
+- Step **10:** In a separate processing step, we move the parking lane per side from the center of the road to the curb, which slightly changes the geometry and length.
 
 ### Those are the cutoffs that we use for the analysis
 
 Those values are taken from [this table in the report](https://supaplexosm.github.io/strassenraumkarte-neukoelln/parkraumkarte/report#24-datenverarbeitung-zur-modellierung-des-stra%C3%9Fenparkens). Please learn more overthere.
 
-- Crossing: 5m from (virtual) kerb line intersection, depending on road width
-- Pedestrian Crossing:
+- **Crossing:** 5m from (virtual) kerb line intersection, depending on road width
+- **Pedestrian Crossing:**
   - 4m default crossing
   - 6m with “buffer markings” or curb extensions ([Example for both](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.48057/13.43204))
   - 5m before zebra crossings on each side
   - 10m before traffic signals
-- Driveways: 4m if no other width is specified as a tag on the driveway
-- Bus stops: 15m before and after the bus stop sign (`highway=bus_stop`)
+- **Driveways:** 4m if no other width is specified as a tag on the driveway
+- **Bus stops: 15m before and after the bus stop sign (`highway=bus_stop`)
 
 The values depend on local traffic law; those are values that work well for Berlin.
 
-![https://supaplexosm.github.io/strassenraumkarte-neukoelln/images/posts/parkstreifen-generieren.png](Screenshot of the parking lange map with debugging circles)
+![_Screenshot of the parking map with debugging circles to show different cutoff areas.](../images/posts/strassenraumkarte/parkstreifen-generieren.jpg){: class='img-thumbnail' }
 
 _Screenshot of the parking map with debugging circles to show different cutoff areas._
 
@@ -74,10 +74,13 @@ This chapter is meant to provide insight into the questions we would like to hav
 | Step 1b: Add \`parking:lane\`data <50m           | 950 cars              | x2% difference to baseline | Step adds x3% precision          |
 | Step 2: Add driveways and remove cuttof          | 900 cars              | x4% difference to baseline | Step adds x5% precision          |
 | …                                                |                       |                            |                                  |
+{: class='border-b' }
 
-{: .border-1 }
+**About Step 1a and 1b:** It would be ideal to split the mapping of Step 1 during analysis to get an even better idea about the error rate of roughly mapped areas.
 
-This can be done by using a tool like https://zlant.github.io/parking-lanes/#17/52.47906/13.42876 or by adding the tags manually using the iD Editor on osm.org or JOSM. (Sidenote: Building an easy to use editor will be a key effort in scaling this process.)
+**Report step 1.a:** Add attributes that describe the direction of parking (or no parking) for a whole street (crossing to crossing / start to end).
+
+This can be done by using a tool like [zlant.github.io/parking-lanes/](https://zlant.github.io/parking-lanes/#17/52.47906/13.42876) or by adding the tags manually using the iD Editor on osm.org or JOSM. (Side note: Building an easy to use editor will be a key effort in scaling this process.)
 
 We only cut a road where an obvious change in the direction of parking >50m happens.
 
@@ -96,13 +99,13 @@ It might even be possible to do it based on a fictitious street.
 Another approach would be to use an existing area in Berlin. It should have a good spread of different parking directions and pedestrian crossing forms. It should also have a few parking bays.
 
 However, not too much of one of those.
-A lot of `diagonal` or `perpendicular` would increase the error rate since small mapping errors have a bigger impact.
-Reichenberger Kiez in Kreuzberg has a lot of parking bays, which means only Step 4 will become especially important for a high precision.
+- A lot of `diagonal` or `perpendicular` would increase the error rate since small mapping errors have a bigger impact.
+- Reichenberger Kiez in Kreuzberg has a lot of parking bays, which means only Step 4 will become especially important for a high precision.
 
-Possible areas:
+**Possible areas:**
 
-- Schillerkiez – has a lot of different parking situations which are mapped in high precision. There are also a few manual counts for comparison. However, there is a lot of `diagonal` and `perpendicular` parking, so the error rate issue mentioned above needs to be considered.
-- Richardkiez or maybe only the South part of Richardkiez below Richardplatzes. Also a high level of mapping and different parking situations.
+- **Schillerkiez** – has a lot of different parking situations which are mapped in high precision. There are also a few manual counts for comparison. However, there is a lot of `diagonal` and `perpendicular` parking, so the error rate issue mentioned above needs to be considered.
+- **Richardkiez** or maybe only the South part of Richardkiez below Richardplatzes. Also a high level of mapping and different parking situations.
 
 ## Why is this report important
 
