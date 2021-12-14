@@ -3,12 +3,16 @@ title: "Call for help from the data science community: Evaluate tradeoffs in dat
 date: 2021-12-13 06:00:00 +0100
 author: Tobias Jordans @tordans
 layout: post
+description: Let's convince administrations of the data quality created by the OSM community.
+image:
+  path: /images/posts/parkstreifen-generieren.png
+  alt: Parking map with debugging circles to show different cutoff areas.
 # menu_highlight: none
 # canonical_url:
 language: "en"
 ---
 
-![Screenshot of the parking map with debugging circles to show different cutoff areas.](../images/posts/parkstreifen-generieren.png){: class='img-thumbnail' }
+![Parking map (OSM) with debugging circles to show different cutoff areas.](../images/posts/parkstreifen-generieren.png){: class='img-thumbnail' }
 
 The volunteer project "[Parkraumkarte](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap#17/52.47379/13.44164)" shows that OSM data can be used to calculate the available roadside parking space with very high accuracy.
 
@@ -59,7 +63,7 @@ Those values are taken from [this table in the report](https://supaplexosm.githu
 
 The values depend on local traffic law; those are values that work well for Berlin.
 
-![Screenshot of the parking map with debugging circles to show different cutoff areas.](../images/posts/parkstreifen-generieren.png){: class='img-thumbnail' }
+![Parking map (OSM) with debugging circles to show different cutoff areas.](../images/posts/parkstreifen-generieren.png){: class='img-thumbnail' }
 
 _Screenshot of the parking map with debugging circles to show different cutoff areas._
 
