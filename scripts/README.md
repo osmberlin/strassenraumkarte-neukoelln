@@ -29,7 +29,7 @@
 * Background: This script is based on very basic programming and QGIS knowledge. Many steps can certainly be solved much more effectively or elegantly, plus there are still some (marked) TODO's that would make it even better. I am happy about improvements and extensions!
 
 
-# Changelog
+### Changelog
 
 * 2021-03-11  + Added new method to correctly exclude parking lanes in the intersection area
 * 2021-03-11  + Added note on inclusion of separately mapped parking spaces
