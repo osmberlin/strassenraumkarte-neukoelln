@@ -1248,8 +1248,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   right: 1.25rem;
 }
 
-.top-32 {
-  top: 8rem;
+.top-36 {
+  top: 9rem;
 }
 
 .right-2 {
@@ -1260,8 +1260,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   right: 5rem;
 }
 
-.top-\[12\.75em\] {
-  top: 12.75em;
+.top-\[13\.8em\] {
+  top: 13.8em;
 }
 
 .bottom-0 {
@@ -1303,6 +1303,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .\!my-1 {
   margin-top: 0.25rem !important;
   margin-bottom: 0.25rem !important;
+}
+
+.my-0 {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .\!my-6 {
@@ -1511,6 +1516,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   overflow-x: auto;
 }
 
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+
 .rounded-sm {
   border-radius: 0.125rem;
 }
@@ -1598,6 +1607,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-purple-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(233 213 255 / var(--tw-bg-opacity));
+}
+
+.bg-red-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 202 202 / var(--tw-bg-opacity));
 }
 
 .object-cover {
