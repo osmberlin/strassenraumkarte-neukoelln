@@ -1,47 +1,11 @@
-#--------------------------------------------------
-#   Parking lane analysis with OSM data   
-#--------------------------------------------------
-#   see parking analysis project on GitHub for more info: https://github.com/SupaplexOSM/strassenraumkarte-neukoelln
-#--------------------------------------------------
-#   1. Run Overpass-Query for street and parking lane data: http://overpass-turbo.eu/s/127h
-#   2. Export result to 'data/input.geojson'
-#   3. Run this python script in QGIS
-#   4. For the final result, separate steps still have to be done individually afterwards:
-#       - Include bus stops and cut the parking lanes on the side of the road where they are located.
-#           (TODO: could be automated by snapping bus stops or waiting areas to nearby parking lane segments/searching for the nearest side of the road to cut them on that side only).
-#       - Locate objects that affect parking in parking lanes (e.g. street trees or lanterns in the parking lane area, street furniture in kerbside parking) and cut them off from the parking lane segments.
-#       - Check the resulting parking lane data for bugs, depending on how accurate you need it to be.
-#       - Include separately mapped parking areas if needed (parking=surface, street_side etc.)
-#--------------------------------------------------
-#   Note:
-#--------------------------------------------------
-#   > Directory:
-#   Make sure that the following folder structure is existing.
-#   (You can download everything here: https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/tree/main/scripts)
-#   Store the path to this directory in the variable "dir" (see below).
-#     └ your-directory
-#       ├ data/
-#       ┊ └ input.geojson
-#       └ styles/
-#         └ [various style files for provisional rendering]
-#--------------------------------------------------
-#   > Coordinate Reference System:
-#   Results are saved in EPSG:25833 (ETRS89 / UTM zone 33N).
-#   A different CRS may be necessary at other locations (see below).
-#--------------------------------------------------
-#   > Highway Line Representation:
-#   There is no consensus yet on which line the highway objekt in OSM
-#   represents exactly: The centreline of the carriageway or the driving line.
-#   So far, this script calculates the location of parking lanes according to
-#   variant B in this figure (driving line):
-#   https://wiki.openstreetmap.org/wiki/File:Highway_representation.png
-#--------------------------------------------------
-#   > Background:
-#   This script is based on rather basic programming and QGIS skills. Many
-#   steps can certainly be solved much more effectively or elegantly, plus
-#   there are still some (marked) TODO's that would make it even better.
-#   I am happy about improvements and extensions!
-#--------------------------------------------------
+#-----------------------------------------------------------------------------#
+#   Parking lane analysis with OSM data                                       #
+#   ------------------------------------------------------------------------- #
+#   OSM data post-processing for QGIS/PyGIS for rendering the parkingmap at   #
+#   https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap #
+#                                                                             #
+#   > version/date: 2021-12-28                                                #
+#-----------------------------------------------------------------------------#
 
 #-------------------------------------------------#
 #   V a r i a b l e s   a n d   S e t t i n g s   #
@@ -121,7 +85,7 @@ parking_key_list = [
 
 
 #-------------------------------
-#   V a r i a b l e s   E n d   
+#   V a r i a b l e s   E n d
 #-------------------------------
 
 
@@ -214,7 +178,7 @@ def prepareLayers():
         for attr in parking_key_list:
             if attr != 'highway' and attr != 'error_output':
                 layer.renameAttribute(layer.fields().indexOf(attr), 'highway:'+attr)
- 
+
         layer.updateFields()
         layer.commitChanges()
 
@@ -245,7 +209,7 @@ def fillBaseAttributes(layer, commit):
         if layer.fields().indexOf(attr) == -1:
             layer.dataProvider().addAttributes([QgsField(attr, QVariant.String)])
     layer.updateFields()
-        
+
     id_width = layer.fields().indexOf('width_proc')
     id_width_effective = layer.fields().indexOf('width_proc:effective')
     id_parking_left = layer.fields().indexOf('parking:lane:left')
@@ -454,7 +418,7 @@ def fillBaseAttributes(layer, commit):
         #Mögliche Fehlermeldungen in Attribut speichern
         if error == '':
             error = NULL
-        layer.changeAttributeValue(feature.id(), id_error, error)        
+        layer.changeAttributeValue(feature.id(), id_error, error)
 
     layer.updateFields()
     if commit:
@@ -660,7 +624,7 @@ def prepareParkingLane(layer, side, clean):
                 parking_capacity = feature.attribute('parking:lane:both:capacity')
         if parking_capacity != NULL:
             parking_source_capacity = 'OSM'
-            
+
         if vehicles_side:
             parking_vehicles = feature.attribute('parking:condition:' + side + ':vehicles')
         if vehicles_both:
@@ -680,7 +644,7 @@ def prepareParkingLane(layer, side, clean):
                     if not 'left' in attr and not attr in readable_attributes:
                         if feature.attribute(attr):
                             error += '[ig_ar] Attribut "' + attr + '" nicht berücksichtigt. '
-            
+
         #ermittelte Parkstreifeninformationen in die Attributtabelle des Straßenabschnitts übertragen
         if parking_position == 'lay_by' or parking_position == 'street_side':
             layer.changeAttributeValue(feature.id(), id_parking, 'street_side')
@@ -803,7 +767,7 @@ def getKerbIntersections(layer):
 # > layer: Der Layer, für den die Schnittpunkte ermittelt werden sollen.
 #---------------------------------------------------------------------
 
-    #Zunächst kurze Unterbrechungen an Kreuzungen erzeugen, um fehlerhafte Schnittpunkte (bei leichten Kurven) nach Versatz zu vermeiden 
+    #Zunächst kurze Unterbrechungen an Kreuzungen erzeugen, um fehlerhafte Schnittpunkte (bei leichten Kurven) nach Versatz zu vermeiden
     layer_diss_streets = layer
     #layer_diss_streets = processing.run('native:dissolve', {'FIELD' : ['name','parking:lane:left:offset','parking:lane:right:offset'], 'INPUT': layer, 'OUTPUT': 'memory:'})['OUTPUT']
     layer_streets_intersect = processing.run('native:lineintersections', {'INPUT' : layer_diss_streets, 'INTERSECT' : layer_diss_streets, 'OUTPUT': 'memory:'})['OUTPUT']
@@ -832,7 +796,7 @@ def getKerbIntersections(layer):
     return(layer_streets_intersect)
 
 
-    
+
 def bufferIntersection(layer_parking, layer_intersect, buffer, buffer_name, intersects):
 #-------------------------------------------------------------
 #   E i n m ü n d u n g e n   f r e i h a l t e n
@@ -889,7 +853,7 @@ def bufferCrossing(layer_parking, layer_crossing, side):
 #    crossing:kerb_extension                     -> 3 m
 #        both: an beiden abziehen
 #        left/right je Seite abziehen
-#----------------------------------------------------------------------------- 
+#-----------------------------------------------------------------------------
 
     #Übergänge nach gemeinsamen Kriterien/Radien auswählen und Teilpuffer (mit Radius x) ziehen:
     #Vor Lichtzeichenanlagen/Ampeln 10 Meter Halteverbot (StVO) - beidseitig berücksichtigen, wenn Ampel nicht fahrtrichtungsabhängig erfasst ist
