@@ -56,12 +56,21 @@ noindex: true
 		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 	});
 
+	const luftbild2020 = L.tileLayer("https://tiles.codefor.de/berlin-2020-truedop20rgb/{z}/{x}/{y}.png", {
+		name: 'luftbild2020',
+		maxZoom: 21,
+		maxNativeZoom: 19,
+		layerControlName: "Luftbilder 2020",
+		attribution: '<a href="https://fbinter.stadt-berlin.de/fb/index.jsp?loginkey=zoomStart&mapId=k_luftbild2020_true_rgb@senstadt&bbox=388712,5818615,394579,5822445">Geoportal Berlin / Digitale farbige TrueOrthophotos 2020 (TrueDOP20RGB) - Sommerbefliegung</a>'
+	});
+
 	// name set of tilelayers and adds them to the layer-selector
 	const baseMaps = {
 		[parkingmap.options.layerControlName]: parkingmap,
 		[micromap.options.layerControlName]: micromap,
 		[debugmap.options.layerControlName]: debugmap,
 		[osm.options.layerControlName]: osm,
+		[luftbild2020.options.layerControlName]: luftbild2020,
 	};
 
 	// ?map-Param: Helper: mapLayer from ?map-Param

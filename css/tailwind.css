@@ -1276,6 +1276,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   left: 0.25rem;
 }
 
+.top-36 {
+  top: 9rem;
+}
+
+.top-\[13\.8em\] {
+  top: 13.8em;
+}
+
 .z-\[1001\] {
   z-index: 1001;
 }
