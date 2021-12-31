@@ -26,7 +26,7 @@ minima:
 
 # Build settings
 
-permalink: /posts/:year-:month-:day-:title:output_ext
+permalink: /posts/:year-:month-:day-:title
 
 markdown: kramdown
 kramdown:
