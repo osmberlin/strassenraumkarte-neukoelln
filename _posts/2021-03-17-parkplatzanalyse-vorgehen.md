@@ -7,7 +7,11 @@ layout: post
 # canonical_url:
 ---
 
+<div class="notice mb-12 bg-red-200">
+
 ```WIP. Dieser Artikel ist noch in Arbeit.```
+
+</div>
 
 ## Es ist nicht mal eben schnell gemacht
 {: class="mt-5 mb-4" }
