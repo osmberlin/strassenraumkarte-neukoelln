@@ -13,7 +13,7 @@ image:
   path: /images/social-sharing.png
   alt: Ausschnitt der Parkraumkarte Neukölln mit Visualisierung des Flächenverbrauchs.
 twitter:
-  username: '@osmberlin'
+  username: "@osmberlin"
   card: summary_large_image
 
 # Minima date format
@@ -43,4 +43,4 @@ plugins:
   - jekyll-redirect-from
 
 # We do not want the TailwindCSS Source File to be looked at by Jekyll
-exclude: ['css-src']
+exclude: ["css-src"]
