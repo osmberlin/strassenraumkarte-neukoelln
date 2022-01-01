@@ -1867,26 +1867,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   transition-duration: 150ms;
 }
 
-.\[--tw-prose-bullets\:_black\] {
-  --tw-prose-bullets: black;
-}
-
-.\[--tw-prose-bullets\:_blue\] {
-  --tw-prose-bullets: blue;
-}
-
-.\[--tw-prose-bullets\:_bg-blue-800\] {
-  --tw-prose-bullets: bg-blue-800;
-}
-
-.\[--tw-prose-bullets\:_bg-blue-400\] {
-  --tw-prose-bullets: bg-blue-400;
-}
-
-.\[--tw-prose-bullets\:_darkgray\] {
-  --tw-prose-bullets: darkgray;
-}
-
 .\[--tw-prose-bullets\:_gray\] {
   --tw-prose-bullets: gray;
 }
