@@ -1505,6 +1505,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   overflow-x: auto;
 }
 
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
 .whitespace-nowrap {
   white-space: nowrap;
 }
