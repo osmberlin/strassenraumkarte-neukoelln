@@ -445,3 +445,12 @@ Interpreting OSM lane data for visualizations like this or projects like AB Stre
 ## Have fun exploring Neukölln
 
 That’s it for this update. Have fun exploring Neukölln 👋.
+
+<div class="notice bg-purple-200 mt-12 pb-6">
+
+## Comments
+{: class="mt-3 mb-3"}
+
+[Please use the comment on this OSM Blogpost to talk about this post.](https://www.openstreetmap.org/user/tordans/diary/398372)
+
+</div>
