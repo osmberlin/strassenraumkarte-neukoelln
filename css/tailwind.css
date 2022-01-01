@@ -1900,6 +1900,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   opacity: 1;
 }
 
+.prose-headings\:scroll-mt-10 :is(:where(h1, h2, h3, h4, th):not(:where([class~="not-prose"] *))) {
+  scroll-margin-top: 2.5rem;
+}
+
 .prose-a\:tracking-wide :is(:where(a):not(:where([class~="not-prose"] *))) {
   letter-spacing: 0.025em;
 }
