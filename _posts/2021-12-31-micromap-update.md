@@ -1,6 +1,7 @@
 ---
-title: Detailed rendering of bicycle lanes and junctions as part of the OSM “Straßenraumkarte”
+title: Detailed rendering of bicycle lanes and junctions as part of the OSM "Straßenraumkarte"
 date: 2021-12-31 06:00:00 +0100
+modified_date: 2022-01-01 20:00:00 +0100
 author: Tobias Jordans @tordans
 layout: post
 show_legend: true
@@ -13,13 +14,13 @@ image:
 language: "en"
 ---
 
-Our [last blog post (German) about the “Straßenraumkarte” (public space map)](https://supaplexosm.github.io/strassenraumkarte-neukoelln/posts/2021-07-18-strassenraumkarte) is a few month old now. Alex [@Supaplex030](https://www.openstreetmap.org/user/Supaplex030) continued to improve his map with even more attention to detail.
+Our [last blog post (German) about the "Straßenraumkarte" (public space map)](https://supaplexosm.github.io/strassenraumkarte-neukoelln/posts/2021-07-18-strassenraumkarte) is a few month old now. Alex continued to improve his map with even more attention to detail.
 
-This blog post will look at those details, showing example screenshots and referencing the (micro) mapping practices – the tags – required to generate such an exquisite map. It is written by Tobias @tordans with Alex’ @Supaplex030 input and review.
+This blog post will look at those details, showing example screenshots and referencing the (micro) mapping practices – the tags – required to generate such an exquisite map. It is written by Tobias [@tordans](https://www.openstreetmap.org/user/tordans) with Alex’ [@Supaplex030](https://www.openstreetmap.org/user/Supaplex030) input and review.
 
 ## An experimental map for Neukölln
 
-As a reminder, this map is part of the [Berlin OSM Verkehrswende UserGroup](https://wiki.openstreetmap.org/wiki/Berlin/Verkehrswende) (traffic evolution user group). It is an experiment, focussed on showcasing how detailed mapping of urban environment and street lane infrastructure – especially for bike and foot traffic – can be done with OSM.
+As a reminder, this map is part of the [Berlin OSM Verkehrswende UserGroup](https://wiki.openstreetmap.org/wiki/Berlin/Verkehrswende) (user group OSM "traffic evolution"). It is an experiment, focussed on showcasing how detailed mapping of urban environment and street lane infrastructure – especially for bike and foot traffic – can be done with OSM.
 
 It is only available for the district of Berlin Neukölln since it requires a very high detail of mapping in the area and the pre-processing script is optimized for experimentation and details, not scale.
 
@@ -33,15 +34,15 @@ _Location: https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=microm
 
 Most of the micromapping involved for bike lanes is documented [in our work in progress wiki page (German)](https://wiki.openstreetmap.org/wiki/Berlin/Verkehrswende/Radwege) and the [work in progress proposal page for `cycleway:separation` (English)](https://wiki.openstreetmap.org/wiki/Proposed_features/cycleway:separation). Most importantly, we show …
 
-Surface color where present, mainly `highway=cycleway + surface:colour=red|green`.
-Line marking and separation, mainly: `highway=cycleway + separation:left|right=solid_line|dashed_line|bollard` and `buffer:left|right=<m>`.
-Cycleway `width`, where specified.
+- Surface color where present, mainly `highway=cycleway + surface:colour=red|green`.
+- Line marking and separation, mainly: `highway=cycleway + separation:left|right=solid_line|dashed_line|bollard` and `buffer:left|right=<m>`.
+- Cycleway `width`, where specified.
 
-Those are the tags used for separately mapped cycle ways, the wiki page shows examples for mapping on the main lane. Alex will possibly also evaluate `cycleway:lane` in the future, but these data are actually redundant and sometimes incorrect.
+Those are the tags used for separately mapped cycle ways, the wiki page shows examples for mapping on the main lane.
 
 ![](../images/posts/strassenraumkarte-update-2021/kms-schutzstreifen-ampel.png)
 
-_Karl-Marx-Str. – Bicycle lane with traffic signal crossing and cars parked street side. https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.47663/13.43930_
+_Karl-Marx-Str. – Bicycle lane with unmarked pedestrian crossing and cars parked street side. https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.47663/13.43930_
 
 ![](../images/posts/strassenraumkarte-update-2021/hasenheide-protected-bike-lane.png)
 
@@ -76,7 +77,7 @@ _https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.4
 To display this correctly, more information is required:
 
 - Again, `lanes=2` tells us to look out for two car lanes (historically only counting car lanes, even if there are special lanes for cyclists)
-- But `bicycle:lanes=no|designated|yes` and `vehicle:lanes=yes|no|yes` indicates that there are more traffic modes present than cars – an exclusive bike lane between the car lanes in this case (`cycleway:lanes=none|lane|none` makes it more explicit that this is a cycle lane). `turn:lanes=through|through|right` is used for rendering the turn lane arrows.
+- But `bicycle:lanes=no|designated|yes` and `vehicle:lanes=yes|no|yes` indicates that there are more traffic modes present than cars – an exclusive bike lane between the car lanes in this case (`cycleway:lanes=none|lane|none` makes it more explicit that this is a cycle lane). `turn:lanes=left|left;through|right` is used for rendering the turn lane arrows.
 - In this case, we mapped the available space/lane width directly with `width:lanes=3|1.5|4` (car lane, cycle lane, car lane)
 - Additionally, `placement=right_of:1` helps to place the lanes precisely in relation to position of the osm way by indicating that the way geometry is located right of the first (left) lane and all other lanes are to be rendered right of it.
 
@@ -98,7 +99,7 @@ _https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.4
 
 ## Lane markings: Buses only…
 
-And while we are on the topic of painting on the lanes: Bus lanes are rendered with a “BUS” sign, based on `lanes=3 + lanes:psv=1`. Tagging Reminder: in this case – and in contrast to the cycle way lane described in the chapter above – the bus lane is counted as part of `lanes`-count.
+And while we are on the topic of painting on the lanes: Bus lanes are rendered with a "BUS" sign, based on `lanes=3 + lanes:psv=1`. Tagging Reminder: in this case – and in contrast to the cycle way lane described in the chapter above – the bus lane is counted as part of `lanes`-count.
 
 ![](../images/posts/strassenraumkarte-update-2021/bus-lanes.png)
 
@@ -126,15 +127,15 @@ _https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#19/52.4
 
 A key challenge for the correct rendering of lanes are situations, when lanes split to create room for eg. traffic islands. An example for such a situation is [way/954390045 at Hermannstraße (OSM)](https://www.openstreetmap.org/way/954390045) which flows around a [`traffic_calming=island` area (OSM)](https://www.openstreetmap.org/way/954421085).
 
-Without any special treatment, the lanes would show up wrong (see Illustration, section “Rendering (lane markings)”, left), since the OSM data is not optimized for renderers. The goal is to show the lane markings as going more or less straight past the traffic island (see Illustration, right).
+Without any special treatment, the lanes would show up wrong (see Illustration, section "Rendering (lane markings)", left), since the OSM data is not optimized for renderers. The goal is to show the lane markings as going more or less straight past the traffic island (see Illustration, right).
 
 ![](../images/posts/strassenraumkarte-update-2021/traffic-islands-graphic-lane-markings.png)
 
-_Illustration: Spreading the OSM data to improve the rendering of lane markings for traffic islands._
+_Illustration: Spreading the OSM data to improve the rendering of lane markings for traffic islands during pre-processing._
 
 To solve this problem, we first need to identify those lane segments that are part of a dual carriageway, but split during mapping. In Neukölln, we use the tag `dual_carriageway=yes` ([Wiki](https://wiki.openstreetmap.org/wiki/Key:dual_carriageway)) for this.
 
-During pre-processing, the script can now check where a lane segment with `dual_carriageway=yes` connects to a lane segment without the tag and then split and spread the lane (see Illustration, section “OSM data”, right).
+During pre-processing, the script can now check where a lane segment with `dual_carriageway=yes` connects to a lane segment without the tag and then split and spread the lane (see Illustration, section "Post processed").
 
 ![](../images/posts/strassenraumkarte-update-2021/traffic-island-spread-lane-for-renderer.png)
 
@@ -148,7 +149,7 @@ The goal of Alex’ micro mapping map is to create a map based on OSM data that 
 
 **Stop lines:** For this experimental map and for this area, that is mapped in high detail, this problem is solved (see below).
 
-**Lanes and turn lanes on the junction:** Unfortunately, this is still not solved. Below is a list of experiments that solve part of this problem. But they are complex to map and are touching (or crossing?) the border to be “tagging for the renderer”.
+**Lanes and turn lanes on the junction:** Unfortunately, this is still not solved. Below is a list of experiments that solve part of this problem. But they are complex to map and are touching (or crossing?) the border to be "tagging for the renderer".
 
 ### The issue with junctions
 
@@ -245,7 +246,7 @@ Since we just talked about `area:highway`, let’s have a look at another detail
 
 _https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.48725/13.42162, https://www.openstreetmap.org/way/964402773_
 
-You [will also find places (Example)](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#19/52.47129/13.44195) where this micro mapping is in conflict with the detailed rendering of bike lanes. [At Glasgower Straße](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.46476/13.43972), those markings are supposed to tame parked cars into their right spot, which makes for an unusuals pattern.
+You [will also find places (Example)](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#19/52.47129/13.44195) where this micro mapping is in conflict with the detailed rendering of bike lanes. [At Glasower Straße](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.46476/13.43972), those markings are supposed to tame parked cars into their right spot, which makes for an unusuals pattern.
 
 ## Pedestrian crossings: Show them in detail…
 
@@ -257,7 +258,7 @@ Following the spirit of the map, pedestrian crossings are rendered as detailed a
 
 _https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#21/52.47588/13.43361, https://www.openstreetmap.org/node/4420684679 and https://www.openstreetmap.org/way/793810102_
 
-**Example: Crossing with paint** `crossing:buffer_marking=both` (Experimental tagging, see [Wiki “Gehwege” (German)](https://wiki.openstreetmap.org/wiki/Berlin/Verkehrswende/Gehwege))
+**Example: Crossing with paint** `crossing:buffer_marking=both` (Experimental tagging, see [Wiki "Gehwege" (German)](https://wiki.openstreetmap.org/wiki/Berlin/Verkehrswende/Gehwege))
 
 ![](../images/posts/strassenraumkarte-update-2021/pedestrian-crossing-buffer-marking.png)
 
@@ -293,9 +294,9 @@ The updated map provides some nice motivation to add [tactile paving tagging (Wi
 
 To render it in the right place, the preprocessor creates a buffer circle around the curb node (with the buffer depending on the crossing `width` or using a default value) and clips the intersecting `barrier=kerb` way segments inside this buffer.
 
-## Protection for bike stands
+## Barrier boards
 
-Another little detail of the map is how the barriers of bike stands become visible. We micromap them with `barrier=barrier_board + traffic_sign=DE:600` (if that is the case), which becomes visible on the map:
+Another little detail of the map is how the more types of barriers become visible. We micromap them with `barrier=barrier_board + traffic_sign=DE:600` (if that is the case). In Neukölln, they are often used to split off sections of parked cars and protect bike stands.
 
 ![](../images/posts/strassenraumkarte-update-2021/barrier-barrier_board.png)
 
@@ -307,7 +308,7 @@ Before we finish, let’s take a break and look at some trees.
 
 They have always been rendered in a lot of detail – respecting the crown diameter where tagged ([`diameter_crown`](https://wiki.openstreetmap.org/wiki/Key:diameter_crown) and trying to derive a good fallback value based on height, age or the trunk’s [`circumference`](https://wiki.openstreetmap.org/wiki/Key:circumference).
 
-Now, let’s have a look at the `natural=wood` in our [“Hasenheide” park](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#19/52.48046/13.41968) ([OSM](https://www.openstreetmap.org/way/85597787)).
+Now, let’s have a look at the `natural=wood` in our [our Lessinghöhe park](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#19/52.47673/13.43550) ([OSM](https://www.openstreetmap.org/way/211509952)).
 
 ![](../images/posts/strassenraumkarte-update-2021/landuse-forest.png)
 
@@ -319,13 +320,15 @@ The trees of the wood are placed randomly in a nicely organized hexagon grid, re
 
 ![](../images/posts/strassenraumkarte-update-2021/landuse-forest-grid.jpg)
 
-But how do I know which tree is micro mapped (real) and which are “virtually” trees in woods? Glad you asked ;-). Separately mapped trees are indicated by the brown trunc in the middle (which size is based on the mapped or derived circumvence, of course).
+_https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#19/52.48046/13.41968, https://www.openstreetmap.org/way/1006745908_
+
+But how do I know which tree is micro mapped (real) and which are "virtually" trees in woods? Glad you asked ;-). Separately mapped trees are indicated by the brown trunc in the middle (which size is based on the mapped or derived circumvence, of course).
 
 ## Finally, parked cars
 
 In case you didn't know, this map first started as a side project to the parking analysis ([Map](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap#17/52.47379/13.43968), [Blogpost (EN)](https://www.openstreetmap.org/user/Supaplex030/diary/396104)). So those parked cars were already visualized in high detail right from the start.
 
-But this would not be a good micro map update, without adding some details to parking, so here is `access=police` in this one place in Neukölln where **only police may park**:
+But this would not be a good micro map update, without adding some details to parking, so here is a place where **only police may park**:
 
 ![](../images/posts/strassenraumkarte-update-2021/parking-access-police.png)
 
@@ -339,7 +342,7 @@ _https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.4
 
 And a place where **only taxi are allowed to park** `parking:condition:right|left=taxi`
 
-![](../images/posts/strassenraumkarte-update-2021/parking-access-bus.png)
+![](../images/posts/strassenraumkarte-update-2021/parking-access-taxi.png)
 
 _https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.49254/13.41311, https://www.openstreetmap.org/way/933605619_
 
@@ -363,9 +366,9 @@ There are two datasets here that would benefit from a standardized processing sc
 
 For this experiment in Neukölln, [the data is available in a preprocessed format](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/tree/main/data) on GitHub. So is the [GQIS/Python Script to process the OSM parking data](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/blob/main/scripts/parking_lanes). And there is even [a video of Alex explaining with nice visual slides how the model works](https://pretalx.com/fossgis2021/talk/ZA7MQV/) in his FOSSGIS presentation from the beginning of the year.
 
-Btw, we would like to continue evaluating this process. Read more at [“Call for help from the data science community: Evaluate tradeoffs in data quality for mapping parking data in OSM”](https://supaplexosm.github.io/strassenraumkarte-neukoelln/posts/2021-12-13-evaluate-tradeoffs-in-data-quality-vs-mapping-details).
+Btw, we would like to continue evaluating this process. Read more at ["Call for help from the data science community: Evaluate tradeoffs in data quality for mapping parking data in OSM"](https://supaplexosm.github.io/strassenraumkarte-neukoelln/posts/2021-12-13-evaluate-tradeoffs-in-data-quality-vs-mapping-details).
 
-**Preprossed lane data:**
+**Preprocessed lane data:**
 
 Alex published the [QGIS/Python Script](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/tree/main/scripts/post_processing) that does a lot of the processing described in this blogpost.
 
