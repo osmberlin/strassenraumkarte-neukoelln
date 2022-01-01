@@ -1,6 +1,5 @@
 module.exports = {
-  mode: "jit",
-  purge: [
+  content: [
     "./_includes/**/*.*",
     "./_layouts/**/*.*",
     "./_posts/**/*.*",
