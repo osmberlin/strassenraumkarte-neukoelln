@@ -1,0 +1,41 @@
+{% comment %} https://stackoverflow.com/a/59888583/729221 {% endcomment %}
+{::nomarkdown}
+<figure
+  class="
+    ring-1 ring-neutral-700 ring-offset-2
+    rounded
+    shadow-lg
+    overflow-clip
+    bg-neutral-700
+    prose-a:text-white prose-a:tracking-wide
+  "
+>
+  <img
+    src="{{ include.src | relative_url }}"
+    alt="{{ include.alt }}"
+    class="mb-0"
+  />
+
+  {% if include.caption or include.map_url or include.osm_url or
+  include.mapillary_url %}
+  <figcaption class="text-white border-t border-white m-0 p-2">
+    {% if include.caption %} {{ include.caption }}{% endif %}
+    <div class="space-x-2">
+      {% if include.map_url %}<a href="{{ include.map_url }}"
+        >Straßenraumkarte</a
+      >{% endif %} {% if include.osm_urls %}{% assign osm_urls =
+      include.osm_urls | split: ", " %} {% for osm_url in osm_urls %}<a
+        href="{{ osm_url }}"
+        >OSM {{ osm_url | remove:"https://www.openstreetmap.org/" }}</a
+      >{% endfor %} {% endif %} {% if include.osm_url %}<a
+        href="{{ include.osm_url }}"
+        >OSM</a
+      >{% endif %} {% if include.mapillary_url %}<a
+        href="{{ include.mapillary_url }}"
+        >Mapillary</a
+      >{% endif %}
+    </div>
+  </figcaption>
+  {% endif %}
+</figure>
+{:/}

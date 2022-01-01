@@ -8,15 +8,27 @@ layout: default
 
 <!-- Themen: https://github.com/jekyll/minima/blob/master/_layouts/post.html -->
 <!-- Width: https://tailwindcss.com/docs/max-width#prose -->
-<article class="
+<article
+  class="
     prose prose-blue
-    prose-code:before:content-none prose-code:after:content-none
-    prose-code:bg-neutral-100 prose-code:text-neutral-800
-    prose-code:rounded prose-code:py-1 prose-code:px-1.5 prose-code:box-decoration-clone
-    max-w-prose py-6 px-4 lg:px-0
+    prose-code:before:content-none
+    prose-code:after:content-none
+    prose-code:bg-neutral-100
+    prose-code:text-neutral-800
+    prose-code:rounded
+    prose-code:py-1
+    prose-code:px-1.5
+    prose-code:box-decoration-clone
+    [--tw-prose-bullets:_gray]
+    max-w-prose
+    py-6
+    px-4
+    lg:px-0
   "
-  itemscope itemtype="http://schema.org/BlogPosting"
-  lang="{{ page.language | default:'de' }}">
+  itemscope
+  itemtype="http://schema.org/BlogPosting"
+  lang="{{ page.language | default:'de' }}"
+>
   <header class="mb-4">
     <h1 itemprop="name headline">{{ page.title | escape }}</h1>
     <p class="text-gray-400">
