@@ -190,7 +190,7 @@ For comparison, let’s have a look at this junction on an aerial image:
 
 {% include image.html
 src="images/posts/strassenraumkarte-update-2021/junction-no-special-treatment-areal-image.png"
-caption="<https://supaplexosm.github.io/strassenraumkarte-neukoelln/mapproxy_demo_map.html?url=https://mapproxy.codefor.de/tiles/1.0.0/2021/mercator/{z}/{x}/{y}.png)#20/52.49391/13.40319> (which is a demo URL for <https://luftbilder.berlin.codefor.de>)"
+caption="<a href='https://supaplexosm.github.io/strassenraumkarte-neukoelln/mapproxy_demo_map.html?url=https://mapproxy.codefor.de/tiles/1.0.0/2021/mercator/{z}/{x}/{y}.png#20/52.49391/13.40319'>Aerial image</a> (which is a demo URL for luftbilder.berlin.codefor.de)"
 %}
 
 ### For now, cut out junctions with `area:highway`
