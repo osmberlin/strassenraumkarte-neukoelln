@@ -7,7 +7,7 @@ layout: post
 show_legend: true
 description: An illustrated update on micro mapping and micro rendering junctions, lanes and trees.
 image:
-  path: /images/posts/strassenraumkarte-update-2021/social-sharing.png
+  path: /images/posts/strassenraumkarte-update-2021/social-sharing.jpg
   alt: Parking map with debugging circles to show different cutoff areas.
 # menu_highlight: none
 # canonical_url:
