@@ -1,0 +1,13 @@
+
+<h2 class="text-xl font-semibold my-2">Straßenraumkarte</h2>
+<div class="mb-7 flex flex-col">
+  <a data-link="micromap" href="{{ '/?map=micromap' | relative_url }}"
+    class="py-2 px-4 border border-gray-200 rounded-t hover:bg-blue-50">
+    Karte
+  </a>
+
+  <a href="{{ '/posts/2021-07-18-strassenraumkarte' | relative_url }}"
+    class="py-2 px-4 border border-gray-200 border-t-0 rounded-b {% if page.menu_highlight == 'blogpost_strassenraumkarte' %}menu-active{% else %}hover:bg-blue-50{% endif %}">
+    Blogpost
+  </a>
+</div>
