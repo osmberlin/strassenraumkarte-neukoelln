@@ -229,7 +229,7 @@ map_url="https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap
 
 {% include image.html
 src="images/posts/strassenraumkarte-update-2021/stop-lines-with-area-highway-shape.png"
-caption="Left: OSM with <code>area:highway</code>-schape; Right: The rendering vor comparison."
+caption="Left: OSM with <code>area:highway</code>-schape; Right: The rendering for comparison."
 osm_url="https://www.openstreetmap.org/way/964402755"
 %}
 
