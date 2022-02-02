@@ -11,10 +11,12 @@
 #   V a r i a b l e s   a n d   S e t t i n g s   #
 #-------------------------------------------------#
 
+from qgis.core import *
 import os, processing, math, time
 
-#working directory
-dir = '/your/directory/'
+#working directory, see https://stackoverflow.com/a/65543293/729221
+from console.console import _console
+dir = _console.console.tabEditorWidget.currentWidget().path.replace("parking_lanes.py","")
 
 #coordinate reference system – storage options
 #Attention: EPSG:25833 (ETRS89 / UTM zone 33N) is used here – other CRS may be necessary at other locations.

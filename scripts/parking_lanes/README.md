@@ -7,6 +7,10 @@
 1. Run Overpass-Query for street and parking lane data: http://overpass-turbo.eu/s/127h
 2. Export result as GeoJSON to 'data/input.geojson'
 3. Run this python script in QGIS
+   1. "Plugins" => "Python Console"
+   1. Open File in QGIS Python Editr
+   1. Run from there
+      Note: Do _not_ use the "Browser" => File => "Run Script"
 4. For the final result, separate steps still have to be done individually afterwards:
 
    - Include bus stops and cut the parking lanes on the side of the road where they are located.
@@ -17,7 +21,7 @@
 
 ## Note
 
-- Directory: Make sure that the following directory structure exists. Store the directory path to this structure in the variable `dir`.
+- Directory: Make sure that the following directory structure exists.
 
   ```
   └ your-directory
@@ -35,6 +39,7 @@
 
 ## Changelog
 
+- 2022-02-02 ! Fixed imports and set `path` within Python
 - 2021-03-11 + Added new method to correctly exclude parking lanes in the intersection area
 - 2021-03-11 + Added note on inclusion of separately mapped parking spaces
 - 2021-03-11 ! Fixed that parking point chain was only displayed, but could not be moved, used or saved
