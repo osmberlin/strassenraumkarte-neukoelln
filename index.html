@@ -187,7 +187,6 @@ noindex: true
 		const lng = center.lng.toFixed(precision);
 		// Will pick the default editor based on user preferences. Add ?editor=id to force iD.
 		editOsmLink.href = `https://www.openstreetmap.org/edit#map=${zoom}/${lat}/${lng}`
-
 	}
 	updateEditOsm() // on page load
 	map.on('moveend', updateEditOsm)
