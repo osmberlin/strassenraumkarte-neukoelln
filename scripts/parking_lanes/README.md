@@ -8,7 +8,8 @@
 2. Export result as GeoJSON to 'data/input.geojson'
 3. Run this python script in QGIS
    1. "Plugins" => "Python Console"
-   1. Open File in QGIS Python Editr
+   1. (If internal Python Editor Panel is hidden: Right click in Console => "Show Editor")
+   1. Open File in QGIS Python Editor
    1. Run from there
       Note: Do _not_ use the "Browser" => File => "Run Script"
 4. For the final result, separate steps still have to be done individually afterwards:
