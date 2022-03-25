@@ -30,7 +30,12 @@ layout: null
 
 		const queryParams = new URLSearchParams(window.location.search)
 		const mapLayerUrl = queryParams.get('url')
-		const maxNativeZoom = queryParams.get('maxNativeZoom') || 19
+		// Maximum zoom number the tile source has available. If it is specified, the tiles on all zoom levels higher than maxNativeZoom will be loaded from maxNativeZoom level and auto-scaled.
+		// https://leafletjs.com/SlavaUkraini/reference.html#tilelayer-option
+		const maxNativeZoom = queryParams.get('maxNativeZoom') || undefined
+		// The maximum zoom level up to which this layer will be displayed (inclusive).
+		// https://leafletjs.com/SlavaUkraini/reference.html#tilelayer-option
+		// "22" is what we specify in https://github.com/codeforberlin/mapproxy-config/blob/master/config.yml#L3-L5
 		const maxZoom = queryParams.get('maxZoom') || 22
 		const name = queryParams.get('name')
 
@@ -50,8 +55,8 @@ layout: null
 
 		var layerByUrl = L.tileLayer(mapLayerUrl, {
 			name: `MapProxy Demo for ${name}`,
-			maxNativeZoom: maxNativeZoom,
-			maxZoom: maxZoom,
+			maxNativeZoom,
+			maxZoom,
 			attribution: `
 				Please remeber to look up the attribution <a href="https://github.com/codeforberlin/mapproxy-config">on Github</a>!
 				${name ? `<br>${name}` : ''}
