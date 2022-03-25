@@ -31,6 +31,7 @@ layout: null
 		const queryParams = new URLSearchParams(window.location.search)
 		const mapLayerUrl = queryParams.get('url')
 		const maxNativeZoom = queryParams.get('maxNativeZoom') || 19
+		const maxZoom = queryParams.get('maxZoom') || 22
 		const name = queryParams.get('name')
 
 		if (!mapLayerUrl) {
@@ -50,7 +51,7 @@ layout: null
 		var layerByUrl = L.tileLayer(mapLayerUrl, {
 			name: `MapProxy Demo for ${name}`,
 			maxNativeZoom: maxNativeZoom,
-			maxZoom: 22,
+			maxZoom: maxZoom,
 			attribution: `
 				Please remeber to look up the attribution <a href="https://github.com/codeforberlin/mapproxy-config">on Github</a>!
 				${name ? `<br>${name}` : ''}
