@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "npm-run-all --parallel dev:css dev:jekyll",
     "dev:css": "tailwindcss -i css-src/tailwind.css -o css/tailwind.css --watch",
-    "dev:jekyll": "bundle exec jekyll serve --livereload",
+    "dev:jekyll": "bundle exec jekyll serve --livereload --open-url",
     "build": "npm-run-all build:css build:jekyll",
     "build:css": "tailwindcss -i css-src/tailwind.css -o css/tailwind.css",
     "build:jekyll": "bundle exec jekyll build"
