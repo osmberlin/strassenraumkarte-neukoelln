@@ -1,5 +1,7 @@
 ---
 title: Ein besonderer Kartenstil für Neukölln fokussiert auf den Straßenraum und Micro-Mapping – ein Interview
+menu_title: Projektvorstellung
+menu_details: projektvorstellung
 date: 2021-07-18 09:00:00 +0100
 author: Tobias Jordans @tordans
 layout: post

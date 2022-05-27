@@ -1,5 +1,7 @@
 ---
 title: Detailed rendering of bicycle lanes and junctions as part of the OSM "Straßenraumkarte"
+menu_title: Mehr Details
+menu_highlight: mehr_details
 date: 2021-12-31 06:00:00 +0100
 modified_date: 2022-01-01 20:00:00 +0100
 author: Tobias Jordans @tordans
