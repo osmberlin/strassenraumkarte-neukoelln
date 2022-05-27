@@ -52,6 +52,10 @@ Die Grafiken für die Kartenstile "Parkraumkarte" und "Straßenraumkarte" werden
 
 Die Grafiken für den Kartenstil "OpenStreetMap" werden von den Servern von [openstreetmap.org](https://www.openstreetmap.org) geladen. Sie werden auf Grundlage der Open Data Commons Open Database Lizenz (ODbL) durch die OpenStreetMap Foundation (OSMF) angeboten werden. Bitte beachtet die [Datenschutzerklärungen der OpenStreetMap Foundation (OSMF)](https://wiki.osmfoundation.org/wiki/Privacy_Policy).
 
+## Kartenstil "Luftbilder 2020" (tiles.codefor.de)
+
+Die Grafiken für den Kartenstil "Luftbilder 2020" werden über den Proxy-Servern von [codefor.de](https://codefor.de/datenschutz/) geladen. Die Originaldaten sind [Geoportal Berlin / Digitale farbige TrueOrthophotos 2020 (TrueDOP20RGB) - Sommerbefliegung](https://fbinter.stadt-berlin.de/fb/index.jsp?loginkey=zoomStart&mapId=k_luftbild2020_true_rgb@senstadt&bbox=388712,5818615,394579,5822445).
+
 ## Externe Tabellen Google Docs (docs.google.com)
 
 Die Website bettet Tabellenüber ein, die über Google Doc als Website zum einbettet bereitgestellt werden. [Mehr über das Feature](https://support.google.com/a/users/answer/9308870?hl=de). Bitte beachtet die [google.com Datenschutzerklärungen](https://policies.google.com/privacy?hl=de-DE).
