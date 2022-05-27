@@ -34,3 +34,6 @@ Eine Liste aller Artikel und Blogposts über das Projekt.
 {% endfor -%}
 | <span class='text-gray-400 whitespace-nowrap'>2021-03-11</span> | [Methoden- und Ergebnisbericht Parkraumanalyse für den Berliner Ortsteil Neukölln](parkraumkarte/report) | Alex Seidel @Supaplex030 |
 {: class='table' }
+{% include image.html
+src="images/posts/strassenraumkarte-update-2021/social-sharing.png"
+%}
