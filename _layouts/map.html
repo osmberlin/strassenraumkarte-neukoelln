@@ -10,25 +10,35 @@ redirect_from: parkraumkarte/legend.html
 <script src="{{ '/javascript/leaflet.js' | relative_url }}"></script>
 <script src="{{ '/javascript/leaflet-hash.js' | relative_url }}"></script>
 
-<div class="flex gap-5 h-full">
+<div class="flex h-full gap-5">
   <div id="map" class="w-100 h-full flex-1">
     <!-- Edit button on Map -->
     <div class="legend-button absolute top-36 right-2 z-1000">
       <div class="leaflet-touch">
-        <div class="leaflet-control-layers py-0 px-1 flex">
-          <a data-update-edit-osm href="https://www.openstreetmap.org/edit#map=14/52.4795/13.4445" class="text-xs"
-            target="_blank" rel="noopener noreferrer">
+        <div class="leaflet-control-layers flex py-0 px-1">
+          <a
+            data-update-edit-osm
+            href="https://www.openstreetmap.org/edit#map=14/52.4795/13.4445"
+            class="text-xs"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Bearbeiten
           </a>
         </div>
       </div>
     </div>
     <!-- Open Mapillary button on Map -->
-    <div class="legend-button absolute top-36 right-20 mr-1 z-1000">
+    <div class="legend-button absolute top-36 right-20 z-1000 mr-1">
       <div class="leaflet-touch">
-        <div class="leaflet-control-layers py-0 px-1 flex">
-          <a data-update-mapillary-link href="https://www.mapillary.com/app/" class="text-xs" target="_blank"
-            rel="noopener noreferrer">
+        <div class="leaflet-control-layers flex py-0 px-1">
+          <a
+            data-update-mapillary-link
+            href="https://www.mapillary.com/app/"
+            class="text-xs"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Mapillary
           </a>
         </div>
