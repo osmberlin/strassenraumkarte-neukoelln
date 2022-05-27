@@ -16,20 +16,6 @@ module.exports = {
       zIndex: {
         1000: "1000",
       },
-      // colors: {
-      //   map: {
-      //     purple: '#7D5197',
-      //   }
-      // },
-      // typography: {
-      //   DEFAULT: {
-      //     css: {
-      //       h1: {
-      //         color: '#7D5197',
-      //       }
-      //     },
-      //   },
-      // },
     },
   },
   variants: {
