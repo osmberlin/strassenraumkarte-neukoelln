@@ -1,13 +1,42 @@
-
-<h2 class="text-xl font-semibold my-2">Straßenraumkarte</h2>
-<div class="mb-7 flex flex-col">
-  <a data-link="micromap" href="{{ '/?map=micromap' | relative_url }}"
-    class="py-2 px-4 border border-gray-200 rounded-t hover:bg-blue-50">
+<div
+  class="mb-7 flex flex-col overflow-hidden rounded border border-b-0 border-gray-200"
+>
+  <a
+    href="{{ 'about' | relative_url }}"
+    class="{% if page.menu_highlight == 'about' %}menu-active{% else %}hover:bg-blue-50{% endif %} border-b border-gray-200 py-2 px-4"
+  >
+    Über das Projekt
+  </a>
+  <a
+    data-link="micromap"
+    href="{{ '/?map=micromap' | relative_url }}"
+    class="{% if page.menu_highlight == 'map' %}menu-active{% else %}hover:bg-blue-50{% endif %} border-b border-gray-200 py-2 px-4 hover:bg-blue-50"
+  >
     Karte
   </a>
+</div>
 
-  <a href="{{ '/posts/2021-07-18-strassenraumkarte' | relative_url }}"
-    class="py-2 px-4 border border-gray-200 border-t-0 rounded-b {% if page.menu_highlight == 'blogpost_strassenraumkarte' %}menu-active{% else %}hover:bg-blue-50{% endif %}">
-    Blogpost
+<h2 class="my-2 text-xl font-semibold">
+  <a
+    href="{{ '/posts/2021-07-18-strassenraumkarte' | relative_url }}"
+    class="{% if page.menu_highlight == 'posts' %}{% else %}hover:text-blue-500{% endif %} text-black"
+  >
+    Neuigkeiten
   </a>
+</h2>
+<div
+  class="mb-7 flex flex-col overflow-hidden rounded border border-b-0 border-gray-200"
+>
+  {% for post in site.posts -%} {% unless post.redirect_to %}
+  <a
+    href="{{ post.url | relative_url }}"
+    class="{% if page.url == post.url %}menu-active{% else %}hover:bg-blue-50{% endif %} flex items-center border-b border-gray-200 py-2 pl-4 leading-tight"
+  >
+    <span
+      class="mr-1 -ml-1.5 inline-flex rounded-full bg-gray-100 px-1.5 py-0.5 text-xs text-gray-500"
+      >{{ post.date | date: site.minima.date_format | date: "%Y/%m" }}</span
+    >
+    {{ post.menu_title }}
+  </a>
+  {% endunless %} {% endfor -%}
 </div>

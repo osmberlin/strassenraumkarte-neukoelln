@@ -1,0 +1,33 @@
+<nav
+  class="relative z-[1001] w-full px-3 py-3 shadow-xl lg:z-auto lg:w-60 lg:py-6 lg:shadow-none"
+>
+  <h1 class="text-xl font-semibold !leading-[1.15] lg:text-2xl">
+    Straßenraumkarte Neukölln
+  </h1>
+  <p class="text-sm text-gray-400 lg:mb-5">OpenStreetMap Berlin</p>
+
+  <a
+    data-show-hide-trigger="navi"
+    class="absolute top-5 right-5 block rounded-sm border border-blue-500 bg-blue-200 text-blue-500 print:hidden lg:hidden"
+  >
+    <!-- https://fontawesome.com/v5.15/icons/bars?style=solid -->
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      class="h-8 w-8"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+      />
+    </svg>
+  </a>
+
+  <div
+    data-show-hide-target="navi"
+    class="hidden transition-all duration-150 lg:block"
+  >
+    {% include menu/strassenraumkarte.html %} {% include menu/general.html %}
+  </div>
+</nav>

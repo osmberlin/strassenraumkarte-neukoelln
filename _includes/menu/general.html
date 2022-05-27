@@ -1,25 +1,32 @@
-<ul class="lg:mb-4 lg:ml-4 leading-snug prose prose-sm lg:space-y-3 grid grid-cols-3 lg:block gap-3 lg:gap-0">
+<ul
+  class="prose prose-sm grid grid-cols-3 gap-3 leading-snug lg:mb-4 lg:ml-3 lg:block lg:gap-0 lg:space-y-3"
+>
   <li>
-    <a class="hover:text-gray-500 underline {% if page.menu_highlight == 'about' %}text-black no-underline text-bold{% endif %}"
-      href="{{ 'about' | relative_url }}">
-      Über das Projekt & <br>Blogpost-Liste
+    <a
+      class="{% if page.menu_highlight == 'contact' %}text-black text-bold{% endif %} underline hover:text-gray-500"
+      href="{{ 'contact' | relative_url }}"
+    >
+      Kontakt & <br />Datenschutz & <br />Impressum
     </a>
   </li>
   <li>
-    <a class="hover:text-gray-500 underline {% if page.menu_highlight == 'contact' %}text-black no-underline text-bold{% endif %}"
-      href="{{ 'contact' | relative_url }}">
-      Kontakt & <br>Datenschutz & <br>Impressum
-    </a>
-  </li>
-  <li>
-    <a class="hover:text-gray-500 underline" href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln"
-      target="_blank">
+    <a
+      class="underline hover:text-gray-500"
+      href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln"
+      target="_blank"
+    >
       Code auf GitHub
-      <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 512 512"
-        class="inline-block w-3 h-3 object-cover align-baseline">
-        <path fill="currentColor"
-          d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z">
-        </path>
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        role="img"
+        viewBox="0 0 512 512"
+        class="inline-block h-3 w-3 object-cover align-baseline"
+      >
+        <path
+          fill="currentColor"
+          d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"
+        ></path>
       </svg>
     </a>
   </li>
