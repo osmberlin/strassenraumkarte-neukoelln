@@ -1,10 +1,15 @@
 <nav
   class="relative z-[1001] w-full px-3 py-3 shadow-xl lg:z-auto lg:w-60 lg:py-6 lg:shadow-none"
 >
-  <h1 class="text-xl font-semibold !leading-[1.15] lg:text-2xl">
-    Straßenraumkarte Neukölln
-  </h1>
-  <p class="text-sm text-gray-400 lg:mb-5">OpenStreetMap Berlin</p>
+  <a
+    href="{{ '/?map=micromap' | relative_url }}"
+    class="{% if page.menu_highlight == 'map' %}cursor-default{% endif %}"
+  >
+    <h1 class="text-xl font-semibold !leading-[1.15] lg:text-2xl">
+      Straßenraumkarte Neukölln
+    </h1>
+    <p class="text-sm text-gray-400 lg:mb-5">OpenStreetMap Berlin</p>
+  </a>
 
   <a
     data-show-hide-trigger="navi"
