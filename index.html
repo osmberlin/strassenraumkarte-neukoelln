@@ -126,65 +126,9 @@ menu_highlight: map
     );
   };
 
-  // Helper: primary navigation switches layer (no reload)
-  document.querySelectorAll("a[data-link]").forEach((link) => {
-    link.addEventListener(
-      "click",
-      (event) => {
-        const layerName = event.target.dataset.link;
-        setMapLayer(map, baseMaps, layerName);
-        event.preventDefault();
-      },
-      false
-    );
-  });
-
-  // Helper: highlight Primary Menu
-  const highlightPrimaryMenuForMap = function (layer_name) {
-    document.querySelectorAll("a[data-link]").forEach((link) => {
-      if (link.classList.contains("menu-active")) {
-        link.classList.remove("menu-active");
-      }
-    });
-    document.querySelectorAll(`a[data-link=${layer_name}]`).forEach((link) => {
-      link.classList.add("menu-active");
-    });
-  };
-
-  // Helper: hide Legend panel and button but only for 'micromap'
-  const hideLegendUnlessParkingMap = function (layer_name) {
-    display = layer_name === "parkingmap" ? "block" : "none";
-
-    // Hide Legend panel
-    document.querySelector("[data-show-hide-target='legend']").style.display =
-      display;
-    // Hide Button that would show/hide legend
-    document.querySelector("[data-show-hide-trigger='legend']").style.display =
-      display;
-    map.invalidateSize();
-  };
-
-  // Helper: show/hide Legend panel on click
-  const toggleLegend = function () {
-    const legendPanel = document.querySelector(
-      "[data-show-hide-target='legend']"
-    );
-    const currentDisplay = legendPanel.style.display;
-    const newDisplay = currentDisplay === "block" ? "none" : "block";
-
-    legendPanel.style.display = newDisplay;
-    map.invalidateSize();
-    console.log(legendPanel, currentDisplay, newDisplay);
-  };
-  document
-    .querySelector("[data-show-hide-trigger='legend']")
-    .addEventListener("click", toggleLegend);
-
   // ?map-Param: On load, if no ?map-Param present, add one
   if (window.location.search.substr(1) === "") {
     let layer_name = "parkingmap";
-    highlightPrimaryMenuForMap(layer_name);
-    hideLegendUnlessParkingMap(layer_name);
     let newurl = mapParamNewURL(layer_name);
     history.replaceState({ path: newurl }, "", newurl);
   }
@@ -207,8 +151,6 @@ menu_highlight: map
       map.removeLayer(layer);
     });
     map.addLayer(paramLayer);
-    highlightPrimaryMenuForMap(layerName);
-    hideLegendUnlessParkingMap(layerName);
   };
   setMapLayer(map, baseMaps, mapLayerNameFromURLParam());
 
@@ -249,23 +191,4 @@ menu_highlight: map
   };
   updateShowOnMapillaryLink(); // on page load
   map.on("moveend", updateShowOnMapillaryLink);
-
-  // Write a css class for Zoom and Layer to the body of our legend modal.
-  // We can use CSS to show/hide parts of the layer as needed.
-  const addZoomClassToDiv = (event) => {
-    var divToAddZoomAsClass = document.getElementById("add-css-class-zoom");
-    divToAddZoomAsClass.classList = [];
-    divToAddZoomAsClass.classList.add(`zoom-${map.getZoom()}`);
-  };
-  addZoomClassToDiv(); // on page load
-  map.on("zoomend", addZoomClassToDiv);
-
-  const addLayerClassToDiv = (layer) => {
-    var layer_name = layer?.layer?.options?.name || mapLayerNameFromURLParam();
-    var divToAddLayerAsClass = document.getElementById("add-css-class-layer");
-    divToAddLayerAsClass.classList = [];
-    divToAddLayerAsClass.classList.add(`layer-${layer_name}`);
-  };
-  addLayerClassToDiv(); // on page load
-  map.on("baselayerchange", addLayerClassToDiv);
 </script>
