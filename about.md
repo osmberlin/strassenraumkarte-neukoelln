@@ -5,7 +5,7 @@ menu_highlight: about
 noindex: true
 ---
 
-<div class="notice mb-12">
+<div class="notice mb-3 ring-1 ring-neutral-300 ring-offset-2">
 
 # Über das Projekt
 
