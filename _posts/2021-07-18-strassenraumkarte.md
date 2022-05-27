@@ -182,10 +182,10 @@ _Alex:_ Gerne.
 
 Es hat jetzt leider einige Monaten geduert, bis dieses Interview veröffentlicht wurde. Seit dem ist noch einiges passiert in der Straßenraumkarte. Hier ein Ausschnitt an Features, die jetzt ebenfalls visualisiert werden:
 
-* (Beta) Markierte Gehwegübergänge (Zebrastreifen, Ampelkreuzungen) sowie Haltelinien an Ampeln und Stoppschildern [Beispiel](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.46682/13.43584)
-* Querungsstellen mit randseitiger Schutz-Markierung und Sperrzonen auf der Fahrbahn sicht sichtbar [Beispiel](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.47778/13.44358)
-* Separat gemappte Gehwege werden als halbtransparente Linie dargestellt  [Beispiel](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.47752/13.42628)
-* Schwebende Gebäudeteile/Gebäudegrundflächen ergänzen die bestehenden Gebäude-Geometrien  [Beispiel](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.48197/13.43342)
-* Einzeln erfasste Parkplätze inkl. barrierefreien Stellplätzen werden dargestellt  [Beispiel](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.47464/13.45542)
+- (Beta) Markierte Gehwegübergänge (Zebrastreifen, Ampelkreuzungen) sowie Haltelinien an Ampeln und Stoppschildern [Beispiel](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.46682/13.43584)
+- Querungsstellen mit randseitiger Schutz-Markierung und Sperrzonen auf der Fahrbahn sicht sichtbar [Beispiel](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.47778/13.44358)
+- Separat gemappte Gehwege werden als halbtransparente Linie dargestellt [Beispiel](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.47752/13.42628)
+- Schwebende Gebäudeteile/Gebäudegrundflächen ergänzen die bestehenden Gebäude-Geometrien [Beispiel](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.48197/13.43342)
+- Einzeln erfasste Parkplätze inkl. barrierefreien Stellplätzen werden dargestellt [Beispiel](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#20/52.47464/13.45542)
 
 Weitere Features sind angedacht, wie Straßen- und Abbiegespurmarkierungen oder eine bessere Visualisierung von Radwegen, insbesondere geschützten Radwegen.
