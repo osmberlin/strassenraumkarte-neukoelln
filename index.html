@@ -9,219 +9,263 @@ menu_highlight: map
 ---
 
 <script>
-	const optionsFromHash = L.Hash.parseHash(window.location.hash)
+  const optionsFromHash = L.Hash.parseHash(window.location.hash);
 
-	var options = {
-		center: optionsFromHash.center || [52.47379, 13.44164],
-		zoom: optionsFromHash.zoom || 18,
-		minZoom: 15,
-		zoomControl: true,
-		maxBounds: [[52.4557, 13.3985], [52.5005, 13.4863]]
-	}
+  var options = {
+    center: optionsFromHash.center || [52.47379, 13.44164],
+    zoom: optionsFromHash.zoom || 18,
+    minZoom: 15,
+    zoomControl: true,
+    maxBounds: [
+      [52.4557, 13.3985],
+      [52.5005, 13.4863],
+    ],
+  };
 
-	// Create empty leaflet-map (named "map") on canvas with parameters defined in options
-	const map = L.map("map", options);
+  // Create empty leaflet-map (named "map") on canvas with parameters defined in options
+  const map = L.map("map", options);
 
-	const hash = new L.Hash(map);
+  const hash = new L.Hash(map);
 
-	const parkingmap = L.tileLayer("https://tiles.osm-berlin.org/parkraumkarte/{z}/{x}/{y}.jpg", {
-		name: 'parkingmap',
-		maxZoom: 21,
-		maxNativeZoom: 20,
-		layerControlName: "Parkraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.parkingmap_tiles_updated_at }}</span>",
-		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
-	})
-	parkingmap.addTo(map);   // This is the initial basemap
+  const parkingmap = L.tileLayer(
+    "https://tiles.osm-berlin.org/parkraumkarte/{z}/{x}/{y}.jpg",
+    {
+      name: "parkingmap",
+      maxZoom: 21,
+      maxNativeZoom: 20,
+      layerControlName:
+        "Parkraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.parkingmap_tiles_updated_at }}</span>",
+      attribution:
+        '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
+    }
+  );
+  parkingmap.addTo(map); // This is the initial basemap
 
-	const micromap = L.tileLayer("https://tiles.osm-berlin.org/strassenraumkarte/{z}/{x}/{y}.jpg", {
-		name: 'micromap',
-		maxZoom: 21,
-		maxNativeZoom: 20,
-		layerControlName: "Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>",
-		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
-	});
+  const micromap = L.tileLayer(
+    "https://tiles.osm-berlin.org/strassenraumkarte/{z}/{x}/{y}.jpg",
+    {
+      name: "micromap",
+      maxZoom: 21,
+      maxNativeZoom: 20,
+      layerControlName:
+        "Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>",
+      attribution:
+        '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
+    }
+  );
 
-	const debugmap = L.tileLayer("https://tiles.osm-berlin.org/strassenraumkarte-debug/{z}/{x}/{y}.jpg", {
-		name: 'debugmap',
-		maxZoom: 21,
-		maxNativeZoom: 20,
-		layerControlName: "Debug-Modus Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.debugmap_tiles_updated_at }}</span>",
-		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
-	});
+  const debugmap = L.tileLayer(
+    "https://tiles.osm-berlin.org/strassenraumkarte-debug/{z}/{x}/{y}.jpg",
+    {
+      name: "debugmap",
+      maxZoom: 21,
+      maxNativeZoom: 20,
+      layerControlName:
+        "Debug-Modus Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.debugmap_tiles_updated_at }}</span>",
+      attribution:
+        '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
+    }
+  );
 
-	const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-		name: 'osm',
-		maxZoom: 21,
-		maxNativeZoom: 19,
-		layerControlName: "OpenStreetMap",
-		attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-	});
+  const osm = L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      name: "osm",
+      maxZoom: 21,
+      maxNativeZoom: 19,
+      layerControlName: "OpenStreetMap",
+      attribution:
+        '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }
+  );
 
-	const luftbild2020 = L.tileLayer("https://tiles.codefor.de/berlin-2020-truedop20rgb/{z}/{x}/{y}.png", {
-		name: 'luftbild2020',
-		maxZoom: 21,
-		maxNativeZoom: 19,
-		layerControlName: "Luftbilder 2020",
-		attribution: '<a href="https://fbinter.stadt-berlin.de/fb/index.jsp?loginkey=zoomStart&mapId=k_luftbild2020_true_rgb@senstadt&bbox=388712,5818615,394579,5822445">Geoportal Berlin / Digitale farbige TrueOrthophotos 2020 (TrueDOP20RGB) - Sommerbefliegung</a>'
-	});
+  const luftbild2020 = L.tileLayer(
+    "https://tiles.codefor.de/berlin-2020-truedop20rgb/{z}/{x}/{y}.png",
+    {
+      name: "luftbild2020",
+      maxZoom: 21,
+      maxNativeZoom: 19,
+      layerControlName: "Luftbilder 2020",
+      attribution:
+        '<a href="https://fbinter.stadt-berlin.de/fb/index.jsp?loginkey=zoomStart&mapId=k_luftbild2020_true_rgb@senstadt&bbox=388712,5818615,394579,5822445">Geoportal Berlin / Digitale farbige TrueOrthophotos 2020 (TrueDOP20RGB) - Sommerbefliegung</a>',
+    }
+  );
 
-	// name set of tilelayers and adds them to the layer-selector
-	const baseMaps = {
-		[parkingmap.options.layerControlName]: parkingmap,
-		[micromap.options.layerControlName]: micromap,
-		[debugmap.options.layerControlName]: debugmap,
-		[osm.options.layerControlName]: osm,
-		[luftbild2020.options.layerControlName]: luftbild2020,
-	};
+  // name set of tilelayers and adds them to the layer-selector
+  const baseMaps = {
+    [parkingmap.options.layerControlName]: parkingmap,
+    [micromap.options.layerControlName]: micromap,
+    [debugmap.options.layerControlName]: debugmap,
+    [osm.options.layerControlName]: osm,
+    [luftbild2020.options.layerControlName]: luftbild2020,
+  };
 
-	// ?map-Param: Helper: mapLayer from ?map-Param
-	// (this will only work for just one param)
-	const mapLayerNameFromURLParam = function () {
-		return window.location.search.substr(1).split('=')[1]
-	}
+  // ?map-Param: Helper: mapLayer from ?map-Param
+  // (this will only work for just one param)
+  const mapLayerNameFromURLParam = function () {
+    return window.location.search.substr(1).split("=")[1];
+  };
 
-	// define and add control menu. Show the debugmap layer only if active, so its a "secret" layer.
-	const baseMapsForControls = baseMaps
-	if (mapLayerNameFromURLParam() !== 'debugmap') {
-		delete baseMapsForControls[debugmap.options.layerControlName]
-	}
-	L.control.layers(baseMapsForControls, null, { collapsed: false }).addTo(map);
+  // define and add control menu. Show the debugmap layer only if active, so its a "secret" layer.
+  const baseMapsForControls = baseMaps;
+  if (mapLayerNameFromURLParam() !== "debugmap") {
+    delete baseMapsForControls[debugmap.options.layerControlName];
+  }
+  L.control.layers(baseMapsForControls, null, { collapsed: false }).addTo(map);
 
-	// ?map-Param: Helper: newUrl
-	const mapParamNewURL = function (layer_name) {
-		return window.location.protocol + "//" + window.location.host + window.location.pathname + '?map=' + layer_name + window.location.hash;
-	}
+  // ?map-Param: Helper: newUrl
+  const mapParamNewURL = function (layer_name) {
+    return (
+      window.location.protocol +
+      "//" +
+      window.location.host +
+      window.location.pathname +
+      "?map=" +
+      layer_name +
+      window.location.hash
+    );
+  };
 
-	// Helper: primary navigation switches layer (no reload)
-	document.querySelectorAll("a[data-link]").forEach(link => {
-		link.addEventListener("click", (event) => {
-			const layerName = event.target.dataset.link
-			setMapLayer(map, baseMaps, layerName)
-			event.preventDefault();
-		}, false);
-	})
+  // Helper: primary navigation switches layer (no reload)
+  document.querySelectorAll("a[data-link]").forEach((link) => {
+    link.addEventListener(
+      "click",
+      (event) => {
+        const layerName = event.target.dataset.link;
+        setMapLayer(map, baseMaps, layerName);
+        event.preventDefault();
+      },
+      false
+    );
+  });
 
-	// Helper: highlight Primary Menu
-	const highlightPrimaryMenuForMap = function (layer_name) {
-		document.querySelectorAll("a[data-link]").forEach(link => {
-			if (link.classList.contains('menu-active')) {
-				link.classList.remove('menu-active')
-			}
-		})
-		document.querySelectorAll(`a[data-link=${layer_name}]`).forEach(link => {
-			link.classList.add('menu-active')
-		})
-	}
+  // Helper: highlight Primary Menu
+  const highlightPrimaryMenuForMap = function (layer_name) {
+    document.querySelectorAll("a[data-link]").forEach((link) => {
+      if (link.classList.contains("menu-active")) {
+        link.classList.remove("menu-active");
+      }
+    });
+    document.querySelectorAll(`a[data-link=${layer_name}]`).forEach((link) => {
+      link.classList.add("menu-active");
+    });
+  };
 
-	// Helper: hide Legend panel and button but only for 'micromap'
-	const hideLegendUnlessParkingMap = function (layer_name) {
-		display = (layer_name === 'parkingmap') ? 'block' : 'none'
+  // Helper: hide Legend panel and button but only for 'micromap'
+  const hideLegendUnlessParkingMap = function (layer_name) {
+    display = layer_name === "parkingmap" ? "block" : "none";
 
-		// Hide Legend panel
-		document.querySelector("[data-show-hide-target='legend']")
-			.style.display = display;
-		// Hide Button that would show/hide legend
-		document.querySelector("[data-show-hide-trigger='legend']")
-			.style.display = display;
-		map.invalidateSize()
-	}
+    // Hide Legend panel
+    document.querySelector("[data-show-hide-target='legend']").style.display =
+      display;
+    // Hide Button that would show/hide legend
+    document.querySelector("[data-show-hide-trigger='legend']").style.display =
+      display;
+    map.invalidateSize();
+  };
 
-	// Helper: show/hide Legend panel on click
-	const toggleLegend = function () {
-		const legendPanel = document.querySelector("[data-show-hide-target='legend']")
-		const currentDisplay = legendPanel.style.display
-		const newDisplay = (currentDisplay === 'block') ? 'none' : 'block'
+  // Helper: show/hide Legend panel on click
+  const toggleLegend = function () {
+    const legendPanel = document.querySelector(
+      "[data-show-hide-target='legend']"
+    );
+    const currentDisplay = legendPanel.style.display;
+    const newDisplay = currentDisplay === "block" ? "none" : "block";
 
-		legendPanel.style.display = newDisplay
-		map.invalidateSize()
-		console.log(legendPanel, currentDisplay, newDisplay)
-	}
-	document.querySelector("[data-show-hide-trigger='legend']").addEventListener('click', toggleLegend)
+    legendPanel.style.display = newDisplay;
+    map.invalidateSize();
+    console.log(legendPanel, currentDisplay, newDisplay);
+  };
+  document
+    .querySelector("[data-show-hide-trigger='legend']")
+    .addEventListener("click", toggleLegend);
 
-	// ?map-Param: On load, if no ?map-Param present, add one
-	if (window.location.search.substr(1) === '') {
-		let layer_name = 'parkingmap'
-		highlightPrimaryMenuForMap(layer_name)
-		hideLegendUnlessParkingMap(layer_name)
-		let newurl = mapParamNewURL(layer_name)
-		history.replaceState({ path: newurl }, '', newurl);
-	}
+  // ?map-Param: On load, if no ?map-Param present, add one
+  if (window.location.search.substr(1) === "") {
+    let layer_name = "parkingmap";
+    highlightPrimaryMenuForMap(layer_name);
+    hideLegendUnlessParkingMap(layer_name);
+    let newurl = mapParamNewURL(layer_name);
+    history.replaceState({ path: newurl }, "", newurl);
+  }
 
-	// ?map-Param: On load, if ?map-Param present, set Layer to ?map-Param
-	const setMapLayer = function (map, baseMaps, layerName) {
-		let paramLayer = {}
-		let layersToBeRemoved = []
+  // ?map-Param: On load, if ?map-Param present, set Layer to ?map-Param
+  const setMapLayer = function (map, baseMaps, layerName) {
+    let paramLayer = {};
+    let layersToBeRemoved = [];
 
-		Object.keys(baseMaps).map((layer_key, index) => {
-			var layer = baseMaps[layer_key]
-			if (layer.options.name === layerName) {
-				paramLayer = layer
-			} else {
-				layersToBeRemoved[index] = layer
-			}
-		})
+    Object.keys(baseMaps).map((layer_key, index) => {
+      var layer = baseMaps[layer_key];
+      if (layer.options.name === layerName) {
+        paramLayer = layer;
+      } else {
+        layersToBeRemoved[index] = layer;
+      }
+    });
 
-		layersToBeRemoved.forEach(function (layer) {
-			map.removeLayer(layer)
-		})
-		map.addLayer(paramLayer)
-		highlightPrimaryMenuForMap(layerName)
-		hideLegendUnlessParkingMap(layerName)
-	}
-	setMapLayer(map, baseMaps, mapLayerNameFromURLParam())
+    layersToBeRemoved.forEach(function (layer) {
+      map.removeLayer(layer);
+    });
+    map.addLayer(paramLayer);
+    highlightPrimaryMenuForMap(layerName);
+    hideLegendUnlessParkingMap(layerName);
+  };
+  setMapLayer(map, baseMaps, mapLayerNameFromURLParam());
 
-	// ?map-Param: Whenever the layer is changed, update the URL (and keep the leaflet-hash)
-	const mapParamOnMapMoveOrLayerChange = function (event) {
-		let newurl = mapParamNewURL(event.layer.options.name)
-		history.pushState({ path: newurl }, '', newurl);
-	}
-	map.on('baselayerchange', mapParamOnMapMoveOrLayerChange);
+  // ?map-Param: Whenever the layer is changed, update the URL (and keep the leaflet-hash)
+  const mapParamOnMapMoveOrLayerChange = function (event) {
+    let newurl = mapParamNewURL(event.layer.options.name);
+    history.pushState({ path: newurl }, "", newurl);
+  };
+  map.on("baselayerchange", mapParamOnMapMoveOrLayerChange);
 
-	// Update the editOsm Link with current lat/lng
-	const updateEditOsm = (event) => {
-		const editOsmLink = document.querySelector('[data-update-edit-osm]');
-		const center = map.getCenter();
-		const zoom = map.getZoom();
-		const precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
+  // Update the editOsm Link with current lat/lng
+  const updateEditOsm = (event) => {
+    const editOsmLink = document.querySelector("[data-update-edit-osm]");
+    const center = map.getCenter();
+    const zoom = map.getZoom();
+    const precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
 
-		const lat = center.lat.toFixed(precision);
-		const lng = center.lng.toFixed(precision);
-		// Will pick the default editor based on user preferences. Add ?editor=id to force iD.
-		editOsmLink.href = `https://www.openstreetmap.org/edit#map=${zoom}/${lat}/${lng}`
-	}
-	updateEditOsm() // on page load
-	map.on('moveend', updateEditOsm)
+    const lat = center.lat.toFixed(precision);
+    const lng = center.lng.toFixed(precision);
+    // Will pick the default editor based on user preferences. Add ?editor=id to force iD.
+    editOsmLink.href = `https://www.openstreetmap.org/edit#map=${zoom}/${lat}/${lng}`;
+  };
+  updateEditOsm(); // on page load
+  map.on("moveend", updateEditOsm);
 
-	// Update the Mapillary Link with current lat/lng
-	const updateShowOnMapillaryLink = (event) => {
-		const mapillaryLink = document.querySelector('[data-update-mapillary-link]')
-		const center = map.getCenter()
-		const zoom = map.getZoom()
-		const precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2))
+  // Update the Mapillary Link with current lat/lng
+  const updateShowOnMapillaryLink = (event) => {
+    const mapillaryLink = document.querySelector(
+      "[data-update-mapillary-link]"
+    );
+    const center = map.getCenter();
+    const zoom = map.getZoom();
+    const precision = Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
 
-		const lat = center.lat.toFixed(precision)
-		const lng = center.lng.toFixed(precision)
-		mapillaryLink.href = `https://www.mapillary.com/app/?z=${zoom}&lat=${lat}&lng=${lng}&focus=map&dateFrom=2020-01-01`
-	}
-	updateShowOnMapillaryLink() // on page load
-	map.on('moveend', updateShowOnMapillaryLink)
+    const lat = center.lat.toFixed(precision);
+    const lng = center.lng.toFixed(precision);
+    mapillaryLink.href = `https://www.mapillary.com/app/?z=${zoom}&lat=${lat}&lng=${lng}&focus=map&dateFrom=2020-01-01`;
+  };
+  updateShowOnMapillaryLink(); // on page load
+  map.on("moveend", updateShowOnMapillaryLink);
 
-	// Write a css class for Zoom and Layer to the body of our legend modal.
-	// We can use CSS to show/hide parts of the layer as needed.
-	const addZoomClassToDiv = (event) => {
-		var divToAddZoomAsClass = document.getElementById("add-css-class-zoom")
-		divToAddZoomAsClass.classList = []
-		divToAddZoomAsClass.classList.add(`zoom-${map.getZoom()}`)
-	}
-	addZoomClassToDiv() // on page load
-	map.on('zoomend', addZoomClassToDiv)
+  // Write a css class for Zoom and Layer to the body of our legend modal.
+  // We can use CSS to show/hide parts of the layer as needed.
+  const addZoomClassToDiv = (event) => {
+    var divToAddZoomAsClass = document.getElementById("add-css-class-zoom");
+    divToAddZoomAsClass.classList = [];
+    divToAddZoomAsClass.classList.add(`zoom-${map.getZoom()}`);
+  };
+  addZoomClassToDiv(); // on page load
+  map.on("zoomend", addZoomClassToDiv);
 
-	const addLayerClassToDiv = (layer) => {
-		var layer_name = layer?.layer?.options?.name || mapLayerNameFromURLParam()
-		var divToAddLayerAsClass = document.getElementById("add-css-class-layer")
-		divToAddLayerAsClass.classList = []
-		divToAddLayerAsClass.classList.add(`layer-${layer_name}`)
-	}
-	addLayerClassToDiv() // on page load
-	map.on('baselayerchange', addLayerClassToDiv)
+  const addLayerClassToDiv = (layer) => {
+    var layer_name = layer?.layer?.options?.name || mapLayerNameFromURLParam();
+    var divToAddLayerAsClass = document.getElementById("add-css-class-layer");
+    divToAddLayerAsClass.classList = [];
+    divToAddLayerAsClass.classList.add(`layer-${layer_name}`);
+  };
+  addLayerClassToDiv(); // on page load
+  map.on("baselayerchange", addLayerClassToDiv);
 </script>
