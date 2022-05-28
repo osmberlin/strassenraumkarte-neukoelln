@@ -12,4 +12,32 @@ layout: page
       >Informationen zur Parkraumkarte wurden verschoben</a
     >.
   </p>
+
+  <script>
+    // We cannot use the regular redirect logic for PDFs.
+    // We can create a .pdf.html File that is served instead of the PDF, but
+    // Chrome tries to open that as a PDF which breaks.
+    // So instead we redirect the PDFs via this 404 page.
+    // Which is OK for the user, but a bad solution for SEO.
+    const redirects = [
+      {
+        from: "/parkraumkarte/blogpost_de.pdf",
+        to: "https://github.com/tordans/openstreetmap-parking",
+      },
+      {
+        from: "/parkraumkarte/blogpost_en.pdf",
+        to: "https://github.com/tordans/openstreetmap-parking",
+      },
+      {
+        from: "/parkraumkarte/methodenbericht-2021-03.pdf",
+        to: "https://github.com/tordans/openstreetmap-parking",
+      },
+    ];
+
+    redirects.forEach((r) => {
+      if (window.location.href.includes(r.from)) {
+        window.location = r.to;
+      }
+    });
+  </script>
 </div>
