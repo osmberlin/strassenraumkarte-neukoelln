@@ -19,12 +19,7 @@ noindex: true
         {{ post.date | date: "%Y-%m-%d"}}
       </td>
       <td>
-        {% if post.redirect_to %}
-        <div class="text-gray-500">{{ post.title }}</div>
-        <a href="{{ post.redirect_to  }}">Dieser Eintrag wurde verschoben.</a>
-        {% else %}
         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-        {% endif %}
       </td>
       <td>{{ post.author }}</td>
     </tr>
