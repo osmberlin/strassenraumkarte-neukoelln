@@ -4,7 +4,7 @@
 
 ## How to use
 
-1. Run Overpass-Query for street and parking lane data: http://overpass-turbo.eu/s/127h
+1. Run Overpass-Query for street and parking lane data: [https://overpass-turbo.eu/s/1j0u](https://overpass-turbo.eu/s/1j0u)
 2. Export result as GeoJSON to 'data/input.geojson'
 3. Run this python script in QGIS
    1. "Plugins" => "Python Console"
@@ -40,10 +40,15 @@
 
 ## Changelog
 
+- 2022-06-03 + Added an BBOX-by-coordinates option and bus stops in the overpass query
+- 2022-06-03 * Updated `styles/parking_lanes.qml` for correct rendering of reverse parking lane line directions (see below)
+- 2022-06-03 * Reverse parking lane line directions to get lines pointing in the same direction as the traffic flow (for right-hand traffic)
+- 2022-06-03 + Added `crossing:buffer_protection` to crossing types that are buffered
+- 2022-06-03 * Variables instead of fixed values for buffer radii
 - 2022-02-02 ! Fixed imports and set `path` within Python
+- 2021-06-18 + Added support/attribute for `parking:condition:...:vehicles`
 - 2021-03-11 + Added new method to correctly exclude parking lanes in the intersection area
 - 2021-03-11 + Added note on inclusion of separately mapped parking spaces
 - 2021-03-11 ! Fixed that parking point chain was only displayed, but could not be moved, used or saved
 - 2021-03-11 ! Fixed parking point chain offset from street_side parking lanes
 - 2021-03-11 ! Fixed "time.strftime"-error under certain rare circumstances in def prepareParkingLane (rearranged processing print outputs)
-- 2021-06-18 + Added support/attribute for `parking:condition:...:vehicles`
