@@ -1,10 +1,11 @@
 #-----------------------------------------------------------------------------#
 #   Parking lane analysis with OSM data                                       #
 #   ------------------------------------------------------------------------- #
-#   OSM data post-processing for QGIS/PyGIS for rendering the parkingmap at   #
-#   https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap #
+#   OSM data processing for QGIS/PyGIS to generate parking lane data.         #
+#   Run this Overpass query -> https://overpass-turbo.eu/s/1j0u               #
+#   and save the result at 'data/input.geojson' before running this script.   #
 #                                                                             #
-#   > version/date: 2021-12-28                                                #
+#   > version/date: 2022-06-03                                                #
 #-----------------------------------------------------------------------------#
 
 #-------------------------------------------------#
@@ -43,11 +44,22 @@ width_perp = 5   #perpendicular p. |||||
 
 #parking space length / distance per vehicle depending on parking direction
 #TODO: Attention: In some calculation steps that use field calculator formulas, these values are currently still hardcoded – if needed, the formulas would have to be generated as a string using these variables
-vehicle_dist_para = 5.2     #parallel parking
-vehicle_dist_diag = 3.1     #diagonal parking (angle: 60 gon = 54°)
-vehicle_dist_perp = 2.5     #perpendicular parking
-vehicle_length = 4.4        #average vehicle length (a single vehicle, wwithout manoeuvring distance)
-vehicle_width = 1.8         #average vehicle width
+car_dist_para = 5.2     #parallel parking
+car_dist_diag = 3.1     #diagonal parking (angle: 60 gon = 54°)
+car_dist_perp = 2.5     #perpendicular parking
+car_length = 4.4        #average motor car length (a single car, without manoeuvring distance)
+car_width = 1.8         #average motor car width
+
+bus_length = 12         #average bus length – currently not in use
+hgv_articulated_length = 16 #average length of semi-trailer trucks – currently not in use
+
+#buffers/radii kept free at certain objects (meter)
+buffer_driveway           = 4   #4   //free space at driveways
+buffer_bus_stop           = 15  #15  //at bus stops
+buffer_traffic_signals    = 10  #10  //in front of traffic lights
+buffer_crossing_zebra     = 4.5 #4.5 //on zebra crossings
+buffer_crossing_marked    = 2   #2   //on other marked crossings
+buffer_crossing_protected = 3   #3   //on crossings protected by buffer markings, kerb extensions etc.
 
 #list of highway tags that do not belong to the regular road network but are also analysed
 is_service_list = ['service', 'track', 'bus_guideway', 'footway', 'cycleway', 'path']
@@ -860,31 +872,31 @@ def bufferCrossing(layer_parking, layer_crossing, side):
     #Übergänge nach gemeinsamen Kriterien/Radien auswählen und Teilpuffer (mit Radius x) ziehen:
     #Vor Lichtzeichenanlagen/Ampeln 10 Meter Halteverbot (StVO) - beidseitig berücksichtigen, wenn Ampel nicht fahrtrichtungsabhängig erfasst ist
     processing.run('qgis:selectbyexpression', {'INPUT' : layer_crossing, 'EXPRESSION' : '\"highway\" = \'traffic_signals\' AND \"traffic_signals:direction\" IS NOT \'forward\' AND \"traffic_signals:direction\" IS NOT \'backward\''})
-    buffer01 = processing.run('native:buffer', {'DISTANCE' : 10, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_crossing.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
+    buffer01 = processing.run('native:buffer', {'DISTANCE' : buffer_traffic_signals, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_crossing.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
     #...oder nur von einer Seite abziehen, wenn die Ampel fahrtrichtungsabhängig erfasst ist
     if side == 'left':
         processing.run('qgis:selectbyexpression', {'INPUT' : layer_crossing, 'EXPRESSION' : '\"highway\" = \'traffic_signals\' AND \"traffic_signals:direction\" = \'backward\''})
     if side == 'right':
         processing.run('qgis:selectbyexpression', {'INPUT' : layer_crossing, 'EXPRESSION' : '\"highway\" = \'traffic_signals\' AND \"traffic_signals:direction\" = \'forward\''})
-    buffer_s01 = processing.run('native:buffer', {'DISTANCE' : 10, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_crossing.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
+    buffer_s01 = processing.run('native:buffer', {'DISTANCE' : buffer_traffic_signals, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_crossing.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
 
     #An Gehwegvorstreckungen oder markierten Übergangs-Sperrflächen: 3 Meter
-    processing.run('qgis:selectbyexpression', {'INPUT' : layer_crossing, 'EXPRESSION' : '\"crossing:kerb_extension\" = \'both\' OR \"crossing:buffer_marking\" = \'both\''})
-    buffer02 = processing.run('native:buffer', {'DISTANCE' : 3, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_crossing.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
+    processing.run('qgis:selectbyexpression', {'INPUT' : layer_crossing, 'EXPRESSION' : '\"crossing:kerb_extension\" = \'both\' OR \"crossing:buffer_marking\" = \'both\' OR \"crossing:buffer_protection\" = \'both\''})
+    buffer02 = processing.run('native:buffer', {'DISTANCE' : buffer_crossing_protected, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_crossing.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
     #...oder nur von einer Seite abziehen, falls nur einseitig vorhanden
     if side == 'left':
-        processing.run('qgis:selectbyexpression', {'INPUT' : layer_crossing, 'EXPRESSION' : '\"crossing:kerb_extension\" = \'left\' OR \"crossing:buffer_marking\" = \'left\''})
+        processing.run('qgis:selectbyexpression', {'INPUT' : layer_crossing, 'EXPRESSION' : '\"crossing:kerb_extension\" = \'left\' OR \"crossing:buffer_marking\" = \'left\' OR \"crossing:buffer_protection\" = \'left\''})
     if side == 'right':
-        processing.run('qgis:selectbyexpression', {'INPUT' : layer_crossing, 'EXPRESSION' : '\"crossing:kerb_extension\" = \'right\' OR \"crossing:buffer_marking\" = \'right\''})
-    buffer_s02 = processing.run('native:buffer', {'DISTANCE' : 3, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_crossing.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
+        processing.run('qgis:selectbyexpression', {'INPUT' : layer_crossing, 'EXPRESSION' : '\"crossing:kerb_extension\" = \'right\' OR \"crossing:buffer_marking\" = \'right\' OR \"crossing:buffer_protection\" = \'right\''})
+    buffer_s02 = processing.run('native:buffer', {'DISTANCE' : buffer_crossing_protected, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_crossing.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
 
     #An Fußgängerüberwegen/Zebrastreifen: 4,5 Meter (4 Meter Zebrastreifenbreite sowie laut StVO 5 Meter Parkverbot davor)
     processing.run('qgis:selectbyexpression', {'INPUT' : layer_crossing, 'EXPRESSION' : '\"crossing\" = \'zebra\' OR \"crossing_ref\" = \'zebra\' OR \"crossing\" = \'traffic_signals\''})
-    buffer03 = processing.run('native:buffer', {'DISTANCE' : 4.5, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_crossing.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
+    buffer03 = processing.run('native:buffer', {'DISTANCE' : buffer_crossing_zebra, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_crossing.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
 
     #An sonstigen markierten Überwegen: 2 Meter
     processing.run('qgis:selectbyexpression', {'INPUT' : layer_crossing, 'EXPRESSION' : '\"crossing\" = \'marked\''})
-    buffer04 = processing.run('native:buffer', {'DISTANCE' : 2, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_crossing.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
+    buffer04 = processing.run('native:buffer', {'DISTANCE' : buffer_crossing_marked, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_crossing.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
 
     #verschiedene Teilpuffer zusammenführen und von Parkstreifen abziehen
     buffer = processing.run('native:mergevectorlayers', {'LAYERS' : [buffer01,buffer02,buffer03,buffer04], 'OUTPUT': 'memory:'})['OUTPUT']
@@ -925,8 +937,8 @@ def getCapacity(layer):
 
     layer.startEditing()
     id_capacity = layer.fields().indexOf('capacity')
-    vehicle_diag_width = math.sqrt(vehicle_width * 0.5 * vehicle_width) + math.sqrt(vehicle_length * 0.5 * vehicle_length)
-#Korrektur/Verbesserung: Bei Einstellwinkel 60 gon = 54 Grad: vehicle_length * sin (36 Grad) + vehicle_width * cos(36 Grad) = 4.04 Meter
+    car_diag_width = math.sqrt(car_width * 0.5 * car_width) + math.sqrt(car_length * 0.5 * car_length)
+#Korrektur/Verbesserung: Bei Einstellwinkel 60 gon = 54 Grad: car_length * sin (36 Grad) + car_width * cos(36 Grad) = 4.04 Meter
     for feature in layer.getFeatures():
         orientation = feature.attribute('orientation')
         capacity = feature.attribute('capacity')
@@ -939,26 +951,26 @@ def getCapacity(layer):
 
         if orientation == 'parallel':
             #Wenn Segment zu kurz für ein Fahrzeug: löschen
-            if length < vehicle_length:
+            if length < car_length:
                 layer.deleteFeature(feature.id())
                 continue
             elif capacity == NULL:
                 #Anzahl Parkplätze ergibt sich aus Segmentlänge - abzüglich eines Ragierabstands zwischen zwei Fahrzeugen, der an einem der beiden Enden des Segments nicht benötigt wird
-                capacity = math.floor((length + (vehicle_dist_para - vehicle_length)) / vehicle_dist_para)
+                capacity = math.floor((length + (car_dist_para - car_length)) / car_dist_para)
                 layer.changeAttributeValue(feature.id(), id_capacity, capacity)
         elif orientation == 'diagonal':
-            if length < vehicle_diag_width:
+            if length < car_diag_width:
                 layer.deleteFeature(feature.id())
                 continue
             elif capacity == NULL:
-                capacity = math.floor((length + (vehicle_dist_diag - vehicle_diag_width)) / vehicle_dist_diag)
+                capacity = math.floor((length + (car_dist_diag - car_diag_width)) / car_dist_diag)
                 layer.changeAttributeValue(feature.id(), id_capacity, capacity)
         elif orientation == 'perpendicular':
-            if length < vehicle_width:
+            if length < car_width:
                 layer.deleteFeature(feature.id())
                 continue
             elif capacity == NULL:
-                capacity = math.floor((length + (vehicle_dist_perp - vehicle_width)) / vehicle_dist_perp)
+                capacity = math.floor((length + (car_dist_perp - car_width)) / car_dist_perp)
                 layer.changeAttributeValue(feature.id(), id_capacity, capacity)
 
         if capacity == NULL:
@@ -1038,8 +1050,8 @@ if layers:
     layer_parking_left = processing.run('native:offsetline', {'INPUT': layer_parking_left, 'DISTANCE' : QgsProperty.fromExpression('"offset"'), 'OUTPUT': 'memory:'})['OUTPUT']
     layer_parking_right = processing.run('native:offsetline', {'INPUT': layer_parking_right, 'DISTANCE' : QgsProperty.fromExpression('"offset"'), 'OUTPUT': 'memory:'})['OUTPUT']
 
-    #merge left and right parking lane layers (turn one side before)
-    layer_parking_right = processing.run('native:reverselinedirection', {'INPUT': layer_parking_right, 'OUTPUT': 'memory:'})['OUTPUT']
+    #merge left and right parking lane layers (reverse left side line direction before)
+    layer_parking_left = processing.run('native:reverselinedirection', {'INPUT': layer_parking_left, 'OUTPUT': 'memory:'})['OUTPUT']
     layer_parking = processing.run('native:mergevectorlayers', {'LAYERS' : [layer_parking_left,layer_parking_right], 'OUTPUT': 'memory:'})['OUTPUT']
     QgsProject.instance().addMapLayer(layer_parking, False)
 
@@ -1078,7 +1090,8 @@ if layers:
     layer_parking = processing.run('native:difference', { 'INPUT' : layer_parking, 'OVERLAY' : carriageway_buffer, 'OUTPUT': 'memory:'})['OUTPUT']
 
     #keep parking lanes free in driveway zones
-    layer_parking = bufferIntersection(layer_parking, layer_service, 'max("width_proc" / 2, 2)', 'driveways', NULL)
+    if buffer_driveway:
+        layer_parking = bufferIntersection(layer_parking, layer_service, 'max("width_proc" / 2, ' + str(buffer_driveway / 2) + ')', 'driveways', NULL)
 
     #calculate kerb intersection points
     print(time.strftime('%H:%M:%S', time.localtime()), 'Processing kerb intersection points...')
@@ -1108,7 +1121,9 @@ if layers:
 
     #Method B: complex calculation and offset of the point to the centre of the vehicle
     layer_parking_chain = processing.run('native:pointsalonglines', {'INPUT' : layer_parking, 'DISTANCE' : QgsProperty.fromExpression('if("source:capacity" = \'estimated\', if("orientation" = \'diagonal\', 3.1, if("orientation" = \'perpendicular\', 2.5, 5.2)), if("capacity" = 1, $length, if($length < if("orientation" = \'diagonal\', 3.1 * "capacity", if("orientation" = \'perpendicular\', 2.5 * "capacity", (5.2 * "capacity") - 0.8)), ($length + (if("orientation" = \'parallel\', 0.8, if("orientation" = \'perpendicular\', 0.5, 0))) - (2 * if("orientation" = \'diagonal\', 1.55, if("orientation" = \'perpendicular\', 1.25, 2.6)))) / ("capacity" - 1), ($length - (2 * if("orientation" = \'diagonal\', 1.55, if("orientation" = \'perpendicular\', 1.25, 2.6)))) / ("capacity" - 1))))'), 'START_OFFSET' : QgsProperty.fromExpression('if("source:capacity" = \'estimated\', if("orientation" = \'diagonal\', ($length - (3.1*("capacity" - 1))) / 2, if("orientation" = \'perpendicular\', ($length - (2.5*("capacity" - 1))) / 2, ($length - (5.2*("capacity" - 1))) / 2)), if("capacity" < 2, $length / 2, if("orientation" = \'diagonal\', 1.55, if("orientation" = \'perpendicular\', if($length < if("orientation" = \'diagonal\', 3.1 * "capacity", if("orientation" = \'perpendicular\', 2.5 * "capacity", (5.2 * "capacity") - 0.8)), 0.9, 1.25), if($length < if("orientation" = \'diagonal\', 3.1 * "capacity", if("orientation" = \'perpendicular\', 2.5 * "capacity", (5.2 * "capacity") - 0.8)), 2.2, 2.6)))))'), 'OUTPUT': 'memory:'})['OUTPUT']
-    layer_parking_chain = processing.run('native:translategeometry', {'INPUT' : layer_parking_chain, 'DELTA_X' : QgsProperty.fromExpression('if("position" = \'on_street\' or "position" IS NULL, cos((("angle") - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), if("position" = \'street_side\' or "position" = \'on_kerb\' or "position" = \'shoulder\', -cos((("angle") - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), 0))'), 'DELTA_Y' : QgsProperty.fromExpression('if("position" = \'on_street\' or "position" IS NULL, sin(("angle" - 180 - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), if("position" = \'street_side\' or "position" = \'on_kerb\' or "position" = \'shoulder\', -sin(("angle" - 180 - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), 0))'), 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_parking_chain = processing.run('native:translategeometry', {'INPUT' : layer_parking_chain, 'DELTA_X' : QgsProperty.fromExpression('if("position" = \'on_street\' or "position" IS NULL, cos((("angle") - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', -2.1, if("orientation" = \'perpendicular\', -2.2, -1)), if("position" = \'street_side\' or "position" = \'on_kerb\' or "position" = \'shoulder\', -cos((("angle") - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', -2.1, if("orientation" = \'perpendicular\', -2.2, -1)), 0))'), 'DELTA_Y' : QgsProperty.fromExpression('if("position" = \'on_street\' or "position" IS NULL, sin(("angle" - 180 - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', -2.1, if("orientation" = \'perpendicular\', -2.2, -1)), if("position" = \'street_side\' or "position" = \'on_kerb\' or "position" = \'shoulder\', -sin(("angle" - 180 - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', -2.1, if("orientation" = \'perpendicular\', -2.2, -1)), 0))'), 'OUTPUT': 'memory:'})['OUTPUT']
+    #offset to the left side of the line for reversed line directions
+    #layer_parking_chain = processing.run('native:translategeometry', {'INPUT' : layer_parking_chain, 'DELTA_X' : QgsProperty.fromExpression('if("position" = \'on_street\' or "position" IS NULL, cos((("angle") - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), if("position" = \'street_side\' or "position" = \'on_kerb\' or "position" = \'shoulder\', -cos((("angle") - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), 0))'), 'DELTA_Y' : QgsProperty.fromExpression('if("position" = \'on_street\' or "position" IS NULL, sin(("angle" - 180 - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), if("position" = \'street_side\' or "position" = \'on_kerb\' or "position" = \'shoulder\', -sin(("angle" - 180 - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', 2.1, if("orientation" = \'perpendicular\', 2.2, 1)), 0))'), 'OUTPUT': 'memory:'})['OUTPUT']
 
     #add point chain to map
     layer_parking_chain.setName('parking lanes (points)')
