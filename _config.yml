@@ -1,6 +1,6 @@
 # URL
-baseurl: "/strassenraumkarte-neukoelln"
-url: "https://supaplexosm.github.io"
+baseurl: "/"
+url: "https://strassenraumkarte.osm-berlin.org"
 
 # Content
 # Also used for Social Sharing https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
