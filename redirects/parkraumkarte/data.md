@@ -1,5 +1,6 @@
 ---
 redirect_from:
-  - parkraumkarte/report.html
-redirect_to: https://github.com/tordans/openstreetmap-parking
+  - data.html
+  - parkraumkarte/data.html
+redirect_to: https://parkraum.osm-verkehrswende.org/project-prototype-neukoelln/data
 ---
