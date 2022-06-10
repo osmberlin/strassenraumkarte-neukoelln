@@ -6,7 +6,7 @@ date: 2021-12-31 06:00:00 +0100
 modified_date: 2022-01-01 20:00:00 +0100
 author: Tobias Jordans @tordans
 layout: post
-show_legend: true
+show_toc: true
 description: An illustrated update on micro mapping and micro rendering junctions, lanes and trees.
 image:
   path: /images/posts/strassenraumkarte-update-2021/social-sharing.jpg
@@ -451,6 +451,7 @@ That’s it for this update. Have fun exploring Neukölln 👋.
 <div class="notice bg-purple-200 mt-12 pb-6">
 
 ## Comments
+
 {: class="mt-3 mb-3"}
 
 [Please use the comment on this OSM Blogpost to talk about this post.](https://www.openstreetmap.org/user/tordans/diary/398372)
