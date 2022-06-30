@@ -38,6 +38,7 @@
 
 ## Changelog
 
+- 2022-06-30 ! For calculations with "width": checks whether it is a numerical value or use default value
 - 2022-06-25 + Added error if input file don't exist
 - 2022-06-23 + Added processing for facilities on the carriageway (bicycle parking, parkletts)
 - 2022-06-22 + Added processing for separately mapped street side/lane parking
