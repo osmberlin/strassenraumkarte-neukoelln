@@ -6,7 +6,7 @@
 #   and save the result at 'data/input.geojson' (or another directory, if      #
 #   specified otherwise in the directory variable) before running this script. #
 #                                                                              #
-#   > version/date: 2022-06-25                                                 #
+#   > version/date: 2022-06-30                                                 #
 #------------------------------------------------------------------------------#
 
 #------------------------------------------------------------------------------#
@@ -62,7 +62,7 @@ hgv_articulated_length = 16 #average length of semi-trailer trucks – currently
 #buffers/radii kept free at certain objects (meter)
 buffer_driveway           = 4   #4   //free space at driveways
 buffer_traffic_signals    = 10  #10  //in front of traffic lights
-buffer_crossing_zebra     = 4.5 #4.5 //on zebra crossings
+buffer_crossing_primary   = 4.5 #4.5 //on traffic signal and zebra crossings
 buffer_crossing_marked    = 2   #2   //on other marked crossings
 buffer_crossing_protected = 3   #3   //on crossings protected by buffer markings, kerb extensions etc.
 buffer_bus_stop           = 15  #15  //at bus stops
@@ -371,7 +371,7 @@ def fillBaseAttributes(layer):
                         width = width / 100
 
         #Ansonsten Breite aus anderen Straßenattributen abschätzen
-        else:
+        if width == NULL or not isfloat(width):
             highway = feature.attribute('highway')
             if highway == 'primary':
                 width = width_primary_street
@@ -446,6 +446,13 @@ def fillBaseAttributes(layer):
     layer.commitChanges()
 
     return(layer)
+
+def isfloat(num):
+    try:
+        float(num)
+        return True
+    except ValueError:
+        return False
 
 
 
@@ -895,7 +902,7 @@ def bufferCrossing(layer_parking, layer_points, side):
 
     #An Fußgängerüberwegen/Zebrastreifen: 4,5 Meter (4 Meter Zebrastreifenbreite sowie laut StVO 5 Meter Parkverbot davor)
     processing.run('qgis:selectbyexpression', {'INPUT' : layer_points, 'EXPRESSION' : '\"crossing\" = \'zebra\' OR \"crossing_ref\" = \'zebra\' OR \"crossing\" = \'traffic_signals\''})
-    buffer03 = processing.run('native:buffer', {'DISTANCE' : buffer_crossing_zebra, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_points.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
+    buffer03 = processing.run('native:buffer', {'DISTANCE' : buffer_crossing_primary, 'INPUT' : QgsProcessingFeatureSourceDefinition(layer_points.id(), selectedFeaturesOnly=True), 'OUTPUT': 'memory:'})['OUTPUT']
 
     #An sonstigen markierten Überwegen: 2 Meter
     processing.run('qgis:selectbyexpression', {'INPUT' : layer_points, 'EXPRESSION' : '\"crossing\" = \'marked\''})
@@ -1223,7 +1230,7 @@ def getOrientationDictByDistance(layer_parking_lines_inner, layer_parking_lines_
     layer_hub_lines = processing.run('qgis:fieldcalculator', { 'INPUT': layer_hub_lines, 'FIELD_NAME': 'connecting_angle', 'FIELD_TYPE': 0, 'FIELD_LENGTH': 6, 'FIELD_PRECISION': 3, 'NEW_FIELD': True, 'FORMULA': 'line_interpolate_angle($geometry,0)', 'OUTPUT': 'memory:'})['OUTPUT']
     #get offset angle, exclude values without right angle (these are points that couldn't be snapped directly to the line)
     #use negative distance values for distances > 4.5m, poitive values for distances < 4.5m
-    layer_hub_lines = processing.run('qgis:fieldcalculator', { 'INPUT': layer_hub_lines, 'FIELD_NAME': 'offset_distance', 'FIELD_TYPE': 0, 'FIELD_LENGTH': 6, 'FIELD_PRECISION': 3, 'NEW_FIELD': True, 'FORMULA': 'if(abs(abs(if("proc_line_angle" - "connecting_angle" < 0, "proc_line_angle" - "connecting_angle" + 180, "proc_line_angle" - "connecting_angle" - 180)) - 90) < 5, if(if("proc_line_angle" - "connecting_angle" < 0, "proc_line_angle" - "connecting_angle" + 180, "proc_line_angle" - "connecting_angle" - 180) < 0, -"HubDist", "HubDist"), NULL)', 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_hub_lines = processing.run('qgis:fieldcalculator', { 'INPUT': layer_hub_lines, 'FIELD_NAME': 'offset_distance', 'FIELD_TYPE': 0, 'FIELD_LENGTH': 6, 'FIELD_PRECISION': 3, 'NEW_FIELD': True, 'FORMULA': 'if(abs(abs(if("proc_line_angle" - "connecting_angle" < 0, "proc_line_angle" - "connecting_angle" + 180, "proc_line_angle" - "connecting_angle" - 180)) - 90) < 25, if(if("proc_line_angle" - "connecting_angle" < 0, "proc_line_angle" - "connecting_angle" + 180, "proc_line_angle" - "connecting_angle" - 180) < 0, -"HubDist", "HubDist"), NULL)', 'OUTPUT': 'memory:'})['OUTPUT']
     layer_hub_lines = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_hub_lines, 'EXPRESSION' : '"offset_distance" is not NULL', 'OUTPUT': 'memory:'})['OUTPUT']
     #get median distance for each OSM-feature by it's id
     layer_hub_lines = processing.run('qgis:fieldcalculator', { 'INPUT': layer_hub_lines, 'FIELD_NAME': 'offset_median', 'FIELD_TYPE': 0, 'FIELD_LENGTH': 6, 'FIELD_PRECISION': 3, 'NEW_FIELD': True, 'FORMULA': 'median("offset_distance",group_by:="id")', 'OUTPUT': 'memory:'})['OUTPUT']
@@ -1405,6 +1412,7 @@ if layers:
         print(time.strftime('%H:%M:%S', time.localtime()), 'Processing installations on lane...')
         layer_parking = processLaneInstallations(layer_parking, layer_polygons, layer_virtual_kerb)
     #TODO cut lowered kerbs
+    #TODO cut BSR ramps
     #TODO cut buffers from objects that affect on_kerb/half_on_kerb/shoulder/street_side parking
 
     QgsProject.instance().addMapLayer(layer_parking, False)
@@ -1492,6 +1500,8 @@ if layers:
         #Method B: complex calculation and offset of the point to the centre of the vehicle
         layer_parking_chain = processing.run('native:pointsalonglines', {'INPUT' : layer_parking, 'DISTANCE' : QgsProperty.fromExpression('if("source:capacity" = \'estimated\', if("orientation" = \'diagonal\', 3.1, if("orientation" = \'perpendicular\', 2.5, 5.2)), if("capacity" = 1, $length, if($length < if("orientation" = \'diagonal\', 3.1 * "capacity", if("orientation" = \'perpendicular\', 2.5 * "capacity", (5.2 * "capacity") - 0.8)), ($length + (if("orientation" = \'parallel\', 0.8, if("orientation" = \'perpendicular\', 0.5, 0))) - (2 * if("orientation" = \'diagonal\', 1.55, if("orientation" = \'perpendicular\', 1.25, 2.6)))) / ("capacity" - 1), ($length - (2 * if("orientation" = \'diagonal\', 1.55, if("orientation" = \'perpendicular\', 1.25, 2.6)))) / ("capacity" - 1))))'), 'START_OFFSET' : QgsProperty.fromExpression('if("source:capacity" = \'estimated\', if("orientation" = \'diagonal\', ($length - (3.1*("capacity" - 1))) / 2, if("orientation" = \'perpendicular\', ($length - (2.5*("capacity" - 1))) / 2, ($length - (5.2*("capacity" - 1))) / 2)), if("capacity" < 2, $length / 2, if("orientation" = \'diagonal\', 1.55, if("orientation" = \'perpendicular\', if($length < if("orientation" = \'diagonal\', 3.1 * "capacity", if("orientation" = \'perpendicular\', 2.5 * "capacity", (5.2 * "capacity") - 0.8)), 0.9, 1.25), if($length < if("orientation" = \'diagonal\', 3.1 * "capacity", if("orientation" = \'perpendicular\', 2.5 * "capacity", (5.2 * "capacity") - 0.8)), 2.2, 2.6)))))'), 'OUTPUT': 'memory:'})['OUTPUT']
         layer_parking_chain = processing.run('native:translategeometry', {'INPUT' : layer_parking_chain, 'DELTA_X' : QgsProperty.fromExpression('if("position" = \'on_street\' or "position" IS NULL or "side" = \'separate\', cos((("angle") - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', -2.1, if("orientation" = \'perpendicular\', -2.2, -1)), if(("position" = \'street_side\' or "position" = \'on_kerb\' or "position" = \'shoulder\') and "side" is not \'separate\', -cos((("angle") - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', -2.1, if("orientation" = \'perpendicular\', -2.2, -1)), 0))'), 'DELTA_Y' : QgsProperty.fromExpression('if("position" = \'on_street\' or "position" IS NULL or "side" = \'separate\', sin(("angle" - 180 - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', -2.1, if("orientation" = \'perpendicular\', -2.2, -1)), if(("position" = \'street_side\' or "position" = \'on_kerb\' or "position" = \'shoulder\') and "side" is not \'separate\', -sin(("angle" - 180 - if("orientation" = \'diagonal\', if("oneway_direction" = \'true\', -27, 27), 0)) * (pi() / 180)) * if("orientation" = \'diagonal\', -2.1, if("orientation" = \'perpendicular\', -2.2, -1)), 0))'), 'OUTPUT': 'memory:'})['OUTPUT']
+
+        #TODO clean attributes, e.g. delete capacity
 
         #offset to the left side of the line for reversed line directions/left hand traffic
         #TODO: Add variable for right or left hand traffic (and use this also for reversing line direction)
