@@ -13,10 +13,6 @@ Boths unterlying maps are generated using two datasets. The Licence can be found
 
 All text based content on this website, especially the report and blogpost are licenced as [Creative Commons Attribution-ShareAlike 4.0 International](http://creativecommons.org/licenses/by-sa/4.0/). This includes images and screenshots as long as there is no other licence given.
 
-# Data
-
-The [external datasets](https://supaplexosm.github.io/strassenraumkarte-neukoelln/parkraumkarte/data) have their own licences.
-
 # Source Code
 
 The source code of this project, especially this website and the scripts are licenced as [Apache License, Version 2.0, January 2004](https://www.apache.org/licenses/LICENSE-2.0).
