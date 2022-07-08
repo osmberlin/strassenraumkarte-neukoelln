@@ -39,7 +39,6 @@ menu_highlight: map
         '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
     }
   );
-  parkingmap.addTo(map); // This is the initial basemap
 
   const micromap = L.tileLayer(
     "https://tiles.osm-berlin.org/strassenraumkarte/{z}/{x}/{y}.jpg",
@@ -53,6 +52,7 @@ menu_highlight: map
         '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
     }
   );
+  micromap.addTo(map); // This is the initial basemap
 
   const debugmap = L.tileLayer(
     "https://tiles.osm-berlin.org/strassenraumkarte-debug/{z}/{x}/{y}.jpg",
@@ -93,8 +93,8 @@ menu_highlight: map
 
   // name set of tilelayers and adds them to the layer-selector
   const baseMaps = {
-    [parkingmap.options.layerControlName]: parkingmap,
     [micromap.options.layerControlName]: micromap,
+    [parkingmap.options.layerControlName]: parkingmap,
     [debugmap.options.layerControlName]: debugmap,
     [osm.options.layerControlName]: osm,
     [luftbild2020.options.layerControlName]: luftbild2020,
@@ -128,7 +128,7 @@ menu_highlight: map
 
   // ?map-Param: On load, if no ?map-Param present, add one
   if (window.location.search.substr(1) === "") {
-    let layer_name = "parkingmap";
+    let layer_name = "micromap";
     let newurl = mapParamNewURL(layer_name);
     history.replaceState({ path: newurl }, "", newurl);
   }
