@@ -17,20 +17,30 @@
   }
 
   .notice {
-    @apply p-4 mb-3;
+    @apply mb-3 px-5 py-6;
     @apply bg-gray-200;
     @apply rounded;
     @apply leading-normal;
   }
-
+  .prose .notice > h2:first-child,
+  .prose .notice > h1:first-child {
+    @apply mt-0;
+  }
+  .prose .notice > ul:last-child,
+  .prose .notice > ul:last-child > li:last-child {
+    @apply mb-0;
+  }
   /* Overwrite defaults, which we cannot to inline since markdow makes that hard. */
-  .prose .notice p {
-    @apply m-0;
+  .prose .notice p:last-child {
+    @apply mb-0;
+  }
+  .prose .notice p:first-child {
+    @apply mt-0;
   }
 
   /* Single class so we can toggle it easily in JS. */
   .menu-active {
-    @apply bg-blue-600 hover:!bg-blue-600 text-blue-50;
+    @apply bg-blue-600 text-blue-50 hover:!bg-blue-600;
     @apply cursor-text;
   }
 }

@@ -13,23 +13,7 @@ menu_highlight: posts
 <!-- Themen: https://github.com/jekyll/minima/blob/master/_layouts/post.html -->
 <!-- Width: https://tailwindcss.com/docs/max-width#prose -->
 <article
-  class="
-    prose prose-blue
-    prose-code:before:content-none
-    prose-code:after:content-none
-    prose-code:bg-neutral-100
-    prose-code:text-neutral-800
-    prose-code:rounded
-    prose-code:py-1
-    prose-code:px-1.5
-    prose-code:box-decoration-clone
-    prose-headings:scroll-mt-10
-    [--tw-prose-bullets:_gray]
-    max-w-prose
-    py-6
-    px-4
-    lg:px-0
-  "
+  class="prose prose-blue max-w-prose py-6 px-4 [--tw-prose-bullets:_gray] prose-headings:scroll-mt-10 prose-h1:mb-3 prose-h2:mt-8 prose-h2:mb-4 prose-h3:mt-5 prose-h3:mb-4 prose-code:rounded prose-code:bg-neutral-100 prose-code:box-decoration-clone prose-code:py-1 prose-code:px-1.5 prose-code:text-neutral-800 prose-code:before:content-none prose-code:after:content-none lg:px-0"
   itemscope
   itemtype="http://schema.org/BlogPosting"
   lang="{{ page.language | default:'de' }}"
@@ -37,30 +21,28 @@ menu_highlight: posts
   <header class="mb-4">
     <h1 itemprop="name headline">{{ page.title | escape }}</h1>
     <p class="text-gray-400">
-      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-      <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y"
+      -%}
+      <time
+        datetime="{{ page.date | date_to_xmlschema }}"
+        itemprop="datePublished"
+      >
         {{ page.date | date: date_format }}
       </time>
-      {%- if page.modified_date -%}
-      ~
-      {%- assign mdate = page.modified_date | date_to_xmlschema -%}
+      {%- if page.modified_date -%} ~ {%- assign mdate = page.modified_date |
+      date_to_xmlschema -%}
       <time datetime="{{ mdate }}" itemprop="dateModified">
         {{ mdate | date: date_format }}
       </time>
-      {%- endif -%}
-      {%- if page.author -%}
-      • {% for author in page.author %}
+      {%- endif -%} {%- if page.author -%} • {% for author in page.author %}
       <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">{{ author }}</span></span>
-      {%- if forloop.last == false %}, {% endif -%}
-      {% endfor %}
-      {%- endif -%}
+        <span itemprop="name">{{ author }}</span></span
+      >
+      {%- if forloop.last == false %}, {% endif -%} {% endfor %} {%- endif -%}
     </p>
   </header>
 
-  <div itemprop="articleBody">
-    {{ content }}
-  </div>
+  <div itemprop="articleBody">{{ content }}</div>
 
   <a href="{{ page.url | relative_url }}" hidden></a>
 </article>

@@ -452,8 +452,6 @@ That’s it for this update. Have fun exploring Neukölln 👋.
 
 ## Comments
 
-{: class="mt-3 mb-3"}
-
 [Please use the comment on this OSM Blogpost to talk about this post.](https://www.openstreetmap.org/user/tordans/diary/398372)
 
 </div>

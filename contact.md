@@ -1,6 +1,6 @@
 ---
 title: Kontakt und Impressum
-layout: page
+layout: page_markdown
 menu_highlight: contact
 noindex: true
 ---
@@ -8,32 +8,28 @@ noindex: true
 <div class="notice mb-12">
 
 # Kontakt
-{: class='!mb-3' }
 
 <hr class="!border-white !my-6">
 
 Die Straßenraumkarten Neukölln ist ein Projekt von Alex Seidel (OSM: [Supaplex030](https://www.openstreetmap.org/user/Supaplex030/)) und der OpenStreetMap Community Berlin.
 
-* Kontakt zu Alex via [OpenStreetMap-Nachricht](https://www.openstreetmap.org/message/new/Supaplex030) oder [E-Mail](mailto:supaplex@riseup.net)
-* Feature-Request und Bug-Reports gerne als [GitHub Issues erstellen](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/)
+- Kontakt zu Alex via [OpenStreetMap-Nachricht](https://www.openstreetmap.org/message/new/Supaplex030) oder [E-Mail](mailto:supaplex@riseup.net)
+- Feature-Request und Bug-Reports gerne als [GitHub Issues erstellen](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/)
 
 <hr class="!border-white !my-6">
 
 Das Projekt wird gepflegt im Rahmen der ehrenamtlichen Aktivitäten der [Berliner OSM-Verkehrswendegruppe](https://wiki.openstreetmap.org/wiki/Berlin/Verkehrswende).
 
-* Besucht unsere [monatlichen Meetups](https://www.meetup.com/de-DE/OSM-Berlin-Brandenburg/)
-* Kontakt über die [Telegramgruppe OSM Berlin Verkehrswende Community]((https://t.me/osmberlinverkehr))
-{: class='!mb-0' }
+- Besucht unsere [monatlichen Meetups](https://www.meetup.com/de-DE/OSM-Berlin-Brandenburg/)
+- Kontakt über die [Telegramgruppe OSM Berlin Verkehrswende Community](https://t.me/osmberlinverkehr)
 
 </div>
 
 # Lizenz
-{: class='!mb-3' }
 
 Die unterschiedlichen Daten dieses Projekten verwenden unterschiedliche Lizenzen. [Mehr zu den Lizenzen für die Karten, OSM-Daten, Texte und Skripte/Code](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/blob/main/LICENSE.md).
 
 # Datenschutzerklärung
-{: class='!mb-3 !mt-10' }
 
 Bei der Nutzung dieser Website werden von uns keine personenbezogenen Daten erfasst oder gespeichert.
 Es gibt kein Webtracking und keine Cookies.
@@ -62,17 +58,14 @@ Die Website bettet Tabellenüber ein, die über Google Doc als Website zum einbe
 
 ## Eingebettete Videos (media.ccc.de)
 
-
 Die Website bettet Videos als iframe ein, die vom Chaos Computer Club e.V. bereitgestellt werden. Bitte beachtet die [media.ccc.de Datenschutzerklärungen](https://media.ccc.de/about.html#privacy).
 
 # Impressum
-{: class='!mb-3 !mt-10' }
 
 Tobias Jordans, Böhmische Straße 54, 12055 Berlin, [t@tobiasjordans.de](mailto:t@tobiasjordans.de)
 
 # Credits
-{: class='!mb-3 !mt-10' }
 
-* OpenStreetMap Mitwirkende https://www.openstreetmap.org/copyright
-* Bootstrap Icons https://github.com/twbs/icons/blob/main/LICENSE.md
-* FontAwesome https://fontawesome.com/license
+- OpenStreetMap Mitwirkende https://www.openstreetmap.org/copyright
+- Bootstrap Icons https://github.com/twbs/icons/blob/main/LICENSE.md
+- FontAwesome https://fontawesome.com/license
