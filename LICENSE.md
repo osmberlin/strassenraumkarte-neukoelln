@@ -23,4 +23,4 @@ The source code of this project, especially this website and the scripts are lic
 
 # Contact
 
-[supaplexosm.github.io/strassenraumkarte-neukoelln/contact](https://supaplexosm.github.io/strassenraumkarte-neukoelln/contact)
+[strassenraumkarte.osm-berlin.org/contact](https://strassenraumkarte.osm-berlin.org/contact)
