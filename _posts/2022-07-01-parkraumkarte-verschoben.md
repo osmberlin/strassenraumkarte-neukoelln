@@ -2,7 +2,7 @@
 title: "Die Parkraumkarte hat ein neues zu Hause"
 menu_title: "Parkraumkarte"
 menu_highlight: mehr_details
-date: 2022-01-17 23:00:00 +0100
+date: 2022-07-01 23:00:00 +0100
 author: Tobias Jordans @tordans
 layout: post
 description: Die Parkraumkarte ist jetzt unter parkraum.osm-verkehrswende.de zu finden.
