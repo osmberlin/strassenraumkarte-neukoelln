@@ -6,6 +6,7 @@ date: 2022-07-01 23:00:00 +0100
 author: Tobias Jordans @tordans
 layout: post
 description: Die Parkraumkarte ist jetzt unter parkraum.osm-verkehrswende.de zu finden.
+redirect_from: /posts/2022-01-17-parkraumkarte-verschoben
 ---
 
 Wir haben umgebaut…
