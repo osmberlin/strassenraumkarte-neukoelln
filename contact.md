@@ -54,7 +54,7 @@ Die Grafiken für den Kartenstil "Luftbilder 2020" werden über den Proxy-Server
 
 ## Externe Tabellen Google Docs (docs.google.com)
 
-Die Website bettet Tabellenüber ein, die über Google Doc als Website zum einbettet bereitgestellt werden. [Mehr über das Feature](https://support.google.com/a/users/answer/9308870?hl=de). Bitte beachtet die [google.com Datenschutzerklärungen](https://policies.google.com/privacy?hl=de-DE).
+Die Website bettet Tabellen ein, die über Google Docs als Website zum Einbetten bereitgestellt werden. [Mehr über das Feature](https://support.google.com/a/users/answer/9308870?hl=de). Bitte beachtet die [google.com Datenschutzerklärungen](https://policies.google.com/privacy?hl=de-DE).
 
 ## Eingebettete Videos (media.ccc.de)
 
