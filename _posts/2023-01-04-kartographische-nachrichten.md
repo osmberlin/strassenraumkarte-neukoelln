@@ -1,20 +1,22 @@
 ---
 title: Beitrag über die Neuköllner Straßenraumkarte in den Kartographischen Nachrichten
-menu_title: Straßenraumkarte in Kartographischen Nachrichten
+menu_title: Kartographischen Nachrichten
 date: 2023-01-05 12:00:00 +0100
 author: Alex Seidel @SupaplexOSM
 layout: post
 description: Beitrag über die Neuköllner Straßenraumkarte in den Kartographischen Nachrichten / KN – Info und Praxis 3(2022) 72, S. A-10 bis A-17.
 ---
 
-<div class="notice">
+<div class="notice mb-7">
 
-An dieser Stelle dokumentieren wir einen Beitrag über die Neuköllner Straßenraumkarte in der kartographischen Fachzeitschrift [KN – Info und Praxis 3(2022) 72](https://static-content.springer.com/esm/art%3A10.1007%2Fs42489-022-00119-1/MediaObjects/42489_2022_119_MOESM1_ESM.pdf). Der Beitrag ist unter dem vorstehenden Link auch als OpenAccess frei zugänglich.
+An dieser Stelle dokumentieren wir einen Beitrag über die Neuköllner Straßenraumkarte in der kartographischen Fachzeitschrift [„KN – Journal of Cartography and Geographic Information“ – Info und Praxis 3 (2022) 72 (PDF, OpenAccess)](https://static-content.springer.com/esm/art%3A10.1007%2Fs42489-022-00119-1/MediaObjects/42489_2022_119_MOESM1_ESM.pdf).
 
 </div>
 
 # Die Neuköllner Straßenraumkarte
+
 ## Ein detaillierter Plan des öffentlichen Raumes auf Basis freier OpenStreetMap-Geodaten
+
 _Alex Seidel_[^1]
 
 ## Zusammenfassung
@@ -87,7 +89,7 @@ Der Kartendarstellung ist eine Aufbereitung der OSM-Daten vorgelagert, welches �
 
 Die wohl größte Herausforderung bei der Darstellung sind die Fahrbahnmarkierungen bzw. die Prozessierung der Fahrspurattribute: Dazu gehören vor allem Mittellinien, Abbiegespuren, Radfahrstreifen, Zebrastreifen und andere Querungsstellen für den Fußverkehr oder auch Haltelinien an Kreuzungen (siehe Abb. 5). Vielerorts wurden diese Attribute in OSM erst im Zuge der Entwicklung der Straßenraumkarte erfasst oder verbessert, da es ansonsten nur wenige Möglichkeiten gibt, diese aus der abstrakten Datenbankstruktur heraus überhaupt „sichtbar“ zu machen.
 
-![Abb. 5: Darstellung von Abbiegespuren, Radfahrstreifen, Querungsstellen und Haltelinien an einer Kreuzung. © Kartendaten: OpenStreetMap-Beitragende.](../images/posts/kartographische-nachrichten/Abbildung05.jpg){: class='img-thumbnail' }
+![Abb. 5: Darstellung von Abbiegespuren, Radfahrstreifen, Querungsstellen und Haltelinien an einer Kreuzung. © Kartendaten: OpenStreetMap-Beitragende.](../images/posts/kartographische-nachrichten/Abbildung05.png){: class='img-thumbnail' }
 
 Die Attribute der Datenobjekte in der OSM-Datenbank liegen in „Schlüssel-Wert-Paaren“ vor und folgen bestimmten Konventionen – den in der OSM-Community diskutierten und dokumentierten „Mapping-Schemata“. Im Fall einer Straße bzw. Fahrbahn ist das Datenobjekt beispielsweise eine Linie, welche die gesamte Fahrbahn mit all ihren Eigenschaften und einzelnen Spuren repräsentiert. Im Fall des in Abbildung 5 gezeigten Kartenausschnitts gehören dazu z. B. die Anzahl der Fahrspuren, ihre Widmung für den Kfz-, Rad- oder Busverkehr, in welche Richtung sie führen, wie breit sie sind oder, im Fall des Radstreifens, welche Markierungen sie begrenzen und welche Farbe die Oberfläche hat. Informationen zu einzelnen, auch gegenläufigen Fahrspuren oder Radstreifen auf der Fahrbahn sind also alle in einem einzelnen Geoobjekt vereinigt und müssen für die Kartendarstellung interpretiert, geometrisch erzeugt und versetzt und passend dargestellt werden.
 
@@ -97,7 +99,7 @@ Um aus den linienhaft vorliegenden Fahrbahnattributen in der Karte einen „flä
 
 Während der Datenaufbereitung werden darüber hinaus weitere Berechnungen vorgenommen, um die Darstellung bestimmter Elemente in der Straßenraumkarte zu ermöglichen oder zu verbessern. So wird die Lage von Fußgängerüberwegen oder Haltelinien aus – zumindest in Neukölln – separat in OSM erfassten Fußverkehrsinformationen und Knotenpunktgeometrien abgeleitet. In einem anderen Arbeitsschritt werden die in OSM enthaltenen Stockwerksinformationen von Gebäuden verarbeitet, um unterschiedlich hohe oder „schwebende“ Gebäudeteile zu ermitteln und in der Kartendarstellung dezent voneinander abzugrenzen (siehe Abb. 6a). Ein anderes Beispiel sind Waldflächen, die nicht in einer einheitlichen Farbe oder Texturierung dargestellt werden, sondern durch virtuelle Einzelbäume repräsentiert werden: Um diese optisch ansprechend zu verteilen, wird in den Flächen ein hexagonales Gitter mit Innenabständen erzeugt und in jedem Gitterfeld an zufälligem Standort ein Einzelbaumsymbol generiert (siehe Abb. 6b).
 
-![Abb. 6a und b: Beispiele für Ergebnisse der Datenaufbereitung: Unterscheidung von Gebäudeteilen unterschiedlicher Gebäudehöhe und von schwebenden, nicht auf dem Boden aufsetzenden Gebäudeteilen (links); Erzeugung eines hexagonalen Gitters in Waldflächen als Hilfsmittel und Zwischenschritt zur Platzierung virtueller Einzelbäume zur realistischeren Darstellung von Wäldern (rechts).](../images/posts/kartographische-nachrichten/Abbildung06.jpg){: class='img-thumbnail' }
+![Abb. 6a und b: Beispiele für Ergebnisse der Datenaufbereitung: Unterscheidung von Gebäudeteilen unterschiedlicher Gebäudehöhe und von schwebenden, nicht auf dem Boden aufsetzenden Gebäudeteilen (links); Erzeugung eines hexagonalen Gitters in Waldflächen als Hilfsmittel und Zwischenschritt zur Platzierung virtueller Einzelbäume zur realistischeren Darstellung von Wäldern (rechts).](../images/posts/kartographische-nachrichten/Abbildung06.png){: class='img-thumbnail' }
 
 ## 6. Der Ausblick: OpenStreetMap an der Grenze zwischen Karte und Plan
 
