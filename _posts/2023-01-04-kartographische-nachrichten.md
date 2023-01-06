@@ -37,7 +37,10 @@ Der Bedarf nach detaillierten räumlichen Repräsentationen ist also groß, erst
 
 Die Neuköllner Straßenraumkarte[^2] ist ein Versuch, eine solche detaillierte Kartengrundlage des öffentlichen Raumes anzubieten (siehe Abb. 1). Sie ist ein auf OpenStreetMap-Daten (OSM) basierender Stadtplan in großem Maßstab für den Berliner Ortsteil Neukölln, der den öffentlichen Raum mit seinen Fahrbahnen, Gehwegen und parkenden Fahrzeugen in den Fokus nimmt, aber auch detaillierte Landnutzungen sowie die Straßenmöbel im urbanen Raum – vom Straßenbaum und der Straßenlaterne über Sitzbänke und Fahrradständer bis hin zum Schaltkasten oder Schutzpoller darstellt.
 
-![Abb. 1: Ausschnitt der Neuköllner Straßenraumkarte mit Fahrbahnen, parkenden Fahrzeugen, Gebäuden und Landnutzungsdetails. © Kartendaten: OpenStreetMap-Beitragende.](../images/posts/kartographische-nachrichten/Abbildung01.jpg){: class='img-thumbnail' }
+{% include image.html
+src="images/posts/kartographische-nachrichten/Abbildung01.jpg"
+caption="Abb. 1: Ausschnitt der Neuköllner Straßenraumkarte mit Fahrbahnen, parkenden Fahrzeugen, Gebäuden und Landnutzungsdetails. © Kartendaten: OpenStreetMap-Beitragende."
+%}
 
 ## 2. Der Entstehungshintergrund: Von der Parkraum- zur Straßenraumkarte
 
@@ -51,7 +54,10 @@ Als Open Data frei verfügbare Geodaten zu Fahrbahnbegrenzungen (in einer Stadt 
 
 - OpenStreetMap-Daten, in denen Bordsteinkanten jedoch nur selektiv und in uneinheitlicher Genauigkeit erfasst sind.
 
-![Abb. 2: Fahrbahn- und Parkstreifendarstellung in der Neuköllner Straßenraumkarte. © Kartendaten: ALKIS, OpenStreetMap-Beitragende.](../images/posts/kartographische-nachrichten/Abbildung02.jpg){: class='img-thumbnail' }
+{% include image.html
+src="images/posts/kartographische-nachrichten/Abbildung02.jpg"
+caption="Abb. 2: Fahrbahn- und Parkstreifendarstellung in der Neuköllner Straßenraumkarte. © Kartendaten: ALKIS, OpenStreetMap-Beitragende."
+%}
 
 Für die Darstellung herangezogen wurde schließlich ein Fahrbahndatensatz auf Basis von ALKIS-Daten, die im Bereich baulicher Veränderungen mit OSM-Daten angereichert und somit kontinuierlich „aktualisiert“ werden. In einer Stadt wie Berlin, in der es – gerade in Zeiten der Verkehrswende – permanent bauliche Veränderungen gibt, ist Aktualität ein wichtiger Faktor. Die Parkplatzdaten der Parkraumanalyse wurden durch Snapping (automatisierte Überlagerung mit den Bordsteinkanten) und manuelle Nachkorrektur an diese Fahrbahndaten angepasst und bilden seitdem gemeinsam mit den Fahrbahnflächen den Kern der Straßenraumkarte (siehe Abb. 2). Andere in OSM erfasste Daten wie Zufahrten, Straßenbäume, Gebäude, Landnutzungen oder Barrieren wie Zäune und Mauern wurden in die Darstellung integriert.
 
@@ -73,13 +79,19 @@ Auch ästhetisch schlägt die Straßenraumkarte einen anderen Weg ein. Die Verwe
 
 Die Neuköllner Straßenraumkarte orientiert sich ästhetisch an solchen Architekturplänen. Zwar ist die Repräsentation von Gebäuden und Grundstücken (die einen großen Teil des Raumes einnehmen) noch eher monoton, da diese nicht im Fokus der Karte stehen und Informationen wie Dachformen und -farben oder räumliche Strukturen auf (privaten) Grundstücken fehlen. Die Darstellung des Straßenraums und öffentlicher Grünflächen greift aber gestalterische Ideen solcher Pläne auf (siehe Abb. 3). So sind Wiesen und Gebüsche texturiert statt einfarbig, am Rand von Wegen stehen kleine symbolische Bänke, die in Blickrichtung ausgerichtet sind. Die Fahrbahnränder werden im Bereich von Parkstreifen von kleinen Automodellen gesäumt, auf Spielplätzen sind die einzelnen Spielgeräte oder auf Sportplätzen Markierungslinien angedeutet. Bäume heben sich transparent, aber dezent räumlich geschummert und – falls in OSM kartiert – mit ihrem realen Kronendurchmesser von der Grundebene ab. Wälder erzeugen durch generisch erzeugte Symbole den Eindruck, als würden sie aus Einzelbäumen bestehen (siehe auch den nachfolgenden Abschnitt).
 
-![Abb. 3: An Architekturpläne angelehnte Darstellung, hier einer Grünanlage und eines Spielplatzes mit Landnutzungstexturen, Baumkronendurchmessern, Sportfeldmarkierungen und angedeuteten Spielgeräten. © Kartendaten: OpenStreetMap-Beitragende.](../images/posts/kartographische-nachrichten/Abbildung03.jpg){: class='img-thumbnail' }
+{% include image.html
+src="images/posts/kartographische-nachrichten/Abbildung03.jpg"
+caption="Abb. 3: An Architekturpläne angelehnte Darstellung, hier einer Grünanlage und eines Spielplatzes mit Landnutzungstexturen, Baumkronendurchmessern, Sportfeldmarkierungen und angedeuteten Spielgeräten. © Kartendaten: OpenStreetMap-Beitragende."
+%}
 
 Die gewählte Form der Darstellung – lage- und größengetreu, an der realen Erscheinung orientiert, ohne Generalisierung und Signaturen – kommt zudem mit einer sparsamen Verwendung von Beschriftungen aus: Lediglich Straßennamen sowie größere Parks und Gewässer sind in größeren Maßstäben der digitalen Karte zur leichteren Orientierung dezent beschriftet. Je nach Maßstab ergibt sich der Eindruck eines „Vogelflugs“ über den Stadtteil oder eines Spaziergangs entlang der Straße. Diese Darstellungsform macht die öffentliche Raumstruktur direkt sichtbar und kann somit auch hilfreich sein, planerische Erfordernisse wie ungünstige Raumaufteilungen oder fehlende Infrastrukturen zu illustrieren – wohl aber weniger, solche zu identifizieren. Denn letztendlich handelt es sich lediglich um die zweidimensionale Darstellung eines „leeren“ öffentlichen Raumes bzw. seiner physischen, beständigen Hülle, ohne Verkehrsflüsse, Umweltfaktoren oder Menschen, die ihn nutzen. Erst Wissen über solche Nutzungsmuster und Funktionen kann die Grundlage für Planungsentscheidungen bilden.
 
 Wie eingangs erwähnt ist die Straßenraumkarte auch als Kartengrundlage für Themenkarten für den Stadtteil Neukölln konzipiert, bisher aber vor allem für die Parkraumkarte. Diese veranschaulicht in einzelnen Maßstabsstufen verschiedene Daten zum Thema Parkplätze für den Kfz-Verkehr und reicht vom einzelnen Stellplatz über Stellplatzzahlen im Verlauf eines Straßenzugs und Parkflächen abseits des Straßennetzes bis hin zu Informationen über den Flächenverbrauch und einer Berechnung von Stellplatzdichten (siehe Abb. 4). Neben der Parkraumkarte sind weitere thematische Karten als ergänzende Datenlayer geplant: In Arbeit ist eine Radinfrastruktur-Karte, die physische Merkmale und Qualität des Radverkehrsnetzes veranschaulichen soll. Ähnliches könnte sich für den Fußverkehr anschließen. Möglich wären beispielsweise aber auch eine Rettungskarte mit einem Fokus auf Rettungswegen und Notfall-Infrastrukturen, eine Karte mit Informationen zur Qualität und Ausstattung von Grünflächen und Spielplätzen oder eine Themenkarte zu historischen (Gedenk-)Orten im öffentlichen Raum.
 
-![Abb. 4: Ausschnitte der Parkraumkarte in verschiedenen Maßstäben (Zoomstufen): Darstellung von einzelnen Stellplätzen (links), Stellplatzzahlen ganzer Straßensegmente (Mitte) und Stellplatzdichten (rechts). Der Maßstab der verschiedenen Kartenebenen reicht in der Webkarte von etwa 1 : 500 auf der detailliertesten Zoomstufe bis etwa 1 : 15.000 auf der höchsten Ebene. © Kartendaten: OpenStreetMap-Beitragende, Berechnungen der Neuköllner Parkraumanalyse.](../images/posts/kartographische-nachrichten/Abbildung04.jpg){: class='img-thumbnail' }
+{% include image.html
+src="images/posts/kartographische-nachrichten/Abbildung04.jpg"
+caption="Abb. 4: Ausschnitte der Parkraumkarte in verschiedenen Maßstäben (Zoomstufen): Darstellung von einzelnen Stellplätzen (links), Stellplatzzahlen ganzer Straßensegmente (Mitte) und Stellplatzdichten (rechts). Der Maßstab der verschiedenen Kartenebenen reicht in der Webkarte von etwa 1 : 500 auf der detailliertesten Zoomstufe bis etwa 1 : 15.000 auf der höchsten Ebene. © Kartendaten: OpenStreetMap-Beitragende, Berechnungen der Neuköllner Parkraumanalyse."
+%}
 
 ## 5. Die Technik: Aus der Geo-Datenbank über die Datenprozessierung zur gestalteten Straßenraumkarte
 
@@ -89,7 +101,10 @@ Der Kartendarstellung ist eine Aufbereitung der OSM-Daten vorgelagert, welches �
 
 Die wohl größte Herausforderung bei der Darstellung sind die Fahrbahnmarkierungen bzw. die Prozessierung der Fahrspurattribute: Dazu gehören vor allem Mittellinien, Abbiegespuren, Radfahrstreifen, Zebrastreifen und andere Querungsstellen für den Fußverkehr oder auch Haltelinien an Kreuzungen (siehe Abb. 5). Vielerorts wurden diese Attribute in OSM erst im Zuge der Entwicklung der Straßenraumkarte erfasst oder verbessert, da es ansonsten nur wenige Möglichkeiten gibt, diese aus der abstrakten Datenbankstruktur heraus überhaupt „sichtbar“ zu machen.
 
-![Abb. 5: Darstellung von Abbiegespuren, Radfahrstreifen, Querungsstellen und Haltelinien an einer Kreuzung. © Kartendaten: OpenStreetMap-Beitragende.](../images/posts/kartographische-nachrichten/Abbildung05.png){: class='img-thumbnail' }
+{% include image.html
+src="images/posts/kartographische-nachrichten/Abbildung05.png"
+caption="Abb. 5: Darstellung von Abbiegespuren, Radfahrstreifen, Querungsstellen und Haltelinien an einer Kreuzung. © Kartendaten: OpenStreetMap-Beitragende."
+%}
 
 Die Attribute der Datenobjekte in der OSM-Datenbank liegen in „Schlüssel-Wert-Paaren“ vor und folgen bestimmten Konventionen – den in der OSM-Community diskutierten und dokumentierten „Mapping-Schemata“. Im Fall einer Straße bzw. Fahrbahn ist das Datenobjekt beispielsweise eine Linie, welche die gesamte Fahrbahn mit all ihren Eigenschaften und einzelnen Spuren repräsentiert. Im Fall des in Abbildung 5 gezeigten Kartenausschnitts gehören dazu z. B. die Anzahl der Fahrspuren, ihre Widmung für den Kfz-, Rad- oder Busverkehr, in welche Richtung sie führen, wie breit sie sind oder, im Fall des Radstreifens, welche Markierungen sie begrenzen und welche Farbe die Oberfläche hat. Informationen zu einzelnen, auch gegenläufigen Fahrspuren oder Radstreifen auf der Fahrbahn sind also alle in einem einzelnen Geoobjekt vereinigt und müssen für die Kartendarstellung interpretiert, geometrisch erzeugt und versetzt und passend dargestellt werden.
 
@@ -99,7 +114,10 @@ Um aus den linienhaft vorliegenden Fahrbahnattributen in der Karte einen „flä
 
 Während der Datenaufbereitung werden darüber hinaus weitere Berechnungen vorgenommen, um die Darstellung bestimmter Elemente in der Straßenraumkarte zu ermöglichen oder zu verbessern. So wird die Lage von Fußgängerüberwegen oder Haltelinien aus – zumindest in Neukölln – separat in OSM erfassten Fußverkehrsinformationen und Knotenpunktgeometrien abgeleitet. In einem anderen Arbeitsschritt werden die in OSM enthaltenen Stockwerksinformationen von Gebäuden verarbeitet, um unterschiedlich hohe oder „schwebende“ Gebäudeteile zu ermitteln und in der Kartendarstellung dezent voneinander abzugrenzen (siehe Abb. 6a). Ein anderes Beispiel sind Waldflächen, die nicht in einer einheitlichen Farbe oder Texturierung dargestellt werden, sondern durch virtuelle Einzelbäume repräsentiert werden: Um diese optisch ansprechend zu verteilen, wird in den Flächen ein hexagonales Gitter mit Innenabständen erzeugt und in jedem Gitterfeld an zufälligem Standort ein Einzelbaumsymbol generiert (siehe Abb. 6b).
 
-![Abb. 6a und b: Beispiele für Ergebnisse der Datenaufbereitung: Unterscheidung von Gebäudeteilen unterschiedlicher Gebäudehöhe und von schwebenden, nicht auf dem Boden aufsetzenden Gebäudeteilen (links); Erzeugung eines hexagonalen Gitters in Waldflächen als Hilfsmittel und Zwischenschritt zur Platzierung virtueller Einzelbäume zur realistischeren Darstellung von Wäldern (rechts).](../images/posts/kartographische-nachrichten/Abbildung06.png){: class='img-thumbnail' }
+{% include image.html
+src="images/posts/kartographische-nachrichten/Abbildung06.png"
+caption="Abb. 6a und b: Beispiele für Ergebnisse der Datenaufbereitung: Unterscheidung von Gebäudeteilen unterschiedlicher Gebäudehöhe und von schwebenden, nicht auf dem Boden aufsetzenden Gebäudeteilen (links); Erzeugung eines hexagonalen Gitters in Waldflächen als Hilfsmittel und Zwischenschritt zur Platzierung virtueller Einzelbäume zur realistischeren Darstellung von Wäldern (rechts)."
+%}
 
 ## 6. Der Ausblick: OpenStreetMap an der Grenze zwischen Karte und Plan
 
