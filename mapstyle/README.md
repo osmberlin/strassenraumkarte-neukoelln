@@ -31,7 +31,7 @@ Viele weitere Dinge werden in der Kartendarstellung dargestellt, z.B. Straßenm�
 
 ## Schritt für Schritt-Anleitung zur eigenen Straßenraumkarte
 
-_Versionshinweis: Die aktuelle Version der Straßenraumkarte wurde mit QGIS 3.22.4-Białowieża erzeugt. Mit älteren oder neueren Versionen könnte es evtl. zu Fehlern bei der Scriptausführung kommen._
+_Versionshinweis: Die aktuelle Version der Straßenraumkarte wurde mit QGIS 3.22.4-Białowieża erzeugt. Mit älteren oder neueren Versionen könnte es evtl. zu Fehlern bei der Scriptausführung oder Kartendarstellung kommen._
 
 __0.) OSM-Micromapping in der Umgebung__, siehe oben :)
 
