@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="12.455196cm"
+   height="13.336473cm"
+   viewBox="0 0 716.17379 436.4664"
+   version="1.1"
+   id="svg38"
+   sodipodi:docname="basketball_half.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   style="stroke:#ffffff">
+  <metadata
+     id="metadata44">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs42" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     id="namedview40"
+     showgrid="false"
+     inkscape:zoom="0.89202381"
+     inkscape:cx="25.123583"
+     inkscape:cy="218.7271"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg38"
+     units="cm" />
+  <rect
+     id="rect1881"
+     y="-715.43219"
+     x="-164.69041"
+     height="714.93219"
+     width="765.84723"
+     stroke-width="param(outline-width) 0.3"
+     stroke="param(outline) #ededed"
+     fill="param(fill) #dae3c9"
+     transform="rotate(90)" />
+  <path
+     id="path6321"
+     d="m 0.90314757,310.55494 v -183.8035 c 50.72888943,-0.008 91.85766143,41.13932 91.85766143,91.90173 0,50.76241 -41.128772,91.91093 -91.85766143,91.90177 z"
+     stroke-width="param(outline-width) 0.3"
+     stroke="param(outline) #ededed"
+     fill="param(fill) #dae3c9"
+     inkscape:connector-curvature="0" />
+  <path
+     id="path24180"
+     d="m 715.21229,-100.44988 c 0,0 0,0 -81.63646,0.0107 -176.02316,0 -318.88249,142.953654 -318.88249,319.093 0,176.1393 142.85937,319.09298 318.88249,319.09298 81.63646,0.0107 81.63646,0.0107 81.63646,0.0107"
+     stroke-width="param(outline-width) 0.3"
+     stroke="param(outline) #ededed"
+     fill="param(fill) #dae3c9"
+     inkscape:connector-curvature="0" />
+  <path
+     id="path24184"
+     d="m 716.07269,65.483654 c 0,0 0,0 -296.78261,61.267766 0,183.80333 0,183.80333 0,183.80333 295.08185,61.26778 295.08185,61.26778 295.08185,61.26778"
+     stroke-width="param(outline-width) 0.3"
+     stroke="param(outline) #ededed"
+     fill="param(fill) #dae3c9"
+     inkscape:connector-curvature="0" />
+  <path
+     d="m 636.13645,228.01314 c 5.16616,0 9.35416,-4.19077 9.35416,-9.36034 0,-5.16959 -4.188,-9.36036 -9.35416,-9.36036 -5.16616,0 -9.35416,4.19077 -9.35416,9.36036 0,5.16957 4.188,9.36034 9.35416,9.36034 z"
+     id="path24190"
+     stroke-width="param(outline-width) 0.3"
+     stroke="param(outline) #ededed"
+     fill="param(fill) #dae3c9"
+     inkscape:connector-curvature="0" />
+  <path
+     d="m 653.99494,262.90198 c 0,-88.49788 0,-88.49788 0,-88.49788"
+     id="path24192"
+     stroke-width="param(outline-width) 0.3"
+     stroke="param(outline) #ededed"
+     fill="param(fill) #dae3c9"
+     inkscape:connector-curvature="0" />
+  <path
+     d="m 643.79039,218.65303 c 8.5038,0 8.5038,0 8.5038,0"
+     id="path24194"
+     stroke-width="param(outline-width) 0.3"
+     stroke="param(outline) #ededed"
+     fill="param(fill) #dae3c9"
+     inkscape:connector-curvature="0" />
+</svg>
