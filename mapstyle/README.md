@@ -16,9 +16,9 @@ Der Kartenstil besteht aus einem QGIS-Projekt und einem Pre-Processing-Script f�
 ## Wie kann ich die Straßenraumkarte für meine Stadt generieren?
 
 Das ist leider nicht so einfach, denn eine optimale Kartendarstellung der Straßenraumkarte erfordert ein hohes Maß an Micromapping in OSM und eine kartographische Datengrundlage, die nur an wenigen Orten bereits vorhanden ist (insbesondere Fahrbahnflächen und straßenbegleitendes Parken). Darüber hinaus bezieht die Neuköllner Straßenraumkarte manuell nachbearbeitete Daten zum Parken im Straßenraum ein – auch das kannst du in deiner Stadt machen, aber es ist wahrscheinlich aufwendig. Natürlich kann die Straßenraumkarte auch dort gerendert werden, wo diese Daten nicht vorhanden sind, aber sie sieht dann weniger ansprechend aus. Zu den wichtigsten Daten für ein optimales Rendering der Straßenraumkarte gehören:
-* Fahrbahnflächen (-> area:highway)
-* Parkstreifen (-> Street Parking)
-* Gehwegnetze (-> Mapping-Guide für Berlin)
+* Fahrbahnflächen (-> [area:highway](https://wiki.openstreetmap.org/wiki/Proposal:Area_highway/mapping_guidelines))
+* Parkstreifen (-> [Street Parking](https://wiki.openstreetmap.org/wiki/Street_parking))
+* Gehwegnetze (-> [Mapping-Guide für Berlin](https://wiki.openstreetmap.org/wiki/Berlin/Verkehrswende/Gehwege))
 * Gebäude
 * Landnutzungsflächen (auch kleinräumige, z.B. Grasflächen und Gebüsche)
 * Bäume
