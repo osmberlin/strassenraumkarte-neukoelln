@@ -8,6 +8,14 @@ layout: post
 description: Warum die Karte nicht ohne weiteres für andere Stadte gebaut werden kann.
 ---
 
+<div class="notice mb-7">
+
+_Nachtrag September 2023:_
+
+Der Mapstyle der Straßenraumkarte ist inzwischen als QGIS-Projekt frei verfügbar und kann somit auch leichter für andere Städten genutzt werden. Kompliziert ist es aber immer noch. Mehr dazu auf der Unterseite zum [Mapstyle der Straßenraumkarte](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/tree/main/mapstyle).
+
+</div>
+
 Wir werden oft gefragt…
 
 ## Kann ich die Straßenraumkarte auch für meine Stadt generieren?
