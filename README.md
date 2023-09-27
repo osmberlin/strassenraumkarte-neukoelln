@@ -1,16 +1,22 @@
-# OSM Straßen- und Parkraumkarte Neukölln
+# Straßenraumkarte Neukölln
 
-Die Straßenraumkarte bietet eine detaillierte Kartengrundlage für den Berliner Ortsteil Neukölln auf Basis von OpenStreetMap-Daten. Die Parkraumkarte ergänzt diese Kartengrundlage um Daten zum Kfz-Parken.
+Die Straßenraumkarte ist ein Kartenstil mit besonderem Fokus auf die räumliche Aufteilung des Stadt- und Straßenraums, insbesondere der Fahrbahnen und Objekte im öffentlichen Raum oder der urbanen Landnutzung. Sie wurde als Kartengrundlage für OpenStreetMap-Projekte in Berlin-Neukölln entwickelt, kann mit etwas Aufwand inzwischen aber auch an anderen Orten erzeugt werden.
 
-- [Straßenraumkarte](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=micromap#15/52.4772/13.4393)
-- [Parkraumkarte Zoomlevel 15: Stellplatzdichte – Parking Space Density](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap#15/52.4772/13.4393)
-- [Parkraumkarte Zoomlevel 16: Flächenverbrauch – Land Consumption](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap#16/52.4820/13.4333)
-- [Parkraumkarte Zoomlevel 17: Parkstreifen / Parken am Fahrbahnrand – Lane Parking](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap#17/52.48085/13.43278)
-- [Parkraumkarte Zoomlevel 18-19: Parkstreifen- und Stellplatzdetails – Parking Details](https://supaplexosm.github.io/strassenraumkarte-neukoelln/?map=parkingmap#18/52.48090/13.43234)
+Der Reiz des Kartenstils, der ästhetisch an Architektur-Pläne angeleht ist, besteht in der detaillierten Darstellung städtischer Umgebungen. Im Fokus stehen z.B. Fahrbahnflächen, Stadtmöbel, Gebäude, Landnutzungsdetails oder parkenden Autos im Straßenraum. Sollen diese Dinge an einem Ort dargestellt werden, ist es in den meisten Fällen zunächst notwendig, diese in OpenStreetMap zu erfassen, was ein aufwendiger Prozess sein kann. Mehr dazu siehe im Unterordner zum [MapStyle der Straßenraumkarte](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/tree/main/mapstyle).
+
+_[>> Zur Straßenraumkarte](https://strassenraumkarte.osm-berlin.org/?map=micromap)_
+
+Die Neuköllner Parkraumkarte ergänzt diese Kartengrundlage um Daten zum Kfz-Parken.
+
+_[>> Zur Parkraumkarte](https://parkraum.osm-verkehrswende.org/project-prototype-neukoelln/?map=parkingmap)_
+- [Parkraumkarte Zoomlevel 15: Stellplatzdichte – Parking Space Density](https://parkraum.osm-verkehrswende.org/project-prototype-neukoelln/?map=parkingmap#15/52.4772/13.4393)
+- [Parkraumkarte Zoomlevel 16: Flächenverbrauch – Land Consumption](https://parkraum.osm-verkehrswende.org/project-prototype-neukoelln/?map=parkingmap#16/52.4820/13.4333)
+- [Parkraumkarte Zoomlevel 17: Parkstreifen / Parken im Straßenraum – Street Parking](https://parkraum.osm-verkehrswende.org/project-prototype-neukoelln/?map=parkingmap#17/52.48085/13.43278)
+- [Parkraumkarte Zoomlevel 18-19: Parkstreifen- und Stellplatzdetails – Parking Details](https://parkraum.osm-verkehrswende.org/project-prototype-neukoelln/?map=parkingmap#18/52.48090/13.43234)
 
 ## FAQ: Kann ich die Straßenraumkarte auch für meine Stadt generieren?
 
-[Das ist leider sehr kompliziert und zur Zeit vielleicht unmöglich. – Mehr dazu…](https://supaplexosm.github.io/strassenraumkarte-neukoelln/posts/2022-01-17-meine-stadt)
+Das ist leider nicht so einfach, wie es vielleicht aussieht. Mehr dazu siehe im Unterordner zum [MapStyle der Straßenraumkarte](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/tree/main/mapstyle).
 
 # Development (project page)
 
