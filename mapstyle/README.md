@@ -11,6 +11,8 @@ Der Kartenstil besteht aus einem QGIS-Projekt und einem Pre-Processing-Script f�
 * Lightning Talk auf der FOSSGIS-Konferenz 2022 (5 Minuten): ["Die Neuköllner Straßenraumkarte – ein hochaufgelöster OSM-Mikro-Mapping-Kartenstil"](https://media.ccc.de/v/fossgis2022-14180-die-neukllner-straenraumkarte-ein-hochaufgelster-osm-mikro-mapping-kartenstil
 )
 
+![grafik](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/blob/main/images/sample_image.jpg)
+
 --------------------
 
 ## Wie kann ich die Straßenraumkarte für meine Stadt generieren?
