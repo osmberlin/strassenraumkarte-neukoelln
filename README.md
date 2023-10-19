@@ -14,6 +14,8 @@ _[>> Zur Parkraumkarte](https://parkraum.osm-verkehrswende.org/project-prototype
 - [Parkraumkarte Zoomlevel 17: Parkstreifen / Parken im Straßenraum – Street Parking](https://parkraum.osm-verkehrswende.org/project-prototype-neukoelln/?map=parkingmap#17/52.48085/13.43278)
 - [Parkraumkarte Zoomlevel 18-19: Parkstreifen- und Stellplatzdetails – Parking Details](https://parkraum.osm-verkehrswende.org/project-prototype-neukoelln/?map=parkingmap#18/52.48090/13.43234)
 
+![grafik](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/blob/main/images/sample_image.jpg)
+
 ## FAQ: Kann ich die Straßenraumkarte auch für meine Stadt generieren?
 
 Das ist leider nicht so einfach, wie es vielleicht aussieht. Mehr dazu siehe im Unterordner zum [MapStyle der Straßenraumkarte](https://github.com/SupaplexOSM/strassenraumkarte-neukoelln/tree/main/mapstyle).
