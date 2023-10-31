@@ -4,7 +4,7 @@
 #   OSM data post-processing for QGIS/PyGIS for rendering the map at        #
 #   https://strassenraumkarte.osm-berlin.org/                               #
 #                                                                           #
-#   > version/date: 2023-09-19                                              #
+#   > version/date: 2023-10-31                                              #
 #---------------------------------------------------------------------------#
 
 import os, processing, math, random, time
@@ -26,7 +26,7 @@ proc_traffic_calming= 0     # < # Straßeneigenschaften auf Verkehrsberuhigungsm
 proc_cycleways      = 0     #   # Radwege nachbearbeiten
 proc_path_areas     = 0     #   # Vereinigt aneinander angrenzende Wegeflächen und erzeugt deren Outlines
 proc_railways       = 0     #   # Separiert Schienensegmente mit Bahnübergängen, um diese über Fahrbahnflächen rendern zu können
-proc_building_parts = 0     # < # Gebäudeteile auf Stockwerksunterschiede auflösen, Gebäudegrundrisse / schwebende Gebäudeteile verarbeiten
+proc_buildings      = 0     # < # Stockwerkszahl und schwebende Etagen für jedes Gebäudeteil/Gebäude auflösen, Gebäudegrundrisse verarbeiten
 proc_housenumbers   = 0     #   # Hausnummern gleichmäßig zum Gebäudeumriss ausrichten
 proc_water_body     = 0     #   # Gewässerkörper zu einem Einzelpolygon vereinigen
 proc_landcover      = 0     #   # Bereiche mit "landcover=*" in Polygone umwandeln (werden nur als Linien erkannt)
@@ -63,7 +63,7 @@ width_driveway = 2.5
 #Default lane and cycleway width (if no other value is mapped)
 lane_width_default = 3 #wenn nicht anders angegeben mit width:lanes*
 cycleway_width_default = 1.5 #wenn nicht anders angegeben mit cycleway*:width oder width:lanes* in Mittellagen
-parking_lane_width_default = 2.2 #wenn nicht anders angegeben mit parking:lane:<side>:width
+parking_width_default = 2.2 #wenn nicht anders angegeben mit parking:<side>:width
 
 #Liste von Attributen, die für den Straßenlayer bewahrt wird
 #Achtung: Bestimmte Angaben sind für die Verarbeitung notwendig
@@ -136,6 +136,10 @@ lanes_attributes = [
 'lane_markings:crossing',
 'temporary:lane_markings',
 'overtaking',
+'change',
+'change:lanes',
+'change:lanes:forward',
+'change:lanes:backward',
 'placement',
 'placement:forward',
 'placement:backward',
@@ -145,9 +149,9 @@ lanes_attributes = [
 'placement:end',
 'placement:forward:end',
 'placement:backward:end',
-'parking:lane:both:width',
-'parking:lane:left:width',
-'parking:lane:right:width',
+'parking:both:width',
+'parking:left:width',
+'parking:right:width',
 'cycleway',
 'cycleway:both',
 'cycleway:right',
@@ -172,6 +176,18 @@ lanes_attributes = [
 'cycleway:left:separation:left',
 'cycleway:left:separation:right',
 'cycleway:left:separation:both',
+'cycleway:marking:left',
+'cycleway:marking:right',
+'cycleway:marking:both',
+'cycleway:both:marking:left',
+'cycleway:both:marking:right',
+'cycleway:both:marking:both',
+'cycleway:right:marking:left',
+'cycleway:right:marking:right',
+'cycleway:right:marking:both',
+'cycleway:left:marking:left',
+'cycleway:left:marking:right',
+'cycleway:left:marking:both',
 'cycleway:left:traffic_mode:left',
 'cycleway:left:traffic_mode:right',
 'cycleway:left:traffic_mode:both',
@@ -462,16 +478,30 @@ def getDelimitedAttributes(attribute_string, deli_char, var_type):
 def offsetVertex(layer_lanes, layer_lanes_single_carriageway, lane_dual, geom, vertex, vertex_x, vertex_y):
 #-------------------------------------------------------------------------------
 #   Spurführung an Verzweigungsstellen von Zweirichtungsfahrbahnen korrigieren
+#   Wird für Straßensegmente mit "dual_carriageway=yes" aufgerufen ("dual"-
+#   Segmente), die einen Verzweigungspunkt mit einem anderen solchen Segment
+#   bzw. einem vereinigten Straßensegment ("single"-Segment) besitzen.
 #-------------------------------------------------------------------------------
     #Winkel am Zweigpunkt des dual carriageways ermitteln
     angle_dual = math.degrees(geom.angleAtVertex(vertex))
-    #Winkel des eigentlichen Straßenverlaufs am selben Punkt der gemeinsamen Einrichtungs-Fahrbahn ermitteln
+    #Winkel des eigentlichen Straßenverlaufs am selben Punkt der gemeinsamen Fahrbahn (single-Segment) ermitteln
     layer_lanes.removeSelection()
     lane_id = lane_dual.id()
     layer_lanes.select(lane_id)
     width_lanes_dual = lanes_dict['width_lanes'][lane_dual.attribute('id')]
     #...dafür zunächst anschließendes (= berührendes) Einrichtungswegstück selektieren
     processing.run('native:selectbylocation', {'INPUT' : layer_lanes_single_carriageway, 'INTERSECT' : QgsProcessingFeatureSourceDefinition(layer_lanes.id(), selectedFeaturesOnly=True), 'METHOD' : 0, 'PREDICATE' : [4]})
+    #Segmente deselektieren, die nicht an den zu versetzenden Vertex anschließen (kann bei Segmenten passieren, die beidseitig in einen Verzweigungspunkt münden)
+    for lane_single in layer_lanes_single_carriageway.selectedFeatures():
+        geom_single = lane_single.geometry()
+        start_vertex_single_x = geom_single.vertexAt(0).x()
+        start_vertex_single_y = geom_single.vertexAt(0).y()
+        vertex_count_single = len(lane_single.geometry().asPolyline())
+        end_vertex_single_x = geom_single.vertexAt(vertex_count_single - 1).x()
+        end_vertex_single_y = geom_single.vertexAt(vertex_count_single - 1).y()
+        if (start_vertex_single_x != vertex_x or start_vertex_single_y != vertex_y) and (end_vertex_single_x != vertex_x or end_vertex_single_y != vertex_y):
+            layer_lanes_single_carriageway.deselect(lane_single.id())
+
     #...und dann Winkel dieses Wegstücks am selben Punkt ermitteln
     dual_carriageway_opposite_direction = NULL
     for lane_single in layer_lanes_single_carriageway.selectedFeatures():
@@ -481,7 +511,7 @@ def offsetVertex(layer_lanes, layer_lanes_single_carriageway, lane_dual, geom, v
         start_vertex_single_y = geom_single.vertexAt(0).y()
         if start_vertex_single_x == vertex_x and start_vertex_single_y == vertex_y:
             angle = math.degrees(geom_single.angleAtVertex(0))
-            width_lanes = lanes_dict['width_lanes'][lane_single.attribute('id')]
+            width_lanes_single = lanes_dict['width_lanes'][lane_single.attribute('id')]
             placement_single = lane_single.attribute('placement_abs')
             lanes_single = int(lane_single.attribute('lanes'))
             #Wenn beide Wegstücke an diesem Punkt beginnen, verlaufen sie gegensätzlich – entscheidend für Richtung des Linienversatzes
@@ -494,7 +524,7 @@ def offsetVertex(layer_lanes, layer_lanes_single_carriageway, lane_dual, geom, v
             end_vertex_single_y = geom_single.vertexAt(vertex_count_single - 1).y()
             if end_vertex_single_x == vertex_x and end_vertex_single_y == vertex_y:
                 angle = math.degrees(geom_single.angleAtVertex(vertex_count_single - 1))
-                width_lanes = lanes_dict['width_lanes'][lane_single.attribute('id')]
+                width_lanes_single = lanes_dict['width_lanes'][lane_single.attribute('id')]
                 placement_single = lane_single.attribute('placement_abs')
                 lanes_single = int(lane_single.attribute('lanes'))
                 if vertex == 0:
@@ -502,52 +532,90 @@ def offsetVertex(layer_lanes, layer_lanes_single_carriageway, lane_dual, geom, v
                 else:
                     dual_carriageway_opposite_direction = 1
 
-    #Distanz der Abweichung ermitteln
-    distance = 0
-    placement_pos_single = placement_single[0:len(placement_single) - 1]
-    placement_lane_single = int(placement_single[len(placement_single)-1:len(placement_single)])
+#    print("Dual:", lane_dual.attribute('name'), "(", lane_dual.attribute('id'), ")", ",", "Single:", lane_single.attribute('name'), "(", lane_single.attribute('id'), ")")
+
+    #Distanz der Abweichung ermitteln, unter Berücksichtigung der Spuranzahl, Spurbreite und Spurlage (placement)
+    i = len(placement_single) - placement_single.find(':') - 1
+    placement_pos_single = placement_single[0:len(placement_single) - i]
+    placement_lane_single = int(placement_single[len(placement_single) - i:len(placement_single)])
     placement_dual = lane.attribute('placement_abs')
-    placement_pos_dual = placement_dual[0:len(placement_dual) - 1]
-    placement_lane_dual = int(placement_dual[len(placement_dual)-1:len(placement_dual)])
+    i = len(placement_dual) - placement_dual.find(':') - 1
+    placement_pos_dual = placement_dual[0:len(placement_dual) - i]
+    placement_lane_dual = int(placement_dual[len(placement_dual) - i:len(placement_dual)])
     lanes_dual = int(lane.attribute('lanes'))
-    lanes_diff = lanes_single - lanes_dual
+    lanes_single_forward = int(lane_single.attribute('lanes:forward'))
+    lanes_single_backward = int(lane_single.attribute('lanes:backward'))
 
-    if dual_carriageway_opposite_direction == 1:
+    #relativen placement-Unterschied in Fahrtrichtung ermitteln und dabei eine normierte placement-Skala nutzen:
+    #0 (links der linkesten/ersten Spur), 0.5 (Mitte der ersten Spur), 1 (rechts der ersten Spur), 1.5 (Mitte der zweiten Spur) etc.
+    #oder auch: -0.5 (Mitte der entgegengesetzen Spur links der ersten Spur) etc.
+
+    #normierten placement-Wert für das dual_carriageway-Segment ("dual*") ermitteln
+    placement_dual = placement_lane_dual
+    if placement_pos_dual == 'left_of:':
+        placement_dual -= 1
+    if placement_pos_dual == 'middle_of:':
+        placement_dual -= 0.5
+
+    #normierten placement-Wert für das vereinigte Segment ("single*") ermitteln (in der passenden Fahrtrichtung)
+    if not dual_carriageway_opposite_direction: #Entweder für ablaufenden Zweig, falls gemeinsames Segment zum Zweigpunkt hinführt oder für zulaufenden Zweig, wenn gemeinsames Segment vom Zweigpunkt wegführt
+        placement_single = placement_lane_single
+        placement_single -= lanes_single_backward #da die zuvor ermittelten placement-Werte absolute Werte (unabhängig der Fahrtrichtung) darstellen, müssen sie für eine relative Betrachtung zunächst auf die betrachtete Fahrtrichtung bezogen werden
+
+    else: #Entweder für ablaufenden Zweig, falls gemeinsames Segment vom Zweigpunkt wegführt oder für zulaufenden Zweig, wenn gemeinsames Segment zum Zweigpunkt hinführt
+        #relative placement in Fahrtrichtung durch Invertierung der absoluten placement unter Ausschluss der backward-Spuren ermitteln
+        placement_single = lanes_single_backward + 1 - placement_lane_single
+        if placement_pos_single == 'left_of:':
+            placement_pos_single = 'right_of:'
+        elif placement_pos_single == 'right_of:':
+            placement_pos_single = 'left_of:'
         angle += 180
-        placement_lane_dual_reverse = abs(placement_lane_dual - lanes_dual - 1)
-        if placement_pos_dual == 'left_of:':
-            placement_pos_dual_reverse = 'right_of:'
-        elif placement_pos_dual == 'right_of:':
-            placement_pos_dual_reverse = 'left_of:'
+
+    if placement_pos_single == 'left_of:':
+        placement_single -= 1
+    if placement_pos_single == 'middle_of:':
+        placement_single -= 0.5
+
+#    print("pos_dual:", placement_dual, "pos_single:", placement_single, "(=", placement_dual - placement_single, ")")
+
+    #normierter placement-Unterschied zwischen dual- und single-Segment
+    placement_diff = placement_dual - placement_single
+
+    #Distanz der Abweichung ermitteln (unter Berücksichtigung hinterlegter Spurbreiten)
+    width_lanes = []
+    distance = 0
+    if placement_diff > 0:
+        if not dual_carriageway_opposite_direction:
+            lanes_single_directed = lanes_single_forward
+            width_lanes = width_lanes_single[lanes_single_backward:]
         else:
-            placement_pos_dual_reverse = placement_pos_dual
-        for l in range(1, len(width_lanes) + 1):
-            if l >= placement_lane_dual_reverse and l < placement_lane_single:
-                distance += float(width_lanes[l - 1]) / 2 + float(width_lanes[l]) / 2
-        if placement_pos_single == 'left_of:':
-            distance -= float(width_lanes[placement_lane_single - 1]) / 2
-        if placement_pos_single == 'right_of:':
-            distance += float(width_lanes[placement_lane_single - 1]) / 2
-        if placement_pos_dual_reverse == 'left_of:':
-            distance += float(width_lanes[placement_lane_dual_reverse - 1]) / 2
-        if placement_pos_dual_reverse == 'right_of:':
-            distance -= float(width_lanes[placement_lane_dual_reverse - 1]) / 2
+            lanes_single_directed = lanes_single_backward
+            width_lanes = width_lanes_single[:lanes_single_backward][::-1]
 
-    if dual_carriageway_opposite_direction == 0:
-        for l in range(1, len(width_lanes) + 1):
-            if l > placement_lane_single and l <= placement_lane_dual + lanes_diff:
-                distance += float(width_lanes[l - 1])
+        #Wenn das single-Segment in Fahrtrichtung weniger Spuren hat als das dual-Segment, muss die Spurbreitenliste ergänzt werden um die Breiten der "überhängenden" Spuren des dual-Segments
+        if len(width_lanes) < placement_diff:
+            width_lanes += width_lanes_dual[lanes_single_directed:]
 
-        if placement_pos_single == 'left_of:':
-            distance += float(width_lanes[placement_lane_single - 1]) / 2
-        if placement_pos_single == 'right_of:':
-            distance -= float(width_lanes[placement_lane_single - 1]) / 2
-        if placement_pos_dual == 'left_of:':
-            distance -= float(width_lanes[placement_lane_dual + lanes_diff - 1]) / 2
-        if placement_pos_dual == 'right_of:':
-            distance += float(width_lanes[placement_lane_dual + lanes_diff - 1]) / 2
+        i = 0
+        diff_forward = placement_diff
+        if placement_single < 0:
+            diff_forward -= abs(placement_single)
+        while i < diff_forward:
+            j = math.floor(i) #Liste in halben Spuren durchgehen und jeweilige (halbe) Breite addieren
+            distance += width_lanes[j] / 2
+            i += 0.5
 
-    distance += (float(width_lanes[lanes_diff]) - float(width_lanes_dual[0])) / 2
+    #Wenn highway-Linie im Gegenverkehr liegt (also der normierte placement-Wert des single-Segments negativ ist), die Distanz um die entsprechenden Spurbreiten erhöhen
+    if placement_single < 0:
+        width_lanes_single_reverse = width_lanes_single[:lanes_single_directed:-1]
+        i = 0
+        while i < abs(placement_single):
+            j = math.floor(i)
+            distance += width_lanes_single_reverse[j] / 2
+            i += 0.5
+
+#    print(width_lanes, distance)
+#    print("-------------------------------------------------")
 
     #Versatz in x- und y-Richtung ermitteln
     xv = math.sin(math.radians(90 - angle)) * distance
@@ -632,14 +700,19 @@ def getAbsolutePlacement(lanes, lanes_backward, placement, placement_forward, pl
 #---------------------------------------------------------------------
 #   Ermittelt einen absoluten, richtungsunabhängigen placement-Wert
 #---------------------------------------------------------------------
+
     l_f = l_b = 0
     if placement_forward:
         placement = placement_forward
         l_f = lanes_backward
 
     if placement_backward:
+        if placement_backward.find(':') == -1:
+            return(placement_backward)
+        i = -(len(placement_backward) - placement_backward.find(':') - 1)
+
         placement = placement_backward
-        l_b = int(placement_backward[-1])
+        l_b = int(placement_backward[i:])
         l_b = lanes_backward - (l_b - 1)
         if 'left_of:' in placement_backward:
             l_b += 1
@@ -653,14 +726,18 @@ def getAbsolutePlacement(lanes, lanes_backward, placement, placement_forward, pl
         else:
             placement = 'left_of:' + str(int((lanes / 2) + 1))
 
-    l = int(placement[-1])
+    if placement.find(':') == -1:
+        return(placement)
+    i = -(len(placement) - placement.find(':') - 1)
+
+    l = int(placement[i:])
     l += l_f
     if l_b:
         l = l_b
 
     l += l_extra
 
-    placement = placement[0:-1] + str(l)
+    placement = placement[0:i] + str(l)
     return(placement)
 
 
@@ -1101,7 +1178,7 @@ if proc_cr_tactile_pav:
     print(time.strftime('%H:%M:%S', time.localtime()), '   Übertrage Wegebreite...')
     #Wege einladen (für Breite der Markierung und für Wegesegmente mit bordstein-unabhängigem Bodenleitsystem)
     if not layer_raw_path_ways:
-        layer_raw_path_ways = QgsVectorLayer(data_dir + 'path.geojson|geometrytype=LineString', 'path (raw)', 'ogr')
+        layer_raw_path_ways = QgsVectorLayer(data_dir + 'path.geojson|geometry=LineString', 'path (raw)', 'ogr')
 
     layer_ways = processing.run('native:reprojectlayer', { 'INPUT' : layer_raw_path_ways, 'TARGET_CRS' : QgsCoordinateReferenceSystem(crs_to), 'OUTPUT': 'memory:'})['OUTPUT']
     layer_ways = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_ways, 'EXPRESSION' : '"footway" = \'crossing\'', 'OUTPUT': 'memory:'})['OUTPUT']
@@ -1234,11 +1311,11 @@ if proc_lane_markings:
     lanes_dict['buffer_right_lanes'] = {}
     lanes_dict['separation_left_lanes'] = {}
     lanes_dict['separation_right_lanes'] = {}
+    lanes_dict['marking_left_lanes'] = {}
+    lanes_dict['marking_right_lanes'] = {}
     lanes_dict['cw_lane_lanes'] = {}
     lanes_dict['extra_offset_left'] = {}
     lanes_dict['extra_offset_right'] = {}
-    lanes_dict['marking_lanes'] = {}
-    lanes_dict['marking_right_lanes'] = {}
     lanes_dict['reverse_lanes'] = {}
     lanes_dict['placement'] = {}
     lanes_dict['segments_before'] = {}
@@ -1247,9 +1324,10 @@ if proc_lane_markings:
     for lane in layer_lanes.getFeatures():
         oneway = oneway_bicycle = dual_carriageway = lane_markings = lanes = lanes_unmarked = lanes_forward = lanes_forward_unmarked = lanes_backward = lanes_backward_unmarked = lanes_conditional = lanes_forward_conditional = lanes_backward_conditional = bus_lanes = bus_lanes_forward = bus_lanes_backward = psv_lanes = psv_lanes_forward = psv_lanes_backward = NULL
         turn = turn_forward = turn_backward = turn_lanes = turn_lanes_forward = turn_lanes_backward = NULL
-        cycleway_lanes = cycleway_lanes_forward = cycleway_lanes_backward = width_lanes = width_lanes_forward = width_lanes_backward = width_effective = overtaking = placement = placement_forward = placement_backward = placement_start = placement_forward_start = placement_backward_start = placement_end = placement_forward_end = placement_backward_end = parking_lane_left_width = parking_lane_right_width = cycleway = cycleway_both = cycleway_left = cycleway_right = cycleway_width = cycleway_both_width = cycleway_right_width = cycleway_left_width = NULL
+        cycleway_lanes = cycleway_lanes_forward = cycleway_lanes_backward = width_lanes = width_lanes_forward = width_lanes_backward = width_effective = overtaking = change = change_lanes = change_lanes_forward = change_lanes_backward = placement = placement_forward = placement_backward = placement_start = placement_forward_start = placement_backward_start = placement_end = placement_forward_end = placement_backward_end = parking_left_width = parking_right_width = cycleway = cycleway_both = cycleway_left = cycleway_right = cycleway_width = cycleway_both_width = cycleway_right_width = cycleway_left_width = NULL
         cycleway_buffer = cycleway_buffer_left = cycleway_buffer_right = cycleway_buffer_both = cycleway_both_buffer = cycleway_both_buffer_left = cycleway_both_buffer_right = cycleway_both_buffer_both = cycleway_right_buffer = cycleway_right_buffer_left = cycleway_right_buffer_right = cycleway_right_buffer_both = cycleway_left_buffer = cycleway_left_buffer_left = cycleway_left_buffer_right = cycleway_left_buffer_both = 0
         cycleway_separation = cycleway_separation_left = cycleway_separation_right = cycleway_separation_both = cycleway_both_separation = cycleway_both_separation_left = cycleway_both_separation_right = cycleway_both_separation_both = cycleway_right_separation = cycleway_right_separation_left = cycleway_right_separation_right = cycleway_right_separation_both = cycleway_left_separation = cycleway_left_separation_left = cycleway_left_separation_right = cycleway_left_separation_both = NULL
+        cycleway_marking = cycleway_marking_left = cycleway_marking_right = cycleway_marking_both = cycleway_both_marking = cycleway_both_marking_left = cycleway_both_marking_right = cycleway_both_marking_both = cycleway_right_marking = cycleway_right_marking_left = cycleway_right_marking_right = cycleway_right_marking_both = cycleway_left_marking = cycleway_left_marking_left = cycleway_left_marking_right = cycleway_left_marking_both = NULL
         cycleway_left_traffic_mode_left = cycleway_left_traffic_mode_right = cycleway_left_traffic_mode_both = cycleway_right_traffic_mode_left = cycleway_right_traffic_mode_right = cycleway_right_traffic_mode_both = cycleway_both_traffic_mode_left = cycleway_both_traffic_mode_right = cycleway_both_traffic_mode_both = NULL
         cycleway_lane = cycleway_left_lane = cycleway_right_lane = cycleway_both_lane = NULL
         temporary_lane_markings = temporary_cycleway = temporary_cycleway_both = temporary_cycleway_left = temporary_cycleway_right = NULL
@@ -1377,6 +1455,14 @@ if proc_lane_markings:
             width_effective = lane.attribute('width:effective')
         if layer_lanes.fields().indexOf('overtaking') != -1:
             overtaking = lane.attribute('overtaking')
+        if layer_lanes.fields().indexOf('change') != -1:
+            change = lane.attribute('change')
+        if layer_lanes.fields().indexOf('change:lanes') != -1:
+            change_lanes = lane.attribute('change:lanes')
+        if layer_lanes.fields().indexOf('change:lanes:forward') != -1:
+            change_lanes_forward = lane.attribute('change:lanes:forward')
+        if layer_lanes.fields().indexOf('change:lanes:backward') != -1:
+            change_lanes_backward = lane.attribute('change:lanes:backward')
 
         if layer_lanes.fields().indexOf('placement') != -1:
             placement = lane.attribute('placement')
@@ -1397,13 +1483,13 @@ if proc_lane_markings:
         if layer_lanes.fields().indexOf('placement:backward:end') != -1:
             placement_backward_end = lane.attribute('placement:backward:end')
 
-        if layer_lanes.fields().indexOf('parking:lane:both:width') != -1:
-            parking_lane_left_width = lane.attribute('parking:lane:both:width')
-            parking_lane_right_width = lane.attribute('parking:lane:both:width')
-        if layer_lanes.fields().indexOf('parking:lane:left:width') != -1:
-            parking_lane_left_width = lane.attribute('parking:lane:left:width')
-        if layer_lanes.fields().indexOf('parking:lane:right:width') != -1:
-            parking_lane_right_width = lane.attribute('parking:lane:right:width')
+        if layer_lanes.fields().indexOf('parking:both:width') != -1:
+            parking_left_width = lane.attribute('parking:both:width')
+            parking_right_width = lane.attribute('parking:both:width')
+        if layer_lanes.fields().indexOf('parking:left:width') != -1:
+            parking_left_width = lane.attribute('parking:left:width')
+        if layer_lanes.fields().indexOf('parking:right:width') != -1:
+            parking_right_width = lane.attribute('parking:right:width')
 
         if layer_lanes.fields().indexOf('cycleway') != -1:
             cycleway = lane.attribute('cycleway')
@@ -1501,6 +1587,39 @@ if proc_lane_markings:
             cycleway_left_separation_right = lane.attribute('cycleway:left:separation:right')
         if layer_lanes.fields().indexOf('cycleway:left:separation:both') != -1:
             cycleway_left_separation_both = lane.attribute('cycleway:left:separation:both')
+
+        if layer_lanes.fields().indexOf('cycleway:marking') != -1:
+            cycleway_marking = lane.attribute('cycleway:marking')
+        if layer_lanes.fields().indexOf('cycleway:marking:left') != -1:
+            cycleway_marking_left = lane.attribute('cycleway:marking:left')
+        if layer_lanes.fields().indexOf('cycleway:marking:right') != -1:
+            cycleway_marking_right = lane.attribute('cycleway:marking:right')
+        if layer_lanes.fields().indexOf('cycleway:marking:both') != -1:
+            cycleway_marking_both = lane.attribute('cycleway:marking:both')
+        if layer_lanes.fields().indexOf('cycleway:both:marking') != -1:
+            cycleway_both_marking = lane.attribute('cycleway:both:marking')
+        if layer_lanes.fields().indexOf('cycleway:both:marking:left') != -1:
+            cycleway_both_marking_left = lane.attribute('cycleway:both:marking:left')
+        if layer_lanes.fields().indexOf('cycleway:both:marking:right') != -1:
+            cycleway_both_marking_right = lane.attribute('cycleway:both:marking:right')
+        if layer_lanes.fields().indexOf('cycleway:both:marking:both') != -1:
+            cycleway_both_marking_both = lane.attribute('cycleway:both:marking:both')
+        if layer_lanes.fields().indexOf('cycleway:right:marking') != -1:
+            cycleway_right_marking = lane.attribute('cycleway:right:marking')
+        if layer_lanes.fields().indexOf('cycleway:right:marking:left') != -1:
+            cycleway_right_marking_left = lane.attribute('cycleway:right:marking:left')
+        if layer_lanes.fields().indexOf('cycleway:right:marking:right') != -1:
+            cycleway_right_marking_right = lane.attribute('cycleway:right:marking:right')
+        if layer_lanes.fields().indexOf('cycleway:right:marking:both') != -1:
+            cycleway_right_marking_both = lane.attribute('cycleway:right:marking:both')
+        if layer_lanes.fields().indexOf('cycleway:left:marking') != -1:
+            cycleway_left_marking = lane.attribute('cycleway:left:marking')
+        if layer_lanes.fields().indexOf('cycleway:left:marking:left') != -1:
+            cycleway_left_marking_left = lane.attribute('cycleway:left:marking:left')
+        if layer_lanes.fields().indexOf('cycleway:left:marking:right') != -1:
+            cycleway_left_marking_right = lane.attribute('cycleway:left:marking:right')
+        if layer_lanes.fields().indexOf('cycleway:left:marking:both') != -1:
+            cycleway_left_marking_both = lane.attribute('cycleway:left:marking:both')
 
         if layer_lanes.fields().indexOf('cycleway:left:traffic_mode:left') != -1:
             cycleway_left_traffic_mode_left = lane.attribute('cycleway:left:traffic_mode:left')
@@ -1756,12 +1875,49 @@ if proc_lane_markings:
         layer_lanes.changeAttributeValue(lane.id(), layer_lanes.fields().indexOf('lanes:backward'), lanes_backward)
 
         #Markierungsattribute für jede Spur ergänzen
-        marking_lanes = []
+        #TODO overtaking:forward/backward einbeziehen
+        marking_left_lanes = []
+        marking_right_lanes = []
         for i in range(lanes):
-            #Überholverbot = durchgezogene Linie
-            if overtaking == 'no' and i == lanes_backward:
-                marking_lanes.append('solid_line')
-            else:
+            marking_left = marking_right = NULL
+            #Überhol- oder Spurwechselverbote = durchgezogene Linie
+            if change_lanes:
+                change_lane = getDelimitedAttributes(change_lanes, '|', 'string')[i]
+                if change_lane == 'no':
+                    if i > 0: #on left lane, no change to left is possible
+                        marking_left = 'solid_line'
+                    if i < lanes: #on right lane, no change to right is possible
+                        marking_right = 'solid_line'
+                if change_lane == 'not_left':
+                    marking_left = 'solid_line'
+                if change_lane == 'not_right':
+                    marking_right = 'solid_line'
+            if change_lanes_forward and i >= lanes_backward:
+                change_lane = getDelimitedAttributes(change_lanes_forward, '|', 'string')[i - lanes_backward]
+                if change_lane == 'no':
+                    marking_left = marking_right = 'solid_line'
+                if change_lane == 'not_left':
+                    marking_left = 'solid_line'
+                if change_lane == 'not_right':
+                    marking_right = 'solid_line'
+            if change_lanes_backward and i < lanes_backward:
+                change_lane = getDelimitedAttributes(change_lanes_backward, '|', 'string')[i]
+                if change_lane == 'no':
+                    marking_right = 'solid_line'
+                    if i > 0: #on left lane, no change to left is possible
+                        marking_left = 'solid_line'
+                    if i < lanes: #on right lane, no change to right is possible
+                        marking_right = 'solid_line'
+                if change_lane == 'not_left':
+                    marking_right = 'solid_line'
+                if change_lane == 'not_right':
+                    marking_left = 'solid_line'
+            if change == 'no' or (overtaking == 'no' and i == lanes_backward):
+                if i > 0: #on left lane, no change to left is possible
+                    marking_left = 'solid_line'
+                if i < lanes: #on right lane, no change to right is possible
+                    marking_right = 'solid_line'
+            if not marking_left:
                 if lanes_unmarked:
                     if i < lanes_backward:
                         if not lanes_backward_unmarked:
@@ -1771,20 +1927,21 @@ if proc_lane_markings:
                                 lanes_backward_unmarked = lanes_unmarked / 2
                         diff_lanes_backward = lanes_backward_unmarked - lanes_backward_marked
                         if i < diff_lanes_backward:
-                            marking_lanes.append('no')
-                        else:
-                            marking_lanes.append('unspecified')
+                            marking_left = 'no'
                     else:
                         if i >= lanes_backward + lanes_forward_marked:
-                            marking_lanes.append('no')
-                        else:
-                            marking_lanes.append('unspecified')
+                            marking_left = 'no'
                 else:
                     if lane_markings or turn or turn_forward or turn_backward or turn_lanes or turn_lanes_forward or turn_lanes_backward:
-                        marking_lanes.append('unspecified')
+                        marking_left = 'unspecified'
                     else:
-                        marking_lanes.append('no')
-        lanes_dict['marking_lanes'][lane.attribute('id')] = marking_lanes
+                        marking_left = 'no'
+            if not marking_left:
+                marking_left = 'unspecified'
+            marking_left_lanes.append(marking_left)
+            marking_right_lanes.append(marking_right)
+        lanes_dict['marking_left_lanes'][lane.attribute('id')] = marking_left_lanes
+        lanes_dict['marking_right_lanes'][lane.attribute('id')] = marking_right_lanes
 
         #Breitenattribute von Radspuren vereinheitlichen
         if not cycleway_right_width:
@@ -1906,9 +2063,9 @@ if proc_lane_markings:
         #Mittellinie zwischen Fahrbahnrichtungen im Bereich von Abbiegespuren üblicherweise durchgezogen
         if turn_lanes_vanilla or turn_lanes_forward or turn_lanes_backward:
             if lanes_backward:
-                lanes_dict['marking_lanes'][lane.attribute('id')][lanes_backward - 1] = 'solid_line'
-                if len(lanes_dict['marking_lanes'][lane.attribute('id')]) > lanes_backward:
-                    lanes_dict['marking_lanes'][lane.attribute('id')][lanes_backward] = 'solid_line'
+                lanes_dict['marking_left_lanes'][lane.attribute('id')][lanes_backward - 1] = 'solid_line'
+                if len(lanes_dict['marking_left_lanes'][lane.attribute('id')]) > lanes_backward:
+                    lanes_dict['marking_left_lanes'][lane.attribute('id')][lanes_backward] = 'solid_line'
 
         #Busspur-Informationen für alle Spuren von links nach rechts speichern
         access_lanes = []
@@ -1976,9 +2133,6 @@ if proc_lane_markings:
         lanes_dict['access_lanes'][lane.attribute('id')] = access_lanes
 
         if placement == 'transition' or placement_start or placement_forward_start or placement_backward_start:
-#            layer_lanes.deleteFeature(lane.id())
-#            continue
-
             placement_after = NULL
             if placement_end or placement_forward_end or placement_backward_end:
                 placement_after = getAbsolutePlacement(lanes, lanes_backward, placement_end, placement_forward_end, placement_backward_end, 0)
@@ -2116,7 +2270,9 @@ if proc_lane_markings:
         else:
             placement = getAbsolutePlacement(lanes, lanes_backward, placement, placement_forward, placement_backward, l_extra)
         layer_lanes.changeAttributeValue(lane.id(), layer_lanes.fields().indexOf('placement_abs'), placement)
-        l = int(placement[-1])
+
+        j = -(len(placement) - placement.find(':') - 1)
+        l = int(placement[j:])
 
         #Versatz ermitteln, um Linie in die Mitte der linken Spur verschieben, um anschließend parallele Linien zu erzeugen
         offset = 0
@@ -2160,9 +2316,9 @@ if proc_lane_markings:
 
             #absolute placement anpassen: Befindet sich links ein Radweg, erhöhen sich alle Stellen um 1
             if cyclelanes_backward:
-                l = int(placement[-1])
+                l = int(placement[j])
                 l += 1
-                placement = placement[0:-1] + str(l)
+                placement = placement[0:j] + str(l)
                 layer_lanes.changeAttributeValue(lane.id(), layer_lanes.fields().indexOf('placement_abs'), placement)
 
             #Werte für Gesamtfahrbahn nachträglich anpassen:
@@ -2177,12 +2333,14 @@ if proc_lane_markings:
                 lanes_dict['access_lanes'][lane.attribute('id')].append('bicycle')
                 lanes_dict['width_lanes'][lane.attribute('id')].append(cycleway_right_width)
                 #ob Radweg gestrichelte oder durchgezogene Linie hat, wird später individuell geklärt
-                lanes_dict['marking_lanes'][lane.attribute('id')].append('unspecified')
+                lanes_dict['marking_left_lanes'][lane.attribute('id')].append('unspecified')
+                lanes_dict['marking_right_lanes'][lane.attribute('id')].append('unspecified')
             if cyclelanes_backward:
                 lanes_dict['turn_lanes'][lane.attribute('id')].insert(0, 'none')
                 lanes_dict['access_lanes'][lane.attribute('id')].insert(0, 'bicycle')
                 lanes_dict['width_lanes'][lane.attribute('id')].insert(0, cycleway_left_width)
-                lanes_dict['marking_lanes'][lane.attribute('id')].insert(0, 'unspecified')
+                lanes_dict['marking_left_lanes'][lane.attribute('id')].insert(0, 'unspecified')
+                lanes_dict['marking_right_lanes'][lane.attribute('id')].insert(0, 'unspecified')
                 offset += (float(lanes_dict['width_lanes'][lane.attribute('id')][1]) / 2) + (cycleway_left_width / 2)
 
         #buffer-Attribute von Radspuren vereinheitlichen
@@ -2261,7 +2419,7 @@ if proc_lane_markings:
         if cycleway_right_buffer_right == 'yes':
             cycleway_right_buffer_right = buffer_default
 
-        #Geschützte Radstreifen und Bodenmarkierungen erkennen (cycleway:separation, cycleway:lane)
+        #Geschützte Radstreifen und Bodenmarkierungen erkennen (cycleway:separation, cycleway:marking, cycleway:lane)
         if not cycleway_right_separation_left:
             if cycleway_separation:
                 cycleway_right_separation_left = cycleway_separation
@@ -2319,6 +2477,63 @@ if proc_lane_markings:
             if cycleway_left_separation_both:
                 cycleway_left_separation_right = cycleway_left_separation_both
 
+        if not cycleway_right_marking_left:
+            if cycleway_marking:
+                cycleway_right_marking_left = cycleway_marking
+            if cycleway_marking_left:
+                cycleway_right_marking_left = cycleway_marking_left
+            if cycleway_marking_both:
+                cycleway_right_marking_left = cycleway_marking_both
+            if cycleway_both_marking:
+                cycleway_right_marking_left = cycleway_both_marking
+            if cycleway_both_marking_both:
+                cycleway_right_marking_left = cycleway_both_marking_both
+            if cycleway_both_marking_left:
+                cycleway_right_marking_left = cycleway_both_marking_left
+            if cycleway_right_marking:
+                cycleway_right_marking_left = cycleway_right_marking
+            if cycleway_right_marking_both:
+                cycleway_right_marking_left = cycleway_right_marking_both
+        if not cycleway_right_marking_right:
+            if cycleway_marking_right:
+                cycleway_right_marking_right = cycleway_marking_right
+            if cycleway_marking_both:
+                cycleway_right_marking_right = cycleway_marking_both
+            if cycleway_both_marking_both:
+                cycleway_right_marking_right = cycleway_both_marking_both
+            if cycleway_both_marking_right:
+                cycleway_right_marking_right = cycleway_both_marking_right
+            if cycleway_right_marking_both:
+                cycleway_right_marking_right = cycleway_right_marking_both
+        if not cycleway_left_marking_left:
+            if cycleway_marking:
+                cycleway_left_marking_left = cycleway_marking
+            if cycleway_marking_left:
+                cycleway_left_marking_left = cycleway_marking_left
+            if cycleway_marking_both:
+                cycleway_left_marking_left = cycleway_marking_both
+            if cycleway_both_marking:
+                cycleway_left_marking_left = cycleway_both_marking
+            if cycleway_both_marking_both:
+                cycleway_left_marking_left = cycleway_both_marking_both
+            if cycleway_both_marking_left:
+                cycleway_left_marking_left = cycleway_both_marking_left
+            if cycleway_left_marking:
+                cycleway_left_marking_left = cycleway_left_marking
+            if cycleway_left_marking_both:
+                cycleway_left_marking_left = cycleway_left_marking_both
+        if not cycleway_left_marking_right:
+            if cycleway_marking_right:
+                cycleway_left_marking_right = cycleway_marking_right
+            if cycleway_marking_both:
+                cycleway_left_marking_right = cycleway_marking_both
+            if cycleway_both_marking_both:
+                cycleway_left_marking_right = cycleway_both_marking_both
+            if cycleway_both_marking_right:
+                cycleway_left_marking_right = cycleway_both_marking_right
+            if cycleway_left_marking_both:
+                cycleway_left_marking_right = cycleway_left_marking_both
+
         if not cycleway_right_lane:
             if cycleway_lane:
                 cycleway_right_lane = cycleway_lane
@@ -2334,6 +2549,8 @@ if proc_lane_markings:
         buffer_right_lanes = []
         separation_left_lanes = []
         separation_right_lanes = []
+        marking_left_lanes = []
+        marking_right_lanes = []
         cw_lane_lanes = []
 
         for i in range(lanes):
@@ -2343,23 +2560,32 @@ if proc_lane_markings:
                     buffer_right_lanes.append(float(cycleway_left_buffer_right))
                     separation_left_lanes.append(cycleway_left_separation_left)
                     separation_right_lanes.append(cycleway_left_separation_right)
+                    marking_left_lanes.append(cycleway_left_marking_left)
+                    marking_right_lanes.append(cycleway_left_marking_right)
                     cw_lane_lanes.append(cycleway_left_lane)
                 else:
                     buffer_left_lanes.append(float(cycleway_right_buffer_left))
                     buffer_right_lanes.append(float(cycleway_right_buffer_right))
                     separation_left_lanes.append(cycleway_right_separation_left)
                     separation_right_lanes.append(cycleway_right_separation_right)
+                    marking_left_lanes.append(cycleway_right_marking_left)
+                    marking_right_lanes.append(cycleway_right_marking_right)
                     cw_lane_lanes.append(cycleway_right_lane)
             else:
                 buffer_left_lanes.append(0)
                 buffer_right_lanes.append(0)
                 separation_left_lanes.append(NULL)
                 separation_right_lanes.append(NULL)
+                marking_left_lanes.append(lanes_dict['marking_left_lanes'][lane.attribute('id')][i]) #marking kann bereits vorher durch change oder overtaking spezifiziert worden sein
+                marking_right_lanes.append(lanes_dict['marking_right_lanes'][lane.attribute('id')][i])
                 cw_lane_lanes.append(NULL)
+
         lanes_dict['buffer_left_lanes'][lane.attribute('id')] = buffer_left_lanes
         lanes_dict['buffer_right_lanes'][lane.attribute('id')] = buffer_right_lanes
         lanes_dict['separation_left_lanes'][lane.attribute('id')] = separation_left_lanes
         lanes_dict['separation_right_lanes'][lane.attribute('id')] = separation_right_lanes
+        lanes_dict['marking_left_lanes'][lane.attribute('id')] = marking_left_lanes
+        lanes_dict['marking_right_lanes'][lane.attribute('id')] = marking_right_lanes
         lanes_dict['cw_lane_lanes'][lane.attribute('id')] = cw_lane_lanes
 
         #Radstreifen rechts von parkenden Fahrzeugen: zusätzlichen Versatz durch dazwischenliegenden Parkstreifen berücksichtigen (extra_offset)
@@ -2380,15 +2606,15 @@ if proc_lane_markings:
                 extra_offset_right = 1
 
         if extra_offset_left:
-            if parking_lane_left_width:
-                extra_offset_left = float(parking_lane_left_width)
+            if parking_left_width:
+                extra_offset_left = float(parking_left_width)
             else:
-                extra_offset_left = parking_lane_width_default
+                extra_offset_left = parking_width_default
         if extra_offset_right:
-            if parking_lane_right_width:
-                extra_offset_right = float(parking_lane_right_width)
+            if parking_right_width:
+                extra_offset_right = float(parking_right_width)
             else:
-                extra_offset_right = parking_lane_width_default
+                extra_offset_right = parking_width_default
         lanes_dict['extra_offset_left'][lane.attribute('id')] = extra_offset_left
         lanes_dict['extra_offset_right'][lane.attribute('id')] = extra_offset_right
 
@@ -2465,7 +2691,7 @@ if proc_lane_markings:
         #alle Zweirichtungs-Segmente durchgehen und verzweigende Start-/End-Vertices versetzen
 #        layer_lanes.startEditing()
         for lane in layer_lanes.getFeatures():
-            #nur explizit markierte Fahrspuren behandeln
+            #nur explizit getaggte Fahrspuren behandeln
             if lane.attribute('dual_carriageway') != 'yes':
                 continue
             #nur Fahrspuren behandeln, die ein Vorgänger- oder Nachfolgersegment gleichen Namens ohne "dual_carriageway" haben
@@ -2509,11 +2735,13 @@ if proc_lane_markings:
                 xv = offset[0]
                 yv = offset[1]
                 layer_lanes.moveVertex(start_vertex_x + xv, start_vertex_y + yv, lane.id(), 0)
+
             if move_end_vertex == 1:
                 offset = offsetVertex(layer_lanes, layer_lanes_single_carriageway, lane, geom, vertex_count - 1, end_vertex_x, end_vertex_y)
                 xv = offset[0]
                 yv = offset[1]
                 layer_lanes.moveVertex(end_vertex_x + xv, end_vertex_y + yv, lane.id(), vertex_count - 1)
+
 #    layer_lanes.commitChanges()
     layer_lanes.removeSelection()
 
@@ -2553,12 +2781,14 @@ if proc_lane_markings:
             elif not placement_from:
                 placement_from = lanes_dict['placement'][id_lane]
 
-            placement_pos_from = placement_from[0:-1]
-            placement_pos_to = placement_to[0:-1]
-            placement_lane_from = placement_lane_from_value = int(placement_from[-1])
-            placement_lane_to = placement_lane_to_value = int(placement_to[-1])
+            i_from = -(len(placement_from) - placement_from.find(':') - 1)
+            i_to = -(len(placement_to) - placement_to.find(':') - 1)
+            placement_pos_from = placement_from[0:i_from]
+            placement_pos_to = placement_to[0:i_to]
+            placement_lane_from = placement_lane_from_value = int(placement_from[i_from:])
+            placement_lane_to = placement_lane_to_value = int(placement_to[i_to:])
 
-            #ein Ende des Segments versetzen (des Ende zur Richtung mit mehr Fahrspuren)
+            #ein Ende des Segments versetzen (das Ende zur Richtung mit mehr Fahrspuren)
             #placement in einen Zahlwert umrechnen von 0 (linker Fahrbahnrand), 0.5 (Mitte der 1. Spur), 1 (rechts der 1. Spur) usw.
             if placement_pos_from == 'left_of:':
                 placement_lane_from_value -= 1
@@ -2642,6 +2872,23 @@ if proc_lane_markings:
                             dist += float(width_list[j]) / 2 #eine halbe Breite dieser Spur einbeziehen
                 if lane_value_diff < 0:
                     dist = -dist
+
+            #quick & dirty Workaround für seltene Situationen mit negativen placement-Attributen (z.B. placement:end=middle_of:-1)
+            if placement_lane_from < 0 or placement_lane_to < 0:
+                extra_dist_from = extra_dist_to = 0
+                if placement_lane_from < 0:
+                    extra_dist_from = abs(placement_lane_from)
+                    if placement_pos_from == 'right_of:':
+                        extra_dist_from -= 1
+                    if placement_pos_from == 'middle_of:':
+                        extra_dist_from -= 0.5
+                if placement_lane_to < 0:
+                    extra_dist_to = abs(placement_lane_to)
+                    if placement_pos_to == 'right_of:':
+                        extra_dist_to -= 1
+                    if placement_pos_to == 'middle_of:':
+                        extra_dist_to -= 0.5
+                dist += (extra_dist_from + extra_dist_to) * 3 #TODO: statt default-Breite von 3m korrekte Spurbreiten aus Gegenrichtung auslesen
 
             #quick & dirty Workaround für seltene Situationen mit beidseitig wechselnden Spurattributen
             #TODO: generelle Gültigkeit unklar!
@@ -2762,10 +3009,6 @@ if proc_lane_markings:
         access = access_lanes[instance]
         layer_lanes.changeAttributeValue(lane.id(), layer_lanes.fields().indexOf('access'), access)
 
-        # > Markierung der Linie (üblicherweise links der Spur)
-        marking_lanes = lanes_dict['marking_lanes'][lane.attribute('id')]
-        marking = marking_lanes[instance]
-
         # > Puffer
         buffer_left_lanes = lanes_dict['buffer_left_lanes'][lane.attribute('id')]
         buffer_left = buffer_left_lanes[instance]
@@ -2782,6 +3025,12 @@ if proc_lane_markings:
         layer_lanes.changeAttributeValue(lane.id(), layer_lanes.fields().indexOf('separation:left'), separation_left)
         layer_lanes.changeAttributeValue(lane.id(), layer_lanes.fields().indexOf('separation:right'), separation_right)
 
+        # > Markierung der Linie (üblicherweise links der Spur)
+        marking_left_lanes = lanes_dict['marking_left_lanes'][lane.attribute('id')]
+        marking_left = marking_left_lanes[instance]
+        marking_right_lanes = lanes_dict['marking_right_lanes'][lane.attribute('id')]
+        marking_right = marking_right_lanes[instance]
+
         # > cycleway:lane
         cw_lane_lanes = lanes_dict['cw_lane_lanes'][lane.attribute('id')]
         cw_lane = cw_lane_lanes[instance]
@@ -2795,7 +3044,7 @@ if proc_lane_markings:
             lanes_dict['access_lanes'][lane.attribute('id')][instance] = access
 
         surface_colour = 'none'
-        clr = marking_right = NULL
+        clr = NULL
         if access == 'bicycle':
             # > Oberflächenfarbe von Radwegen ermitteln
             if layer_lanes.fields().indexOf('cycleway:both:surface:colour') != -1:
@@ -2818,25 +3067,25 @@ if proc_lane_markings:
 
             # > Art der Linienmarkierung ableiten
             #...in Linienrichtung
-            if separation_left:
-                if 'dashed_line' in separation_left:
-                    marking = 'dashed_line'
-                elif 'solid_line' in separation_left:
-                    marking = 'solid_line'
+            if marking_left:
+                if 'solid_line' in marking_left:
+                    marking_left = 'solid_line'
+                elif 'dashed_line' in marking_left:
+                    marking_left = 'dashed_line'
                 else:
-                    marking = 'unspecified'
+                    marking_left = 'unspecified'
             #cycleway:lanes-Schema als Backup, falls keine Markierung angegeben ist
-            if not separation_left or marking == 'unspecified':
+            if not marking_left or marking_left == 'unspecified':
                 if cw_lane:
                     if cw_lane == 'exclusive':
-                        marking = 'solid_line'
+                        marking_left = 'solid_line'
                     if cw_lane == 'advisory':
-                        marking = 'dashed_line'
-            if separation_right:
-                if 'dashed_line' in separation_right:
-                    marking_right = 'dashed_line'
-                elif 'solid_line' in separation_right:
+                        marking_left = 'dashed_line'
+            if marking_right:
+                if 'solid_line' in marking_right:
                     marking_right = 'solid_line'
+                elif 'dashed_line' in marking_right:
+                    marking_right = 'dashed_line'
                 else:
                     marking_right = 'no'
 
@@ -2847,7 +3096,7 @@ if proc_lane_markings:
                         marking_right = 'dashed_line'
 
         layer_lanes.changeAttributeValue(lane.id(), layer_lanes.fields().indexOf('surface:colour'), surface_colour)
-        layer_lanes.changeAttributeValue(lane.id(), layer_lanes.fields().indexOf('marking:left'), marking)
+        layer_lanes.changeAttributeValue(lane.id(), layer_lanes.fields().indexOf('marking:left'), marking_left)
         layer_lanes.changeAttributeValue(lane.id(), layer_lanes.fields().indexOf('marking:right'), marking_right)
 
         #eindeutige Kennung aus ID und Fahrspur-instance erzeugen, um später beispielsweise Nachbarspuren abzufragen
@@ -2876,17 +3125,16 @@ if proc_lane_markings:
 
     layer_lanes = processing.run('native:mergevectorlayers', {'LAYERS' : [layer_lanes, layer_lanes_reversed], 'OUTPUT': 'memory:'})['OUTPUT']
 
-    #Spurversätze korrigieren, z.B. bei Erhöhung von Fahrspuren
+    #Spurversätze korrigieren durch Angleichung einer Spur an ihre Vorgängerspur
     with edit(layer_lanes):
         for lane in layer_lanes.getFeatures():
-            num_lanes = len(lanes_dict['width_lanes'][lane.attribute('id')])
             segments_before = lanes_dict['segments_before'][lane.attribute('id')]
             num_segments_before = len(segments_before['id'])
-            #keine angrenzenden Segmente: kein Handlungsbedarf, TODO: Mit mehr als 2 angrenzenden Segmenten umgehen
-            if num_segments_before < 1 or num_segments_before > 2:
-                continue
+            num_lanes = len(lanes_dict['width_lanes'][lane.attribute('id')])
 
-            #TODO: Fehlermeldung, wenn schonmal ein Segment mit gleicher id_instance verschoben wurde!
+            #keine angrenzenden Segmente: kein Handlungsbedarf
+            if num_segments_before < 1:
+                continue
 
             instance = lane.attribute('instance')
             geom_lane = lane.geometry()
@@ -2989,27 +3237,33 @@ if proc_lane_markings:
                                     x += xv
                                     y += yv
                                 layer_lanes.moveVertex(x, y, lane_before.id(), vertex_before)
-
-            if num_segments_before == 2:
+            #TODO: Schleifen für num_segments_before = 1 und >1 zusammenführen
+            if num_segments_before > 1:
                 if lanes_dict['access_lanes'][lane.attribute('id')][instance] == 'bicycle':
-                    processing.run('qgis:selectbyattribute', { 'INPUT' : layer_lanes, 'FIELD' : 'id', 'VALUE' : segments_before['id'][0]})
-                    for lane_before in layer_lanes.getSelectedFeatures():
-                        if segments_before['inverted'][0] == 0:
+                    for j in range(0, num_segments_before):
+                        processing.run('qgis:selectbyattribute', { 'INPUT' : layer_lanes, 'FIELD' : 'id', 'VALUE' : segments_before['id'][j]})
+                        for lane_before in layer_lanes.getSelectedFeatures():
                             #Nur Spuren angleichen, die in die gleiche Richtung führen
-                            if lane_before.attribute('reverse') != lane.attribute('reverse'):
-                                continue
+                            if segments_before['inverted'][j] == 0:
+                                if lane_before.attribute('reverse') != lane.attribute('reverse'):
+                                    continue
+                            else:
+                                if lane_before.attribute('reverse') == lane.attribute('reverse'):
+                                    continue
+
+                            #TODO: Bei mehreren Fahrradspuren (Mittellage) zur mittleren Spur verknüpfen
+
                             if lane_before.attribute('access') == 'bicycle':
                                 cyclelane_same_direction = cyclelane_before_same_direction = 0
                                 reverse = lane.attribute('reverse')
                                 for i in range(num_lanes):
                                     if lanes_dict['access_lanes'][lane.attribute('id')][i] == 'bicycle' and lanes_dict['reverse_lanes'][lane.attribute('id')][i] == reverse:
                                         cyclelane_same_direction += 1
-                                num_lanes_before = len(lanes_dict['access_lanes'][segments_before['id'][0]])
+                                num_lanes_before = len(lanes_dict['access_lanes'][segments_before['id'][j]])
                                 reverse_before = lane_before.attribute('reverse')
                                 for i in range(num_lanes_before):
                                     if lanes_dict['access_lanes'][lane_before.attribute('id')][i] == 'bicycle' and lanes_dict['reverse_lanes'][lane_before.attribute('id')][i] == reverse_before:
                                         cyclelane_before_same_direction += 1
-
                                 if cyclelane_same_direction > 1 or cyclelane_before_same_direction > 1:
                                     #TODO: Umgang mit (seltener) Situation, wenn mehrere Radspuren pro Richtung aufeinandertreffen
                                     continue
@@ -3032,6 +3286,41 @@ if proc_lane_markings:
                                         x += xv
                                         y += yv
                                     layer_lanes.moveVertex(x, y, lane_before.id(), vertex_before)
+
+            #nur bei Radstreifen, zur besseren Verknüpfung untereinander:
+            #prüfen, ob dieses Segment Folgesegmente gelistet hat, in denen dieses Segment nicht als Vorgänger auftaucht (relevant an Verzweigungspunkten mit Richtungswechsel)
+            if lanes_dict['access_lanes'][lane.attribute('id')][instance] == 'bicycle':
+                segments_after = lanes_dict['segments_after'][lane.attribute('id')]
+                num_segments_after = len(segments_after['id'])
+                if num_segments_after:
+                    reciproc = 0
+                    for i in range(0, num_segments_after):
+                        processing.run('qgis:selectbyattribute', { 'INPUT' : layer_lanes, 'FIELD' : 'id', 'VALUE' : segments_after['id'][i]})
+                        for lane_after in layer_lanes.getSelectedFeatures():
+
+                            segments_before_of_segment_after = lanes_dict['segments_before'][lane_after.attribute('id')]
+                            num_segments_before_of_segment_after = len(segments_before_of_segment_after['id'])
+                            if num_segments_before_of_segment_after:
+                                for j in range(0, num_segments_before_of_segment_after):
+                                    if lanes_dict['segments_before'][lane_after.attribute('id')]['id'][j] == lane.attribute('id'):
+                                        reciproc = 1
+                    #bei diesen Segmenten auch zu den Nachfolgesegmenten verknüpfen
+                    if not reciproc:
+                        segments_after = lanes_dict['segments_after'][lane.attribute('id')]
+                        num_segments_after = len(segments_after['id'])
+                        if num_segments_after:
+                            processing.run('qgis:selectbyattribute', { 'INPUT' : layer_lanes, 'FIELD' : 'id', 'VALUE' : segments_after['id'][0]})
+                            for lane_after in layer_lanes.getSelectedFeatures():
+                                #pragmatisch nur für die äußerste Spur anwenden, falls diese eine Radspur ist
+                                if lane_after.attribute('access') == 'bicycle' and lane_after.attribute('reverse') and not lane_after.attribute('instance'):
+                                    vertex = vertex_count - 1
+                                    geom_lane_after = lane_after.geometry()
+                                    vertex_count_after = getVertexCount(geom_lane_after)
+                                    vertex_after = 0 #vertex_count_after - 1
+                                    x = geom_lane_after.vertexAt(vertex_after).x()
+                                    y = geom_lane_after.vertexAt(vertex_after).y()
+                                    layer_lanes.moveVertex(x, y, lane.id(), vertex)
+                                    continue
 
 #TODO: Für Auflösung der Spuren nach gemeinsamen Merkmalen bräuchte es ein Attribut "is_middle_lane" o.ä., um Fahrspuren zu identifizieren, die an entgegengesetzte Fahrspuren angrenzen – das geht zur Zeit nur über lane und lane:forward – diese beiden Attribute beim Auflösen zu berücksichtigen, würde das Auflösen jedoch weitgehend unnütz machen
 #    dissolve_attr = ['turn', 'reverse', 'width', 'access', 'surface:colour', 'lane_markings', 'marking:left', 'marking:right']
@@ -3170,8 +3459,9 @@ if proc_lane_markings:
             continue
 
         placement = lanes_dict['placement'][highway_id]
-        placement_lane = int(placement[-1])
-        placement_pos = placement[0:-1]
+        i = -(len(placement) - placement.find(':') - 1)
+        placement_lane = int(placement[i:])
+        placement_pos = placement[0:i]
         lanes_width = lanes_dict['width_lanes'][highway_id]
         lanes_reverse = lanes_dict['reverse_lanes'][highway_id]
         direction = NULL
@@ -3585,9 +3875,13 @@ if proc_service:
         layer_raw_highway_ways = QgsVectorLayer(data_dir + 'highway.geojson|geometrytype=LineString', 'highway (raw)', 'ogr')
     layer_highway = layer_raw_highway_ways
     layer_highway = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_highway, 'EXPRESSION' : '"highway" = \'service\'', 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_highway_building_passages = layer_highway
     layer_highway = processing.run('native:dissolve', { 'FIELD' : ['highway', 'service', 'width', 'width:carriageway'], 'INPUT' : layer_highway, 'OUTPUT': 'memory:'})['OUTPUT']
     layer_highway = clearAttributes(layer_highway, ['highway', 'service', 'width', 'width:carriageway'])
-    layer_highway = processing.run('native:multiparttosingleparts', {'INPUT' : layer_highway, 'OUTPUT' : proc_dir + 'service.geojson' })
+    processing.run('native:multiparttosingleparts', {'INPUT' : layer_highway, 'OUTPUT' : proc_dir + 'service.geojson' })
+    #create a second layer for building passages
+    layer_highway_building_passages = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_highway_building_passages, 'EXPRESSION' : '"tunnel" IS \'building_passage\'', 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_highway_building_passages = processing.run('native:retainfields', { 'INPUT' : layer_highway_building_passages, 'FIELDS' : ['highway', 'service', 'width', 'width:carriageway', 'tunnel'], 'OUTPUT' : proc_dir + 'service_passages.geojson' })
 
 
 
@@ -3779,41 +4073,95 @@ if proc_railways:
 
 
 
-#-------------------------------------------------------------------------------------------------------------
-# Gebäudeteile auf Stockwerksunterschiede auflösen, Gebäudegrundrisse / schwebende Gebäudeteile verarbeiten
-#-------------------------------------------------------------------------------------------------------------
-if proc_building_parts:
+#--------------------------------------------------------------------------------------------------------------
+# Stockwerkszahl und schwebende Etagen für jedes Gebäudeteil/Gebäude auflösen, Gebäudegrundrisse verarbeiten
+#--------------------------------------------------------------------------------------------------------------
+if proc_buildings:
     print(time.strftime('%H:%M:%S', time.localtime()), 'Verarbeite Gebäudeteile...')
-    #Gebäudeteile mit gemeinsamen Höhenmerkmalen zusammenführen
+    print(time.strftime('%H:%M:%S', time.localtime()), '   Lade Gebäudedaten...')
     layer_building_parts_raw = QgsVectorLayer(data_dir + 'building_part.geojson|geometrytype=Polygon', 'Gebäudeteile (roh)', 'ogr')
-    layer_building_parts_raw = clearAttributes(layer_building_parts_raw, building_key_list)
     layer_building_parts = processing.run('native:fixgeometries', { 'INPUT' : layer_building_parts_raw, 'OUTPUT': 'memory:'})['OUTPUT']
-    layer_building_parts = processing.run('native:dissolve', { 'FIELD' : ['building:levels','building:min_level','roof:levels'], 'INPUT' : layer_building_parts, 'OUTPUT' : proc_dir + 'building_parts_dissolved.geojson' })
+    layer_building_parts = processing.run('native:reprojectlayer', { 'INPUT' : layer_building_parts, 'TARGET_CRS' : QgsCoordinateReferenceSystem(crs_to), 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_parts = clearAttributes(layer_building_parts, building_key_list)
 
-    print(time.strftime('%H:%M:%S', time.localtime()), 'Erzeuge Gebäudegrundflächen...')
-    #Gebäudeteile mit "building:min_level" > 0 oder "min_height" > 0 oder "roof" von Grundfläche abziehen
     if not layer_raw_buildings_polygons:
         layer_raw_buildings_polygons = QgsVectorLayer(data_dir + 'buildings.geojson|geometrytype=Polygon', 'buildings (raw)', 'ogr')
-    layer_buildings = layer_raw_buildings_polygons
+    layer_buildings = processing.run('native:reprojectlayer', { 'INPUT' : layer_raw_buildings_polygons, 'TARGET_CRS' : QgsCoordinateReferenceSystem(crs_to), 'OUTPUT': 'memory:'})['OUTPUT']
     layer_buildings = clearAttributes(layer_buildings, building_key_list)
 
-    layer_building_parts_min_level_1 = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_building_parts_raw, 'EXPRESSION' : '\"building:min_level\" > 0 OR \"min_height\" > 0 OR \"building:part\" = \'roof\'', 'OUTPUT': 'memory:'})['OUTPUT']
-    layer_building_parts_min_level_0 = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_building_parts_raw, 'EXPRESSION' : '((\"building:min_level\" <= 0 OR \"min_height\" <= 0) OR (\"building:min_level\" IS NULL AND \"min_height\" IS NULL)) AND \"building:part\" <> \'roof\'', 'OUTPUT': 'memory:'})['OUTPUT']
+    QgsProject.instance().addMapLayer(layer_buildings, False)
+    QgsProject.instance().addMapLayer(layer_building_parts, False)
 
+    #Gebäudeteile ohne Stockwerksinformationen leiten diese von Gebäudeumriss ab
+    print(time.strftime('%H:%M:%S', time.localtime()), '   Gebäudestockwerke differenzieren...')
+
+    layer_building_parts_no_levels = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_building_parts, 'EXPRESSION' : '"building:levels" IS NULL', 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_parts_no_levels = processing.run('native:deletecolumn', {'INPUT' : layer_building_parts_no_levels, 'COLUMN' : ['building:levels'], 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_parts_no_levels = processing.run('native:joinattributesbylocation', {'INPUT': layer_building_parts_no_levels, 'JOIN' : layer_buildings, 'JOIN_FIELDS' : ['building:levels'], 'PREDICATE' : [0], 'METHOD' : 2, 'OUTPUT': 'memory:'})['OUTPUT']
+
+    layer_building_parts_levels = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_building_parts, 'EXPRESSION' : '"building:levels" IS NOT NULL', 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_parts_levels = processing.run('native:mergevectorlayers', { 'LAYERS' : [layer_building_parts_levels, layer_building_parts_no_levels], 'OUTPUT': 'memory:'})['OUTPUT']
+
+    #Gebäude, die nicht von Gebäudeteilen abgedeckt sind, zum Gebäudeteilelayer hinzufügen
+    layer_buildings_noparts = processing.run('native:difference', {'INPUT' : layer_buildings, 'OVERLAY' : layer_building_parts_levels, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_parts_levels = processing.run('native:mergevectorlayers', { 'LAYERS' : [layer_building_parts_levels, layer_buildings_noparts], 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_parts_levels = clearAttributes(layer_building_parts_levels, ['building:levels'])
+
+    #aneinander angrenzende Gebäudeteile mit gleicher Höhe auflösen
+    layer_building_parts_levels = processing.run('native:dissolve', { 'INPUT' : layer_building_parts_levels, 'FIELD' : ['building:levels'], 'OUTPUT': 'memory:'})['OUTPUT']
+    processing.run('native:multiparttosingleparts', { 'INPUT' : layer_building_parts_levels, 'OUTPUT' : proc_dir + 'building_parts.geojson' })
+
+    #Gebäudegrundrisse erzeugen (Gebäudeflächen abzüglich aller Flächen mit min_level/min_height > 0 oder building=roof)
+    print(time.strftime('%H:%M:%S', time.localtime()), '   Gebäudegrundrisse erzeugen...')
+    layer_building_parts_min_level_1 = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_building_parts, 'EXPRESSION' : '\"building:min_level\" > 0 OR \"min_height\" > 0 OR \"building:part\" = \'roof\'', 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_parts_min_level_0 = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_building_parts, 'EXPRESSION' : '((\"building:min_level\" <= 0 OR \"min_height\" <= 0) OR (\"building:min_level\" IS NULL AND \"min_height\" IS NULL)) AND \"building:part\" <> \'roof\'', 'OUTPUT': 'memory:'})['OUTPUT']
     QgsProject.instance().addMapLayer(layer_building_parts_min_level_1, False)
     QgsProject.instance().addMapLayer(layer_building_parts_min_level_0, False)
 
     #vorher Gebäudeteile ohne min_level von allen Gebäudeteilen abziehen, um Gebäudeteile innerhalb von (schwebenden) Gebäudeteilen zu berücksichtigen
     layer_building_parts_min_level = processing.run('native:difference', {'INPUT' : QgsProcessingFeatureSourceDefinition(layer_building_parts_min_level_1.id(), flags=QgsProcessingFeatureSourceDefinition.FlagOverrideDefaultGeometryCheck, geometryCheck=QgsFeatureRequest.GeometrySkipInvalid), 'OVERLAY' : QgsProcessingFeatureSourceDefinition(layer_building_parts_min_level_0.id(), flags=QgsProcessingFeatureSourceDefinition.FlagOverrideDefaultGeometryCheck, geometryCheck=QgsFeatureRequest.GeometrySkipInvalid), 'OUTPUT': 'memory:'})['OUTPUT']
 
-    layer_buildings = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_buildings, 'EXPRESSION' : '\"building\" IS NOT \'roof\' AND ("building:min_level" <= 0 OR "building:min_level" IS NULL) AND ("min_height" <= 0 OR "min_height" IS NULL)', 'OUTPUT': 'memory:'})['OUTPUT']
-    layer_buildings = processing.run('native:difference', { 'INPUT': layer_buildings, 'OVERLAY' : layer_building_parts_min_level, 'OUTPUT' : proc_dir + 'building_parts_min_level.geojson' })
+    layer_building_footprints = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_buildings, 'EXPRESSION' : '\"building\" IS NOT \'roof\' AND ("building:min_level" <= 0 OR "building:min_level" IS NULL) AND ("min_height" <= 0 OR "min_height" IS NULL)', 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_footprints = processing.run('native:difference', { 'INPUT': layer_building_footprints, 'OVERLAY' : layer_building_parts_min_level, 'OUTPUT': 'memory:'})['OUTPUT']
+
+    #Linien für Gebäudegrundrisskanten erzeugen, je nach dem, ob sie unter schwebenden Gebäudeteilen verlaufen oder nicht
+    print(time.strftime('%H:%M:%S', time.localtime()), '   Grundrisslinien differenzieren...')
+    print(time.strftime('%H:%M:%S', time.localtime()), '      Grundrisslinien erzeugen...')
+    layer_building_footprints = processing.run('native:dissolve', { 'INPUT' : layer_building_footprints, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_footprint_lines = processing.run('native:polygonstolines', { 'INPUT' : layer_building_footprints, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_footprint_lines = processing.run('native:explodelines', { 'INPUT' : layer_building_footprint_lines, 'OUTPUT': 'memory:'})['OUTPUT']
+    #layer_building_footprint_lines = processing.run('native:deleteduplicategeometries', {'INPUT': layer_building_footprint_lines, 'OUTPUT': 'memory:'})['OUTPUT']
+
+    print(time.strftime('%H:%M:%S', time.localtime()), '      Überdeckte Linien extrahieren...')
+    layer_buildings_dissolved = processing.run('native:dissolve', { 'INPUT' : layer_buildings, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_buildings_dissolved = processing.run('native:multiparttosingleparts', { 'INPUT' : layer_buildings_dissolved, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_footprint_lines_covered = processing.run('native:extractbylocation', { 'INPUT' : layer_building_footprint_lines, 'INTERSECT' : layer_buildings_dissolved, 'PREDICATE' : [6], 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_footprint_lines_covered = processing.run('qgis:fieldcalculator', { 'INPUT': layer_building_footprint_lines_covered, 'FIELD_NAME': 'covered', 'FIELD_TYPE': 2, 'FIELD_LENGTH': 3, 'FIELD_PRECISION': 0, 'NEW_FIELD': True, 'FORMULA': "'yes'", 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_footprint_lines_covered = processing.run('native:deletecolumn', {'INPUT' : layer_building_footprint_lines_covered, 'COLUMN' : building_key_list, 'OUTPUT': 'memory:'})['OUTPUT']
+
+    print(time.strftime('%H:%M:%S', time.localtime()), '      Übrige Gebäudekanten extrahieren...')
+    layer_building_lines = processing.run('native:polygonstolines', { 'INPUT' : layer_buildings, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_lines = processing.run('native:explodelines', { 'INPUT' : layer_building_lines, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_lines = processing.run('native:deleteduplicategeometries', {'INPUT': layer_building_lines, 'OUTPUT': 'memory:'})['OUTPUT']
+    processing.run('native:selectbylocation', {'INPUT' : layer_building_lines, 'INTERSECT' : layer_building_footprint_lines_covered, 'PREDICATE' : [3]})
+    with edit(layer_building_lines):
+        layer_building_lines.deleteSelectedFeatures()
+    layer_building_lines = processing.run('qgis:fieldcalculator', { 'INPUT': layer_building_lines, 'FIELD_NAME': 'covered', 'FIELD_TYPE': 2, 'FIELD_LENGTH': 3, 'FIELD_PRECISION': 0, 'NEW_FIELD': True, 'FORMULA': "'no'", 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_lines = processing.run('native:deletecolumn', {'INPUT' : layer_building_lines, 'COLUMN' : building_key_list, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_lines = processing.run('native:mergevectorlayers', { 'LAYERS' : [layer_building_footprint_lines_covered, layer_building_lines], 'OUTPUT': 'memory:'})['OUTPUT']
+    processing.run('native:retainfields', { 'INPUT' : layer_building_lines, 'FIELDS' : ['covered'], 'OUTPUT' : proc_dir + 'building_lines.geojson' })
+
+    #Fahrbahnbereiche unter Gebäuden extrahieren, für transparente Straßendarstellung unter Gebäuden
+    print(time.strftime('%H:%M:%S', time.localtime()), '   Fahrbahnflächen unter Gebäuden extrahieren...')
+    if not layer_raw_area_highway_polygons:
+        layer_raw_area_highway_polygons = QgsVectorLayer(data_dir + 'area_highway.geojson|geometrytype=Polygon', 'area_highway (raw)', 'ogr')
+    processing.run('native:intersection', { 'INPUT' : layer_raw_area_highway_polygons, 'INPUT_FIELDS' : ['id','area:highway','surface','junction','crossing','road_markings'], 'OVERLAY' : layer_building_parts_raw, 'OVERLAY_FIELDS' : ['id'], 'OVERLAY_FIELDS_PREFIX' : 'building:', 'OUTPUT' : proc_dir + 'highway_areas_buildingpassages.geojson' })
 
 
 
-#------------------------------------------------
+#--------------------------------------------------
 # Hausnummern an inneren Gebäudeumring versetzen
-#------------------------------------------------
+#--------------------------------------------------
 if proc_housenumbers:
     print(time.strftime('%H:%M:%S', time.localtime()), 'Verarbeite Hausnummern...')
     #Gebäude und Hausnummern neu in metrischer Projektion abspeichern
