@@ -4,7 +4,7 @@
 #   OSM data post-processing for QGIS/PyGIS for rendering the map at        #
 #   https://strassenraumkarte.osm-berlin.org/                               #
 #                                                                           #
-#   > version/date: 2023-10-31                                              #
+#   > version/date: 2023-11-10                                              #
 #---------------------------------------------------------------------------#
 
 import os, processing, math, random, time
@@ -18,7 +18,7 @@ proc_crossings      = 0     # < # Fahrbahnbezogene Eigenschaften von Querungsste
 proc_cr_markings    = 0     #   # Querungsstellen mit randseitigen Markierungen am Bordstein ausrichten
 proc_cr_lines       = 0     #   # Linien markierter Gehweg-Querungsstellen erzeugen
 proc_cr_tactile_pav = 0     #   # Taktile Bodenleitsysteme entlang von Bordsteinen und Wegen generieren
-proc_lane_markings  = 1     # < # Straßenmarkierungen erzeugen
+proc_lane_markings  = 0     # < # Straßenmarkierungen erzeugen
 proc_highway_backup = 0     #   # Straßenlinien als Backup in fahrbahnfreien Bereichen erzeugen
 proc_service        = 0     #   # service-Wege mit gleichen Eigenschaften zusammenführen, um Lücken zu vermeiden
 proc_oneways        = 0     #   # Für Einbahnstraßen separate Linien zur Markierung erzeugen
@@ -26,7 +26,7 @@ proc_traffic_calming= 0     # < # Straßeneigenschaften auf Verkehrsberuhigungsm
 proc_cycleways      = 0     #   # Radwege nachbearbeiten
 proc_path_areas     = 0     #   # Vereinigt aneinander angrenzende Wegeflächen und erzeugt deren Outlines
 proc_railways       = 0     #   # Separiert Schienensegmente mit Bahnübergängen, um diese über Fahrbahnflächen rendern zu können
-proc_buildings      = 0     # < # Stockwerkszahl und schwebende Etagen für jedes Gebäudeteil/Gebäude auflösen, Gebäudegrundrisse verarbeiten
+proc_buildings      = 1     # < # Stockwerkszahl und schwebende Etagen für jedes Gebäudeteil/Gebäude auflösen, Gebäudegrundrisse verarbeiten
 proc_housenumbers   = 0     #   # Hausnummern gleichmäßig zum Gebäudeumriss ausrichten
 proc_water_body     = 0     #   # Gewässerkörper zu einem Einzelpolygon vereinigen
 proc_landcover      = 0     #   # Bereiche mit "landcover=*" in Polygone umwandeln (werden nur als Linien erkannt)
@@ -816,6 +816,9 @@ if proc_crossings:
         layer_crossing = clearAttributes(layer_crossing, crossing_attr_list)
         layer_crossing = processing.run('native:deleteduplicategeometries', {'INPUT': layer_crossing, 'OUTPUT' : proc_dir + 'crossing.geojson' })
 
+    del layers; del layer_crossing; del layer_intersections; del layer_path; del layer_street; del layer_vertices
+    QgsProject.instance().clear()
+
 
 
 #-------------------------------------------------------------------------
@@ -921,6 +924,9 @@ if proc_cr_markings:
     layer_crossing_buffer_markings = clearAttributes(layer_crossing_buffer_markings, ['id', 'highway:angle', 'crossing:angle', 'kerb:angle', 'layer'])
     #QuickAndDirty Workaround: An gleicher Position entstandene Punkte löschen
     layer_crossing_buffer_markings = processing.run('native:deleteduplicategeometries', {'INPUT': layer_crossing_buffer_markings, 'OUTPUT' : proc_dir + 'crossing_buffer_markings.geojson' })
+
+    del layer_crossing; del layer_crossing_buffer_markings; del layer_crossing_buffer_markings_buffer; del layer_crossing_buffer_markings_snapped; del layer_crossing_buffer_markings_unsnapped; del layer_crossing_markings_both; del layer_crossing_markings_both_left; del layer_crossing_markings_both_right; del layer_crossing_markings_left; del layer_crossing_markings_right; del layer_crossing_ways; del layer_kerb_lines; del layer_kerb_nodes; del layer_vertices
+    QgsProject.instance().clear()
 
 
 
@@ -1127,6 +1133,10 @@ if proc_cr_lines:
 
     #sehr kurze Segmente (evtl. Relikte) entfernen
     layer_crossing_lines = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_crossing_lines, 'EXPRESSION' : '$length > 1.25', 'OUTPUT' : proc_dir + 'crossing_line_markings.geojson' })
+
+    QgsProject.instance().removeMapLayer(layer_buffer_markings); QgsProject.instance().removeMapLayer(layer_crossing); QgsProject.instance().removeMapLayer(layer_crossing_lines); QgsProject.instance().removeMapLayer(layer_crossing_path); QgsProject.instance().removeMapLayer(layer_vertices)
+    del crossing_line_markings; del crossing_line_markings_point1; del crossing_line_markings_point2; del layer_buffer_markings; del layer_carriageway; del layer_crossing; del layer_crossing_lines; del layer_crossing_lines1; del layer_crossing_lines2; del layer_crossing_path; del layer_crossing_temporary; del layer_kerbs; del layer_vertices
+    QgsProject.instance().clear()
 
 
 
@@ -4127,8 +4137,8 @@ if proc_buildings:
     #Linien für Gebäudegrundrisskanten erzeugen, je nach dem, ob sie unter schwebenden Gebäudeteilen verlaufen oder nicht
     print(time.strftime('%H:%M:%S', time.localtime()), '   Grundrisslinien differenzieren...')
     print(time.strftime('%H:%M:%S', time.localtime()), '      Grundrisslinien erzeugen...')
-    layer_building_footprints = processing.run('native:dissolve', { 'INPUT' : layer_building_footprints, 'OUTPUT': 'memory:'})['OUTPUT']
-    layer_building_footprint_lines = processing.run('native:polygonstolines', { 'INPUT' : layer_building_footprints, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_footprints_dissolved = processing.run('native:dissolve', { 'INPUT' : layer_building_footprints, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_footprint_lines = processing.run('native:polygonstolines', { 'INPUT' : layer_building_footprints_dissolved, 'OUTPUT': 'memory:'})['OUTPUT']
     layer_building_footprint_lines = processing.run('native:explodelines', { 'INPUT' : layer_building_footprint_lines, 'OUTPUT': 'memory:'})['OUTPUT']
     #layer_building_footprint_lines = processing.run('native:deleteduplicategeometries', {'INPUT': layer_building_footprint_lines, 'OUTPUT': 'memory:'})['OUTPUT']
 
@@ -4140,7 +4150,7 @@ if proc_buildings:
     layer_building_footprint_lines_covered = processing.run('native:deletecolumn', {'INPUT' : layer_building_footprint_lines_covered, 'COLUMN' : building_key_list, 'OUTPUT': 'memory:'})['OUTPUT']
 
     print(time.strftime('%H:%M:%S', time.localtime()), '      Übrige Gebäudekanten extrahieren...')
-    layer_building_lines = processing.run('native:polygonstolines', { 'INPUT' : layer_buildings, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_building_lines = processing.run('native:polygonstolines', { 'INPUT' : layer_building_footprints, 'OUTPUT': 'memory:'})['OUTPUT']
     layer_building_lines = processing.run('native:explodelines', { 'INPUT' : layer_building_lines, 'OUTPUT': 'memory:'})['OUTPUT']
     layer_building_lines = processing.run('native:deleteduplicategeometries', {'INPUT': layer_building_lines, 'OUTPUT': 'memory:'})['OUTPUT']
     processing.run('native:selectbylocation', {'INPUT' : layer_building_lines, 'INTERSECT' : layer_building_footprint_lines_covered, 'PREDICATE' : [3]})
@@ -4148,14 +4158,9 @@ if proc_buildings:
         layer_building_lines.deleteSelectedFeatures()
     layer_building_lines = processing.run('qgis:fieldcalculator', { 'INPUT': layer_building_lines, 'FIELD_NAME': 'covered', 'FIELD_TYPE': 2, 'FIELD_LENGTH': 3, 'FIELD_PRECISION': 0, 'NEW_FIELD': True, 'FORMULA': "'no'", 'OUTPUT': 'memory:'})['OUTPUT']
     layer_building_lines = processing.run('native:deletecolumn', {'INPUT' : layer_building_lines, 'COLUMN' : building_key_list, 'OUTPUT': 'memory:'})['OUTPUT']
+
     layer_building_lines = processing.run('native:mergevectorlayers', { 'LAYERS' : [layer_building_footprint_lines_covered, layer_building_lines], 'OUTPUT': 'memory:'})['OUTPUT']
     processing.run('native:retainfields', { 'INPUT' : layer_building_lines, 'FIELDS' : ['covered'], 'OUTPUT' : proc_dir + 'building_lines.geojson' })
-
-    #Fahrbahnbereiche unter Gebäuden extrahieren, für transparente Straßendarstellung unter Gebäuden
-    print(time.strftime('%H:%M:%S', time.localtime()), '   Fahrbahnflächen unter Gebäuden extrahieren...')
-    if not layer_raw_area_highway_polygons:
-        layer_raw_area_highway_polygons = QgsVectorLayer(data_dir + 'area_highway.geojson|geometrytype=Polygon', 'area_highway (raw)', 'ogr')
-    processing.run('native:intersection', { 'INPUT' : layer_raw_area_highway_polygons, 'INPUT_FIELDS' : ['id','area:highway','surface','junction','crossing','road_markings'], 'OVERLAY' : layer_building_parts_raw, 'OVERLAY_FIELDS' : ['id'], 'OVERLAY_FIELDS_PREFIX' : 'building:', 'OUTPUT' : proc_dir + 'highway_areas_buildingpassages.geojson' })
 
 
 
