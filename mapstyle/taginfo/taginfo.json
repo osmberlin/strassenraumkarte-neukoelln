@@ -15,7 +15,7 @@
         { "key": "advertising", "value": "column", "object_types": ["node"] },
         { "key": "access", "object_types": ["node","way"], "description": "Used e.g. for transparent rendering of some features with private access or to derive way and lane access." },
         { "key": "amenity", "value": "bbq", "object_types": ["area"] },
-        { "key": "amenity", "value": "bench", "object_types": ["node"] },
+        { "key": "amenity", "value": "bench", "object_types": ["node","way","area"] },
         { "key": "amenity", "value": "bicycle_parking", "object_types": ["node","area"] },
         { "key": "amenity", "value": "bicycle_rental", "object_types": ["node","area"] },
         { "key": "amenity", "value": "biergarten", "object_types": ["area"] },
