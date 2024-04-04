@@ -4,7 +4,7 @@
 #   OSM data post-processing for QGIS/PyGIS for rendering the map at        #
 #   https://strassenraumkarte.osm-berlin.org/                               #
 #                                                                           #
-#   > version/date: 2023-11-10                                              #
+#   > version/date: 2024-04-04                                              #
 #---------------------------------------------------------------------------#
 
 import os, processing, math, random, time
@@ -18,7 +18,7 @@ proc_crossings      = 0     # < # Fahrbahnbezogene Eigenschaften von Querungsste
 proc_cr_markings    = 0     #   # Querungsstellen mit randseitigen Markierungen am Bordstein ausrichten
 proc_cr_lines       = 0     #   # Linien markierter Gehweg-Querungsstellen erzeugen
 proc_cr_tactile_pav = 0     #   # Taktile Bodenleitsysteme entlang von Bordsteinen und Wegen generieren
-proc_lane_markings  = 0     # < # Straßenmarkierungen erzeugen
+proc_lane_markings  = 1     # < # Straßenmarkierungen erzeugen
 proc_highway_backup = 0     #   # Straßenlinien als Backup in fahrbahnfreien Bereichen erzeugen
 proc_service        = 0     #   # service-Wege mit gleichen Eigenschaften zusammenführen, um Lücken zu vermeiden
 proc_oneways        = 0     #   # Für Einbahnstraßen separate Linien zur Markierung erzeugen
@@ -26,7 +26,7 @@ proc_traffic_calming= 0     # < # Straßeneigenschaften auf Verkehrsberuhigungsm
 proc_cycleways      = 0     #   # Radwege nachbearbeiten
 proc_path_areas     = 0     #   # Vereinigt aneinander angrenzende Wegeflächen und erzeugt deren Outlines
 proc_railways       = 0     #   # Separiert Schienensegmente mit Bahnübergängen, um diese über Fahrbahnflächen rendern zu können
-proc_buildings      = 1     # < # Stockwerkszahl und schwebende Etagen für jedes Gebäudeteil/Gebäude auflösen, Gebäudegrundrisse verarbeiten
+proc_buildings      = 0     # < # Stockwerkszahl und schwebende Etagen für jedes Gebäudeteil/Gebäude auflösen, Gebäudegrundrisse verarbeiten
 proc_housenumbers   = 0     #   # Hausnummern gleichmäßig zum Gebäudeumriss ausrichten
 proc_water_body     = 0     #   # Gewässerkörper zu einem Einzelpolygon vereinigen
 proc_landcover      = 0     #   # Bereiche mit "landcover=*" in Polygone umwandeln (werden nur als Linien erkannt)
@@ -446,6 +446,18 @@ def clearAttributes(layer, attributes):
 
 
 
+def clearVariables(variables):
+#-------------------------------------------------------------------------------
+#   Variablen bereinigen
+#-------------------------------------------------------------------------------
+    for variable in variables:
+        #QgsProject.instance().removeMapLayer(variable) #TODO: Prüfen, ob ein gültiger MapLayer gleichen Namens existiert und diesen ggf. löschen
+        del variable
+    QgsProject.instance().clear()
+    return(1)
+
+
+
 def getDelimitedAttributes(attribute_string, deli_char, var_type):
 #-------------------------------------------------------------------------------
 #   Spurattribute mit Trennzeichen einzeln auslesen
@@ -816,8 +828,7 @@ if proc_crossings:
         layer_crossing = clearAttributes(layer_crossing, crossing_attr_list)
         layer_crossing = processing.run('native:deleteduplicategeometries', {'INPUT': layer_crossing, 'OUTPUT' : proc_dir + 'crossing.geojson' })
 
-    del layers; del layer_crossing; del layer_intersections; del layer_path; del layer_street; del layer_vertices
-    QgsProject.instance().clear()
+    clearVariables([layers, layer_crossing, layer_intersections, layer_path, layer_street, layer_vertices])
 
 
 
@@ -925,8 +936,7 @@ if proc_cr_markings:
     #QuickAndDirty Workaround: An gleicher Position entstandene Punkte löschen
     layer_crossing_buffer_markings = processing.run('native:deleteduplicategeometries', {'INPUT': layer_crossing_buffer_markings, 'OUTPUT' : proc_dir + 'crossing_buffer_markings.geojson' })
 
-    del layer_crossing; del layer_crossing_buffer_markings; del layer_crossing_buffer_markings_buffer; del layer_crossing_buffer_markings_snapped; del layer_crossing_buffer_markings_unsnapped; del layer_crossing_markings_both; del layer_crossing_markings_both_left; del layer_crossing_markings_both_right; del layer_crossing_markings_left; del layer_crossing_markings_right; del layer_crossing_ways; del layer_kerb_lines; del layer_kerb_nodes; del layer_vertices
-    QgsProject.instance().clear()
+    clearVariables([layer_crossing, layer_crossing_buffer_markings, layer_crossing_buffer_markings_buffer, layer_crossing_buffer_markings_snapped, layer_crossing_buffer_markings_unsnapped, layer_crossing_markings_both, layer_crossing_markings_both_left, layer_crossing_markings_both_right, layer_crossing_markings_left, layer_crossing_markings_right, layer_crossing_ways, layer_kerb_lines, layer_kerb_nodes, layer_vertices])
 
 
 
@@ -945,9 +955,6 @@ if proc_cr_lines:
     if not layer_raw_kerb_street_areas_polygons:
         #layer_raw_kerb_street_areas_polygons = QgsVectorLayer(data_dir + 'kerb/kerb_street_areas.geojson|geometrytype=Polygon', 'Fahrbahnbereiche (raw)', 'ogr')
         layer_raw_kerb_street_areas_polygons = createStreetAreaPolygons()
-    layer_carriageway = layer_raw_kerb_street_areas_polygons
-
-    #QgsProject.instance().addMapLayer(layer_carriageway, False)
 
     #bestimmte Straßen-/crossing-Eigenschaften an querende Linien übergeben (relevant zur späteren Darstellung spezieller Fälle wie schrägen Zebrastreifen oder Kürzung im Bereich von randseitigen Markierungen)
     layer_crossing_path = processing.run('native:joinattributesbylocation', {'INPUT': layer_crossing_path, 'JOIN' : layer_crossing, 'JOIN_FIELDS' : ['crossing', 'crossing:markings', 'crossing_ref', 'angle', 'crossing:buffer_marking'], 'PREFIX' : 'highway:', 'OUTPUT': 'memory:'})['OUTPUT']
@@ -1115,10 +1122,10 @@ if proc_cr_lines:
     print(time.strftime('%H:%M:%S', time.localtime()), '   Markierungslinien zuschneiden...')
     #Querungsmarkierungen beginnen erst 20cm vom Bordstein entfernt
     #Bordsteinlinien puffern und Fahrbahnbereich-Maske entsprechend verkleinern
-    layer_kerbs = processing.run('native:polygonstolines', { 'INPUT' : layer_carriageway, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_kerbs = processing.run('native:polygonstolines', { 'INPUT' : layer_raw_kerb_street_areas_polygons, 'OUTPUT': 'memory:'})['OUTPUT']
     layer_kerbs = processing.run('native:reprojectlayer', { 'INPUT' : layer_kerbs, 'TARGET_CRS' : QgsCoordinateReferenceSystem(crs_to), 'OUTPUT': 'memory:'})['OUTPUT']
     layer_kerbs = processing.run('native:buffer', { 'INPUT' : layer_kerbs, 'DISTANCE' : 0.2, 'OUTPUT': 'memory:'})['OUTPUT']
-    layer_carriageway = processing.run('native:difference', {'INPUT' : layer_carriageway, 'OVERLAY' : layer_kerbs, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_carriageway = processing.run('native:difference', {'INPUT' : layer_raw_kerb_street_areas_polygons, 'OVERLAY' : layer_kerbs, 'OUTPUT': 'memory:'})['OUTPUT']
 
     layer_crossing_lines = processing.run('native:clip', {'INPUT': layer_crossing_lines, 'OVERLAY': layer_carriageway, 'OUTPUT': 'memory:'})['OUTPUT']
 
@@ -1134,9 +1141,7 @@ if proc_cr_lines:
     #sehr kurze Segmente (evtl. Relikte) entfernen
     layer_crossing_lines = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_crossing_lines, 'EXPRESSION' : '$length > 1.25', 'OUTPUT' : proc_dir + 'crossing_line_markings.geojson' })
 
-    QgsProject.instance().removeMapLayer(layer_buffer_markings); QgsProject.instance().removeMapLayer(layer_crossing); QgsProject.instance().removeMapLayer(layer_crossing_lines); QgsProject.instance().removeMapLayer(layer_crossing_path); QgsProject.instance().removeMapLayer(layer_vertices)
-    del crossing_line_markings; del crossing_line_markings_point1; del crossing_line_markings_point2; del layer_buffer_markings; del layer_carriageway; del layer_crossing; del layer_crossing_lines; del layer_crossing_lines1; del layer_crossing_lines2; del layer_crossing_path; del layer_crossing_temporary; del layer_kerbs; del layer_vertices
-    QgsProject.instance().clear()
+    clearVariables([crossing_line_markings, crossing_line_markings_point1, crossing_line_markings_point2, layer_buffer_markings, layer_carriageway, layer_crossing, layer_crossing_lines, layer_crossing_lines1, layer_crossing_lines2, layer_crossing_path, layer_crossing_temporary, layer_kerbs, layer_vertices])
 
 
 
@@ -1250,6 +1255,8 @@ if proc_cr_tactile_pav:
     layer_tactile_paving = processing.run('native:multiparttosingleparts', { 'INPUT' : layer_tactile_paving, 'OUTPUT': 'memory:'})['OUTPUT']
     layer_tactile_paving = clearAttributes(layer_tactile_paving, ['barrier', 'highway', 'width', 'offset'])
     qgis.core.QgsVectorFileWriter.writeAsVectorFormat(layer_tactile_paving, proc_dir + 'tactile_paving.geojson', 'utf-8', QgsCoordinateReferenceSystem(crs_from), 'GeoJson')
+
+    clearVariables([layer_kerb, layer_kerb_outlines, layer_kerb_tactile_paving, layer_tactile_paving, layer_tactile_paving_lines, layer_tactile_paving_nodes, layer_tactile_paving_nodes_buffer, layer_tactile_paving_ways, layer_ways])
 
 
 
@@ -3850,6 +3857,8 @@ if proc_lane_markings:
     #sehr kurze Segmente (Relikte bis 20 cm) entfernen
     layer_road_markings = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_road_markings, 'EXPRESSION' : '$length > 0.2', 'OUTPUT' : proc_dir + 'road_markings.geojson' })
 
+    clearVariables([features, highway_line, lanes_dict, layer_crossings, layer_crossings_buffer, layer_cycleway_junction_areas, layer_dual_carriageways_vertices, layer_highway_lanes, layer_junction_areas, layer_junction_areas_outlines, layer_junction_enter_nodes, layer_junction_enter_nodes_buffer, layer_junction_line, layer_junction_lines, layer_kerb, layer_kerb_outlines, layer_landuse_polygons, layer_lanes, layer_lanes_bicycle_crossing, layer_lanes_crossing_markings, layer_lanes_dual_carriageway, layer_lanes_junction_markings, layer_lanes_no_crossing_markings, layer_lanes_no_junction_markings, layer_lanes_reversed, layer_lanes_single_carriageway, layer_lanes_stop_lines, layer_prohibited, layer_raw_highway_ways_reproj, layer_road_markings, layer_split_line, layer_stop_lines, layer_stop_nodes, transition_dict, vertex_list])
+
 
 
 #-----------------------------------------------------------------
@@ -3867,12 +3876,13 @@ if proc_highway_backup:
     if not layer_raw_kerb_street_areas_polygons:
         #layer_raw_kerb_street_areas_polygons = QgsVectorLayer(data_dir + 'kerb/kerb_street_areas.geojson|geometrytype=Polygon', 'Fahrbahnbereiche (raw)', 'ogr')
         layer_raw_kerb_street_areas_polygons = createStreetAreaPolygons()
-    layer_kerbs = layer_raw_kerb_street_areas_polygons
-    QgsProject.instance().addMapLayer(layer_kerbs, False)
+    QgsProject.instance().addMapLayer(layer_raw_kerb_street_areas_polygons, False)
 
     #Umweg über clip geht deutlich schneller als direkte difference aus kerb-layer
-    layer_highway_clipped = processing.run('native:clip', {'INPUT': layer_highway, 'OVERLAY': layer_kerbs, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_highway_clipped = processing.run('native:clip', {'INPUT': layer_highway, 'OVERLAY': layer_raw_kerb_street_areas_polygons, 'OUTPUT': 'memory:'})['OUTPUT']
     layer_highway = processing.run('native:difference', {'INPUT': layer_highway, 'OVERLAY': layer_highway_clipped, 'OUTPUT' : proc_dir + 'highway_backup.geojson' })
+
+    clearVariables([layer_highway, layer_highway_clipped])
 
 
 
@@ -3892,6 +3902,8 @@ if proc_service:
     #create a second layer for building passages
     layer_highway_building_passages = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_highway_building_passages, 'EXPRESSION' : '"tunnel" IS \'building_passage\'', 'OUTPUT': 'memory:'})['OUTPUT']
     layer_highway_building_passages = processing.run('native:retainfields', { 'INPUT' : layer_highway_building_passages, 'FIELDS' : ['highway', 'service', 'width', 'width:carriageway', 'tunnel'], 'OUTPUT' : proc_dir + 'service_passages.geojson' })
+
+    clearVariables([layer_highway, layer_highway_building_passages])
 
 
 
@@ -3970,6 +3982,8 @@ if proc_oneways:
     print(time.strftime('%H:%M:%S', time.localtime()), '   Schließe Knotenpunktbereiche aus...')
     oneways = processing.run('native:difference', {'INPUT' : oneways, 'OVERLAY' : layer_junction_areas, 'OUTPUT' : proc_dir + 'oneways.geojson' })
 
+    clearVariables([layer_junction_areas, layer_raw_highway_ways, layer_raw_path_ways, layer_roads_intersections, layer_roads_shortened, layer_roads_vertices, layer_ways, layer_ways_all_intersections, layer_ways_all_shortened, layer_ways_all_vertices, layer_ways_for_intersections, oneways])
+
 
 
 #--------------------------------------------------------------------
@@ -4005,6 +4019,8 @@ if proc_traffic_calming:
         street_attributes[i] = prefix + street_attributes[i]
     layer_traffic_calming = clearAttributes(layer_traffic_calming, street_attributes + traffic_calming_attributes)
     qgis.core.QgsVectorFileWriter.writeAsVectorFormat(layer_traffic_calming, proc_dir + 'traffic_calming.geojson', 'utf-8', QgsCoordinateReferenceSystem(crs_from), 'GeoJson')
+
+    clearVariables([layer_traffic_calming, layer_street_segments, layer_way_segments, layer_street_nodes])
 
 
 
@@ -4056,6 +4072,8 @@ if proc_cycleways:
     layer_cycleways = clearAttributes(layer_cycleways, ['id', 'highway', 'name', 'oneway', 'cycleway', 'cycleway:type', 'crossing', 'crossing:markings', 'is_sidepath', 'width', 'surface', 'smoothness', 'surface:colour', 'separation', 'separation:left', 'separation:right', 'separation:both', 'buffer', 'buffer:left', 'buffer:right', 'buffer:both', 'lanes', 'turn:lanes', 'placement', 'is_on_carriageway'])
     qgis.core.QgsVectorFileWriter.writeAsVectorFormat(layer_cycleways, proc_dir + 'cycleways.geojson', 'utf-8', QgsCoordinateReferenceSystem(crs_from), 'GeoJson')
 
+    clearVariables([layer_cycleways, layer_cycleways_on_carriageway, layer_cycleways_off_carriageway, layer_crossings, layer_crossings_buffer, layer_stop_lines, layer_cycleways_crossings])
+
 
 
 #---------------------------------------------------------------------------
@@ -4069,6 +4087,8 @@ if proc_path_areas:
     layer_path_areas = clearAttributes(layer_path_areas, ['highway'])
     layer_path_areas = processing.run('native:polygonstolines', { 'INPUT' : layer_path_areas, 'OUTPUT' : proc_dir + 'path_areas_outlines.geojson' })
 
+    clearVariables([layer_path_areas, layer_path_areas_raw])
+
 
 
 #--------------------------------------------------------------------------------------------------
@@ -4080,6 +4100,8 @@ if proc_railways:
     layer_railway_nodes_raw = QgsVectorLayer(data_dir + 'railway.geojson|geometrytype=Point', 'railway nodes (raw)', 'ogr')
     layer_railway_crossings = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_railway_nodes_raw, 'EXPRESSION' : '"railway" = \'level_crossing\'', 'OUTPUT': 'memory:'})['OUTPUT']
     layer_railway_crossing_ways = processing.run('native:extractbylocation', { 'INPUT' : layer_railway_ways_raw, 'INTERSECT' : layer_railway_crossings, 'PREDICATE' : [0], 'OUTPUT' : proc_dir + 'railway_crossings.geojson' })
+
+    clearVariables([layer_railway_crossing_ways, layer_railway_crossings, layer_railway_nodes_raw, layer_railway_ways_raw])
 
 
 
@@ -4096,7 +4118,8 @@ if proc_buildings:
 
     if not layer_raw_buildings_polygons:
         layer_raw_buildings_polygons = QgsVectorLayer(data_dir + 'buildings.geojson|geometrytype=Polygon', 'buildings (raw)', 'ogr')
-    layer_buildings = processing.run('native:reprojectlayer', { 'INPUT' : layer_raw_buildings_polygons, 'TARGET_CRS' : QgsCoordinateReferenceSystem(crs_to), 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_buildings = processing.run('native:fixgeometries', { 'INPUT' : layer_raw_buildings_polygons, 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_buildings = processing.run('native:reprojectlayer', { 'INPUT' : layer_buildings, 'TARGET_CRS' : QgsCoordinateReferenceSystem(crs_to), 'OUTPUT': 'memory:'})['OUTPUT']
     layer_buildings = clearAttributes(layer_buildings, building_key_list)
 
     QgsProject.instance().addMapLayer(layer_buildings, False)
@@ -4162,6 +4185,8 @@ if proc_buildings:
     layer_building_lines = processing.run('native:mergevectorlayers', { 'LAYERS' : [layer_building_footprint_lines_covered, layer_building_lines], 'OUTPUT': 'memory:'})['OUTPUT']
     processing.run('native:retainfields', { 'INPUT' : layer_building_lines, 'FIELDS' : ['covered'], 'OUTPUT' : proc_dir + 'building_lines.geojson' })
 
+    clearVariables([layer_buildings, layer_buildings_dissolved, layer_buildings_noparts, layer_building_footprints, layer_building_footprints_dissolved, layer_building_footprint_lines, layer_building_footprint_lines_covered, layer_building_lines, layer_building_parts, layer_building_parts_levels, layer_building_parts_min_level, layer_building_parts_min_level_1, layer_building_parts_min_level_0, layer_building_parts_no_levels, layer_building_parts_raw])
+
 
 
 #--------------------------------------------------
@@ -4173,7 +4198,7 @@ if proc_housenumbers:
     print(time.strftime('%H:%M:%S', time.localtime()), '   Wandle Daten in metrische Projektion...')
     if not layer_raw_buildings_polygons:
         layer_raw_buildings_polygons = QgsVectorLayer(data_dir + 'buildings.geojson|geometrytype=Polygon', 'buildings (raw)', 'ogr')
-    layer_buildings = layer_raw_buildings_polygons
+    layer_buildings = processing.run('native:fixgeometries', { 'INPUT' : layer_raw_buildings_polygons, 'OUTPUT': 'memory:'})['OUTPUT']
     layer_buildings = clearAttributes(layer_buildings, building_key_list)
     layer_housenumbers = QgsVectorLayer(data_dir + 'housenumber.geojson|geometrytype=Point', 'Hausnummern (Punktdaten, roh)', 'ogr')
     layer_housenumbers = clearAttributes(layer_housenumbers, ['id', 'addr:housenumber', 'addr:postcode', 'addr:street', 'addr:suburb'])
@@ -4194,6 +4219,8 @@ if proc_housenumbers:
     print(time.strftime('%H:%M:%S', time.localtime()), '   Richte Hausnummern aus...')
     layer_housenumbers = processing.run('native:snapgeometries', { 'BEHAVIOR' : 1, 'INPUT' : layer_housenumbers, 'REFERENCE_LAYER' : layer_buildings_shrinked, 'TOLERANCE' : 2.05, 'OUTPUT' : proc_dir + 'housenumber_snapped.geojson' })
 
+    clearVariables([layer_buildings, layer_buildings_buffer, layer_buildings_shrinked, layer_housenumbers])
+
 
 
 #----------------------------------------------------
@@ -4206,6 +4233,8 @@ if proc_water_body:
     layer_water = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_raw_natural_polygons, 'EXPRESSION' : '\"natural\" = \'water\' OR \"natural\" = \'wetland\'', 'OUTPUT': 'memory:'})['OUTPUT']
     layer_water = clearAttributes(layer_water, ['natural'])
     processing.run('native:dissolve', { 'INPUT' : layer_water, 'OUTPUT' : proc_dir + 'water_body.geojson' })
+
+    clearVariables([layer_water])
 
 
 
@@ -4233,6 +4262,8 @@ if proc_landcover:
     landcover = processing.run('native:mergevectorlayers', { 'LAYERS' : [lines_to_poly, polygons], 'OUTPUT': 'memory:'})['OUTPUT']
     landcover = clearAttributes(landcover, ['id', 'landcover'])
     QgsVectorFileWriter.writeAsVectorFormatV2(landcover, proc_dir + 'landcover.geojson', transform_context, save_options)
+
+    clearVariables([landcover, layer_landcover_lines, layer_landcover_polygons, lines_to_poly, polygons])
 
 
 
@@ -4373,6 +4404,8 @@ if proc_pitches:
 
     qgis.core.QgsVectorFileWriter.writeAsVectorFormat(layer_centroids, proc_dir + 'pitch_marker.geojson', 'utf-8', QgsCoordinateReferenceSystem(crs_from), 'GeoJson')
 
+    clearVariables([layer_centroids, layer_pitches, layer_vertices, pitch_dict])
+
 
 
 #-----------------------------------------------------------------------------
@@ -4390,6 +4423,8 @@ if proc_playgr_landuse:
     layer_grass_overlay = processing.run('native:extractbylocation', { 'INPUT' : layer_grass, 'INTERSECT' : layer_playgrounds, 'PREDICATE' : [5,6], 'OUTPUT': 'memory:'})['OUTPUT']
     #ausgewählte Grasflächen von Spielplatzflächen abziehen
     layer_playgrounds = processing.run('native:difference', {'INPUT' : layer_playgrounds, 'OVERLAY' : layer_grass_overlay, 'OUTPUT' : proc_dir + 'playgrounds_clipped.geojson' })
+
+    clearVariables([layer_grass, layer_grass_overlay, layer_playgrounds])
 
 
 
@@ -4417,6 +4452,8 @@ if proc_playgr_equip:
     playground = clearAttributes(playground, ['id', 'playground'])
     QgsVectorFileWriter.writeAsVectorFormatV2(playground, proc_dir + 'playground_equipment_areas.geojson', transform_context, save_options)
 
+    clearVariables([layer_playground_lines, layer_playground_polygons, layer_raw_playground_polygons, lines_to_poly, playground, polygons])
+
 
 
 #----------------------------------------------------------------------------------------------------------------------------
@@ -4434,9 +4471,9 @@ if proc_orient_man_made:
     if not layer_raw_man_made_points:
         layer_raw_man_made_points = QgsVectorLayer(data_dir + 'man_made.geojson|geometrytype=Point', 'man_made (raw)', 'ogr')
 
-    #Straßenmöbel filtern, für die eine Richtung relevant sein kann (Straßenlaternen, Schaltkästen)
+    #Straßenmöbel filtern, für die eine Richtung relevant sein kann
     layer_street_furniture_vanilla = processing.run('native:reprojectlayer', { 'INPUT' : layer_raw_man_made_points, 'TARGET_CRS' : QgsCoordinateReferenceSystem(crs_to), 'OUTPUT': 'memory:'})['OUTPUT']
-    layer_street_furniture = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_street_furniture_vanilla, 'EXPRESSION' : '("highway" = \'street_lamp\' AND "lamp_mount" = \'bent_mast\') OR "man_made" = \'street_cabinet\' OR "amenity" = \'loading_ramp\'', 'OUTPUT': 'memory:'})['OUTPUT']
+    layer_street_furniture = processing.run('qgis:extractbyexpression', { 'INPUT' : layer_street_furniture_vanilla, 'EXPRESSION' : '("highway" = \'street_lamp\' AND "lamp_mount" = \'bent_mast\') OR "man_made" = \'street_cabinet\' OR "man_made" = \'guard_stone\' OR "amenity" = \'loading_ramp\' OR ("amenity" = \'vending_machine\' AND "vending" = \'parking_tickets\')', 'OUTPUT': 'memory:'})['OUTPUT']
 
     #Puffer (12 Meter) um relevante Straßenmöbel erzeugen, um im Folgenden nur Straßen in diesem Bereich zu berücksichtigen
     print(time.strftime('%H:%M:%S', time.localtime()), '   Relevante Straßen und Wege selektieren...')
@@ -4471,7 +4508,8 @@ if proc_orient_man_made:
     #id's der Objekte speichern, in deren Umkreis sich Verkehrsstraßen befinden
     for street_furniture in layer_street_furniture_buffer_12.getSelectedFeatures():
         id = street_furniture.attribute('id')
-        id_list_roads.append(id)
+        if street_furniture.attribute('man_made') != 'guard_stone': #ausgenommen Prellsteine, die zu Einfahrten ausgerichtet werden sollen
+            id_list_roads.append(id)
 
     #Objekte mit gespeicherten id's selectieren und auf Verkehrsstraßen snappen - aus Verbindungslinie kann anschließend die Richtung der nächsten Straße ermittelt werden
     layer_street_furniture.removeSelection()
@@ -4525,10 +4563,12 @@ if proc_orient_man_made:
     layer_street_furniture = processing.run('native:extractbylocation', { 'INPUT' : layer_street_furniture_vanilla, 'INTERSECT' : layer_street_furniture_oriented, 'PREDICATE' : [2], 'OUTPUT': 'memory:'})['OUTPUT']
     layer_street_furniture = processing.run('native:mergevectorlayers', { 'LAYERS' : [layer_street_furniture, layer_street_furniture_oriented], 'OUTPUT': 'memory:'})['OUTPUT']
     print(time.strftime('%H:%M:%S', time.localtime()), '   Bereinige Daten...')
-    layer_street_furniture = clearAttributes(layer_street_furniture, ['id', 'man_made', 'highway', 'direction', 'angle', 'ref', 'street_cabinet', 'width', 'length', 'lamp_mount', 'amenity'])
+    layer_street_furniture = clearAttributes(layer_street_furniture, ['id', 'man_made', 'highway', 'direction', 'angle', 'ref', 'street_cabinet', 'width', 'length', 'lamp_mount', 'amenity', 'vending'])
     print(time.strftime('%H:%M:%S', time.localtime()), '   Speichere Daten...')
 
     qgis.core.QgsVectorFileWriter.writeAsVectorFormat(layer_street_furniture, proc_dir + 'street_furniture.geojson', 'utf-8', QgsCoordinateReferenceSystem(crs_from), 'GeoJson')
+
+    clearVariables([id_list_roads, layer_next_path, layer_next_roads, layer_next_streets, layer_next_ways, layer_street_furniture, layer_street_furniture_buffer_12, layer_street_furniture_buffer_5, layer_street_furniture_hublines, layer_street_furniture_oriented, layer_street_furniture_snapped, layer_street_furniture_snapped_roads, layer_street_furniture_snapped_ways, layer_street_furniture_vanilla, layer_street_furniture_vertex1])
 
 
 
@@ -4596,6 +4636,8 @@ if proc_trees:
     layer_trees.updateFields()
     layer_trees.commitChanges()
     QgsVectorFileWriter.writeAsVectorFormatV2(layer_trees, proc_dir + 'trees.geojson', transform_context, save_options)
+
+    clearVariables([layer_trees])
 
 
 
@@ -4681,6 +4723,8 @@ if proc_forests:
     layer_tree_points.updateFields()
     layer_tree_points.commitChanges()
     qgis.core.QgsVectorFileWriter.writeAsVectorFormat(layer_tree_points, proc_dir + 'trees_forest.geojson', 'utf-8', QgsCoordinateReferenceSystem(crs_from), 'GeoJson')
+
+    clearVariables([layer_forest, layer_forest_grid, layer_trees, layer_tree_points, layer_wood])
 
 
 
@@ -4787,6 +4831,8 @@ if proc_cars:
         layer_cars.changeAttributeValue(feature.id(), id_colour, colour)
     layer_cars.commitChanges()
     qgis.core.QgsVectorFileWriter.writeAsVectorFormat(layer_cars, proc_dir + 'street_parking_points_processed.geojson', 'utf-8', QgsCoordinateReferenceSystem(crs_from), 'GeoJson')
+
+    clearVariables([layer_cars, layer_parking])
 
 
 
@@ -4913,6 +4959,8 @@ if proc_labels:
     layer_waterways = clearAttributes(layer_waterways, waterway_attributes)
     layer_waterways = processing.run('native:extractbylocation', { 'INPUT' : layer_waterways, 'INTERSECT' : layer_waterways_points, 'PREDICATE' : [0], 'OUTPUT' : proc_dir + 'waterway_names.geojson' })
 
+    clearVariables([continue_list, layer_bridges, layer_main_streets, layer_streets, layer_streetnames, layer_streetnames_dual, layer_streetnames_not_dual, layer_waterways, layer_waterways_points, layer_ways, merge_list])
+
 
 
 #-----------------------------------------------------------------------------------------------------------
@@ -4959,6 +5007,8 @@ if proc_parking_areas:
     processing.run('qgis:selectbyexpression', {'INPUT' : layer_parking_area_points, 'EXPRESSION' : '"parking" = \'multi-storey\''})
     layer_parking_kieze = processing.run('native:countpointsinpolygon', { 'FIELD' : 'parking_multi-storey', 'POINTS' : QgsProcessingFeatureSourceDefinition(layer_parking_area_points.id(), selectedFeaturesOnly=True), 'POLYGONS' : layer_parking_kieze, 'OUTPUT' : parking_dir + 'parking_kieze.geojson' })
 
+    clearVariables([layer_kieze, layer_parking_areas, layer_parking_area_points, layer_parking_kieze, layer_parking_lanes_points])
+
 
 
 #-------------------------------------------------------------------------------------
@@ -4982,6 +5032,8 @@ if proc_protected_bl:
 
     #geschützte Radstreifen an nageliegende Straßensegmente anpassen
     layer_pbl_snapped = processing.run('native:snapgeometries', { 'BEHAVIOR' : 1, 'INPUT' : layer_pbl, 'REFERENCE_LAYER' : layer_roads, 'TOLERANCE' : 20, 'OUTPUT' : proc_dir + 'pbl_snapped.geojson' })
+
+    clearVariables([layer_pbl, layer_pbl_snapped, layer_roads])
 
 
 
