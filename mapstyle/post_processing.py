@@ -4,7 +4,7 @@
 #   OSM data post-processing for QGIS/PyGIS for rendering the map at        #
 #   https://strassenraumkarte.osm-berlin.org/                               #
 #                                                                           #
-#   > version/date: 2024-04-04                                              #
+#   > version/date: 2024-06-11                                              #
 #---------------------------------------------------------------------------#
 
 import os, processing, math, random, time
@@ -4508,7 +4508,10 @@ if proc_orient_man_made:
     #id's der Objekte speichern, in deren Umkreis sich Verkehrsstraßen befinden
     for street_furniture in layer_street_furniture_buffer_12.getSelectedFeatures():
         id = street_furniture.attribute('id')
-        if street_furniture.attribute('man_made') != 'guard_stone': #ausgenommen Prellsteine, die zu Einfahrten ausgerichtet werden sollen
+        if street_furniture.fields().indexOf('man_made') != -1:
+            if street_furniture.attribute('man_made') != 'guard_stone': #ausgenommen Prellsteine, die zu Einfahrten ausgerichtet werden sollen
+                id_list_roads.append(id)
+        else:
             id_list_roads.append(id)
 
     #Objekte mit gespeicherten id's selectieren und auf Verkehrsstraßen snappen - aus Verbindungslinie kann anschließend die Richtung der nächsten Straße ermittelt werden
