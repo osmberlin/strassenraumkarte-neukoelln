@@ -63,7 +63,7 @@ layout: null
 			maxZoom: 21,
 			maxNativeZoom: 20,
 			layerControlName: "Parkraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.parkingmap_tiles_updated_at }}</span>",
-			attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
+			attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
 		})
 		parkingmap.addTo(map);   // This is the initial basemap
 
@@ -72,7 +72,7 @@ layout: null
 			maxZoom: 21,
 			maxNativeZoom: 20,
 			layerControlName: "Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>",
-			attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
+			attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
 		});
 
 		const debugmap = L.tileLayer("https://supaplex.uber.space/micromap/tiles/debug/{z}/{x}/{y}.jpg", {
@@ -80,15 +80,15 @@ layout: null
 			maxZoom: 21,
 			maxNativeZoom: 20,
 			layerControlName: "Debug-Modus Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.debugmap_tiles_updated_at }}</span>",
-			attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
+			attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.'
 		});
 
-		const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+		const osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 			name: 'osm',
 			maxZoom: 21,
 			maxNativeZoom: 19,
 			layerControlName: "OpenStreetMap",
-			attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+			attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 		});
 
 		// name set of tilelayers and adds them to the layer-selector
