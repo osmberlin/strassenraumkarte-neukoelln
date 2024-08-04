@@ -36,7 +36,7 @@ menu_highlight: map
       layerControlName:
         "Parkraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.parkingmap_tiles_updated_at }}</span>",
       attribution:
-        '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
+        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
     }
   );
 
@@ -49,7 +49,7 @@ menu_highlight: map
       layerControlName:
         "Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>",
       attribution:
-        '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
+        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
     }
   );
   micromap.addTo(map); // This is the initial basemap
@@ -63,19 +63,19 @@ menu_highlight: map
       layerControlName:
         "Debug-Modus Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.debugmap_tiles_updated_at }}</span>",
       attribution:
-        '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
+        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
     }
   );
 
   const osm = L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
       name: "osm",
       maxZoom: 21,
       maxNativeZoom: 19,
       layerControlName: "OpenStreetMap",
       attribution:
-        '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     }
   );
 
