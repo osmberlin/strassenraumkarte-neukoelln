@@ -6,7 +6,7 @@ gem "webrick", "~> 1.7"
 # Required to use --livereload option.
 # Other gem versions are incompatible with the newer ruby version.
 # Via https://talk.jekyllrb.com/t/error-when-running-symbol-not-found-in-flat-namespace-ssl-ctx-set-options/6663/4
-gem 'eventmachine', '1.3.0.dev.1', git: 'git@github.com:eventmachine/eventmachine', branch: 'master'
+# gem 'eventmachine', '1.3.0.dev.1', git: 'git@github.com:eventmachine/eventmachine', branch: 'master'
 
 # Themen
 gem "minima", "~> 2.5"
