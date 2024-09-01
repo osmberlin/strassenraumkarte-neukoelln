@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 source "https://rubygems.org"
 
-gem "jekyll", "~> 4.2.2"
+gem "jekyll", "~> 4.3.3"
 gem "webrick", "~> 1.7"
 # Required to use --livereload option.
 # Other gem versions are incompatible with the newer ruby version.
