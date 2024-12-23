@@ -91,6 +91,18 @@ menu_highlight: map
     }
   );
 
+  const luftbild2024 = L.tileLayer(
+    "https://tiles.codefor.de/berlin-2024-dop20rgbi/{z}/{x}/{y}.png",
+    {
+      name: "luftbild2024",
+      maxZoom: 21,
+      maxNativeZoom: 19,
+      layerControlName: "Luftbilder 2024",
+      attribution:
+        '<a href="https://fbinter.stadt-berlin.de/fb/index.jsp?loginkey=zoomStart&mapId=k_luftbild2024_true_rgbi@senstadt&bbox=388712,5818615,394579,5822445">Geoportal Berlin / Digitale farbige TrueOrthophotos 2024 (DOP20RGBI)</a>',
+    }
+  );
+
   // name set of tilelayers and adds them to the layer-selector
   const baseMaps = {
     [micromap.options.layerControlName]: micromap,
@@ -98,6 +110,7 @@ menu_highlight: map
     [debugmap.options.layerControlName]: debugmap,
     [osm.options.layerControlName]: osm,
     [luftbild2020.options.layerControlName]: luftbild2020,
+    [luftbild2024.options.layerControlName]: luftbild2024,
   };
 
   // ?map-Param: Helper: mapLayer from ?map-Param
