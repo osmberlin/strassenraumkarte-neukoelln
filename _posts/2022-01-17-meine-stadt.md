@@ -3,7 +3,7 @@ title: "FAQ: Kann ich die Straßenraumkarte auch für meine Stadt generieren?"
 menu_title: "FAQ: Meine Stadt"
 menu_highlight: mehr_details
 date: 2022-01-17 23:00:00 +0100
-author: Alex Seidel @SupaplexOSM
+author: Alex Seidel @Supaplex030
 layout: post
 description: Warum die Karte nicht ohne weiteres für andere Stadte gebaut werden kann.
 ---
