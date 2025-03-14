@@ -2,7 +2,7 @@
 title: Beitrag über die Neuköllner Straßenraumkarte in den Kartographischen Nachrichten
 menu_title: Kartographischen Nachrichten
 date: 2023-01-05 12:00:00 +0100
-author: Alex Seidel @SupaplexOSM
+author: Alex Seidel @Supaplex030
 layout: post
 description: Beitrag über die Neuköllner Straßenraumkarte in den Kartographischen Nachrichten / KN – Info und Praxis 3(2022) 72, S. A-10 bis A-17.
 ---
