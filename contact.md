@@ -21,7 +21,7 @@ Die Straßenraumkarten Neukölln ist ein Projekt von Alex Seidel (OSM: [Supaplex
 Das Projekt wird gepflegt im Rahmen der ehrenamtlichen Aktivitäten der [Berliner OSM-Verkehrswendegruppe](https://wiki.openstreetmap.org/wiki/Berlin/Verkehrswende).
 
 - Besucht unsere [monatlichen Meetups](https://www.meetup.com/de-DE/OSM-Berlin-Brandenburg/)
-- Kontakt über die [Telegramgruppe OSM Berlin Verkehrswende Community](https://t.me/osmberlinverkehr)
+- Kontakt über die [Matrixgruppe OSM Berlin Verkehrswende](https://matrix.to/#/#osmberlinverkehr:matrix.org)
 
 </div>
 
