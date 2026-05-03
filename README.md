@@ -33,21 +33,21 @@ Das ist leider nicht so einfach, wie es vielleicht aussieht. Mehr dazu siehe im 
 
 ## Installation
 
-`npm install`
+`bun install`
 
-Will install Jekyll, Tailwind CSS and other required plugins.
+Will install Tailwind CSS and related npm tooling (Jekyll is installed via Bundler separately).
 
 ## Development
 
-`npm run dev`
+`bun run dev`
 
-Will run Tailwind CSS JIT in parallel with Jekyll. Both use live reloading.
+Will run Tailwind CSS watch in parallel with Jekyll. Both use live reloading.
 
 ## Deploy
 
 _Did CSS change?_
 
-- _Yes, CSS did change?_ – Run `npm run build`, then commit changes to the `css/tailwind.css`.
+- _Yes, CSS did change?_ – Run `bun run build`, then commit changes to the `css/tailwind.css`.
 - _No, CSS did not change?_ – Commit changes, Github pages will build and update the page.
 
 ## Useful links
