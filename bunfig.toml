@@ -1,0 +1,3 @@
+# Do not install package versions published in the last 5 days (supply-chain mitigation).
+[install]
+minimumReleaseAge = 432000 # 5 days in seconds
