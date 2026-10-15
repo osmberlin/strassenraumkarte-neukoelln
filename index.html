@@ -4,6 +4,14 @@ layout: map
 micromap_tiles_updated_at: 02.04.2024
 parkingmap_tiles_updated_at: 02.04.2024
 debugmap_tiles_updated_at: 25.09.2022
+micromap_preview_tiles_updated_at: 14.10.2026
+# Tile sources: switch folder or file extension (jpg/webp) here.
+# micromap = Release 01 (jpg), micromap_preview = Release 02 (webp, newer data, parallel to the jpg files)
+tiles:
+  parkingmap: https://tiles.osm-berlin.org/parkraumkarte/{z}/{x}/{y}.jpg
+  micromap: https://tiles.osm-berlin.org/strassenraumkarte/{z}/{x}/{y}.jpg
+  micromap_preview: https://tiles.osm-berlin.org/strassenraumkarte/{z}/{x}/{y}.webp
+  debugmap: https://tiles.osm-berlin.org/strassenraumkarte-debug/{z}/{x}/{y}.jpg
 noindex: true
 menu_highlight: map
 ---
@@ -28,7 +36,7 @@ menu_highlight: map
   const hash = new L.Hash(map);
 
   const parkingmap = L.tileLayer(
-    "https://tiles.osm-berlin.org/parkraumkarte/{z}/{x}/{y}.jpg",
+    "{{ page.tiles.parkingmap }}",
     {
       name: "parkingmap",
       maxZoom: 21,
@@ -41,21 +49,32 @@ menu_highlight: map
   );
 
   const micromap = L.tileLayer(
-    "https://tiles.osm-berlin.org/strassenraumkarte/{z}/{x}/{y}.jpg",
+    "{{ page.tiles.micromap }}",
     {
       name: "micromap",
       maxZoom: 21,
       maxNativeZoom: 20,
       layerControlName:
-        "Straßenraumkarte<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>",
+        "Straßenraumkarte Release 01<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.micromap_tiles_updated_at }}</span>",
       attribution:
         '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
     }
   );
   micromap.addTo(map); // This is the initial basemap
 
+  // Release 02: new Straßenraumkarte (webp tiles, so far only a small area)
+  const micromapPreview = L.tileLayer("{{ page.tiles.micromap_preview }}", {
+    name: "micromap_preview",
+    maxZoom: 21,
+    maxNativeZoom: 20,
+    layerControlName:
+      "Straßenraumkarte Release 02<br><span style='margin-left: 16px;' class='text-gray-400'>Datenstand: {{ page.micromap_preview_tiles_updated_at }}</span>",
+    attribution:
+      '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS.',
+  });
+
   const debugmap = L.tileLayer(
-    "https://tiles.osm-berlin.org/strassenraumkarte-debug/{z}/{x}/{y}.jpg",
+    "{{ page.tiles.debugmap }}",
     {
       name: "debugmap",
       maxZoom: 21,
@@ -106,6 +125,7 @@ menu_highlight: map
   // name set of tilelayers and adds them to the layer-selector
   const baseMaps = {
     [micromap.options.layerControlName]: micromap,
+    [micromapPreview.options.layerControlName]: micromapPreview,
     [parkingmap.options.layerControlName]: parkingmap,
     [debugmap.options.layerControlName]: debugmap,
     [osm.options.layerControlName]: osm,
@@ -120,9 +140,15 @@ menu_highlight: map
   };
 
   // define and add control menu. Show the debugmap layer only if active, so its a "secret" layer.
-  const baseMapsForControls = baseMaps;
+  const baseMapsForControls = { ...baseMaps };
   if (mapLayerNameFromURLParam() !== "debugmap") {
     delete baseMapsForControls[debugmap.options.layerControlName];
+  }
+  // Each map release only lists itself; switch releases via the menu.
+  if (mapLayerNameFromURLParam() === micromapPreview.options.name) {
+    delete baseMapsForControls[micromap.options.layerControlName];
+  } else {
+    delete baseMapsForControls[micromapPreview.options.layerControlName];
   }
   L.control.layers(baseMapsForControls, null, { collapsed: false }).addTo(map);
 
