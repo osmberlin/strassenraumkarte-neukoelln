@@ -52,3 +52,9 @@
     @apply mb-3;
   }
 }
+
+/* A markdown paragraph inside <summary> stays on the line of the disclosure marker
+   (on the Jekyll site this was a kramdown `{: class='inline' }`) */
+.prose summary > p {
+  display: inline;
+}

@@ -13,6 +13,7 @@ type Props = {
   description?: string | undefined
   image?: ImageMetadata | null | undefined
   imageAlt?: string | undefined
+  ogType?: 'website' | 'article' | undefined
 }
 
 const projectFallback = {
@@ -23,7 +24,7 @@ const projectFallback = {
   imageAlt: project.meta.imageAlt,
 }
 
-const { title, noindex, canonicalUrl, language, description, image, imageAlt } = Astro.props
+const { title, noindex, canonicalUrl, language, description, image, imageAlt, ogType } = Astro.props
 const imageUrl = new URL((image || projectFallback.image).src, Astro.site).href
 ---
 
@@ -44,6 +45,8 @@ const imageUrl = new URL((image || projectFallback.image).src, Astro.site).href
     <meta property="og:title" content={title || projectFallback.title} />
     <meta property="og:description" content={description || projectFallback.description} />
     <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={imageAlt || projectFallback.imageAlt} />
+    <meta property="og:type" content={ogType || 'website'} />
     <!-- We let the Twitter (…) figure out the given URL, so we don't accidentally overwrite params and such  -->
     <!-- <meta property="og:url" content="…"> -->
     <meta name="twitter:title" content={title || projectFallback.title} />

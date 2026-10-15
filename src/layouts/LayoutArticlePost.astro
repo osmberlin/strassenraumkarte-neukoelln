@@ -21,7 +21,8 @@ const {
   showToc,
   headings,
 } = Astro.props
-const tocHeadings = headings.filter((heading) => heading.depth === 2)
+// Like the old Jekyll TOC: h2 and their h3
+const tocHeadings = headings.filter((heading) => heading.depth === 2 || heading.depth === 3)
 ---
 
 <LayoutArticle
@@ -32,6 +33,7 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2)
   image={image}
   imageAlt={imageAlt}
   canonicalUrl={canonicalUrl}
+  ogType="article"
 >
   <article
     class={twJoin(proseBase, 'max-w-prose', proseHeadings)}
@@ -43,7 +45,7 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2)
       <h1 itemprop="name headline">{title}</h1>
       <p class="text-gray-400">
         <time datetime={pubDate.toISOString()} itemprop="datePublished">
-          {pubDate.toLocaleDateString('de-DE')}
+          {pubDate.toLocaleDateString('de-DE', { timeZone: 'UTC' })}
         </time>
         {
           updatedDate && (
@@ -51,7 +53,7 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2)
               {' '}
               &bull;{' '}
               <time datetime={updatedDate.toISOString()} itemprop="dateModified">
-                {updatedDate.toLocaleDateString('de-DE')}
+                {updatedDate.toLocaleDateString('de-DE', { timeZone: 'UTC' })}
               </time>
             </>
           )
@@ -68,7 +70,7 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2)
           <summary class="cursor-pointer text-blue-600">Inhaltsverzeichnis</summary>
           <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
             {tocHeadings.map((heading) => (
-              <li>
+              <li class:list={[{ 'ml-4': heading.depth === 3 }]}>
                 <a class="text-blue-600 hover:underline" href={`#${heading.slug}`}>
                   {heading.text}
                 </a>

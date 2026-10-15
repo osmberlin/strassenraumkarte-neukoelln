@@ -27,7 +27,7 @@ const sortedPosts = allPosts.sort(
           return (
             <tr>
               <td class="flex flex-none whitespace-nowrap text-gray-500">
-                {new Date(post.data.pubDate).toLocaleDateString('en-CA')}
+                {new Date(post.data.pubDate).toLocaleDateString('en-CA', { timeZone: 'UTC' })}
               </td>
               <td>
                 <a href={`/posts/${post.id}`}>{post.data.title}</a>

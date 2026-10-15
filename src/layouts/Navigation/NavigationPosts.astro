@@ -25,8 +25,11 @@ const projectPageDateChipClass =
           <MenuItem href={`/posts/${post.id}`} title={post.data.title}>
             <span class={projectPageDateChipClass}>
               {[
-                new Date(post.data.pubDate).getFullYear(),
-                new Date(post.data.pubDate).toLocaleDateString('de-DE', { month: '2-digit' }),
+                new Date(post.data.pubDate).getUTCFullYear(),
+                new Date(post.data.pubDate).toLocaleDateString('de-DE', {
+                  month: '2-digit',
+                  timeZone: 'UTC',
+                }),
               ].join('/')}
             </span>
             {post.data.menuTitle}
