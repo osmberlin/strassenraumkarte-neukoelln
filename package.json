@@ -14,9 +14,9 @@
     "preview": "astro preview",
     "astro": "astro",
     "type-check": "astro sync && astro-check && tsc --skipLibCheck --noEmit",
-    "lint": "oxlint --fix src",
-    "format": "prettier --ignore-path .gitignore 'src/**/*.+(ts|js|tsx|astro|json)' --write",
-    "format:all": "prettier --ignore-path .gitignore 'src/**/*.+(ts|js|tsx|astro|mdx|json)' --write",
+    "lint": "oxlint --fix src cms",
+    "format": "prettier --ignore-path .gitignore '{src,cms}/**/*.+(ts|js|tsx|astro|json)' --write",
+    "format:all": "prettier --ignore-path .gitignore '{src,cms}/**/*.+(ts|js|tsx|astro|mdx|json)' --write",
     "check": "bun run type-check && bun run format && bun run lint",
     "updatePackages:major": "bunx taze major --includeLocked --maturity-period 5 --write && bun install",
     "updatePackages:minor": "bunx taze minor --includeLocked --maturity-period 5 --write && bun install"

@@ -1,9 +1,9 @@
 ---
 export const prerender = true
 //
-import { mdxComponentsAstro } from '@components/text/mdxComponentsAstro.astro'
 import LayoutArticlePost from '@layouts/LayoutArticlePost.astro'
 import { type CollectionEntry, getCollection, render } from 'astro:content'
+import { mdxComponentsAstro } from 'cms/components/mdxComponentsAstro.astro'
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts')

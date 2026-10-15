@@ -11,6 +11,7 @@
     ],
     "verbatimModuleSyntax": true,
     "paths": {
+      "cms/*": ["./cms/*"],
       "@components/*": ["./src/components/*"],
       "@layouts/*": ["./src/layouts/*"]
     },
