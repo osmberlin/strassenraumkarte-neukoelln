@@ -40,7 +40,7 @@ export default defineConfig({
   redirects: {
     '/posts/2022-01-17-parkraumkarte-verschoben': '/posts/2022-07-01-parkraumkarte-verschoben',
     '/posts/2021-03-10-parkraumanalyse':
-      'https://parkraum.osm-verkehrswende.org/posts/2021-03-12-parkraumanalyse',
+      'https://parkraum.osm-verkehrswende.org/posts/2021-03-10-parkraumanalyse',
     '/posts/2021-03-13-opendata': 'https://parkraum.osm-verkehrswende.org/posts/2021-03-13-opendata',
     '/posts/2021-03-17-parkplatzanalyse-vorgehen':
       'https://parkraum.osm-verkehrswende.org/posts/2021-03-17-parkplatzanalyse-vorgehen',
