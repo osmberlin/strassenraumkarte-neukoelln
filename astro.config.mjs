@@ -17,7 +17,13 @@ export default defineConfig({
     }),
     // Astro 6.4 leaves `markdown.gfm` undefined, which @astrojs/mdx reads as "off" (no footnotes, autolinks)
     mdx({ gfm: true }),
-    sitemap(),
+    // Like the old Jekyll pages, the map, about, contact and posts index are `noindex`
+    sitemap({
+      filter: (page) => {
+        const path = new URL(page).pathname.replace(/^\/|\/$/g, '')
+        return !['', 'about', 'contact', 'posts'].includes(path)
+      },
+    }),
   ],
   // `preserve` keeps the Jekyll URLs: /posts/foo.html (served for /posts/foo) and /posts/index.html
   build: { format: 'preserve' },

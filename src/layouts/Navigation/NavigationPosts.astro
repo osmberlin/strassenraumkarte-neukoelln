@@ -26,7 +26,7 @@ const projectPageDateChipClass =
             <span class={projectPageDateChipClass}>
               {[
                 new Date(post.data.pubDate).getFullYear(),
-                new Date(post.data.pubDate).toLocaleDateString([], { month: '2-digit' }),
+                new Date(post.data.pubDate).toLocaleDateString('de-DE', { month: '2-digit' }),
               ].join('/')}
             </span>
             {post.data.menuTitle}

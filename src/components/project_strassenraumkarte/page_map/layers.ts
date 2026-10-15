@@ -70,7 +70,7 @@ export const groupTitles: Record<MapGroup, string> = {
 /** `?map=micromap` (and an empty `?map`) shows the default release of the Straßenraumkarte */
 export const DEFAULT_MAP_PARAM = 'micromap'
 
-const isGroup = (value: string): value is MapGroup => value in groupTitles
+const isGroup = (value: string): value is MapGroup => Object.hasOwn(groupTitles, value)
 
 /** All `?map=` values that open this layer */
 export const mapParamsForLayer = (layer: MapLayerConfig) => [

@@ -1,5 +1,6 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
+import { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 import type { HashLocation } from './hash'
 import { formatDataDate, layerTitle, type MapLayerConfig } from './layers'
@@ -15,10 +16,13 @@ type Props = {
 
 export const Overlay = ({ layers, selectedLayer, onSelectLayer, location }: Props) => {
   // Collapsed on small screens so the map stays visible
-  const defaultOpen = window.matchMedia('(min-width: 1024px)').matches
+  const [defaultOpen] = useState(() => window.matchMedia('(min-width: 1024px)').matches)
 
   return (
-    <nav className="absolute top-3 left-3 flex max-h-[calc(100%-3rem)] max-w-[calc(100%-4.5rem)] flex-col overflow-y-auto rounded-md bg-white shadow-sm lg:top-6 lg:left-6">
+    <nav
+      aria-label="Karte und Datenstand auswählen"
+      className="absolute top-3 left-3 flex max-h-[calc(100%-3rem)] max-w-[calc(100%-4.5rem)] flex-col overflow-y-auto rounded-md bg-white shadow-sm lg:top-6 lg:left-6"
+    >
       <Disclosure defaultOpen={defaultOpen}>
         {({ open }) => (
           <>

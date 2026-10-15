@@ -18,7 +18,7 @@ const { pathname: currentPathname } = Astro.url
         <a
           class={twJoin(
             'block pb-3',
-            currentPathname === `/${link.href}`
+            currentPathname === link.href
               ? 'font-bold text-black'
               : 'underline hover:text-gray-500',
           )}

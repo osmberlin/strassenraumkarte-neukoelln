@@ -10,6 +10,8 @@ export async function GET(context: APIContext) {
     title: project.meta.title,
     description: project.meta.description,
     site: context.site!,
+    // Posts are served as /posts/<id>.html (build.format 'preserve'), not /posts/<id>/
+    trailingSlash: false,
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,

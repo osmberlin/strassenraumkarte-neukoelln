@@ -34,7 +34,7 @@ const releases = (await getReleaseLayers())
 
   // On the map page: highlight the active release and keep the map location (#zoom/lat/lng) when switching.
   // Same-page links are handled by `$searchParams` (no reload), so the map just switches the layer.
-  if (window.location.pathname === '/') {
+  if (['/', '/index.html'].includes(window.location.pathname)) {
     // Delegated (capture phase, before the `$searchParams` link handler) so it also works for the
     // mobile menu whose links are only rendered once the menu opens
     document.addEventListener(
@@ -47,13 +47,23 @@ const releases = (await getReleaseLayers())
       },
       { capture: true },
     )
-    $searchParams.subscribe((params) => {
-      const activeMap = params.map || DEFAULT_MAP_PARAM
+    const highlightActiveRelease = () => {
+      const activeMap = $searchParams.get().map || DEFAULT_MAP_PARAM
       document.querySelectorAll<HTMLAnchorElement>('[data-map-release]').forEach((link) => {
-        const active = link.dataset.mapRelease?.split(' ').includes(activeMap)
+        const active = link.dataset.mapRelease?.split(' ').includes(activeMap) ?? false
         link.classList.toggle('hover:bg-blue-50', !active)
         menuActiveClasses.split(' ').forEach((name) => link.classList.toggle(name, active))
       })
-    })
+    }
+    $searchParams.subscribe(highlightActiveRelease)
+    // The mobile menu renders its links only while open, so highlight them when they appear
+    new MutationObserver((mutations) => {
+      const addedReleaseLinks = mutations.some((mutation) =>
+        [...mutation.addedNodes].some(
+          (node) => node instanceof Element && node.querySelector('[data-map-release]'),
+        ),
+      )
+      if (addedReleaseLinks) highlightActiveRelease()
+    }).observe(document.body, { childList: true, subtree: true })
   }
 </script>

@@ -40,10 +40,15 @@ const toLocation = ({ zoom, latitude, longitude }: ViewStateChangeEvent['viewSta
   longitude,
 })
 
-type HashChangeListenerProps = { mapLoaded: boolean; limits: MapLimits }
+type HashChangeListenerProps = { mapLoaded: boolean } & MapLimits
 
 /** Follow manual edits of the `#zoom/lat/lng` hash, like leaflet-hash did */
-const HashChangeListener = ({ mapLoaded, limits }: HashChangeListenerProps) => {
+const HashChangeListener = ({
+  mapLoaded,
+  maxBounds,
+  minZoom,
+  maxZoom,
+}: HashChangeListenerProps) => {
   const { current: map } = useMap()
 
   useEffect(
@@ -52,7 +57,11 @@ const HashChangeListener = ({ mapLoaded, limits }: HashChangeListenerProps) => {
       const handleHashChange = () => {
         const location = parseHash(window.location.hash)
         if (!location) return
-        const { zoom, latitude, longitude } = clampLocation(location, limits)
+        const { zoom, latitude, longitude } = clampLocation(location, {
+          maxBounds,
+          minZoom,
+          maxZoom,
+        })
         map.jumpTo({ center: [longitude, latitude], zoom: zoom - LEAFLET_ZOOM_OFFSET })
       }
       window.addEventListener('hashchange', handleHashChange)
@@ -60,7 +69,7 @@ const HashChangeListener = ({ mapLoaded, limits }: HashChangeListenerProps) => {
         window.removeEventListener('hashchange', handleHashChange)
       }
     },
-    [map, mapLoaded, limits],
+    [map, mapLoaded, maxBounds, minZoom, maxZoom],
   )
 
   return null
@@ -151,7 +160,7 @@ export const StrassenraumkarteMap = ({ layers, maxBounds, minZoom, maxZoom }: Pr
 
       <NavigationControl showCompass={false} position="top-right" />
       <AttributionControl compact={false} position="bottom-right" />
-      <HashChangeListener mapLoaded={mapLoaded} limits={limits} />
+      <HashChangeListener mapLoaded={mapLoaded} {...limits} />
 
       <Overlay
         layers={layers}

@@ -19,7 +19,8 @@ export type MapLimits = {
 export const parseHash = (hash: string): HashLocation | undefined => {
   const parts = hash.replace(/^#/, '').split('/')
   if (parts.length !== 3) return undefined
-  const [zoom, latitude, longitude] = parts.map((part) => (part.trim() === '' ? NaN : Number(part)))
+  const [zoom, latitude, longitude] = // `parseFloat` like leaflet-hash, which ignored trailing text
+    parts.map((part) => parseFloat(part))
   if (zoom === undefined || latitude === undefined || longitude === undefined) return undefined
   if ([zoom, latitude, longitude].some((value) => !Number.isFinite(value))) return undefined
   return { zoom, latitude, longitude }

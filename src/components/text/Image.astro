@@ -28,23 +28,23 @@ const showCaptionSection =
         <Fragment set:html={caption} />
         <div class="space-x-2">
           {osm_urls?.length === 1 ? (
-            <a href={osm_urls[0]} target="_blank">
+            <a href={osm_urls[0]} target="_blank" rel="noopener noreferrer">
               OSM
             </a>
           ) : (
             osm_urls?.map((osmUrl) => (
-              <a href={osmUrl} target="_blank">
+              <a href={osmUrl} target="_blank" rel="noopener noreferrer">
                 OSM {osmUrl.replace('https://www.openstreetmap.org/', '')}
               </a>
             ))
           )}
           {strassenraumkarte_url && (
-            <a href={strassenraumkarte_url} target="_blank">
+            <a href={strassenraumkarte_url} target="_blank" rel="noopener noreferrer">
               Straßenraumkarte
             </a>
           )}
           {mapillary_url && (
-            <a href={mapillary_url} target="_blank">
+            <a href={mapillary_url} target="_blank" rel="noopener noreferrer">
               Mapillary
             </a>
           )}

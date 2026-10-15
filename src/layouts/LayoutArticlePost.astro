@@ -43,7 +43,7 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2)
       <h1 itemprop="name headline">{title}</h1>
       <p class="text-gray-400">
         <time datetime={pubDate.toISOString()} itemprop="datePublished">
-          {pubDate.toLocaleDateString()}
+          {pubDate.toLocaleDateString('de-DE')}
         </time>
         {
           updatedDate && (
@@ -51,7 +51,7 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2)
               {' '}
               &bull;{' '}
               <time datetime={updatedDate.toISOString()} itemprop="dateModified">
-                {updatedDate.toLocaleDateString()}
+                {updatedDate.toLocaleDateString('de-DE')}
               </time>
             </>
           )

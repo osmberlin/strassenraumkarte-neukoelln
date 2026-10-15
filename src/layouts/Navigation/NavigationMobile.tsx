@@ -9,7 +9,7 @@ export const NavigationMobile = ({ children }: Props) => {
   return (
     <div className="lg:hidden">
       <Popover as="div" className="inline-block text-left">
-        <PopoverButton className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-gray-200 bg-white py-2 pr-2 pl-4 font-medium hover:border-gray-300 hover:bg-blue-50 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white/75">
+        <PopoverButton className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-gray-200 bg-white py-2 pr-2 pl-4 font-medium hover:border-gray-300 hover:bg-blue-50 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500">
           Menu
           {/* https://fontawesome.com/v5.15/icons/bars?style=solid */}
           <svg
