@@ -1,14 +1,9 @@
 ---
 import { getReleaseLayers } from '@components/project_strassenraumkarte/page_map/getReleaseLayers'
-import type { MapLimits } from '@components/project_strassenraumkarte/page_map/hash'
 import { backgroundLayers } from '@components/project_strassenraumkarte/page_map/layers'
 import { StrassenraumkarteMap } from '@components/project_strassenraumkarte/page_map/StrassenraumkarteMap'
 import LayoutApp from '@layouts/LayoutApp.astro'
 
-const maxBounds: MapLimits['maxBounds'] = [
-  [13.3985, 52.4557],
-  [13.4863, 52.5005],
-]
 // In Leaflet zoom levels, like the `#zoom/lat/lng` hash
 const minZoom = 15
 const maxZoom = 21
@@ -20,7 +15,6 @@ const releaseLayers = await getReleaseLayers()
   <StrassenraumkarteMap
     client:only="react"
     layers={[...releaseLayers, ...backgroundLayers]}
-    maxBounds={maxBounds}
     minZoom={minZoom}
     maxZoom={maxZoom}
   />

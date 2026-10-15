@@ -20,7 +20,7 @@ import {
   type HashLocation,
   type MapLimits,
 } from './hash'
-import { DEFAULT_MAP_PARAM, resolveLayer, type MapLayerConfig } from './layers'
+import { resolveLayer, type MapLayerConfig } from './layers'
 import { Overlay } from './Overlay'
 import { $searchParams, type SearchParamsStrassenraumkarte } from './storeStrassenraumkarte'
 
@@ -43,12 +43,7 @@ const toLocation = ({ zoom, latitude, longitude }: ViewStateChangeEvent['viewSta
 type HashChangeListenerProps = { mapLoaded: boolean } & MapLimits
 
 /** Follow manual edits of the `#zoom/lat/lng` hash, like leaflet-hash did */
-const HashChangeListener = ({
-  mapLoaded,
-  maxBounds,
-  minZoom,
-  maxZoom,
-}: HashChangeListenerProps) => {
+const HashChangeListener = ({ mapLoaded, bounds, minZoom, maxZoom }: HashChangeListenerProps) => {
   const { current: map } = useMap()
 
   useEffect(
@@ -57,11 +52,7 @@ const HashChangeListener = ({
       const handleHashChange = () => {
         const location = parseHash(window.location.hash)
         if (!location) return
-        const { zoom, latitude, longitude } = clampLocation(location, {
-          maxBounds,
-          minZoom,
-          maxZoom,
-        })
+        const { zoom, latitude, longitude } = clampLocation(location, { bounds, minZoom, maxZoom })
         map.jumpTo({ center: [longitude, latitude], zoom: zoom - LEAFLET_ZOOM_OFFSET })
       }
       window.addEventListener('hashchange', handleHashChange)
@@ -69,18 +60,20 @@ const HashChangeListener = ({
         window.removeEventListener('hashchange', handleHashChange)
       }
     },
-    [map, mapLoaded, maxBounds, minZoom, maxZoom],
+    [map, mapLoaded, bounds, minZoom, maxZoom],
   )
 
   return null
 }
 
-type Props = { layers: MapLayerConfig[] } & MapLimits
+type Props = { layers: MapLayerConfig[] } & Omit<MapLimits, 'bounds'>
 
-export const StrassenraumkarteMap = ({ layers, maxBounds, minZoom, maxZoom }: Props) => {
-  const limits = { maxBounds, minZoom, maxZoom }
+export const StrassenraumkarteMap = ({ layers, minZoom, maxZoom }: Props) => {
   const params = useStore($searchParams) as SearchParamsStrassenraumkarte
   const selectedLayer = resolveLayer(layers, params.map)
+  // Each layer has its own area (e.g. Release 02 all of Berlin, Release 01 Neukölln); the map stays inside
+  const limits = { bounds: selectedLayer.bounds, minZoom, maxZoom }
+  const [west, south, east, north] = selectedLayer.bounds
   const [mapLoaded, setMapLoaded] = useState(false)
   const [location, setLocation] = useState(() =>
     clampLocation(parseHash(window.location.hash) ?? fallbackLocation, limits),
@@ -88,10 +81,12 @@ export const StrassenraumkarteMap = ({ layers, maxBounds, minZoom, maxZoom }: Pr
 
   // Make the current state shareable right away, like the old page did.
   // Not in `onLoad` which only fires after the first render frame (never in background tabs).
+  // Old values (no `?map`, `micromap`, `micromap_preview`, unknown) are redirected to the release id
+  // they resolve to, e.g. `?map=release02` for the latest Straßenraumkarte.
   useEffect(function writeInitialUrlState() {
     replaceHash(location)
     const currentParams = $searchParams.get()
-    $searchParams.open({ ...currentParams, map: currentParams.map || DEFAULT_MAP_PARAM }, true)
+    $searchParams.open({ ...currentParams, map: resolveLayer(layers, currentParams.map).id }, true)
   }, [])
 
   const handleLoad = (event: MapEvent) => {
@@ -120,7 +115,10 @@ export const StrassenraumkarteMap = ({ layers, maxBounds, minZoom, maxZoom }: Pr
       }}
       minZoom={minZoom - LEAFLET_ZOOM_OFFSET}
       maxZoom={maxZoom - LEAFLET_ZOOM_OFFSET}
-      maxBounds={maxBounds}
+      maxBounds={[
+        [west, south],
+        [east, north],
+      ]}
       mapStyle={mapStyle}
       style={{ width: '100%', height: '100%' }}
       dragRotate={false}
@@ -147,7 +145,7 @@ export const StrassenraumkarteMap = ({ layers, maxBounds, minZoom, maxZoom }: Pr
             minzoom={layer.minNativeZoom}
             maxzoom={layer.maxNativeZoom}
             attribution={layer.attribution}
-            {...(layer.bounds ? { bounds: layer.bounds } : {})}
+            bounds={layer.bounds}
           />
           <Layer
             id={`${layer.id}-layer`}

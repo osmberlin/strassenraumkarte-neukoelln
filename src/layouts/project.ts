@@ -7,8 +7,6 @@ export type TProjectConfig = {
   menus: {
     label?: string | null
     items: { href: string; label: string }[]
-    /** @desc Append one entry per Straßenraumkarte release ("Karte Release 01", …) */
-    mapReleases?: boolean
   }[]
   menuNews: boolean
   additionalFooterLinks: { href: string; label: string }[]
@@ -25,8 +23,11 @@ export const project: TProjectConfig = {
   menus: [
     {
       label: null,
-      items: [{ href: '/about', label: 'Über das Projekt' }],
-      mapReleases: true,
+      items: [
+        // The map always opens the latest releases; older ones are picked in the map itself
+        { href: '/', label: 'Karte' },
+        { href: '/about', label: 'Über das Projekt' },
+      ],
     },
   ],
   menuNews: true,

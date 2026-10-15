@@ -43,22 +43,26 @@ Push to `main`. The GitHub Action (`.github/workflows/deploy.yml`) builds the pa
 
 ## Map and tile releases
 
-Every rendered data state of a map is a "release", e.g. `release01` (jpg, Datenstand 2024-04-02) and `release02` (webp, new renderer, only Neukölln-Nord so far).
-Each release is one JSON file in `src/content/releases/` (schema: `src/content.config.ts`). The file name is the release id.
-Each Straßenraumkarte release can be picked in the map and gets a "Karte Release NN" entry in the menu.
+Every rendered data state of a map is a "release", e.g. `release01` (jpg, Datenstand 2024-04-02) and `release02` (webp, new renderer, Datenstand 2026-10-14).
+Each release is one JSON file in `src/content/releases/` (schema: `cms/releasesAstro.ts`). The file name is the release id.
 
-For now both releases still load from `https://tiles.osm-berlin.org/strassenraumkarte/` (jpg and webp side by side). New releases should get their own folder on the tile server (e.g. `release03/`); moving an existing release is a one-line change of `tiles` in its JSON file.
+**There is always one latest release per map**: the one with the newest `dataDate`. The map and all old URLs open the latest release; older releases stay available in the layer picker of the map ("Karte wechseln") and via `?map=<release id>`.
+
+Each release has its own `bounds` (`[west, south, east, north]`): no tiles are requested outside, and the map can not be moved outside while that release is shown (e.g. `release02` all of Berlin, `release01` only Neukölln).
+
+For now both Straßenraumkarte releases still load from `https://tiles.osm-berlin.org/strassenraumkarte/` (jpg and webp side by side). New releases should get their own folder on the tile server (e.g. `release03/`); moving an existing release is a one-line change of `tiles` in its JSON file.
 
 To add a release:
 
 1. Upload the tiles to a new folder (e.g. `release03/`) on the tile server.
-2. Add `src/content/releases/release03.json` with `map`, `title` (e.g. `Release 02`), `dataDate` (Datenstand), `tiles` and optionally `bounds`, `note` and `aliases` (old `?map=` values).
-3. To make it the default, move `"default": true` from the old release to the new one. Each map (`micromap`, `parkingmap`, `debugmap`) needs exactly one default release; the build fails otherwise.
+2. Add `src/content/releases/release03.json` with `map`, `dataDate` (Datenstand), `tiles`, `bounds` and optionally `note` and `aliases` (old `?map=` values).
+3. That's it: with the newest `dataDate` it becomes the latest release. Two releases of one map with the same newest `dataDate` fail the build.
+
+Background layers (OpenStreetMap, aerial images 2024 and 2026 from the Geoportal Berlin WMS) are defined in `src/components/project_strassenraumkarte/page_map/layers.ts`.
 
 URLs:
 
-- `?map=<release id>` (e.g. `?map=release02`) opens a specific release; `?map=osm|luftbild2020|luftbild2024` the background maps.
-- `?map=micromap_preview` (from the interim Leaflet version) opens `release02` via its `aliases`.
-- `?map=micromap|parkingmap|debugmap` opens the default release of that map. Old links keep working that way.
+- `?map=<release id>` (e.g. `?map=release01`) opens a specific release; `?map=osm|luftbild2024|luftbild2026` the background maps.
+- Old values are redirected to the release id on load: no `?map`, `?map=micromap|parkingmap|debugmap` → the latest release of that map; `?map=micromap_preview` → `release02`; `?map=luftbild2020` → `luftbild2024`.
 - `#<zoom>/<lat>/<lng>` is the map position (same format and zoom levels as the old Leaflet page).
 - Old Jekyll URLs (`/posts/…`, `*.html` pages of the Parkraumkarte) redirect via `redirects` in `astro.config.mjs` and the static files in `public/`.

@@ -1,10 +1,9 @@
 {
   "map": "debugmap",
-  "title": "Debug-Modus Straßenraumkarte",
   "dataDate": "2022-09-25",
   "tiles": "https://tiles.osm-berlin.org/strassenraumkarte-debug/{z}/{x}/{y}.jpg",
   "maxNativeZoom": 20,
-  "default": true,
+  "bounds": [13.3985, 52.4557, 13.4863, 52.5005],
   "hidden": true,
   "attribution": "© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS."
 }

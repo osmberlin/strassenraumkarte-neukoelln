@@ -8,8 +8,8 @@ export const LEAFLET_ZOOM_OFFSET = 1
 export type HashLocation = { zoom: number; latitude: number; longitude: number }
 
 export type MapLimits = {
-  /** [[west, south], [east, north]] */
-  maxBounds: [[number, number], [number, number]]
+  /** [west, south, east, north] of the selected layer */
+  bounds: [number, number, number, number]
   /** In Leaflet zoom levels */
   minZoom: number
   /** In Leaflet zoom levels */
@@ -26,14 +26,12 @@ export const parseHash = (hash: string): HashLocation | undefined => {
   return { zoom, latitude, longitude }
 }
 
-const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
+export const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max)
 
 /** Keep a (hash) location inside the map limits, so URL and edit links match what the map shows */
-export const clampLocation = (
-  location: HashLocation,
-  { maxBounds, minZoom, maxZoom }: MapLimits,
-) => {
-  const [[west, south], [east, north]] = maxBounds
+export const clampLocation = (location: HashLocation, { bounds, minZoom, maxZoom }: MapLimits) => {
+  const [west, south, east, north] = bounds
   return {
     zoom: clamp(location.zoom, minZoom, maxZoom),
     latitude: clamp(location.latitude, south, north),

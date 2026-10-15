@@ -1,6 +1,6 @@
 import type { HashLocation } from './hash'
 
-const linkClasses = 'text-sm text-blue-600 underline hover:text-blue-800'
+const linkClasses = 'text-xs text-blue-600 underline hover:text-blue-800'
 
 type Props = { location: HashLocation }
 
@@ -12,7 +12,7 @@ export const OverlayLinks = ({ location }: Props) => {
   const lng = location.longitude.toFixed(precision)
 
   return (
-    <div className="flex gap-4 border-t border-gray-200 px-4 py-2">
+    <div className="flex gap-3 border-t border-gray-200 px-3 py-1.5">
       <a
         // Will pick the default editor based on user preferences. Add ?editor=id to force iD.
         href={`https://www.openstreetmap.org/edit#map=${zoom}/${lat}/${lng}`}

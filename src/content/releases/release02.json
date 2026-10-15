@@ -1,12 +1,10 @@
 {
   "map": "micromap",
-  "title": "Release 02",
   "dataDate": "2026-10-14",
   "tiles": "https://tiles.osm-berlin.org/strassenraumkarte/{z}/{x}/{y}.webp",
   "minNativeZoom": 15,
   "maxNativeZoom": 20,
-  "bounds": [13.42529, 52.4694, 13.45825, 52.48278],
-  "note": "Neuer Renderer, bisher nur Neukölln-Nord",
+  "bounds": [13.07356, 52.33319, 13.76454, 52.68261],
   "aliases": ["micromap_preview"],
   "attribution": "© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS."
 }
