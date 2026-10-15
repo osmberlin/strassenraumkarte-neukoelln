@@ -21,10 +21,10 @@ const showCaptionSection =
 <figure
   class="prose-a:tracking-wide prose-a:text-white overflow-clip rounded-sm bg-neutral-700 shadow-lg ring-1 ring-neutral-700 ring-offset-2"
 >
-  <img src={src} alt={alt} class="mb-0" loading="lazy" />
+  <img src={src} alt={alt} class="mb-0 block" loading="lazy" />
   {
     showCaptionSection && (
-      <figcaption class="m-0 border-t border-white p-2 text-white">
+      <figcaption class="m-0! border-t border-white p-2 text-white">
         <Fragment set:html={caption} />
         <div class="space-x-2">
           {osm_urls?.length === 1 ? (

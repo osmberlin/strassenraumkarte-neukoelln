@@ -23,16 +23,19 @@ const projectPageDateChipClass =
       <MenuItemWrapper>
         {relevantPosts.map((post) => (
           <MenuItem href={`/posts/${post.id}`} title={post.data.title}>
-            <span class={projectPageDateChipClass}>
-              {[
-                new Date(post.data.pubDate).getUTCFullYear(),
-                new Date(post.data.pubDate).toLocaleDateString('de-DE', {
-                  month: '2-digit',
-                  timeZone: 'UTC',
-                }),
-              ].join('/')}
+            {/* One wrapper so MenuItem's `justify-between` keeps chip and title left-aligned */}
+            <span class="flex items-center">
+              <span class={projectPageDateChipClass}>
+                {[
+                  new Date(post.data.pubDate).getUTCFullYear(),
+                  new Date(post.data.pubDate).toLocaleDateString('de-DE', {
+                    month: '2-digit',
+                    timeZone: 'UTC',
+                  }),
+                ].join('/')}
+              </span>
+              {post.data.menuTitle}
             </span>
-            {post.data.menuTitle}
           </MenuItem>
         ))}
       </MenuItemWrapper>
