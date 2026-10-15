@@ -14,6 +14,8 @@ export type MapLayerConfig = {
   /** @desc ISO date (YYYY-MM-DD) of the OSM data, only for our own renders */
   dataDate?: string | undefined
   note?: string | undefined
+  /** @desc Old `?map=` values that should open this layer, e.g. `micromap_preview` */
+  aliases?: string[] | undefined
   default: boolean
   hidden: boolean
 }
@@ -70,19 +72,30 @@ export const DEFAULT_MAP_PARAM = 'micromap'
 
 const isGroup = (value: string): value is MapGroup => value in groupTitles
 
+/** All `?map=` values that open this layer */
+export const mapParamsForLayer = (layer: MapLayerConfig) => [
+  layer.id,
+  ...(layer.aliases ?? []),
+  ...(layer.default ? [layer.group] : []),
+]
+
 /**
  * Resolve a `?map=` value to a layer.
- * Accepts a release/layer id (`release01`, `osm`) or a map alias (`micromap`, `parkingmap`, `debugmap`)
- * which points to the release flagged `default` for that map.
+ * Accepts a release/layer id (`release01`, `osm`), an alias of a release (`micromap_preview`)
+ * or a map name (`micromap`, `parkingmap`, `debugmap`) which points to the release flagged `default` for that map.
  */
 export const resolveLayer = (layers: MapLayerConfig[], mapParam: string | null | undefined) => {
   const param = mapParam || DEFAULT_MAP_PARAM
-  const byId = layers.find((layer) => layer.id === param)
-  if (byId) return byId
+  const byIdOrAlias = layers.find((layer) => layer.id === param || layer.aliases?.includes(param))
+  if (byIdOrAlias) return byIdOrAlias
   const group = isGroup(param) ? param : DEFAULT_MAP_PARAM
   const byGroup = layers.find((layer) => layer.group === group && layer.default)
   return byGroup ?? layers.find((layer) => layer.group === DEFAULT_MAP_PARAM && layer.default)!
 }
+
+/** "Straßenraumkarte Release 02", "Parkraumkarte", "OpenStreetMap" */
+export const layerTitle = (layer: MapLayerConfig) =>
+  layer.group === 'micromap' ? `${groupTitles.micromap} ${layer.title}` : layer.title
 
 export const formatDataDate = (isoDate: string) => {
   const [year, month, day] = isoDate.split('-')

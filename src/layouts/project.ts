@@ -4,7 +4,12 @@ import type { LayoutLanguage } from './languages'
 // but static since this site has only one project and no Keystatic.
 export type TProjectConfig = {
   name: { name: string; slug: string }
-  menus: { label?: string | null; items: { href: string; label: string }[] }[]
+  menus: {
+    label?: string | null
+    items: { href: string; label: string }[]
+    /** @desc Append one entry per Straßenraumkarte release ("Karte Release 01", …) */
+    mapReleases?: boolean
+  }[]
   menuNews: boolean
   additionalFooterLinks: { href: string; label: string }[]
   meta: {
@@ -20,10 +25,8 @@ export const project: TProjectConfig = {
   menus: [
     {
       label: null,
-      items: [
-        { href: '/', label: 'Karte' },
-        { href: '/about', label: 'Über das Projekt' },
-      ],
+      items: [{ href: '/about', label: 'Über das Projekt' }],
+      mapReleases: true,
     },
   ],
   menuNews: true,

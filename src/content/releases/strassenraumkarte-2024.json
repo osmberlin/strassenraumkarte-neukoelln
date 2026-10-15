@@ -1,9 +1,0 @@
-{
-  "map": "micromap",
-  "title": "Straßenraumkarte",
-  "dataDate": "2024-04-02",
-  "tiles": "https://tiles.osm-berlin.org/strassenraumkarte/{z}/{x}/{y}.jpg",
-  "maxNativeZoom": 20,
-  "default": true,
-  "attribution": "© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS."
-}

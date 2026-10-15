@@ -42,7 +42,6 @@
     },
   },
   "trustedDependencies": [
-    "astro",
     "@headlessui/react",
   ],
   "packages": {

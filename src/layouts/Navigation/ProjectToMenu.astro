@@ -3,6 +3,7 @@ import type { TProjectConfig } from '../project'
 import MenuItem from './MenuItem/MenuItem.astro'
 import MenuItemHeadline from './MenuItem/MenuItemHeadline.astro'
 import NavigationFooter from './NavigationFooter.astro'
+import NavigationMapReleases from './NavigationMapReleases.astro'
 import NavigationPosts from './NavigationPosts.astro'
 
 interface Props {
@@ -26,6 +27,7 @@ const { project } = Astro.props
               </MenuItem>
             )
           })}
+          {menu.mapReleases && <NavigationMapReleases />}
         </div>
       </Fragment>
     )

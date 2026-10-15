@@ -2,7 +2,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { twJoin } from 'tailwind-merge'
 import type { HashLocation } from './hash'
-import { formatDataDate, groupTitles, type MapLayerConfig } from './layers'
+import { formatDataDate, layerTitle, type MapLayerConfig } from './layers'
 import { OverlayLayerSelection } from './OverlayLayerSelection'
 import { OverlayLinks } from './OverlayLinks'
 
@@ -27,10 +27,9 @@ export const Overlay = ({ layers, selectedLayer, onSelectLayer, location }: Prop
                 className={twJoin('h-5 w-5 flex-none transition-transform', open && 'rotate-90')}
               />
               <span>
-                <span className="font-medium">{groupTitles[selectedLayer.group]}</span>
-                {selectedLayer.dataDate
-                  ? ` – Datenstand ${formatDataDate(selectedLayer.dataDate)}`
-                  : ` – ${selectedLayer.title}`}
+                <span className="font-medium">{layerTitle(selectedLayer)}</span>
+                {selectedLayer.dataDate &&
+                  ` – Datenstand ${formatDataDate(selectedLayer.dataDate)}`}
               </span>
             </DisclosureButton>
             <DisclosurePanel>

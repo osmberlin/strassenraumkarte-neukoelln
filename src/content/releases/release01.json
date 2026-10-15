@@ -1,11 +1,9 @@
 {
   "map": "micromap",
-  "title": "Straßenraumkarte",
-  "dataDate": "2026-10-15",
-  "tiles": "https://tiles.osm-berlin.org/release01/{z}/{x}/{y}.webp",
-  "minNativeZoom": 15,
+  "title": "Release 01",
+  "dataDate": "2024-04-02",
+  "tiles": "https://tiles.osm-berlin.org/strassenraumkarte/{z}/{x}/{y}.jpg",
   "maxNativeZoom": 20,
-  "bounds": [13.42529, 52.4694, 13.45825, 52.48278],
-  "note": "Vorschau: neuer Renderer, bisher nur Neukölln-Nord",
+  "default": true,
   "attribution": "© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS."
 }

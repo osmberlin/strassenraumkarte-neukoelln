@@ -13,7 +13,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "type-check": "astro check && tsc --skipLibCheck --noEmit",
+    "type-check": "astro sync && astro-check && tsc --skipLibCheck --noEmit",
     "lint": "oxlint --fix src",
     "format": "prettier --ignore-path .gitignore 'src/**/*.+(ts|js|tsx|astro|json)' --write",
     "format:all": "prettier --ignore-path .gitignore 'src/**/*.+(ts|js|tsx|astro|mdx|json)' --write",
@@ -58,7 +58,6 @@
     "prettier-plugin-tailwindcss": "^0.8.0"
   },
   "trustedDependencies": [
-    "@headlessui/react",
-    "astro"
+    "@headlessui/react"
   ]
 }

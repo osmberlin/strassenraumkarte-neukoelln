@@ -48,6 +48,8 @@ const releases = defineCollection({
     bounds: z.tuple([z.number(), z.number(), z.number(), z.number()]).optional(),
     /** @desc Short hint shown in the layer picker, e.g. limited coverage */
     note: z.string().optional(),
+    /** @desc Old `?map=` values that should open this release, e.g. `micromap_preview` */
+    aliases: z.array(z.string()).default([]),
     /** @desc The release `?map=<map>` points to; exactly one per map */
     default: z.boolean().default(false),
     /** @desc Only listed in the layer picker when selected via URL */

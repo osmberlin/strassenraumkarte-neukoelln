@@ -3,6 +3,8 @@ import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
+import { homedir } from 'node:os'
+import { join } from 'node:path'
 
 // CONFIG: https://astro.build/config (aligned with www.osm-verkehrswende.org and parkraum.osm-verkehrswende.org)
 export default defineConfig({
@@ -21,6 +23,12 @@ export default defineConfig({
   build: { format: 'preserve' },
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      fs: {
+        // Bun's global store links packages into ~/.bun/install/cache/links (keep the project root allowed)
+        allow: [process.cwd(), join(homedir(), '.bun/install/cache/links')],
+      },
+    },
   },
   // Old URLs (jekyll-redirect-from). Redirects for `*.html` URLs live as static files in `public/`.
   redirects: {

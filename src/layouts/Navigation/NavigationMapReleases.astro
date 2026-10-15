@@ -1,0 +1,59 @@
+---
+import { getReleaseLayers } from '@components/project_strassenraumkarte/page_map/getReleaseLayers'
+import { mapParamsForLayer } from '@components/project_strassenraumkarte/page_map/layers'
+import { twMerge } from 'tailwind-merge'
+
+// One menu entry per Straßenraumkarte release, oldest first
+const releases = (await getReleaseLayers())
+  .filter((release) => release.group === 'micromap' && !release.hidden)
+  .reverse()
+---
+
+{
+  releases.map((release) => (
+    <a
+      href={`/?map=${release.id}`}
+      data-map-release={mapParamsForLayer(release).join(' ')}
+      class={twMerge(
+        'hover:bg-blue-50',
+        'group/item flex items-center border-b border-gray-200 py-2.5 pr-2 pl-4 leading-tight',
+      )}
+    >
+      <span class="mr-1 -ml-1.5 inline-flex rounded-full bg-gray-100 px-1.5 py-0.5 text-xs text-gray-500">
+        {release.dataDate?.slice(0, 7).replace('-', '/')}
+      </span>
+      Karte {release.title}
+    </a>
+  ))
+}
+
+<script>
+  import { DEFAULT_MAP_PARAM } from '@components/project_strassenraumkarte/page_map/layers'
+  import { $searchParams } from '@components/project_strassenraumkarte/page_map/storeStrassenraumkarte'
+  import { menuActiveClasses } from '@layouts/baseStyles'
+
+  // On the map page: highlight the active release and keep the map location (#zoom/lat/lng) when switching.
+  // Same-page links are handled by `$searchParams` (no reload), so the map just switches the layer.
+  if (window.location.pathname === '/') {
+    // Delegated (capture phase, before the `$searchParams` link handler) so it also works for the
+    // mobile menu whose links are only rendered once the menu opens
+    document.addEventListener(
+      'click',
+      (event) => {
+        const link = (event.target as Element | null)?.closest<HTMLAnchorElement>(
+          '[data-map-release]',
+        )
+        if (link) link.hash = window.location.hash
+      },
+      { capture: true },
+    )
+    $searchParams.subscribe((params) => {
+      const activeMap = params.map || DEFAULT_MAP_PARAM
+      document.querySelectorAll<HTMLAnchorElement>('[data-map-release]').forEach((link) => {
+        const active = link.dataset.mapRelease?.split(' ').includes(activeMap)
+        link.classList.toggle('hover:bg-blue-50', !active)
+        menuActiveClasses.split(' ').forEach((name) => link.classList.toggle(name, active))
+      })
+    })
+  }
+</script>
