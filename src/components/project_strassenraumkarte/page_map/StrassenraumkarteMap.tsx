@@ -1,24 +1,28 @@
 import { useStore } from '@nanostores/react'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import {
   AttributionControl,
   Layer,
   Map,
-  MapProvider,
   NavigationControl,
   Source,
   useMap,
-  type LngLatBoundsLike,
+  type MapEvent,
   type StyleSpecification,
   type ViewStateChangeEvent,
 } from 'react-map-gl/maplibre'
-import { LEAFLET_ZOOM_OFFSET, parseHash, replaceHash, type HashLocation } from './hash'
+import {
+  clampLocation,
+  LEAFLET_ZOOM_OFFSET,
+  parseHash,
+  replaceHash,
+  type HashLocation,
+  type MapLimits,
+} from './hash'
 import { DEFAULT_MAP_PARAM, resolveLayer, type MapLayerConfig } from './layers'
 import { Overlay } from './Overlay'
 import { $searchParams, type SearchParamsStrassenraumkarte } from './storeStrassenraumkarte'
-
-const MAP_ID = 'strassenraumkarte'
 
 // Zoom values in Leaflet zoom levels, like in the URL hash
 const fallbackLocation: HashLocation = { zoom: 18, latitude: 52.47379, longitude: 13.44164 }
@@ -36,50 +40,57 @@ const toLocation = ({ zoom, latitude, longitude }: ViewStateChangeEvent['viewSta
   longitude,
 })
 
-/** Follow manual edits of the `#zoom/lat/lng` hash, like leaflet-hash did */
-const HashChangeListener = () => {
-  const { [MAP_ID]: map } = useMap()
+type HashChangeListenerProps = { mapLoaded: boolean; limits: MapLimits }
 
-  useEffect(() => {
-    if (!map) return
-    const handleHashChange = () => {
-      const location = parseHash(window.location.hash)
-      if (!location) return
-      map.jumpTo({
-        center: [location.longitude, location.latitude],
-        zoom: location.zoom - LEAFLET_ZOOM_OFFSET,
-      })
-    }
-    window.addEventListener('hashchange', handleHashChange)
-    return () => window.removeEventListener('hashchange', handleHashChange)
-  }, [map])
+/** Follow manual edits of the `#zoom/lat/lng` hash, like leaflet-hash did */
+const HashChangeListener = ({ mapLoaded, limits }: HashChangeListenerProps) => {
+  const { current: map } = useMap()
+
+  useEffect(
+    function subscribeToHashChanges() {
+      if (!map || !mapLoaded) return
+      const handleHashChange = () => {
+        const location = parseHash(window.location.hash)
+        if (!location) return
+        const { zoom, latitude, longitude } = clampLocation(location, limits)
+        map.jumpTo({ center: [longitude, latitude], zoom: zoom - LEAFLET_ZOOM_OFFSET })
+      }
+      window.addEventListener('hashchange', handleHashChange)
+      return function unsubscribeFromHashChanges() {
+        window.removeEventListener('hashchange', handleHashChange)
+      }
+    },
+    [map, mapLoaded, limits],
+  )
 
   return null
 }
 
-type Props = {
-  layers: MapLayerConfig[]
-  maxBounds: LngLatBoundsLike
-  /** In Leaflet zoom levels */
-  minZoom: number
-  /** In Leaflet zoom levels */
-  maxZoom: number
-}
+type Props = { layers: MapLayerConfig[] } & MapLimits
 
-const MapView = ({ layers, maxBounds, minZoom, maxZoom }: Props) => {
+export const StrassenraumkarteMap = ({ layers, maxBounds, minZoom, maxZoom }: Props) => {
+  const limits = { maxBounds, minZoom, maxZoom }
   const params = useStore($searchParams) as SearchParamsStrassenraumkarte
   const selectedLayer = resolveLayer(layers, params.map)
-  const [location, setLocation] = useState(
-    () => parseHash(window.location.hash) ?? fallbackLocation,
+  const [mapLoaded, setMapLoaded] = useState(false)
+  const [location, setLocation] = useState(() =>
+    clampLocation(parseHash(window.location.hash) ?? fallbackLocation, limits),
   )
 
   // Make the current state shareable right away, like the old page did.
   // Not in `onLoad` which only fires after the first render frame (never in background tabs).
-  useEffect(() => {
+  useEffect(function writeInitialUrlState() {
     replaceHash(location)
-    $searchParams.open({ ...params, map: params.map || DEFAULT_MAP_PARAM }, true)
-    // oxlint-disable-next-line react-hooks/exhaustive-deps -- only once on mount
+    const currentParams = $searchParams.get()
+    $searchParams.open({ ...currentParams, map: currentParams.map || DEFAULT_MAP_PARAM }, true)
   }, [])
+
+  const handleLoad = (event: MapEvent) => {
+    // The hash has no bearing, so rotation would be lost on reload (and there is no compass to reset it)
+    event.target.touchZoomRotate.disableRotation()
+    event.target.keyboard.disableRotation()
+    setMapLoaded(true)
+  }
 
   const handleMoveEnd = (event: ViewStateChangeEvent) => {
     const newLocation = toLocation(event.viewState)
@@ -93,7 +104,6 @@ const MapView = ({ layers, maxBounds, minZoom, maxZoom }: Props) => {
 
   return (
     <Map
-      id={MAP_ID}
       initialViewState={{
         longitude: location.longitude,
         latitude: location.latitude,
@@ -108,30 +118,40 @@ const MapView = ({ layers, maxBounds, minZoom, maxZoom }: Props) => {
       pitchWithRotate={false}
       touchPitch={false}
       attributionControl={false}
+      RTLTextPlugin={false}
+      locale={{
+        'NavigationControl.ZoomIn': 'Hineinzoomen',
+        'NavigationControl.ZoomOut': 'Herauszoomen',
+      }}
+      onLoad={handleLoad}
       onMoveEnd={handleMoveEnd}
     >
-      {/* `key` remounts source and layer when switching, so tiles of the old layer never mix in */}
-      <Source
-        key={selectedLayer.id}
-        id={selectedLayer.id}
-        type="raster"
-        tiles={[selectedLayer.tiles]}
-        tileSize={256}
-        minzoom={selectedLayer.minNativeZoom}
-        maxzoom={selectedLayer.maxNativeZoom}
-        attribution={selectedLayer.attribution}
-        {...(selectedLayer.bounds ? { bounds: selectedLayer.bounds } : {})}
-      />
-      <Layer
-        key={`${selectedLayer.id}-layer`}
-        id={`${selectedLayer.id}-layer`}
-        type="raster"
-        source={selectedLayer.id}
-      />
+      {/* All layers stay mounted so switching (e.g. comparing releases) keeps their tiles warm.
+          MapLibre only requests tiles (and shows attribution) for visible layers. */}
+      {layers.map((layer) => (
+        <Fragment key={layer.id}>
+          <Source
+            id={layer.id}
+            type="raster"
+            tiles={[layer.tiles]}
+            tileSize={256}
+            minzoom={layer.minNativeZoom}
+            maxzoom={layer.maxNativeZoom}
+            attribution={layer.attribution}
+            {...(layer.bounds ? { bounds: layer.bounds } : {})}
+          />
+          <Layer
+            id={`${layer.id}-layer`}
+            type="raster"
+            source={layer.id}
+            layout={{ visibility: layer.id === selectedLayer.id ? 'visible' : 'none' }}
+          />
+        </Fragment>
+      ))}
 
       <NavigationControl showCompass={false} position="top-right" />
       <AttributionControl compact={false} position="bottom-right" />
-      <HashChangeListener />
+      <HashChangeListener mapLoaded={mapLoaded} limits={limits} />
 
       <Overlay
         layers={layers}
@@ -140,13 +160,5 @@ const MapView = ({ layers, maxBounds, minZoom, maxZoom }: Props) => {
         location={location}
       />
     </Map>
-  )
-}
-
-export const StrassenraumkarteMap = (props: Props) => {
-  return (
-    <MapProvider>
-      <MapView {...props} />
-    </MapProvider>
   )
 }

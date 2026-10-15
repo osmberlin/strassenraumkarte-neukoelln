@@ -1,11 +1,11 @@
 ---
 import { getReleaseLayers } from '@components/project_strassenraumkarte/page_map/getReleaseLayers'
+import type { MapLimits } from '@components/project_strassenraumkarte/page_map/hash'
 import { backgroundLayers } from '@components/project_strassenraumkarte/page_map/layers'
 import { StrassenraumkarteMap } from '@components/project_strassenraumkarte/page_map/StrassenraumkarteMap'
 import LayoutApp from '@layouts/LayoutApp.astro'
-import type { LngLatBoundsLike } from 'react-map-gl/maplibre'
 
-const maxBounds: LngLatBoundsLike = [
+const maxBounds: MapLimits['maxBounds'] = [
   [13.3985, 52.4557],
   [13.4863, 52.5005],
 ]
