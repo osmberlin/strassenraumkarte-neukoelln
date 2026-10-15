@@ -1,0 +1,14 @@
+<script is:inline>
+  // We cannot use the regular redirect logic for PDFs, so we redirect them via the 404 page.
+  // Which is OK for the user, but a bad solution for SEO.
+  const pdfRedirects = [
+    ['/parkraumkarte/blogpost_de.pdf', 'blogpost_de.pdf'],
+    ['/parkraumkarte/blogpost_en.pdf', 'blogpost_en.pdf'],
+    ['/parkraumkarte/methodenbericht-2021-03.pdf', 'methodenbericht-2021-03.pdf'],
+  ]
+  pdfRedirects.forEach(([from, file]) => {
+    if (window.location.pathname.includes(from)) {
+      window.location = `https://parkraum.osm-verkehrswende.org/project-prototype-neukoelln/${file}`
+    }
+  })
+</script>

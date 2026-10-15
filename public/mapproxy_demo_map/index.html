@@ -1,0 +1,75 @@
+<!Doctype html>
+<html lang="de">
+
+<head>
+	<meta charset=utf-8 />
+	<title>MapProxy Demo Map</title>
+	<link rel="shortcut icon" href="/images/favicon.png">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta name="robots" content="noindex">
+
+	<!-- Stylesheet for Leafvar icons, fonts etc -->
+	<link rel="stylesheet" href="/css/leaflet.css" />
+
+	<!--jquery - enables loading a GeoJson from a file directly into Leafvar -->
+	<script src="/javascript/leaflet.js"></script>
+	<script src="/javascript/leaflet-hash.js"></script>
+</head>
+
+<body>
+	<div id="map" style="position: absolute; inset: 0px; background-color: silver; "></div>
+
+	<script>
+		// See https://github.com/codeforberlin/mapproxy-config
+
+		const queryParams = new URLSearchParams(window.location.search)
+		const mapLayerUrl = queryParams.get('url')
+		// Maximum zoom number the tile source has available. If it is specified, the tiles on all zoom levels higher than maxNativeZoom will be loaded from maxNativeZoom level and auto-scaled.
+		// https://leafletjs.com/SlavaUkraini/reference.html#tilelayer-option
+		const maxNativeZoom = queryParams.get('maxNativeZoom') || undefined
+		// The maximum zoom level up to which this layer will be displayed (inclusive).
+		// https://leafletjs.com/SlavaUkraini/reference.html#tilelayer-option
+		// "22" is what we specify in https://github.com/codeforberlin/mapproxy-config/blob/master/config.yml#L3-L5
+		const maxZoom = queryParams.get('maxZoom') || 22
+		const name = queryParams.get('name')
+
+		if (!mapLayerUrl) {
+			alert('Missing param url=<TML_URL>')
+		}
+
+		var options = {
+			center: [52.48150, 13.43571],
+			zoom: 18,
+			minZoom: 15,
+			zoomControl: true,
+			//maxBounds: [[52.4557, 13.3985], [52.5005, 13.4863]]
+		}
+
+		var map = L.map("map", options);
+
+		var layerByUrl = L.tileLayer(mapLayerUrl, {
+			name: `MapProxy Demo for ${name}`,
+			maxNativeZoom,
+			maxZoom,
+			attribution: `
+				Please remeber to look up the attribution <a href="https://github.com/codeforberlin/mapproxy-config">on Github</a>!
+				${name ? `<br>${name}` : ''}
+				<br><code>${mapLayerUrl}</code>
+			`
+		});
+
+		map.addLayer(layerByUrl);
+
+		var hash = new L.Hash(map);
+	</script>
+
+	<div class="leaflet-container"
+		style="position: absolute; top: 10px; right: 10px; z-index: 1000; background-color: white; padding: 5px;">
+		<a href="https://github.com/codeforberlin/mapproxy-config">Github</a>
+		<a href="/contact">Impressum</a>
+	</div>
+
+</body>
+
+</html>

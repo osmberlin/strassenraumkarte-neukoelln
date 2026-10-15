@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content'
+import MenuItem from './MenuItem/MenuItem.astro'
+import MenuItemHeadline from './MenuItem/MenuItemHeadline.astro'
+import MenuItemWrapper from './MenuItem/MenuItemWrapper.astro'
+
+const allPosts = await getCollection('posts')
+const sortedPosts = allPosts.sort(
+  (postA, postB) => new Date(postB.data.pubDate).valueOf() - new Date(postA.data.pubDate).valueOf(),
+)
+const relevantPosts = sortedPosts.filter((post) => post.data.inMenu === true)
+
+const projectPageDateChipClass =
+  'mr-1 -ml-1.5 inline-flex rounded-full bg-gray-100 px-1.5 py-0.5 text-xs text-gray-500'
+---
+
+{
+  relevantPosts.length ? (
+    <>
+      <MenuItemHeadline href="/posts" highlightExactMatch>
+        Neuigkeiten <span class="text-gray-500">({relevantPosts.length})</span>
+      </MenuItemHeadline>
+      <MenuItemWrapper>
+        {relevantPosts.map((post) => (
+          <MenuItem href={`/posts/${post.id}`} title={post.data.title}>
+            <span class={projectPageDateChipClass}>
+              {[
+                new Date(post.data.pubDate).getFullYear(),
+                new Date(post.data.pubDate).toLocaleDateString([], { month: '2-digit' }),
+              ].join('/')}
+            </span>
+            {post.data.menuTitle}
+          </MenuItem>
+        ))}
+      </MenuItemWrapper>
+    </>
+  ) : (
+    <div class="mb-16">
+      <slot />
+    </div>
+  )
+}

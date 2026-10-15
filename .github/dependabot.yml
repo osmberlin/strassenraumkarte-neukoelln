@@ -32,23 +32,6 @@ updates:
         patterns:
           - '*'
 
-  - package-ecosystem: bundler
-    directory: /
-    schedule:
-      interval: cron
-      cronjob: '0 7 * * FRI#1'
-      timezone: Europe/Berlin
-    cooldown:
-      default-days: 5
-    open-pull-requests-limit: 1
-    groups:
-      bundler-minor-patch:
-        update-types:
-          - minor
-          - patch
-        patterns:
-          - '*'
-
   - package-ecosystem: github-actions
     directory: /
     schedule:

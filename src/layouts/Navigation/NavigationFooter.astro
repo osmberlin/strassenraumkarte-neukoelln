@@ -1,0 +1,54 @@
+---
+import { twJoin } from 'tailwind-merge'
+import type { TProjectConfig } from '../project'
+
+export interface Props {
+  additionalLinks: TProjectConfig['additionalFooterLinks']
+}
+
+const { additionalLinks } = Astro.props
+
+const { pathname: currentPathname } = Astro.url
+---
+
+<ul class="prose prose-sm mb-4 ml-3 block leading-snug">
+  {
+    additionalLinks?.map((link) => (
+      <li>
+        <a
+          class={twJoin(
+            'block pb-3',
+            currentPathname === `/${link.href}`
+              ? 'font-bold text-black'
+              : 'underline hover:text-gray-500',
+          )}
+          href={link.href}
+        >
+          {link.label}
+        </a>
+      </li>
+    ))
+  }
+  <li>
+    <a
+      class="block pb-3 underline hover:text-gray-500"
+      href="https://github.com/SupaplexOSM/strassenraumkarte-neukoelln"
+    >
+      Github: Code für die Website
+    </a>
+  </li>
+  <li>
+    <a
+      class={twJoin(
+        'block pb-3',
+        currentPathname === '/contact'
+          ? 'font-bold text-black no-underline'
+          : 'underline hover:text-gray-500',
+      )}
+      href="/contact"
+      lang="de"
+    >
+      Kontakt & <br />Datenschutz & <br />Impressum
+    </a>
+  </li>
+</ul>

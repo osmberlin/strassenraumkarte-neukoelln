@@ -1,0 +1,84 @@
+---
+import imageSocialSharingFallback from '../../public/images/social-sharing.jpg'
+import { project } from './project'
+import TailwindResponsiveHelper from './TailwindResponsiveHelper.astro'
+import './base.css'
+import type { LayoutLanguage } from './languages'
+
+type Props = {
+  title: string
+  noindex?: boolean | undefined
+  canonicalUrl?: string | undefined
+  language?: LayoutLanguage | undefined
+  description?: string | undefined
+  image?: ImageMetadata | null | undefined
+  imageAlt?: string | undefined
+}
+
+const projectFallback = {
+  title: project.meta.title,
+  language: project.meta.language,
+  description: project.meta.description,
+  image: imageSocialSharingFallback,
+  imageAlt: project.meta.imageAlt,
+}
+
+const { title, noindex, canonicalUrl, language, description, image, imageAlt } = Astro.props
+const imageUrl = new URL((image || projectFallback.image).src, Astro.site).href
+---
+
+<!doctype html>
+<html lang={language || projectFallback.language} class="h-full scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+
+    <slot name="meta" />
+
+    <title>{title}</title>
+    {noindex && <meta name="robots" content="noindex" />}
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+
+    <meta property="og:locale" content={language || projectFallback.language} />
+    <meta property="og:title" content={title || projectFallback.title} />
+    <meta property="og:description" content={description || projectFallback.description} />
+    <meta property="og:image" content={imageUrl} />
+    <!-- We let the Twitter (…) figure out the given URL, so we don't accidentally overwrite params and such  -->
+    <!-- <meta property="og:url" content="…"> -->
+    <meta name="twitter:title" content={title || projectFallback.title} />
+    <meta name="twitter:description" content={description || projectFallback.description} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt || projectFallback.imageAlt} />
+
+    <meta name="twitter:site" content="@osmberlin" />
+    <meta name="fediverse:creator" content="@osmberlin@en.osm.town" />
+
+    <meta name="theme-color" content="#7D5197" />
+    <meta name="generator" content={Astro.generator} data-generated-at={new Date().toISOString()} />
+
+    <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+
+    <script is:inline is:raw>
+      /*
+      Fix .h-screen, see .computed-h-screen
+      https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+      */
+      // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+      let vh = window.innerHeight * 0.01
+      // Then we set the value in the --vh custom property to the root of the document
+      document.documentElement.style.setProperty('--vh', `${vh}px`)
+
+      // We listen to the resize event
+      window.addEventListener('resize', () => {
+        let vh = window.innerHeight * 0.01
+        document.documentElement.style.setProperty('--vh', `${vh}px`)
+      })
+    </script>
+  </head>
+  <body class="h-full text-base">
+    <slot />
+  </body>
+  <TailwindResponsiveHelper />
+</html>

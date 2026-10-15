@@ -1,0 +1,21 @@
+---
+import { twJoin } from 'tailwind-merge'
+
+export type Props = {
+  colorClass?: string | undefined
+  className?: string | undefined
+}
+
+const { colorClass, className } = Astro.props
+---
+
+<div
+  class={twJoin(
+    'prose-p:first-of-type:!my-0 prose prose-blue prose-h1:mt-0 prose-h2:mt-0! rounded-sm p-4 leading-normal [--tw-prose-bullets:_black]',
+    className,
+    colorClass || 'bg-sky-100',
+  )}
+  data-component="Notice"
+>
+  <slot />
+</div>

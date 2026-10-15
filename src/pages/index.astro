@@ -1,0 +1,57 @@
+---
+import {
+  backgroundLayers,
+  type MapLayerConfig,
+} from '@components/project_strassenraumkarte/page_map/layers'
+import { StrassenraumkarteMap } from '@components/project_strassenraumkarte/page_map/StrassenraumkarteMap'
+import LayoutApp from '@layouts/LayoutApp.astro'
+import { getCollection } from 'astro:content'
+import type { LngLatBoundsLike } from 'react-map-gl/maplibre'
+
+const maxBounds: LngLatBoundsLike = [
+  [13.3985, 52.4557],
+  [13.4863, 52.5005],
+]
+// In Leaflet zoom levels, like the `#zoom/lat/lng` hash
+const minZoom = 15
+const maxZoom = 21
+
+const releases = await getCollection('releases')
+
+// Fail the build when a map has no (or more than one) default release
+for (const map of ['micromap', 'parkingmap', 'debugmap'] as const) {
+  const defaults = releases.filter((release) => release.data.map === map && release.data.default)
+  if (defaults.length !== 1) {
+    throw new Error(
+      `src/content/releases: "${map}" needs exactly one release with "default": true, found ${defaults.length}`,
+    )
+  }
+}
+
+const releaseLayers: MapLayerConfig[] = releases
+  .sort((a, b) => b.data.dataDate.valueOf() - a.data.dataDate.valueOf())
+  .map(({ id, data }) => ({
+    id,
+    group: data.map,
+    title: data.title,
+    tiles: data.tiles,
+    minNativeZoom: data.minNativeZoom,
+    maxNativeZoom: data.maxNativeZoom,
+    bounds: data.bounds,
+    attribution: data.attribution,
+    dataDate: data.dataDate.toISOString().slice(0, 10),
+    note: data.note,
+    default: data.default,
+    hidden: data.hidden,
+  }))
+---
+
+<LayoutApp title="Straßenraumkarte Neukölln – OpenStreetMap Verkehrswende" noindex={true}>
+  <StrassenraumkarteMap
+    client:only="react"
+    layers={[...releaseLayers, ...backgroundLayers]}
+    maxBounds={maxBounds}
+    minZoom={minZoom}
+    maxZoom={maxZoom}
+  />
+</LayoutApp>

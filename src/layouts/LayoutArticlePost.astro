@@ -1,0 +1,85 @@
+---
+import type { MarkdownHeading } from 'astro'
+import { type CollectionEntry } from 'astro:content'
+import { twJoin } from 'tailwind-merge'
+import LayoutArticle from './LayoutArticle.astro'
+import { proseBase, proseHeadings } from './baseStyles'
+
+export type Props = CollectionEntry<'posts'>['data'] & { headings: MarkdownHeading[] }
+
+const {
+  title,
+  noindex,
+  language,
+  description,
+  image,
+  imageAlt,
+  canonicalUrl,
+  pubDate,
+  updatedDate,
+  author,
+  showToc,
+  headings,
+} = Astro.props
+const tocHeadings = headings.filter((heading) => heading.depth === 2)
+---
+
+<LayoutArticle
+  title={title}
+  noindex={noindex}
+  language={language}
+  description={description}
+  image={image}
+  imageAlt={imageAlt}
+  canonicalUrl={canonicalUrl}
+>
+  <article
+    class={twJoin(proseBase, 'max-w-prose', proseHeadings)}
+    lang={language}
+    itemscope
+    itemtype="http://schema.org/BlogPosting"
+  >
+    <header class="mb-14">
+      <h1 itemprop="name headline">{title}</h1>
+      <p class="text-gray-400">
+        <time datetime={pubDate.toISOString()} itemprop="datePublished">
+          {pubDate.toLocaleDateString()}
+        </time>
+        {
+          updatedDate && (
+            <>
+              {' '}
+              &bull;{' '}
+              <time datetime={updatedDate.toISOString()} itemprop="dateModified">
+                {updatedDate.toLocaleDateString()}
+              </time>
+            </>
+          )
+        }
+        &bull;
+        <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <span itemprop="name">{author}</span>
+        </span>
+      </p>
+    </header>
+    {
+      showToc && tocHeadings.length > 0 && (
+        <details class="not-prose mb-10 rounded-sm bg-blue-50 px-3 py-2">
+          <summary class="cursor-pointer text-blue-600">Inhaltsverzeichnis</summary>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">
+            {tocHeadings.map((heading) => (
+              <li>
+                <a class="text-blue-600 hover:underline" href={`#${heading.slug}`}>
+                  {heading.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )
+    }
+    <div itemprop="articleBody">
+      <slot />
+    </div>
+  </article>
+</LayoutArticle>

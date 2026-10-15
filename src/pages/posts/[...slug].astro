@@ -1,0 +1,23 @@
+---
+export const prerender = true
+//
+import { mdxComponentsAstro } from '@components/text/mdxComponentsAstro.astro'
+import LayoutArticlePost from '@layouts/LayoutArticlePost.astro'
+import { type CollectionEntry, getCollection, render } from 'astro:content'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts')
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }))
+}
+type Props = CollectionEntry<'posts'>
+
+const post = Astro.props
+const { Content, headings } = await render(post)
+---
+
+<LayoutArticlePost {...post.data} headings={headings}>
+  <Content components={mdxComponentsAstro} />
+</LayoutArticlePost>

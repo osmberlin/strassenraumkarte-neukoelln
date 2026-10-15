@@ -1,0 +1,21 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "plugins": [
+      {
+        // https://docs.astro.build/en/guides/typescript/#setup
+        "name": "@astrojs/ts-plugin"
+      }
+    ],
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@layouts/*": ["./src/layouts/*"]
+    },
+    "noErrorTruncation": true // https://stackoverflow.com/a/53131824
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "public", "mapstyle"]
+}

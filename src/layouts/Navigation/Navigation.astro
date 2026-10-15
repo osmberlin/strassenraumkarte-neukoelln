@@ -1,0 +1,35 @@
+---
+import { twJoin } from 'tailwind-merge'
+import { project } from '../project'
+import NavigationHeaderProject from './NavigationHeaderProject.astro'
+import { NavigationMobile } from './NavigationMobile.tsx'
+import ProjectToMenu from './ProjectToMenu.astro'
+
+export interface Props {
+  /** @desc switches the navigation to scroll in itself ("app") vs. with the "article" */
+  layoutType: 'article' | 'app'
+}
+
+const { layoutType } = Astro.props
+---
+
+<nav
+  class={twJoin(
+    layoutType === 'app' ? 'bg-white' : 'mb-10 lg:mb-0',
+    'z-1001 flex w-full flex-none justify-between px-3 py-3 shadow-xl lg:relative lg:z-auto lg:block lg:w-64 lg:py-6 lg:shadow-none',
+    'group/navi',
+  )}
+  lang="de"
+>
+  <div>
+    <NavigationHeaderProject name={project.name.name} link="/" />
+  </div>
+
+  <NavigationMobile client:load>
+    <ProjectToMenu project={project} />
+  </NavigationMobile>
+
+  <div class="z-2000 hidden transition-all duration-150 lg:block">
+    <ProjectToMenu project={project} />
+  </div>
+</nav>

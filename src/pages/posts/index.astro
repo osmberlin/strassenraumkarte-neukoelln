@@ -1,0 +1,42 @@
+---
+import LayoutArticlePageAstro from '@layouts/LayoutArticlePageAstro.astro'
+import { getCollection } from 'astro:content'
+
+const allPosts = await getCollection('posts')
+const sortedPosts = allPosts.sort(
+  (postA, postB) => new Date(postB.data.pubDate).valueOf() - new Date(postA.data.pubDate).valueOf(),
+)
+---
+
+<LayoutArticlePageAstro title="Alle Blogposts" noindex={true}>
+  <header class="mb-20">
+    <h1>Alle Blogposts ({sortedPosts.length})</h1>
+  </header>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Datum</th>
+        <th>Artikel</th>
+        <th>Autor</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        sortedPosts.map((post) => {
+          return (
+            <tr>
+              <td class="flex flex-none whitespace-nowrap text-gray-500">
+                {new Date(post.data.pubDate).toLocaleDateString('en-CA')}
+              </td>
+              <td>
+                <a href={`/posts/${post.id}`}>{post.data.title}</a>
+              </td>
+              <td>{post.data.author}</td>
+            </tr>
+          )
+        })
+      }
+    </tbody>
+  </table>
+</LayoutArticlePageAstro>

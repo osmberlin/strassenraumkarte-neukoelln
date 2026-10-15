@@ -1,0 +1,29 @@
+---
+import ScriptLinkifyHeadlines from '@components/scripts/ScriptLinkifyHeadlines.astro'
+import type { LayoutLanguage } from './languages'
+import Layout from './Layout.astro'
+import Navigation from './Navigation/Navigation.astro'
+
+type Props = {
+  title: string
+  noindex?: boolean | undefined
+  canonicalUrl?: string | undefined
+  language?: LayoutLanguage | undefined
+  description?: string | undefined
+  image?: ImageMetadata | null | undefined
+  imageAlt?: string | undefined
+}
+
+const props = Astro.props
+---
+
+<Layout {...props}>
+  <div class="flex flex-col text-gray-900 lg:flex-row lg:gap-3">
+    <Navigation layoutType="article" />
+    <main class="flex-1 px-4 py-6 lg:px-0 lg:pl-5">
+      <slot />
+    </main>
+  </div>
+</Layout>
+
+<ScriptLinkifyHeadlines />

@@ -1,0 +1,22 @@
+---
+import OsmBerlinLogo from '../../../public/osm-verkehrswende-logo-2025.svg'
+
+type Props = { link: string; name: string }
+
+const { link, name } = Astro.props
+---
+
+<a
+  href="https://www.osm-verkehrswende.org/"
+  class="block text-sm text-gray-300 group-hover/navi:text-gray-400 hover:text-blue-500"
+>
+  ← OSM Verkehrswende
+</a>
+<a href={link} class="-mx-3 mb-0 flex items-center gap-1.5 px-3 hover:bg-blue-50 lg:mb-10">
+  <OsmBerlinLogo class="mt-1 max-h-10 flex-none drop-shadow-sm" />
+  <h1 class="text-xl leading-none font-semibold">
+    <span class="hidden lg:inline">OSM </span>
+    <span class="lg:hidden">OSM</span>{' '}
+    {name}
+  </h1>
+</a>

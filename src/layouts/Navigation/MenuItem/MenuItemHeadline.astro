@@ -1,0 +1,25 @@
+---
+import { twMerge } from 'tailwind-merge'
+
+type Props = {
+  href?: string
+  highlightExactMatch?: boolean
+}
+
+const { href, highlightExactMatch } = Astro.props
+const { pathname: currentPathname } = Astro.url
+const active =
+  href && (highlightExactMatch ? currentPathname === href : currentPathname.startsWith(href))
+---
+
+<h2 class="my-2 text-xl font-semibold text-black">
+  {
+    href ? (
+      <a href={href} class={twMerge(active && 'hover:text-blue-500')}>
+        <slot />
+      </a>
+    ) : (
+      <slot />
+    )
+  }
+</h2>

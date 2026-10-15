@@ -1,22 +1,64 @@
 {
+  "name": "strassenraumkarte-osm-berlin-org",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
   "engines": {
+    "node": ">=24 <25",
     "bun": ">=1.3"
   },
   "scripts": {
-    "dev": "bun run --parallel dev:css dev:jekyll",
-    "dev:css": "tailwindcss -i css-src/tailwind.css -o css/tailwind.css --watch",
-    "dev:jekyll": "bundle exec jekyll serve --livereload --open-url",
-    "build": "bun run --sequential build:css build:jekyll",
-    "build:css": "tailwindcss -i css-src/tailwind.css -o css/tailwind.css",
-    "build:jekyll": "bundle exec jekyll build"
+    "dev": "astro dev",
+    "start": "bun run dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "type-check": "astro check && tsc --skipLibCheck --noEmit",
+    "lint": "oxlint --fix src",
+    "format": "prettier --ignore-path .gitignore 'src/**/*.+(ts|js|tsx|astro|json)' --write",
+    "format:all": "prettier --ignore-path .gitignore 'src/**/*.+(ts|js|tsx|astro|mdx|json)' --write",
+    "check": "bun run type-check && bun run format && bun run lint",
+    "updatePackages:major": "bunx taze major --includeLocked --maturity-period 5 --write && bun install",
+    "updatePackages:minor": "bunx taze minor --includeLocked --maturity-period 5 --write && bun install"
   },
   "dependencies": {
-    "@tailwindcss/aspect-ratio": "^0.4.2",
-    "@tailwindcss/typography": "^0.5.9",
-    "tailwindcss": "^3.3.2"
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/mdx": "^5.0.6",
+    "@astrojs/react": "^5.0.7",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/ts-plugin": "^1.10.9",
+    "@headlessui/react": "^2.2.10",
+    "@heroicons/react": "^2.2.0",
+    "@nanostores/react": "^1.1.0",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.2",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "astro": "^6.4.8",
+    "maplibre-gl": "^5.24.0",
+    "nanostores": "^1.4.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-map-gl": "8.1.1",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.2",
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
-    "prettier": "^2.8.8",
-    "prettier-plugin-tailwindcss": "^0.3.0"
-  }
+    "@tailwindcss/forms": "^0.5.11",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint-plugin-astro": "^1.7.0",
+    "eslint-plugin-react-compiler": "^19.1.0-rc.2",
+    "oxlint": "1.72.0",
+    "prettier": "^3.9.4",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-astro-organize-imports": "^0.4.12",
+    "prettier-plugin-organize-imports": "^4.3.0",
+    "prettier-plugin-tailwindcss": "^0.8.0"
+  },
+  "trustedDependencies": [
+    "@headlessui/react",
+    "astro"
+  ]
 }

@@ -1,0 +1,20 @@
+---
+import Layout from './Layout.astro'
+import Navigation from './Navigation/Navigation.astro'
+
+type Props = {
+  title: string
+  noindex?: boolean
+}
+
+const { title, noindex } = Astro.props
+---
+
+<Layout title={title} noindex={noindex}>
+  <div class="computed-h-screen flex flex-col text-gray-900 lg:flex-row lg:gap-3">
+    <Navigation layoutType="app" />
+    <main class="relative flex-1">
+      <slot />
+    </main>
+  </div>
+</Layout>

@@ -1,0 +1,19 @@
+---
+import { twMerge } from 'tailwind-merge'
+
+type Props = {
+  /** Allow chips / negative margins to paint past the box (e.g. Neuigkeiten date pills) */
+  allowOverflow?: boolean
+}
+
+const { allowOverflow } = Astro.props
+---
+
+<div
+  class={twMerge(
+    'mt-5 mb-7 flex flex-col rounded-sm border border-b-0 border-gray-200 sm:mt-0',
+    allowOverflow ? 'overflow-visible' : 'overflow-hidden',
+  )}
+>
+  <slot />
+</div>

@@ -1,0 +1,55 @@
+---
+type Props = {
+  src: string
+  alt: string
+  osm_urls?: string[]
+  mapillary_url?: string
+  strassenraumkarte_url?: string
+}
+
+const { src, alt, osm_urls, strassenraumkarte_url, mapillary_url } = Astro.props
+
+let caption: string = ''
+if (Astro.slots.has('default')) {
+  caption = await Astro.slots.render('default')
+}
+
+const showCaptionSection =
+  caption.trim() || osm_urls?.length || strassenraumkarte_url || mapillary_url
+---
+
+<figure
+  class="prose-a:tracking-wide prose-a:text-white overflow-clip rounded-sm bg-neutral-700 shadow-lg ring-1 ring-neutral-700 ring-offset-2"
+>
+  <img src={src} alt={alt} class="mb-0" loading="lazy" />
+  {
+    showCaptionSection && (
+      <figcaption class="m-0 border-t border-white p-2 text-white">
+        <Fragment set:html={caption} />
+        <div class="space-x-2">
+          {osm_urls?.length === 1 ? (
+            <a href={osm_urls[0]} target="_blank">
+              OSM
+            </a>
+          ) : (
+            osm_urls?.map((osmUrl) => (
+              <a href={osmUrl} target="_blank">
+                OSM {osmUrl.replace('https://www.openstreetmap.org/', '')}
+              </a>
+            ))
+          )}
+          {strassenraumkarte_url && (
+            <a href={strassenraumkarte_url} target="_blank">
+              Straßenraumkarte
+            </a>
+          )}
+          {mapillary_url && (
+            <a href={mapillary_url} target="_blank">
+              Mapillary
+            </a>
+          )}
+        </div>
+      </figcaption>
+    )
+  }
+</figure>

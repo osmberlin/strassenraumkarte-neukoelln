@@ -1,0 +1,9 @@
+{
+  "map": "parkingmap",
+  "title": "Parkraumkarte",
+  "dataDate": "2024-04-02",
+  "tiles": "https://tiles.osm-berlin.org/parkraumkarte/{z}/{x}/{y}.jpg",
+  "maxNativeZoom": 20,
+  "default": true,
+  "attribution": "© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap-Mitwirkende</a>, Bordsteinkanten: OpenStreetMap und Geoportal Berlin / ALKIS."
+}

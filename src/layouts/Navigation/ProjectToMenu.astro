@@ -1,0 +1,37 @@
+---
+import type { TProjectConfig } from '../project'
+import MenuItem from './MenuItem/MenuItem.astro'
+import MenuItemHeadline from './MenuItem/MenuItemHeadline.astro'
+import NavigationFooter from './NavigationFooter.astro'
+import NavigationPosts from './NavigationPosts.astro'
+
+interface Props {
+  project: TProjectConfig
+}
+
+const { project } = Astro.props
+---
+
+{
+  project.menus.map((menu) => {
+    return (
+      <Fragment>
+        {typeof menu.label === 'string' && <MenuItemHeadline>{menu.label}</MenuItemHeadline>}
+
+        <div class="mt-5 mb-7 flex flex-col overflow-hidden rounded-sm border border-b-0 border-gray-200 sm:mt-0">
+          {menu.items.map(({ href, label }) => {
+            return (
+              <MenuItem href={href} highlightExactMatch={true}>
+                {label}
+              </MenuItem>
+            )
+          })}
+        </div>
+      </Fragment>
+    )
+  })
+}
+
+{project.menuNews && <NavigationPosts />}
+
+<NavigationFooter additionalLinks={project.additionalFooterLinks} />

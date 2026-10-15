@@ -28,30 +28,33 @@ Das ist leider nicht so einfach, wie es vielleicht aussieht. Mehr dazu siehe im 
 
 # Development (project page)
 
-- We use Jekyll to generate the pages – https://jekyllrb.com/
-- We use Tailwind CSS in JIT mode to generate the css file – https://tailwindcss.com/docs/just-in-time-mode
+This page is built with [Astro](https://astro.build/), aligned with [www.osm-verkehrswende.org](https://github.com/osmberlin/www.osm-verkehrswende.org): `.astro` files for layouts and pages, MDX for posts, React for the map ([react-map-gl](https://visgl.github.io/react-map-gl/) with MapLibre), Tailwind CSS.
 
-## Installation
+Use [Bun](https://bun.sh/) for installs and scripts:
 
-`bun install`
-
-Will install Tailwind CSS and related npm tooling (Jekyll is installed via Bundler separately).
-
-## Development
-
-`bun run dev`
-
-Will run Tailwind CSS watch in parallel with Jekyll. Both use live reloading.
+- `bun install`
+- `bun run dev` – local dev server
+- `bun run build` – static build into `dist/`
+- `bun run check` – type-check, format, lint
 
 ## Deploy
 
-_Did CSS change?_
+Push to `main`. The GitHub Action (`.github/workflows/deploy.yml`) builds the page and deploys it to GitHub Pages.
 
-- _Yes, CSS did change?_ – Run `bun run build`, then commit changes to the `css/tailwind.css`.
-- _No, CSS did not change?_ – Commit changes, Github pages will build and update the page.
+## Map and tile releases
 
-## Useful links
+Every rendered data state of a map is a "release" with its own folder on the tile server, e.g. `https://tiles.osm-berlin.org/release01/{z}/{x}/{y}.webp`.
+Each release is one JSON file in `src/content/releases/` (schema: `src/content.config.ts`). The file name is the release id.
 
-- Jekyll template language reference – https://shopify.github.io/liquid/basics/introduction/ Liquid Template Language
-- HTML to Markdown copy-paste https://euangoddard.github.io/clipboard2markdown/
-- Google Doc/Word to HTML-Table copy-paste https://www.gdoctohtml.com/
+To add a release:
+
+1. Upload the tiles to a new folder (e.g. `release02/`) on the tile server.
+2. Add `src/content/releases/release02.json` with `map`, `title`, `dataDate` (Datenstand), `tiles` and optionally `bounds` and `note`.
+3. To make it the default, move `"default": true` from the old release to the new one. Each map (`micromap`, `parkingmap`, `debugmap`) needs exactly one default release; the build fails otherwise.
+
+URLs:
+
+- `?map=<release id>` (e.g. `?map=release01`) opens a specific release; `?map=osm|luftbild2020|luftbild2024` the background maps.
+- `?map=micromap|parkingmap|debugmap` opens the default release of that map. Old links keep working that way.
+- `#<zoom>/<lat>/<lng>` is the map position (same format and zoom levels as the old Leaflet page).
+- Old Jekyll URLs (`/posts/…`, `*.html` pages of the Parkraumkarte) redirect via `redirects` in `astro.config.mjs` and the static files in `public/`.
