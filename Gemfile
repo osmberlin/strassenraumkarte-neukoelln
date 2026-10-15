@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 source "https://rubygems.org"
 
-gem "jekyll", "~> 4.3.3"
-gem "webrick", "~> 1.7"
+gem "jekyll", "~> 4.4.1"
+gem "webrick", "~> 1.9"
 # Required to use --livereload option.
 # Other gem versions are incompatible with the newer ruby version.
 # Via https://talk.jekyllrb.com/t/error-when-running-symbol-not-found-in-flat-namespace-ssl-ctx-set-options/6663/4
@@ -14,8 +14,8 @@ gem "minima", "~> 2.5"
 # Feature
 group :jekyll_plugins do
   gem "kramdown-parser-gfm", "~> 1.1"
-  gem "jekyll-redirect-from", "~> 0.16.0" # https://github.com/jekyll/jekyll-redirect-from
-  gem "jekyll-feed", "~> 0.12"
+  gem "jekyll-redirect-from", "~> 0.17.0" # https://github.com/jekyll/jekyll-redirect-from
+  gem "jekyll-feed", "~> 0.18"
 end
 
 platforms :mingw, :x64_mingw, :mswin do
