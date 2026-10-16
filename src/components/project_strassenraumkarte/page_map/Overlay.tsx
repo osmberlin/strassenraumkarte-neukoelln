@@ -3,8 +3,8 @@ import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 import { useMap } from 'react-map-gl/maplibre'
 import { twJoin } from 'tailwind-merge'
-import { clamp, type HashLocation } from './hash'
-import type { MapLayerConfig } from './layers'
+import { clamp, LEAFLET_ZOOM_OFFSET, type HashLocation } from './hash'
+import { layerMinZoom, type MapLayerConfig } from './layers'
 import { OverlayLayerSelection } from './OverlayLayerSelection'
 import { OverlayLinks } from './OverlayLinks'
 
@@ -13,24 +13,28 @@ type Props = {
   selectedLayer: MapLayerConfig
   onSelectLayer: (layerId: string) => void
   location: HashLocation
+  /** Site minimum zoom in Leaflet levels */
+  minZoom: number
 }
 
-export const Overlay = ({ layers, selectedLayer, onSelectLayer, location }: Props) => {
+export const Overlay = ({ layers, selectedLayer, onSelectLayer, location, minZoom }: Props) => {
   // Collapsed on small screens so the map stays visible
   const [defaultOpen] = useState(() => window.matchMedia('(min-width: 1024px)').matches)
   const { current: map } = useMap()
 
   const handleSelectLayer = (layerId: string) => {
-    // Layers have different areas (e.g. Release 01 only Neukölln). When the view is outside the new
-    // layer's area, move inside first; `jumpTo` fires `moveend`, which keeps the URL hash in sync.
+    // Layers have different areas and zoom ranges (e.g. Release 01 only Neukölln, from z15). When the
+    // view is outside the new layer's limits, move inside first; `jumpTo` fires `moveend`, which keeps
+    // the URL hash in sync.
     const layer = layers.find((layer) => layer.id === layerId)
     const center = map?.getCenter()
     if (map && layer && center) {
       const [west, south, east, north] = layer.bounds
       const longitude = clamp(center.lng, west, east)
       const latitude = clamp(center.lat, south, north)
-      if (longitude !== center.lng || latitude !== center.lat) {
-        map.jumpTo({ center: [longitude, latitude] })
+      const zoom = Math.max(map.getZoom(), layerMinZoom(layer, minZoom) - LEAFLET_ZOOM_OFFSET)
+      if (longitude !== center.lng || latitude !== center.lat || zoom !== map.getZoom()) {
+        map.jumpTo({ center: [longitude, latitude], zoom })
       }
     }
     onSelectLayer(layerId)

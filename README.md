@@ -48,9 +48,9 @@ Each release is one JSON file in `src/content/releases/` (schema: `cms/releasesA
 
 **There is always one latest release per map**: the one with the newest `dataDate`. The map and all old URLs open the latest release; older releases stay available in the layer picker of the map ("Karte wechseln") and via `?map=<release id>`.
 
-Each release has its own `bounds` (`[west, south, east, north]`): no tiles are requested outside, and the map can not be moved outside while that release is shown (e.g. `release02` all of Berlin, `release01` only Neukölln).
+Each release has its own `bounds` (`[west, south, east, north]`): no tiles are requested outside, and the map can not be moved outside while that release is shown (e.g. `release02` the inner city, `release01` only Neukölln). `minNativeZoom` is also the lowest map zoom for that release (the site minimum is z14; the 2024 jpg sets start at z15).
 
-For now both Straßenraumkarte releases still load from `https://tiles.osm-berlin.org/strassenraumkarte/` (jpg and webp side by side). New releases should get their own folder on the tile server (e.g. `release03/`); moving an existing release is a one-line change of `tiles` in its JSON file.
+`release01` loads from `https://tiles.osm-berlin.org/strassenraumkarte/` (jpg), `release02` from `…/strassenraumkarte/v2/` (webp). New releases should get their own folder on the tile server (e.g. `release03/`); moving an existing release is a one-line change of `tiles` in its JSON file.
 
 To add a release:
 

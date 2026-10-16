@@ -20,7 +20,7 @@ import {
   type HashLocation,
   type MapLimits,
 } from './hash'
-import { resolveLayer, type MapLayerConfig } from './layers'
+import { layerMinZoom, resolveLayer, type MapLayerConfig } from './layers'
 import { Overlay } from './Overlay'
 import { $searchParams, type SearchParamsStrassenraumkarte } from './storeStrassenraumkarte'
 
@@ -72,7 +72,11 @@ export const StrassenraumkarteMap = ({ layers, minZoom, maxZoom }: Props) => {
   const params = useStore($searchParams) as SearchParamsStrassenraumkarte
   const selectedLayer = resolveLayer(layers, params.map)
   // Each layer has its own area (e.g. Release 02 all of Berlin, Release 01 Neukölln); the map stays inside
-  const limits = { bounds: selectedLayer.bounds, minZoom, maxZoom }
+  const limits = {
+    bounds: selectedLayer.bounds,
+    minZoom: layerMinZoom(selectedLayer, minZoom),
+    maxZoom,
+  }
   const [west, south, east, north] = selectedLayer.bounds
   const [mapLoaded, setMapLoaded] = useState(false)
   const [location, setLocation] = useState(() =>
@@ -113,7 +117,7 @@ export const StrassenraumkarteMap = ({ layers, minZoom, maxZoom }: Props) => {
         latitude: location.latitude,
         zoom: location.zoom - LEAFLET_ZOOM_OFFSET,
       }}
-      minZoom={minZoom - LEAFLET_ZOOM_OFFSET}
+      minZoom={limits.minZoom - LEAFLET_ZOOM_OFFSET}
       maxZoom={maxZoom - LEAFLET_ZOOM_OFFSET}
       maxBounds={[
         [west, south],
@@ -165,6 +169,7 @@ export const StrassenraumkarteMap = ({ layers, minZoom, maxZoom }: Props) => {
         selectedLayer={selectedLayer}
         onSelectLayer={handleSelectLayer}
         location={location}
+        minZoom={minZoom}
       />
     </Map>
   )

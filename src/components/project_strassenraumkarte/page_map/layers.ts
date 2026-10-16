@@ -98,6 +98,13 @@ export const resolveLayer = (layers: MapLayerConfig[], mapParam: string | null |
   return byGroup ?? layers.find((layer) => layer.group === DEFAULT_MAP_PARAM && layer.latest)!
 }
 
+/**
+ * Lowest map zoom (Leaflet levels) while a layer is shown: the site minimum, or higher when the
+ * layer has no tiles below (e.g. the 2024 jpg sets start at z15).
+ */
+export const layerMinZoom = (layer: MapLayerConfig, minZoom: number) =>
+  Math.max(minZoom, layer.minNativeZoom)
+
 export const formatDataDate = (isoDate: string) => {
   const [year, month, day] = isoDate.split('-')
   return `${day}.${month}.${year}`
