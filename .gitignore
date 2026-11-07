@@ -19,3 +19,7 @@ node_modules/
 # old Jekyll build output
 _site
 .jekyll-cache
+
+# local agent/editor tooling (launch configs, plans, worktrees)
+.claude/
+.cursor/
