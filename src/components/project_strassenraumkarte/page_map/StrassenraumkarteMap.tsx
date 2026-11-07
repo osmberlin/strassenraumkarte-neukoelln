@@ -77,7 +77,6 @@ export const StrassenraumkarteMap = ({ layers, minZoom, maxZoom }: Props) => {
     minZoom: layerMinZoom(selectedLayer, minZoom),
     maxZoom,
   }
-  const [west, south, east, north] = selectedLayer.bounds
   const [mapLoaded, setMapLoaded] = useState(false)
   const [location, setLocation] = useState(() =>
     clampLocation(parseHash(window.location.hash) ?? fallbackLocation, limits),
@@ -119,17 +118,13 @@ export const StrassenraumkarteMap = ({ layers, minZoom, maxZoom }: Props) => {
       }}
       minZoom={limits.minZoom - LEAFLET_ZOOM_OFFSET}
       maxZoom={maxZoom - LEAFLET_ZOOM_OFFSET}
-      maxBounds={[
-        [west, south],
-        [east, north],
-      ]}
+      maxBounds={selectedLayer.bounds}
       mapStyle={mapStyle}
       style={{ width: '100%', height: '100%' }}
       dragRotate={false}
       pitchWithRotate={false}
       touchPitch={false}
       attributionControl={false}
-      RTLTextPlugin={false}
       locale={{
         'NavigationControl.ZoomIn': 'Hineinzoomen',
         'NavigationControl.ZoomOut': 'Herauszoomen',
