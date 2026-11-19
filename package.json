@@ -58,8 +58,5 @@
     "prettier-plugin-astro-organize-imports": "^0.4.12",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-tailwindcss": "^0.8.0"
-  },
-  "trustedDependencies": [
-    "@headlessui/react"
-  ]
+  }
 }
