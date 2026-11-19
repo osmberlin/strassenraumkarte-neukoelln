@@ -23,8 +23,9 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
-    "@astrojs/mdx": "^5.0.6",
-    "@astrojs/react": "^5.0.7",
+    "@astrojs/markdown-remark": "^7.3.9",
+    "@astrojs/mdx": "^8.1.6",
+    "@astrojs/react": "^7.1.9",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "@astrojs/ts-plugin": "^1.10.9",
@@ -35,7 +36,7 @@
     "@tailwindcss/vite": "^4.3.2",
     "@types/react": "19.3.0",
     "@types/react-dom": "^19.2.3",
-    "astro": "^6.4.8",
+    "astro": "^7.4.12",
     "maplibre-gl": "^5.24.0",
     "nanostores": "^1.4.0",
     "react": "^19.2.7",
@@ -46,10 +47,11 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
+    "@emnapi/runtime": "1.11.3",
     "@tailwindcss/forms": "^0.5.11",
-    "babel-plugin-react-compiler": "^1.0.0",
     "eslint-plugin-astro": "^1.7.0",
     "eslint-plugin-react-compiler": "^19.1.0-rc.2",
+    "oxc-transform-react": "^0.158.0",
     "oxlint": "1.87.0",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^0.14.1",

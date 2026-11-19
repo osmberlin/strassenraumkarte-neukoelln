@@ -1,3 +1,22 @@
-# Do not install package versions published in the last 5 days (supply-chain mitigation).
+# Copy to project bunfig.toml (local/dev).
+# Docker: Do not COPY this file before the image bun install.
+# Netlify: Install must use bunfig.netlify.toml via BUN_FLAGS instead.
+# @see references/bun-install.md
+
+# Supply-chain cooldown — only install versions published at least N seconds ago.
+# @see https://bun.com/docs/runtime/bunfig#install-minimumreleaseage
 [install]
-minimumReleaseAge = 432000 # 5 days in seconds
+minimumReleaseAge = 432000 # 5 days (5 × 24 × 60 × 60 seconds)
+minimumReleaseAgeExcludes = [
+  "typescript",
+  "@typescript/typescript-darwin-arm64",
+  "@typescript/typescript-linux-x64",
+]
+
+# Global virtual store — install once, link everywhere (requires isolated linker). Local/dev only.
+# Reinstall after changing linker/store: rm -rf node_modules && bun install
+# Vite dev: server.fs.allow — @see references/bun-install.md
+# Phantom deps inside third-party packages: trustedDependencies / patch — @see references/bun-install.md
+# @see https://bun.com/docs/pm/global-store
+linker = "isolated"
+globalStore = true

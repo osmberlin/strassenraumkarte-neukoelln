@@ -1,3 +1,4 @@
+import { unified } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
@@ -5,18 +6,16 @@ import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const appRoot = fileURLToPath(new URL('.', import.meta.url))
 
 // CONFIG: https://astro.build/config (aligned with www.osm-verkehrswende.org and parkraum.osm-verkehrswende.org)
 export default defineConfig({
   site: 'https://strassenraumkarte.osm-berlin.org/',
   integrations: [
-    react({
-      babel: {
-        plugins: [['babel-plugin-react-compiler', { target: '19' }]],
-      },
-    }),
-    // Astro 6.4 leaves `markdown.gfm` undefined, which @astrojs/mdx reads as "off" (no footnotes, autolinks)
-    mdx({ gfm: true }),
+    react({ compiler: true }),
+    mdx(),
     // Like the old Jekyll pages, the map, about, contact and posts index are `noindex`
     sitemap({
       filter: (page) => {
@@ -27,12 +26,17 @@ export default defineConfig({
   ],
   // `preserve` keeps the Jekyll URLs: /posts/foo.html (served for /posts/foo) and /posts/index.html
   build: { format: 'preserve' },
+  // Stay on the remark/rehype pipeline: Astro 7's default Sätteri MDX parser fails on our multi-line JSX tags (`<Image\n  src=…`)
+  markdown: { processor: unified() },
   vite: {
     plugins: [tailwindcss()],
     server: {
+      // Bun globalStore (bunfig.toml) symlinks realpath outside the project (~/.bun/install/cache/links/).
+      // Extend (not replace) Vite's default fs.allow — setting allow alone drops the project root.
+      // @see https://bun.com/docs/pm/global-store
+      // @see https://vite.dev/config/server-options.html#server-fs-allow
       fs: {
-        // Bun's global store links packages into ~/.bun/install/cache/links (keep the project root allowed)
-        allow: [process.cwd(), join(homedir(), '.bun/install/cache/links')],
+        allow: [appRoot, join(homedir(), '.bun/install/cache/links')],
       },
     },
   },
