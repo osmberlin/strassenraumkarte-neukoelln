@@ -13,6 +13,9 @@ const appRoot = fileURLToPath(new URL('.', import.meta.url))
 // CONFIG: https://astro.build/config (aligned with www.osm-verkehrswende.org and parkraum.osm-verkehrswende.org)
 export default defineConfig({
   site: 'https://strassenraumkarte.osm-berlin.org/',
+  // Astro 7 defaults to 'jsx', which drops the space before a link that starts on a new line. Keep the HTML-aware v6 behavior for our prose.
+  // @see https://docs.astro.build/en/guides/upgrade-to/v7/#new-default-whitespace-handling-compresshtml-jsx
+  compressHTML: true,
   integrations: [
     react({ compiler: true }),
     mdx(),
